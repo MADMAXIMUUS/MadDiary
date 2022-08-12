@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/create_and_edit_note_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.create_note.CreateNoteFragment">
+
+    <EditText
+        android:id="@+id/create_and_edit_note_title_edt"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="25dp"
+        android:autofillHints="null"
+        android:background="@color/transparent"
+        android:fontFamily="@font/blogger_sans_medium"
+        android:hint="@string/create_and_edit_note_title"
+        android:inputType="textCapSentences"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey_chateau"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TextContrastCheck" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/grey_chateau"
+        app:layout_constraintTop_toBottomOf="@id/create_and_edit_note_title_edt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/create_and_edit_note_data_edt"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:autofillHints="null"
+        android:fontFamily="@font/blogger_sans_medium"
+        android:inputType="textCapSentences"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textColorHint="@color/grey_chateau"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@id/create_and_edit_note_btn_save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/create_and_edit_note_title_edt"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:textSize="22sp"
+        android:id="@+id/create_and_edit_note_btn_save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="80dp"
+        android:text="Save"
+        android:fontFamily="@font/blogger_sans_bold"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

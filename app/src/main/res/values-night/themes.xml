@@ -1,16 +1,27 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.NoteAppStudy" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+<resources>
+
+    <style name="Theme.MadNotes" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/metallic_seaweed</item>
+        <item name="colorOnPrimary">@color/onyx</item>
+        <item name="colorSecondary">@color/metallic_seaweed</item>
+        <item name="colorOnSecondary">@color/onyx</item>
+        <item name="android:statusBarColor">@color/dark_grey</item>
+        <item name="android:navigationBarColor">@color/onyx</item>
+        <item name="backgroundColor">@color/onyx</item>
     </style>
+
+    <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/CustomToolbarStyle</item>
+    </style>
+
+    <style name="CustomToolbarStyle">
+        <item name="fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="colorPrimary">@color/dark_grey</item>
+        <item name="android:textColor">@color/mercury</item>
+        <item name="android:textColorPrimary">@color/mercury</item>
+        <item name="android:textColorSecondary">@color/mercury</item>
+        <item name="colorControlNormal">@color/mercury</item>
+    </style>
+
 </resources>

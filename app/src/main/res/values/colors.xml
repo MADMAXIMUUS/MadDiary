@@ -1,10 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="metallic_seaweed">#FF057389</color>
+    <color name="blueberry">#FF4285F4</color>
+    <color name="blue_crayola">#FF1877F2</color>
+    <color name="charcoal_grey">#FF424242</color>
+    <color name="mercury">#FFE3E9E5</color>
+    <color name="grey_chateau">#FFA7A7A7</color>
+    <color name="burning_sand">#FFD29681</color>
+    <color name="pale_lavender">#FFE8D0FF</color>
+    <color name="pinkish_purple">#FFD43EE1</color>
+    <color name="very_light_green">#FFCFFFC8</color>
+    <color name="yellow_green">#FF47CB31</color>
+    <color name="buff">#FFFFF599</color>
+    <color name="dirty_yellow">#FFD8C200</color>
+    <color name="periwinkle">#FFD0C9FF</color>
+    <color name="bluish_purple">#FF5D46FF</color>
+    <color name="tropical_blue">#FFC1D9FF</color>
+    <color name="mariner">#FF2F6FD9</color>
+    <color name="white_smoke">#FFF5F5F5</color>
+    <color name="quill_grey">#FFD4D4D4</color>
+    <color name="cloud">#FFC5C5C5</color>
+    <color name="dark_cloud">#FFB0B0B0</color>
+    <color name="dawn_pink">#FFE9EAEE</color>
+    <color name="onyx">#FF121212</color>
+    <color name="dune">#FF323232</color>
+    <color name="dark_grey">#FF393939</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <array name="color_picker">
+        <item>@color/very_light_green</item>
+        <item>@color/buff</item>
+        <item>@color/periwinkle</item>
+        <item>@color/tropical_blue</item>
+        <item>@color/pale_lavender</item>
+    </array>
 </resources>

@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">NoteAppStudy</string>
+    <string name="app_name" translatable="false">MadNotes</string>
+    <string name="create_and_edit_note_title">Title</string>
+    <string name="bottom_menu_reminders_title">Bottom menu reminders</string>
+    <string name="bottom_menu_categories_title">Bottom menu categories</string>
+    <string name="bottom_menu_settings_title">Bottom menu settings</string>
+    <string name="bottom_menu_add_title">Bottom menu add</string>
+    <string name="bottom_menu_notes_title">Bottom menu notes</string>
 </resources>

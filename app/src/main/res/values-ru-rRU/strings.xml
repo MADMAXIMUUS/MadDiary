@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_and_edit_note_title">Название</string>
+    <string name="bottom_menu_reminders_title">Пункт \"напоминая\" нижнего меню</string>
+    <string name="bottom_menu_categories_title">Пункт \"категории\" нижнего меню</string>
+    <string name="bottom_menu_settings_title">Пункт \"настройки\" нижнего меню</string>
+    <string name="bottom_menu_add_title">Пункт \"создать\" нижнего меню</string>
+    <string name="bottom_menu_notes_title">Пункт \"заметки\" нижнего меню</string>
+</resources>
