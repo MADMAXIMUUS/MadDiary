@@ -3,6 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/drawable/ic_search.xml" value="0.1415" />
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/font-v26/bloger_sans.xml" value="0.35833333333333334" />
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/font/bloger_sans.xml" value="0.3172995780590717" />
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/layout/activity_main.xml" value="0.29743589743589743" />
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/layout/fragment_categories.xml" value="0.15213675213675212" />
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/layout/fragment_create_reminders.xml" value="0.15213675213675212" />
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/layout/fragment_edit_reminders.xml" value="0.29743589743589743" />
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/layout/fragment_note_list.xml" value="0.29743589743589743" />
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/layout/fragment_reminders_list.xml" value="0.15213675213675212" />
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/layout/fragment_settings.xml" value="0.15213675213675212" />
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/menu/create_note_menu.xml" value="0.29743589743589743" />
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/menu/navigation_menu.xml" value="0.29743589743589743" />
+        <entry key="..\:/MAI/AndroidStudio/MadNotes/app/src/main/res/menu/note_list_menu.xml" value="0.29743589743589743" />
         <entry key="..\:/MAI/AndroidStudio/NoteAppStudy/app/src/main/res/drawable-night/bottom_menu_background.xml" value="0.174" />
         <entry key="..\:/MAI/AndroidStudio/NoteAppStudy/app/src/main/res/drawable/bottom_menu_background.xml" value="0.174" />
         <entry key="..\:/MAI/AndroidStudio/NoteAppStudy/app/src/main/res/drawable/test.xml" value="0.174" />
@@ -16,7 +29,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

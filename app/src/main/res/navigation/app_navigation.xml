@@ -3,27 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/noteListFragment">
+    app:startDestination="@id/bottom_notes">
     <fragment
-        android:id="@+id/noteListFragment"
-        android:name="ru.madmax.madnotes.presentation.notelist.NoteListFragment"
+        android:id="@+id/bottom_notes"
+        android:name="ru.madmax.madnotes.presentation.note_list.NoteListFragment"
         android:label="fragment_note_list"
         tools:layout="@layout/fragment_note_list" >
         <action
             android:id="@+id/action_noteListFragment_to_createNoteFragment"
-            app:destination="@id/createNoteFragment" />
+            app:destination="@id/bottom_add" />
         <action
             android:id="@+id/action_noteListFragment_to_editNoteFragment"
             app:destination="@id/editNoteFragment" />
     </fragment>
     <fragment
-        android:id="@+id/createNoteFragment"
+        android:id="@+id/bottom_add"
         android:name="ru.madmax.madnotes.presentation.create_note.CreateNoteFragment"
         android:label="fragment_create_note"
         tools:layout="@layout/fragment_create_note" >
         <action
             android:id="@+id/action_createNoteFragment_to_noteListFragment"
-            app:destination="@id/noteListFragment" />
+            app:destination="@id/bottom_notes" />
     </fragment>
     <fragment
         android:id="@+id/editNoteFragment"
@@ -32,6 +32,6 @@
         tools:layout="@layout/fragment_edit_note" >
         <action
             android:id="@+id/action_editNoteFragment_to_noteListFragment"
-            app:destination="@id/noteListFragment" />
+            app:destination="@id/bottom_notes" />
     </fragment>
 </navigation>

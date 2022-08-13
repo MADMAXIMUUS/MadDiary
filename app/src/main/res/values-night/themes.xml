@@ -18,10 +18,9 @@
         <item name="fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textSize">20sp</item>
         <item name="colorPrimary">@color/dark_grey</item>
-        <item name="android:textColor">@color/mercury</item>
-        <item name="android:textColorPrimary">@color/mercury</item>
-        <item name="android:textColorSecondary">@color/mercury</item>
-        <item name="colorControlNormal">@color/mercury</item>
+        <item name="iconTint">@color/mercury</item>
+        <item name="iconSize">16dp</item>
+        <item name="colorOnPrimary">@color/mercury</item>
     </style>
 
 </resources>

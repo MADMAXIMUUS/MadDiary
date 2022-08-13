@@ -6,6 +6,7 @@
         <item name="colorSecondary">@color/metallic_seaweed</item>
         <item name="colorOnSecondary">@color/dawn_pink</item>
         <item name="android:statusBarColor">@color/white</item>
+        <item name="android:fontFamily">@font/madnotes_font</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/white</item>
     </style>
@@ -18,16 +19,10 @@
         <item name="fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textSize">20sp</item>
         <item name="colorPrimary">@color/white</item>
+        <item name="iconSize">20dp</item>
         <item name="elevation">10dp</item>
-        <item name="android:textColor">@color/metallic_seaweed</item>
-        <item name="android:textColorPrimary">@color/metallic_seaweed</item>
-        <item name="android:textColorSecondary">@color/metallic_seaweed</item>
-        <item name="colorControlNormal">@color/metallic_seaweed</item>
-    </style>
-
-    <style name="ShapeAppearance.BottomNavigationView.RoundedCorners" parent="ShapeAppearance.MaterialComponents.LargeComponent">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">10dp</item>
+        <item name="colorOnPrimary">@color/metallic_seaweed</item>
+        <item name="iconTint">@color/metallic_seaweed</item>
     </style>
 
 </resources>

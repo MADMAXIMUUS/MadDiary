@@ -6,4 +6,7 @@
     <string name="bottom_menu_settings_title">Пункт \"настройки\" нижнего меню</string>
     <string name="bottom_menu_add_title">Пункт \"создать\" нижнего меню</string>
     <string name="bottom_menu_notes_title">Пункт \"заметки\" нижнего меню</string>
+    <string name="menu_search_view">Поиск</string>
+    <string name="menu_save">Сохранить</string>
+    <string name="menu_delete">Удалить</string>
 </resources>
