@@ -1,4 +1,4 @@
-package ru.madmax.madnotes.presentation.reminders_list
+package ru.madmax.madnotes.presentation.list_categorie
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import ru.madmax.madnotes.R
 
-
-class RemindersListFragment : Fragment() {
+class ListCategoryFragment : Fragment() {
 
 
     override fun onCreateView(
@@ -16,7 +15,7 @@ class RemindersListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reminders_list, container, false)
+        return inflater.inflate(R.layout.fragment_list_category, container, false)
     }
 
 

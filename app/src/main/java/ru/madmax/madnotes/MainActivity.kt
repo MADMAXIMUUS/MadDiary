@@ -1,12 +1,13 @@
 package ru.madmax.madnotes
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import ru.madmax.madnotes.databinding.ActivityMainBinding
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -20,29 +21,26 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.mainToolbar)
 
-        val navController = this.findNavController(R.id.app_navigation)
-        binding.bottomNavigationView.setupWithNavController(navController = navController)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        val navController = navHostFragment.navController
 
-        /*binding.bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.bottom_notes -> {
 
-                }
-                R.id.bottom_categories -> {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.createNoteFragment
+                || destination.id == R.id.createCategoryFragment
+                || destination.id == R.id.createReminderFragment
+            ) {
 
-                }
-                R.id.bottom_add -> {
+                binding.bottomNavigationView.visibility = View.GONE
+            } else {
 
-                }
-                R.id.bottom_reminders -> {
-
-                }
-                R.id.bottom_settings -> {
-
-                }
-                else -> false
+                binding.bottomNavigationView.visibility = View.VISIBLE
             }
-        }*/
+        }
+
+        binding.bottomNavigationView.setupWithNavController(navController)
+
 
     }
 }

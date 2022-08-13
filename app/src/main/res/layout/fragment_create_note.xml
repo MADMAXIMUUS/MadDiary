@@ -32,40 +32,27 @@
         android:layout_height="1dp"
         android:layout_marginTop="5dp"
         android:background="@color/grey_chateau"
-        app:layout_constraintTop_toBottomOf="@id/create_and_edit_note_title_edt"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/create_and_edit_note_title_edt" />
 
     <EditText
         android:id="@+id/create_and_edit_note_data_edt"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
         android:autofillHints="null"
+        android:background="@color/transparent"
         android:fontFamily="@font/blogger_sans_medium"
         android:inputType="textCapSentences"
         android:textColor="@color/black"
-        android:textSize="18sp"
         android:textColorHint="@color/grey_chateau"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@id/create_and_edit_note_btn_save"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/create_and_edit_note_title_edt"
         tools:ignore="SpeakableTextPresentCheck" />
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:textSize="22sp"
-        android:id="@+id/create_and_edit_note_btn_save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="80dp"
-        android:text="Save"
-        android:fontFamily="@font/blogger_sans_bold"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
