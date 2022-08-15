@@ -15,7 +15,7 @@
         <item name="materialThemeOverlay">@style/CustomToolbarStyle</item>
     </style>
 
-    <style name="CustomToolbarStyle" >
+    <style name="CustomToolbarStyle">
         <item name="fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textSize">20sp</item>
         <item name="colorPrimary">@color/white</item>
@@ -23,6 +23,16 @@
         <item name="elevation">10dp</item>
         <item name="colorOnPrimary">@color/metallic_seaweed</item>
         <item name="iconTint">@color/metallic_seaweed</item>
+    </style>
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="materialThemeOverlay">@style/CustomBottomNavigationView</item>
+    </style>
+
+    <style name="CustomBottomNavigationView">
+        <item name="colorPrimary">@color/white</item>
+        <item name="elevation">10dp</item>
+        <item name="itemIconSize">30dp</item>
     </style>
 
 </resources>

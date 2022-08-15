@@ -6,7 +6,7 @@
         <item name="colorSecondary">@color/metallic_seaweed</item>
         <item name="colorOnSecondary">@color/onyx</item>
         <item name="android:statusBarColor">@color/dark_grey</item>
-        <item name="android:navigationBarColor">@color/onyx</item>
+        <item name="android:navigationBarColor">@color/dark_grey</item>
         <item name="backgroundColor">@color/onyx</item>
     </style>
 
@@ -21,6 +21,18 @@
         <item name="iconTint">@color/mercury</item>
         <item name="iconSize">16dp</item>
         <item name="colorOnPrimary">@color/mercury</item>
+    </style>
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="materialThemeOverlay">@style/CustomBottomNavigationView</item>
+    </style>
+
+    <style name="CustomBottomNavigationView">
+        <item name="colorPrimary">@color/dark_grey</item>
+        <item name="elevation">10dp</item>
+        <item name="itemIconTint">@color/bottom_menu_color_selector</item>
+        <item name="itemIconSize">30dp</item>
+        <item name="labelVisibilityMode">unlabeled</item>
     </style>
 
 </resources>

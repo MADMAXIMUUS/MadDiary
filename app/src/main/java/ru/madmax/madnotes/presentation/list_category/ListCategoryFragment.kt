@@ -1,4 +1,4 @@
-package ru.madmax.madnotes.presentation.list_categorie
+package ru.madmax.madnotes.presentation.list_category
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
