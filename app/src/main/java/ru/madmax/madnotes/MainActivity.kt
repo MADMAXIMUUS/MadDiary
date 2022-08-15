@@ -31,10 +31,8 @@ class MainActivity : AppCompatActivity() {
                 || destination.id == R.id.createCategoryFragment
                 || destination.id == R.id.createReminderFragment
             ) {
-
                 binding.bottomNavigationView.visibility = View.GONE
             } else {
-
                 binding.bottomNavigationView.visibility = View.VISIBLE
             }
         }
