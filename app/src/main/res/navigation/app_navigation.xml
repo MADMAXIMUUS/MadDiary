@@ -12,23 +12,22 @@
         <action
             android:id="@+id/action_listNoteFragment_to_createNoteFragment"
             app:destination="@id/createNoteFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_bottom_notes_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/createNoteFragment"
         android:name="ru.madmax.madnotes.presentation.create_note.CreateNoteFragment"
-        tools:layout="@layout/fragment_create_note">
-        <action
-            android:id="@+id/action_createNoteFragment_to_listNoteFragment"
-            app:destination="@id/bottom_notes"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
+        tools:layout="@layout/fragment_create_note" />
     <fragment
         android:id="@+id/bottom_categories"
         android:name="ru.madmax.madnotes.presentation.list_category.ListCategoryFragment"
@@ -37,23 +36,15 @@
         <action
             android:id="@+id/action_listCategoryFragment2_to_createCategoryFragment2"
             app:destination="@id/createCategoryFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/createCategoryFragment"
         android:name="ru.madmax.madnotes.presentation.create_category.CreateCategoryFragment"
-        tools:layout="@layout/fragment_create_category">
-        <action
-            android:id="@+id/action_createCategoryFragment2_to_listCategoryFragment2"
-            app:destination="@id/bottom_categories"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
+        tools:layout="@layout/fragment_create_category" />
     <fragment
         android:id="@+id/bottom_reminders"
         android:name="ru.madmax.madnotes.presentation.list_reminder.ListReminderFragment"
@@ -62,26 +53,31 @@
         <action
             android:id="@+id/action_listReminderFragment_to_createReminderFragment"
             app:destination="@id/createReminderFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/createReminderFragment"
         android:name="ru.madmax.madnotes.presentation.create_reminder.CreateReminderFragment"
-        tools:layout="@layout/fragment_create_reminder">
-        <action
-            android:id="@+id/action_createReminderFragment_to_listReminderFragment"
-            app:destination="@id/bottom_reminders"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
+        tools:layout="@layout/fragment_create_reminder" />
     <fragment
         android:id="@+id/bottom_settings"
         android:name="ru.madmax.madnotes.presentation.settings.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="ru.madmax.madnotes.presentation.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_createNoteFragment"
+            app:destination="@id/createNoteFragment"
+            app:enterAnim="@android:anim/slide_out_right"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
 </navigation>

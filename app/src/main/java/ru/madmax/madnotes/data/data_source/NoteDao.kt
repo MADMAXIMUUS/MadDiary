@@ -1,7 +1,7 @@
 package ru.madmax.madnotes.data.data_source
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
 import ru.madmax.madnotes.domain.model.Note
 
 
@@ -9,7 +9,7 @@ import ru.madmax.madnotes.domain.model.Note
 interface NoteDao {
 
     @Query("SELECT * FROM NOTES")
-    fun getAllNotes(): Flow<List<Note>>
+    fun getAllNotes(): LiveData<List<Note>>
 
     @Query("SELECT * FROM NOTES WHERE id = :id")
     suspend fun getNoteById(id: Int): Note?

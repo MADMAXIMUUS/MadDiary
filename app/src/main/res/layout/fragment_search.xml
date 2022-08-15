@@ -4,28 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.list_note.ListNoteFragment">
+    tools:context=".presentation.search.SearchFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/note_list_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        tools:listitem="@layout/item_note"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/note_list_btn_create_note"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/ic_add_note"
-        app:fabCustomSize="60dp"
-        android:contentDescription="@string/note_list_fab" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
