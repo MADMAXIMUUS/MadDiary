@@ -1,6 +1,7 @@
 package ru.madmax.madnotes.presentation.list_note
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.madmax.madnotes.domain.use_case.NoteUseCases
 import javax.inject.Inject
@@ -9,5 +10,8 @@ import javax.inject.Inject
 class ListNoteViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases
 ) : ViewModel() {
-    
+
+    val notes = noteUseCases.getAllNotesUseCase().asLiveData()
+
+
 }

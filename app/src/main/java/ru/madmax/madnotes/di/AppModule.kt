@@ -6,10 +6,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.madmax.madnotes.data.data_source.NoteDao
-import ru.madmax.madnotes.data.data_source.NoteDatabase
+import ru.madmax.madnotes.data.data_source.MadNoteDatabase
 import ru.madmax.madnotes.data.repository.NoteRepositoryImpl
-import ru.madmax.madnotes.domain.model.Note
 import ru.madmax.madnotes.domain.repository.NoteRepository
 import ru.madmax.madnotes.domain.use_case.DeleteNotesUseCase
 import ru.madmax.madnotes.domain.use_case.GetAllNotesUseCase
@@ -22,17 +20,19 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNoteDatabase(app: Application): NoteDatabase {
+    fun provideMadNoteDatabase(
+        app: Application
+    ): MadNoteDatabase {
         return Room.databaseBuilder(
             app,
-            NoteDatabase::class.java,
-            NoteDatabase.NAME
+            MadNoteDatabase::class.java,
+            MadNoteDatabase.NAME
         ).build()
     }
 
     @Provides
     @Singleton
-    fun providesNoteRepository(db: NoteDatabase): NoteRepository {
+    fun providesNoteRepository(db: MadNoteDatabase): NoteRepository {
         return NoteRepositoryImpl(db.noteDao)
     }
 

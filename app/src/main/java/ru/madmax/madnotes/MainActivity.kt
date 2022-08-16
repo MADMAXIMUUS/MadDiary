@@ -11,10 +11,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.madmax.madnotes.databinding.ActivityMainBinding
 
 
@@ -64,7 +60,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.bottomNavigationView.setupWithNavController(navController)
-
-
     }
+    
 }
