@@ -15,8 +15,13 @@
         <item name="materialThemeOverlay">@style/CustomToolbarStyle</item>
     </style>
 
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">22sp</item>
+    </style>
+
     <style name="CustomToolbarStyle">
         <item name="fontFamily">@font/blogger_sans_bold</item>
+        <item name="titleTextAppearance">@style/Toolbar.TitleText</item>
         <item name="android:textSize">20sp</item>
         <item name="colorPrimary">@color/white</item>
         <item name="iconSize">20dp</item>

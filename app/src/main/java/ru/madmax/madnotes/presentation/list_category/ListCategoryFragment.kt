@@ -1,12 +1,10 @@
 package ru.madmax.madnotes.presentation.list_category
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.madmax.madnotes.R
-import ru.madmax.madnotes.databinding.FragmentCreateCategoryBinding
+import androidx.fragment.app.Fragment
 import ru.madmax.madnotes.databinding.FragmentListCategoryBinding
 
 class ListCategoryFragment : Fragment() {

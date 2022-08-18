@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/note_list_menu_search"
+        android:id="@+id/create_menu_save"
         android:icon="@drawable/ic_save_note"
         android:title="@string/menu_save"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/create_note_delete"
+        android:id="@+id/create_menu_delete"
         android:icon="@drawable/ic_delete"
         android:title="@string/menu_delete"
         app:showAsAction="ifRoom" />
