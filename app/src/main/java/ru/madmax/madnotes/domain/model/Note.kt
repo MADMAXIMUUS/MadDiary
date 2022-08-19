@@ -1,9 +1,12 @@
 package ru.madmax.madnotes.domain.model
 
 import android.graphics.Color
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "NOTES")
 data class Note(
     val title: String,
@@ -11,18 +14,7 @@ data class Note(
     val categories: String,
     val timestamp: Long,
     val pinned: Boolean = false,
-    val color: Int = noteColors[0],
+    val color: Int = Color.parseColor("#FFF5F5F5"),
 
     @PrimaryKey val id: Int? = null
-) {
-    companion object {
-        val noteColors = listOf(
-            Color.parseColor("#FFF5F5F5"),
-            Color.parseColor("#FFE8D0FF"),
-            Color.parseColor("#FFCFFFC8"),
-            Color.parseColor("#FFFFF599"),
-            Color.parseColor("#FFD0C9FF"),
-            Color.parseColor("#FFC1D9FF")
-        )
-    }
-}
+): Parcelable

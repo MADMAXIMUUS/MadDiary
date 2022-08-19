@@ -5,6 +5,7 @@ import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import ru.madmax.madnotes.R
@@ -15,6 +16,8 @@ class CreateAndEditNoteFragment : Fragment() {
 
     private var _binding: FragmentCreateAndEditNoteBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: CreateAndEditNoteViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +39,14 @@ class CreateAndEditNoteFragment : Fragment() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                // Handle the menu selection
+                when (menuItem.itemId) {
+                    R.id.create_menu_save -> {
+
+                    }
+                    R.id.create_menu_delete -> {
+
+                    }
+                }
                 return true
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)

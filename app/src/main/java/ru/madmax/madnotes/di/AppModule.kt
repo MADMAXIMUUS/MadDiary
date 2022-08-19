@@ -9,9 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import ru.madmax.madnotes.data.data_source.MadNoteDatabase
 import ru.madmax.madnotes.data.repository.NoteRepositoryImpl
 import ru.madmax.madnotes.domain.repository.NoteRepository
-import ru.madmax.madnotes.domain.use_case.DeleteNotesUseCase
-import ru.madmax.madnotes.domain.use_case.GetAllNotesUseCase
-import ru.madmax.madnotes.domain.use_case.NoteUseCases
+import ru.madmax.madnotes.domain.use_case.*
 import javax.inject.Singleton
 
 @Module
@@ -41,6 +39,8 @@ object AppModule {
     fun provideNoteUseCases(repository: NoteRepository): NoteUseCases {
         return NoteUseCases(
             getAllNotesUseCase = GetAllNotesUseCase(repository),
+            getNoteByIdUseCase = GetNoteByIdUseCase(repository),
+            createNoteUseCase = CreateNoteUseCase(repository),
             deleteNotesUseCase = DeleteNotesUseCase(repository)
         )
     }

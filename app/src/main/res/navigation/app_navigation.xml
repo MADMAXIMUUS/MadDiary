@@ -18,9 +18,14 @@
     </fragment>
     <fragment
         android:id="@+id/createNoteFragment"
-        android:label="Note edit"
         android:name="ru.madmax.madnotes.presentation.create_note.CreateAndEditNoteFragment"
-        tools:layout="@layout/fragment_create_and_edit_note" />
+        android:label="Note edit"
+        tools:layout="@layout/fragment_create_and_edit_note">
+        <argument
+            android:name="noteId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/bottom_categories"
         android:name="ru.madmax.madnotes.presentation.list_category.ListCategoryFragment"
@@ -35,9 +40,14 @@
     </fragment>
     <fragment
         android:id="@+id/createCategoryFragment"
-        android:label="Categories edit"
         android:name="ru.madmax.madnotes.presentation.create_category.CreateCategoryFragment"
-        tools:layout="@layout/fragment_create_and_edit_category" />
+        android:label="Categories edit"
+        tools:layout="@layout/fragment_create_and_edit_category">
+        <argument
+            android:name="categoryId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/bottom_reminders"
         android:name="ru.madmax.madnotes.presentation.list_reminder.ListReminderFragment"
@@ -54,7 +64,12 @@
         android:id="@+id/createReminderFragment"
         android:name="ru.madmax.madnotes.presentation.create_reminder.CreateReminderFragment"
         android:label="Reminders edit"
-        tools:layout="@layout/fragment_create_and_edit_reminder" />
+        tools:layout="@layout/fragment_create_and_edit_reminder">
+        <argument
+            android:name="reminderId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/bottom_settings"
         android:name="ru.madmax.madnotes.presentation.settings.SettingsFragment"
@@ -64,5 +79,5 @@
         android:id="@+id/searchFragment"
         android:name="ru.madmax.madnotes.presentation.search.SearchFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search" />
 </navigation>
