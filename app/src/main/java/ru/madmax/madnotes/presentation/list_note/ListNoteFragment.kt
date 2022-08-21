@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import ru.madmax.madnotes.R
 import ru.madmax.madnotes.databinding.FragmentListNoteBinding
 
@@ -61,9 +63,12 @@ class ListNoteFragment : Fragment(R.layout.fragment_list_note) {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
-
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            listNoteAdapter.submitList(viewModel.listNoteState.value.notes)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.listNoteState.collect { state ->
+                    listNoteAdapter.submitList(state.notes)
+                }
+            }
         }
 
         binding.noteListBtnCreateNote.setOnClickListener {

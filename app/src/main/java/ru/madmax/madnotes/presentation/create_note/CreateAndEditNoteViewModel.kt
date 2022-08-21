@@ -6,26 +6,35 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.assisted.Assisted
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import ru.madmax.madnotes.domain.model.Note
 import ru.madmax.madnotes.domain.use_case.NoteUseCases
+import ru.madmax.madnotes.util.UiEvent
+import javax.inject.Inject
 
-class CreateAndEditNoteViewModel(
+@HiltViewModel
+class CreateAndEditNoteViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases,
-    @Assisted private val state: SavedStateHandle
+    state: SavedStateHandle
 ) : ViewModel() {
 
     private val _noteTitle = mutableStateOf("")
-    var noteTitle: State<String> = _noteTitle
+    val noteTitle: State<String> = _noteTitle
 
     private val _noteDescription = mutableStateOf("")
-    var noteDescription: State<String> = _noteDescription
+    val noteDescription: State<String> = _noteDescription
 
     private val _noteColor = mutableStateOf(Color.parseColor("#FFF5F5F5"))
-    var noteColor: State<Int> = _noteColor
+    val noteColor: State<Int> = _noteColor
 
     private var currentNoteId: Int? = null
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         state.get<Int>("noteId")?.let { noteId ->
@@ -42,6 +51,23 @@ class CreateAndEditNoteViewModel(
         }
     }
 
+    fun saveNote() {
+        viewModelScope.launch {
+            if (_noteDescription.value != "") {
+                noteUseCases.createNoteUseCase(
+                    Note(
+                        title = _noteTitle.value,
+                        text = _noteDescription.value,
+                        timestamp = System.currentTimeMillis(),
+                        color = _noteColor.value,
+                        categories = "",
+                        id = currentNoteId
+                    )
+                )
+                _eventFlow.emit(UiEvent.Save)
+            }
+        }
+    }
 
     fun noteTitleChange(newValue: String) {
         _noteTitle.value = newValue

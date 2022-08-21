@@ -8,9 +8,14 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import ru.madmax.madnotes.R
 import ru.madmax.madnotes.databinding.FragmentCreateAndEditNoteBinding
+import ru.madmax.madnotes.util.UiEvent
 
 @AndroidEntryPoint
 class CreateAndEditNoteFragment : Fragment() {
@@ -42,7 +47,7 @@ class CreateAndEditNoteFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     R.id.create_menu_save -> {
-
+                        viewModel.saveNote()
                     }
                     R.id.create_menu_delete -> {
 
@@ -51,6 +56,24 @@ class CreateAndEditNoteFragment : Fragment() {
                 return true
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.eventFlow.collectLatest { event ->
+                when (event) {
+                    is UiEvent.ShowSnackbar -> {
+                        Snackbar.make(
+                            view,
+                            event.message,
+                            Snackbar.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                    is UiEvent.Save -> {
+                        view.findNavController().navigateUp()
+                    }
+                }
+            }
+        }
 
         binding.apply {
             createAndEditNoteTitleEdt.setText(viewModel.noteTitle.value)

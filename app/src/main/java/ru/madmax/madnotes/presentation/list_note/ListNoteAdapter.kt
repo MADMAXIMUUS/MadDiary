@@ -15,7 +15,7 @@ class ListNoteAdapter : ListAdapter<Note, ListNoteAdapter.NoteViewHolder>(DiffCa
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(note: Note) {
-            binding.itemNoteRoot.setBackgroundColor(note.color)
+            binding.itemNoteRoot.setCardBackgroundColor(note.color)
             binding.itemNoteCategories.text = note.categories
             binding.itemNoteContent.text = note.text
             binding.itemNoteTitle.text = note.title
