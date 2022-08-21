@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -51,6 +52,19 @@ class CreateAndEditNoteFragment : Fragment() {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
+        binding.apply {
+            createAndEditNoteTitleEdt.setText(viewModel.noteTitle.value)
+            createAndEditNoteDataEdt.setText(viewModel.noteDescription.value)
+            createAndEditNoteRoot.setBackgroundColor(viewModel.noteColor.value)
+
+            createAndEditNoteTitleEdt.addTextChangedListener {
+                viewModel.noteTitleChange(it.toString())
+            }
+
+            createAndEditNoteDataEdt.addTextChangedListener {
+                viewModel.noteDescriptionChange(it.toString())
+            }
+        }
     }
 
     override fun onDestroy() {
