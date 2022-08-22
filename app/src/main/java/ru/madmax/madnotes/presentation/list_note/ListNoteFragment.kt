@@ -1,6 +1,7 @@
 package ru.madmax.madnotes.presentation.list_note
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -39,7 +40,12 @@ class ListNoteFragment : Fragment(R.layout.fragment_list_note) {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
 
-        val listNoteAdapter = ListNoteAdapter()
+        val listNoteAdapter = ListNoteAdapter { note ->
+            val action =
+                ListNoteFragmentDirections.actionBottomNotesToCreateNoteFragment(noteId = note.id!!)
+            Log.e("noteIdList", note.id.toString())
+            view.findNavController().navigate(action)
+        }
 
         val menuHost: MenuHost = requireActivity()
 

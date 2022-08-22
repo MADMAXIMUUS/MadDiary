@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.madmax.madnotes.databinding.ItemNoteBinding
 import ru.madmax.madnotes.domain.model.Note
 
-class ListNoteAdapter : ListAdapter<Note, ListNoteAdapter.NoteViewHolder>(DiffCallback()) {
+class ListNoteAdapter(
+    val onNoteClickListener: (note: Note) -> Unit
+) : ListAdapter<Note, ListNoteAdapter.NoteViewHolder>(DiffCallback()) {
 
-    class NoteViewHolder(private val binding: ItemNoteBinding) :
+    inner class NoteViewHolder(private val binding: ItemNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(note: Note) {
+        fun bind(note: Note, onClickListener: (note: Note) -> Unit) {
             binding.itemNoteRoot.setCardBackgroundColor(note.color)
             binding.itemNoteCategories.text = note.categories
             binding.itemNoteContent.text = note.text
@@ -24,6 +26,10 @@ class ListNoteAdapter : ListAdapter<Note, ListNoteAdapter.NoteViewHolder>(DiffCa
                 binding.itemNotePinImg.visibility = View.VISIBLE
             else
                 binding.itemNotePinImg.visibility = View.GONE
+
+            binding.root.setOnClickListener {
+                onClickListener(note)
+            }
         }
 
     }
@@ -41,6 +47,8 @@ class ListNoteAdapter : ListAdapter<Note, ListNoteAdapter.NoteViewHolder>(DiffCa
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val currentItem = getItem(position)
-        holder.bind(currentItem)
+        holder.bind(currentItem) { note ->
+            onNoteClickListener(note)
+        }
     }
 }

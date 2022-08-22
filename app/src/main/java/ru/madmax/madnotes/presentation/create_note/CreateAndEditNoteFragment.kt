@@ -57,7 +57,7 @@ class CreateAndEditNoteFragment : Fragment() {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.eventFlow.collectLatest { event ->
                 when (event) {
                     is UiEvent.ShowSnackbar -> {
@@ -65,28 +65,37 @@ class CreateAndEditNoteFragment : Fragment() {
                             view,
                             event.message,
                             Snackbar.LENGTH_SHORT
-                        )
-                            .show()
+                        ).show()
                     }
                     is UiEvent.Save -> {
                         view.findNavController().navigateUp()
                     }
                 }
             }
+
         }
 
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            viewModel.currentNote.collectLatest { note ->
+                binding.apply {
+                    createAndEditNoteTitleEdt.setText(note.title)
+                    createAndEditNoteTitleEdt.setSelection(note.title.length)
+                    createAndEditNoteDataEdt.setText(note.text)
+                    createAndEditNoteDataEdt.setSelection(note.text.length)
+                    createAndEditNoteRoot.setBackgroundColor(note.color)
+                }
+            }
+        }
+
+
         binding.apply {
-            createAndEditNoteTitleEdt.setText(viewModel.noteTitle.value)
-            createAndEditNoteDataEdt.setText(viewModel.noteDescription.value)
-            createAndEditNoteRoot.setBackgroundColor(viewModel.noteColor.value)
+            createAndEditNoteTitleEdt.addTextChangedListener(afterTextChanged = { text ->
+                viewModel.noteTitleChange(text.toString())
+            })
 
-            createAndEditNoteTitleEdt.addTextChangedListener {
-                viewModel.noteTitleChange(it.toString())
-            }
-
-            createAndEditNoteDataEdt.addTextChangedListener {
-                viewModel.noteDescriptionChange(it.toString())
-            }
+            createAndEditNoteDataEdt.addTextChangedListener(afterTextChanged = { text ->
+                viewModel.noteDescriptionChange(text.toString())
+            })
         }
     }
 
