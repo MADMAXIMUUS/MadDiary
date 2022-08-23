@@ -11,7 +11,7 @@ data class Note(
     val categories: String = "",
     val timestamp: Long = 0,
     val pinned: Boolean = false,
-    val color: Int = NoteColors.default,
+    val color: Int = -1,
 
     @PrimaryKey val id: Int? = null
 )

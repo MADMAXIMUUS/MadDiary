@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import ru.madmax.madnotes.R
 import ru.madmax.madnotes.databinding.FragmentListNoteBinding
+import ru.madmax.madnotes.util.ListsItemDecoration
 
 @AndroidEntryPoint
 class ListNoteFragment : Fragment(R.layout.fragment_list_note) {
@@ -67,6 +68,7 @@ class ListNoteFragment : Fragment(R.layout.fragment_list_note) {
         binding.noteListRecycler.apply {
             adapter = listNoteAdapter
             layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(ListsItemDecoration(20, 20))
             setHasFixedSize(true)
         }
         viewLifecycleOwner.lifecycleScope.launch {

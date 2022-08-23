@@ -1,5 +1,6 @@
 package ru.madmax.madnotes.presentation.create_note
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.MenuHost
@@ -15,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import ru.madmax.madnotes.R
 import ru.madmax.madnotes.databinding.FragmentCreateAndEditNoteBinding
+import ru.madmax.madnotes.util.NoteColors
 import ru.madmax.madnotes.util.UiEvent
 
 @AndroidEntryPoint
@@ -83,6 +85,13 @@ class CreateAndEditNoteFragment : Fragment() {
                     createAndEditNoteDataEdt.setText(note.text)
                     createAndEditNoteDataEdt.setSelection(note.text.length)
                     createAndEditNoteRoot.setBackgroundColor(note.color)
+                    if (note.color == NoteColors.defaultDark) {
+                        createAndEditNoteDataEdt.setTextColor(Color.parseColor("#FFE3E9E5"))
+                        createAndEditNoteTitleEdt.setTextColor(Color.parseColor("#FFE3E9E5"))
+                    } else {
+                        createAndEditNoteDataEdt.setTextColor(Color.parseColor("#FF121212"))
+                        createAndEditNoteTitleEdt.setTextColor(Color.parseColor("#FF121212"))
+                    }
                 }
             }
         }

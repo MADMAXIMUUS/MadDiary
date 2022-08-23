@@ -1,6 +1,7 @@
 package ru.madmax.madnotes.presentation.create_note
 
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.madmax.madnotes.domain.model.Note
 import ru.madmax.madnotes.domain.use_case.NoteUseCases
+import ru.madmax.madnotes.util.NoteColors
 import ru.madmax.madnotes.util.UiEvent
 import javax.inject.Inject
 
@@ -31,6 +33,15 @@ class CreateAndEditNoteViewModel @Inject constructor(
                     noteUseCases.getNoteByIdUseCase(noteId)?.also { note ->
                         Log.e("note", note.toString())
                         _currentNote.value = note
+                        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                            _currentNote.value = currentNote.value.copy(
+                                color = NoteColors.defaultDark
+                            )
+                        } else {
+                            _currentNote.value = currentNote.value.copy(
+                                color = NoteColors.defaultLight
+                            )
+                        }
                     }
                 }
             }

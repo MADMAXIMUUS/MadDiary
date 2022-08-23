@@ -3,7 +3,8 @@ package ru.madmax.madnotes.util
 import android.graphics.Color
 
 object NoteColors {
-    val default = Color.parseColor("#FF323232")
+    val defaultLight = Color.parseColor("#FFE3E9E5")
+    val defaultDark = Color.parseColor("#FF323232")
     val grey = Color.parseColor("#FFF5F5F5")
     val pink = Color.parseColor("#FFE8D0FF")
     val green = Color.parseColor("#FFCFFFC8")
