@@ -1,4 +1,4 @@
-package ru.madmax.madnotes.domain.model
+package ru.madmax.madnotes.domain.model.entity
 
 import androidx.room.Entity
 

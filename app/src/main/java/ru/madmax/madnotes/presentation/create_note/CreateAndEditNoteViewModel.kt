@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.madmax.madnotes.domain.model.Note
+import ru.madmax.madnotes.domain.model.entity.Note
 import ru.madmax.madnotes.domain.use_case.NoteUseCases
 import ru.madmax.madnotes.util.NoteColors
 import ru.madmax.madnotes.util.UiEvent
@@ -57,7 +57,6 @@ class CreateAndEditNoteViewModel @Inject constructor(
                         text = _currentNote.value.text,
                         timestamp = System.currentTimeMillis(),
                         color = _currentNote.value.color,
-                        categories = "",
                         id = _currentNote.value.id
                     )
                 )

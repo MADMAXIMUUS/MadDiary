@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.madmax.madnotes.databinding.ItemCategoryBinding
-import ru.madmax.madnotes.domain.model.Category
+import ru.madmax.madnotes.domain.model.entity.Category
 
 class ListCategoryAdapter(
     val onCategoryClickListener: (category: Category) -> Unit

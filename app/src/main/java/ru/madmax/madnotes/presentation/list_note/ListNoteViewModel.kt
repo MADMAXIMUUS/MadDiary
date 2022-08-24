@@ -1,7 +1,5 @@
 package ru.madmax.madnotes.presentation.list_note
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,8 +8,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import ru.madmax.madnotes.domain.model.Note
+import ru.madmax.madnotes.domain.model.entity.Note
+import ru.madmax.madnotes.domain.model.entity.NoteModel
 import ru.madmax.madnotes.domain.use_case.NoteUseCases
 import ru.madmax.madnotes.domain.util.OrderType
 import javax.inject.Inject
@@ -35,9 +33,13 @@ class ListNoteViewModel @Inject constructor(
     private fun getNotes(orderType: OrderType = OrderType.Descending) {
         getNotesJob?.cancel()
         getNotesJob = noteUseCases.getAllNotesUseCase()
-            .onEach { notes ->
+            .onEach { notesWithCategories ->
+                val notes = mutableListOf<NoteModel>()
+                notesWithCategories.forEach { noteWithCategories ->
+                    notes.add(noteWithCategories.note.toNoteModel(noteWithCategories.categories))
+                }
                 _listNoteState.value = listNoteState.value.copy(
-                    notes = notes,
+                    notes = notes.toList(),
                     orderType = orderType
                 )
             }

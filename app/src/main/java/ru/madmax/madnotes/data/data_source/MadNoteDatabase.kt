@@ -2,8 +2,8 @@ package ru.madmax.madnotes.data.data_source
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import ru.madmax.madnotes.domain.model.Category
-import ru.madmax.madnotes.domain.model.Note
+import ru.madmax.madnotes.domain.model.entity.Category
+import ru.madmax.madnotes.domain.model.entity.Note
 
 @Database(
     entities = [

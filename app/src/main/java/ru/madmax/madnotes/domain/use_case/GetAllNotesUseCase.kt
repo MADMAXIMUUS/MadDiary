@@ -1,8 +1,7 @@
 package ru.madmax.madnotes.domain.use_case
 
-import ru.madmax.madnotes.domain.model.Note
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import ru.madmax.madnotes.domain.model.relationship.NoteWithCategories
 import ru.madmax.madnotes.domain.repository.NoteRepository
 import ru.madmax.madnotes.domain.util.OrderType
 
@@ -12,7 +11,7 @@ class GetAllNotesUseCase(
     operator fun invoke(
         searchQuery: String = "",
         orderType: OrderType = OrderType.Descending
-    ): Flow<List<Note>> {
+    ): Flow<List<NoteWithCategories>> {
         return repository.getAllNotes(searchQuery, orderType)
     }
 }

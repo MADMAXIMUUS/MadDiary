@@ -8,20 +8,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.madmax.madnotes.databinding.ItemNoteBinding
-import ru.madmax.madnotes.domain.model.Note
+import ru.madmax.madnotes.domain.model.entity.NoteModel
 import ru.madmax.madnotes.util.NoteColors
 
 class ListNoteAdapter(
-    val onNoteClickListener: (note: Note) -> Unit
-) : ListAdapter<Note, ListNoteAdapter.NoteViewHolder>(DiffCallback()) {
+    val onNoteClickListener: (note: NoteModel) -> Unit
+) : ListAdapter<NoteModel, ListNoteAdapter.NoteViewHolder>(DiffCallback()) {
 
     inner class NoteViewHolder(private val binding: ItemNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(note: Note, onClickListener: (note: Note) -> Unit) {
+        fun bind(note: NoteModel, onClickListener: (note: NoteModel) -> Unit) {
             binding.apply {
                 itemNoteRoot.setCardBackgroundColor(note.color)
-                itemNoteCategories.text = note.categories
+                var categoriesString = ""
+                note.categories.forEach { category ->
+                    categoriesString += category.title + " | "
+                }
+                itemNoteCategories.text = categoriesString
                 itemNoteContent.text = note.text
                 itemNoteTitle.text = note.title
                 itemNoteDate.text = note.timestamp.toString()
@@ -30,7 +34,7 @@ class ListNoteAdapter(
                 else
                     itemNotePinImg.visibility = View.GONE
 
-                if (note.color == NoteColors.defaultDark){
+                if (note.color == NoteColors.defaultDark) {
                     itemNoteCategories.setTextColor(Color.parseColor("#FFD4D4D4"))
                     itemNoteContent.setTextColor(Color.parseColor("#FFD4D4D4"))
                     itemNoteTitle.setTextColor(Color.parseColor("#FFE3E9E5"))
@@ -46,10 +50,11 @@ class ListNoteAdapter(
 
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Note>() {
-        override fun areItemsTheSame(oldItem: Note, newItem: Note) = oldItem.id == newItem.id
+    class DiffCallback : DiffUtil.ItemCallback<NoteModel>() {
+        override fun areItemsTheSame(oldItem: NoteModel, newItem: NoteModel) =
+            oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: Note, newItem: Note) = oldItem == newItem
+        override fun areContentsTheSame(oldItem: NoteModel, newItem: NoteModel) = oldItem == newItem
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
