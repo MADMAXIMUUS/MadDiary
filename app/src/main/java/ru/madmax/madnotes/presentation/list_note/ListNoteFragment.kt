@@ -44,7 +44,6 @@ class ListNoteFragment : Fragment(R.layout.fragment_list_note) {
         val listNoteAdapter = ListNoteAdapter { note ->
             val action =
                 ListNoteFragmentDirections.actionBottomNotesToCreateNoteFragment(noteId = note.id!!)
-            Log.e("noteIdList", note.id.toString())
             view.findNavController().navigate(action)
         }
 

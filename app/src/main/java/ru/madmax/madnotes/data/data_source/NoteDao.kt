@@ -24,7 +24,7 @@ interface NoteDao {
     @Query("SELECT * FROM NOTES WHERE title LIKE '%' || :searchQuery || '%' ORDER BY pinned DESC, timestamp DESC")
     fun getAllNotesDesc(searchQuery: String): Flow<List<NoteWithCategories>>
 
-    @Query("SELECT * FROM NOTES WHERE id = :id")
+    @Query("SELECT * FROM NOTES WHERE noteId = :id")
     suspend fun getNoteById(id: Int): Note?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

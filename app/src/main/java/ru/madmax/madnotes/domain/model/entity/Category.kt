@@ -9,5 +9,5 @@ data class Category(
     val iconTint: Int = -1,
     val color: Int = -1,
 
-    @PrimaryKey val id: Int? = null
+    @PrimaryKey val categoryId: Int? = null
 )

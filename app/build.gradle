@@ -52,7 +52,7 @@ dependencies {
     //Jetpack Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.1'
-    implementation 'androidx.fragment:fragment-ktx:1.6.0-alpha01'
+    implementation 'androidx.fragment:fragment-ktx:1.6.0-alpha02'
 
     //RecycleView
     implementation "androidx.recyclerview:recyclerview:1.2.1"

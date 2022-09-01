@@ -8,10 +8,10 @@ import ru.madmax.madnotes.domain.model.entity.Note
 import ru.madmax.madnotes.domain.model.entity.NoteCategoryCrossRef
 
 data class NoteWithCategories(
-    @Embedded val note: Note,
+    @Embedded val note: Note = Note(),
     @Relation(
         parentColumn = "noteId",
         entityColumn = "categoryId",
         associateBy = Junction(NoteCategoryCrossRef::class)
-    ) val categories: List<Category>
+    ) val categories: List<Category> = emptyList()
 )

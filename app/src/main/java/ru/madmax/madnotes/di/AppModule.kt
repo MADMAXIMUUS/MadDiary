@@ -25,7 +25,7 @@ object AppModule {
             app,
             MadNoteDatabase::class.java,
             MadNoteDatabase.NAME
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides
