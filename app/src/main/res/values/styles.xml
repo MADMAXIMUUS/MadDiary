@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ReminderBlockTitleTextView">
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textColor">@color/grey_chateau</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="ReminderBlockBigTitleTextView">
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textColor">@color/onyx</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="ReminderBlockContentTextView">
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textColor">@color/onyx</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    
+    <style name="ReminderBigBlockTitleTextView">
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textColor">@color/onyx</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="TitleEditText">
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:inputType">textCapSentences</item>
+        <item name="maxLines">1</item>
+        <item name="android:textColorHint">@color/grey_chateau</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textColor">@color/onyx</item>
+    </style>
+
+</resources>

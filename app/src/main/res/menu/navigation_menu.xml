@@ -10,7 +10,7 @@
         android:title="@string/bottom_menu_categories_title"/>
     <item
         android:id="@+id/bottom_reminders"
-        android:icon="@drawable/ic_bottom_reminders"
+        android:icon="@drawable/ic_bottom_events"
         android:title="@string/bottom_menu_reminders_title"/>
     <item
         android:id="@+id/bottom_settings"

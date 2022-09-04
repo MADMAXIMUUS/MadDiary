@@ -9,5 +9,6 @@
     <string name="menu_search_view">Поиск</string>
     <string name="menu_save">Сохранить</string>
     <string name="menu_delete">Удалить</string>
-    <string name="note_list_fab">Create new note</string>
+    <string name="note_list_fab">Создать новую заметку</string>
+    <string name="type_something">Напишите что-нибудь…</string>
 </resources>

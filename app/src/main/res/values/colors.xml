@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="black_40">#66000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="metallic_seaweed">#FF057389</color>
     <color name="blueberry">#FF4285F4</color>
@@ -28,4 +29,6 @@
     <color name="dune">#FF323232</color>
     <color name="dark_grey">#FF393939</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="alto">#FFD2D2D2</color>
+    <color name="gray">#FF7F7F7F</color>
 </resources>

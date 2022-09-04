@@ -5,9 +5,8 @@
     android:id="@+id/item_note_root"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:layout_marginHorizontal="20dp"
     android:background="@color/white_smoke"
-    android:elevation="5dp"
+    app:cardElevation="6dp"
     android:maxHeight="200dp"
     app:cardCornerRadius="10dp">
 
@@ -56,32 +55,16 @@
             tools:text="Aenean vestibulum, odio sed efficitur convallis, felis orci molestie dui, faucibus finibus est est ac justo. Aliquam diam justo, bibendum vel rhoncus eget, rutrum a velit. Fusce mollis mi sed consectetur vehicula. Duis euismod pharetra nulla vel condimentum. Fusce eu dui elementum, dapibus quam non, placerat ante. Phasellus feugiat tristique leo quis feugiat. Aliquam porta metus non enim hendrerit vehicula. Etiam commodo mollis turpis, sit amet placerat mi interdum id. Donec et lacinia nibh. Morbi ipsum massa, aliquam eu congue luctus, venenatis at nibh. Mauris ut gravida eros." />
 
         <TextView
-            android:id="@+id/item_note_categories"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:ellipsize="end"
-            android:fontFamily="@font/blogger_sans_medium"
-            android:maxLines="1"
-            android:textColor="@color/charcoal_grey"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/item_note_date"
-            android:layout_marginEnd="30dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_note_content"
-            app:layout_constraintVertical_bias="1.0"
-            tools:text="Suspendisse | bibendum | turpis | vitae | odio." />
-
-        <TextView
             android:id="@+id/item_note_date"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:textColor="@color/charcoal_grey"
             android:fontFamily="@font/blogger_sans_medium"
+            android:textColor="@color/charcoal_grey"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@id/item_note_categories"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/item_note_categories"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="161dp"
             tools:text="08/08/2022" />
 
 

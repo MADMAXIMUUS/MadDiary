@@ -6,7 +6,7 @@
     app:startDestination="@id/bottom_notes">
     <fragment
         android:id="@+id/bottom_notes"
-        android:name="ru.madmax.madnotes.presentation.list_note.ListNoteFragment"
+        android:name="ru.madmax.madnotes.feature_note.presentation.list_note.ListNoteFragment"
         android:label="MadNotes"
         tools:layout="@layout/fragment_list_note">
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/createNoteFragment"
-        android:name="ru.madmax.madnotes.presentation.create_note.CreateAndEditNoteFragment"
+        android:name="ru.madmax.madnotes.feature_note.presentation.create_note.CreateAndEditNoteFragment"
         android:label="Note edit"
         tools:layout="@layout/fragment_create_and_edit_note">
         <argument
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/bottom_categories"
-        android:name="ru.madmax.madnotes.presentation.list_category.ListCategoryFragment"
+        android:name="ru.madmax.madnotes.feature_note.presentation.list_category.ListCategoryFragment"
         android:label="Categories"
         tools:layout="@layout/fragment_list_category">
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/createCategoryFragment"
-        android:name="ru.madmax.madnotes.presentation.create_category.CreateCategoryFragment"
+        android:name="ru.madmax.madnotes.feature_note.presentation.create_category.CreateCategoryFragment"
         android:label="Categories edit"
         tools:layout="@layout/fragment_create_and_edit_category">
         <argument
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/bottom_reminders"
-        android:name="ru.madmax.madnotes.presentation.list_reminder.ListReminderFragment"
+        android:name="ru.madmax.madnotes.feature_reminders.presentation.list_reminders.ListReminderFragment"
         android:label="Reminders"
         tools:layout="@layout/fragment_list_reminder">
         <action
@@ -62,9 +62,9 @@
     </fragment>
     <fragment
         android:id="@+id/createReminderFragment"
-        android:name="ru.madmax.madnotes.presentation.create_reminder.CreateReminderFragment"
+        android:name="ru.madmax.madnotes.feature_reminders.presentation.create_and_edit_event.CreateAndEditEventFragment"
         android:label="Reminders edit"
-        tools:layout="@layout/fragment_create_and_edit_reminder">
+        tools:layout="@layout/fragment_create_and_edit_event">
         <argument
             android:name="reminderId"
             android:defaultValue="-1"
@@ -72,12 +72,12 @@
     </fragment>
     <fragment
         android:id="@+id/bottom_settings"
-        android:name="ru.madmax.madnotes.presentation.settings.SettingsFragment"
+        android:name="ru.madmax.madnotes.core.presentaion.settings.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="ru.madmax.madnotes.presentation.search.SearchFragment"
+        android:name="ru.madmax.madnotes.core.presentaion.search.SearchFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
 </navigation>

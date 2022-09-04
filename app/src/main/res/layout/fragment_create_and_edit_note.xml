@@ -5,7 +5,7 @@
     android:id="@+id/create_and_edit_note_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.create_note.CreateAndEditNoteFragment">
+    tools:context=".feature_note.presentation.create_note.CreateAndEditNoteFragment">
 
     <EditText
         android:id="@+id/create_and_edit_note_title_edt"
@@ -18,42 +18,140 @@
         android:fontFamily="@font/blogger_sans_medium"
         android:hint="@string/create_and_edit_note_title"
         android:inputType="textCapSentences"
-        android:paddingHorizontal="10dp"
         android:maxLines="1"
+        android:paddingHorizontal="10dp"
         android:textColorHint="@color/grey_chateau"
-        android:textSize="22sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TextContrastCheck" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/grey_chateau"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/create_and_edit_note_title_edt" />
 
     <EditText
         android:id="@+id/create_and_edit_note_data_edt"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
-        android:padding="10dp"
-        android:gravity="top"
         android:layout_marginTop="10dp"
         android:autofillHints="null"
         android:background="@color/transparent"
         android:fontFamily="@font/blogger_sans_medium"
+        android:gravity="top"
+        android:hint="@string/type_something"
         android:inputType="textCapSentences|textMultiLine"
+        android:padding="10dp"
         android:textColorHint="@color/grey_chateau"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/create_and_edit_note_title_edt"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/top_shadow"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:contentDescription="Font Bold"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_font_bold" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:contentDescription="Font Italic"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_font_italic" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:contentDescription="Font Underline"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_font_underline" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:contentDescription="Add dot list"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_dot_list" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:contentDescription="Add numeric list"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_number_list" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:contentDescription="Add todo"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_todo" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:contentDescription="Attach image"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_attach_image" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:contentDescription="Attach draw"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_attach_draw" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:contentDescription="Attach voice"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_attach_voice" />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:contentDescription="Choose color"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_choose_color" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
