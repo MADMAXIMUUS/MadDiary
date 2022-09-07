@@ -21,14 +21,16 @@
     <color name="tropical_blue">#FFC1D9FF</color>
     <color name="mariner">#FF2F6FD9</color>
     <color name="white_smoke">#FFF5F5F5</color>
-    <color name="quill_grey">#FFD4D4D4</color>
+    <color name="quill_gray">#FFD4D4D4</color>
     <color name="cloud">#FFC5C5C5</color>
     <color name="dark_cloud">#FFB0B0B0</color>
     <color name="dawn_pink">#FFE9EAEE</color>
     <color name="onyx">#FF121212</color>
     <color name="dune">#FF323232</color>
-    <color name="dark_grey">#FF393939</color>
+    <color name="dark_gray">#FF393939</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="alto">#FFD2D2D2</color>
     <color name="gray">#FF7F7F7F</color>
+    <color name="spanish_gray">#FF9A9A9A</color>
+    <color name="dark_liver">#FF4D4D4D</color>
 </resources>

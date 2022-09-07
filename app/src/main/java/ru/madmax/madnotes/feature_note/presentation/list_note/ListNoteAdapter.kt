@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.madmax.madnotes.databinding.ItemNoteBinding
-import ru.madmax.madnotes.domain.model.entity.NoteModel
+import ru.madmax.madnotes.feature_note.domain.model.entity.NoteModel
 
 class ListNoteAdapter(
     val onNoteClickListener: (note: NoteModel) -> Unit

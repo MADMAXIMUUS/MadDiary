@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".feature_reminders.presentation.bottomsheet.BottomSheetCreateReminderTimePickerFragment">
+
+    <View
+        android:id="@+id/bottom_sheet_time_handle"
+        style="@style/BottomSheetHandle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/bottom_sheet_time_title"
+        style="@style/ReminderBlockBigTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/bottom_sheet_choose_time_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottom_sheet_time_handle" />
+
+    <LinearLayout
+        android:id="@+id/bottom_sheet_time_pickers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="13dp"
+        android:layout_marginTop="13dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/bottom_sheet_time_choose_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottom_sheet_time_title">
+
+        <NumberPicker
+            android:id="@+id/bottom_sheet_time_picker_hr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:theme="@style/TimePickerStyle" />
+
+        <View
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center" />
+
+        <TextView
+            style="@style/TimePickerDivider"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/bottom_sheet_colon" />
+
+        <View
+            android:layout_width="40dp"
+            android:layout_height="62dp"
+            android:layout_gravity="center" />
+
+        <NumberPicker
+            android:id="@+id/bottom_sheet_time_picker_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:theme="@style/TimePickerStyle" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bottom_sheet_time_choose_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginVertical="10dp"
+        android:background="@drawable/rounded_button_ripple_effect"
+        android:fontFamily="@font/blogger_sans_bold"
+        android:gravity="center"
+        android:paddingVertical="15dp"
+        android:text="@string/confirm"
+        android:textColor="@color/mercury"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottom_sheet_time_pickers" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

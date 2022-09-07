@@ -11,4 +11,20 @@
     <string name="menu_delete">Удалить</string>
     <string name="note_list_fab">Создать новую заметку</string>
     <string name="type_something">Напишите что-нибудь…</string>
+    <string name="reminder_start_title">Начало</string>
+    <string name="reminder_date_and_time_divider_description">Разделитель между временем и датой</string>
+    <string name="reminder_end_title">Конец</string>
+    <string name="reminder_all_day">Весь день?</string>
+    <string name="reminder_location_title">Адресс</string>
+    <string name="reminder_note_title">Заметка</string>
+    <string name="reminder_settings_title">Настройки</string>
+    <string name="reminder_repeat_title">Повторение</string>
+    <string name="reminder_every_week">Каждую неделю</string>
+    <string name="reminder_notifications_title">Уведомление</string>
+    <string name="reminder_none">Нет</string>
+    <string name="reminder_attachment_title">Дополнения</string>
+    <string name="bottom_sheet_choose_date_title">Выберите дату</string>
+    <string name="bottom_sheet_choose_time_title">Выберите время</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="bottom_sheet_colon">:</string>
 </resources>

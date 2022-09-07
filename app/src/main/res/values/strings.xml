@@ -11,4 +11,20 @@
     <string name="menu_delete">Delete</string>
     <string name="note_list_fab">Create new note</string>
     <string name="type_something">Type something…</string>
+    <string name="reminder_start_title">Start</string>
+    <string name="reminder_date_and_time_divider_description">Date and time divider</string>
+    <string name="reminder_end_title">End</string>
+    <string name="reminder_all_day">All day?</string>
+    <string name="reminder_location_title">Location</string>
+    <string name="reminder_note_title">Note</string>
+    <string name="reminder_settings_title">Settings</string>
+    <string name="reminder_repeat_title">Repeat</string>
+    <string name="reminder_every_week">Every week</string>
+    <string name="reminder_notifications_title">Notifications</string>
+    <string name="reminder_none">None</string>
+    <string name="reminder_attachment_title">Attachment</string>
+    <string name="bottom_sheet_choose_date_title">Choose date</string>
+    <string name="bottom_sheet_choose_time_title">Choose time</string>
+    <string name="confirm">Confirm</string>
+    <string name="bottom_sheet_colon">:</string>
 </resources>

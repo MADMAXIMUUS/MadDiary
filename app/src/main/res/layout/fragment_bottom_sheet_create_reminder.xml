@@ -9,13 +9,11 @@
 
     <TextView
         android:id="@+id/bottom_sheet_create_reminder_title"
+        style="@style/ReminderBlockBigTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:fontFamily="@font/blogger_sans_bold"
         android:text="New Reminder"
-        android:textColor="@color/onyx"
-        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,7 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="40dp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_sheet_create_reminder_title">
@@ -44,7 +41,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                style="@style/ButtonIconColor"
                 android:contentDescription="Add reminder"
                 android:src="@drawable/ic_add_event" />
 
@@ -66,7 +63,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                style="@style/ButtonIconColor"
                 android:contentDescription="Add reminder"
                 android:src="@drawable/ic_add_task" />
 
@@ -88,7 +85,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                style="@style/ButtonIconColor"
                 android:contentDescription="Add reminder"
                 android:src="@drawable/ic_add_reminder" />
 

@@ -63,7 +63,7 @@
     <fragment
         android:id="@+id/createReminderFragment"
         android:name="ru.madmax.madnotes.feature_reminders.presentation.create_and_edit_event.CreateAndEditEventFragment"
-        android:label="Reminders edit"
+        android:label="Event edit"
         tools:layout="@layout/fragment_create_and_edit_event">
         <argument
             android:name="reminderId"

@@ -14,6 +14,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.madmax.madnotes.R
+import ru.madmax.madnotes.core.util.isDarkTheme
+import ru.madmax.madnotes.core.util.setNavigationColor
 import ru.madmax.madnotes.databinding.ActivityMainBinding
 
 
@@ -82,6 +84,15 @@ class MainActivity : AppCompatActivity() {
                         R.color.back_arrow_tint
                     )
                 )
+            } else {
+                if (isDarkTheme()) {
+                    setNavigationColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.dark_gray
+                        )
+                    )
+                }
             }
         }
 

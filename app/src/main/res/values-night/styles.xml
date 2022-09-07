@@ -3,14 +3,33 @@
 
     <style name="ReminderBlockTitleTextView">
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/spanish_gray</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="ReminderCardStyle">
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardBackgroundColor">@color/dark_liver</item>
     </style>
 
     <style name="ReminderBlockBigTitleTextView">
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textColor">@color/mercury</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">23sp</item>
+    </style>
+
+    <style name="ButtonIconColor">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:tint">@color/onyx</item>
+    </style>
+
+    <style name="ReminderOpenMenuIcon">
+        <item name="android:layout_width">12dp</item>
+        <item name="android:layout_height">12dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:rotation">90</item>
+        <item name="android:src">@drawable/ic_open_menu</item>
+        <item name="android:tint">@color/mercury</item>
     </style>
 
     <style name="ReminderBlockContentTextView">
@@ -25,6 +44,12 @@
         <item name="android:textSize">26sp</item>
     </style>
 
+    <style name="CircleBetweenDateAndTime">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:tint">@color/mercury</item>
+    </style>
+
     <style name="TitleEditText">
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textSize">30sp</item>
@@ -34,6 +59,44 @@
         <item name="android:textColorHint">@color/cloud</item>
         <item name="android:background">@color/transparent</item>
         <item name="android:textColor">@color/mercury</item>
+    </style>
+
+    <style name="CustomCalendarMonth" parent="Theme.MadNotes">
+        <item name="android:textColorPrimary">@color/mercury</item>
+        <item name="fontFamily">@font/blogger_sans_bold</item>
+    </style>
+
+    <style name="CustomCalendarDay" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/selector_calendar_color</item>
+        <item name="fontFamily">@font/blogger_sans_bold</item>
+    </style>
+
+    <style name="CustomCalendarWeek" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/spanish_gray</item>
+        <item name="fontFamily">@font/blogger_sans_bold</item>
+    </style>
+
+    <style name="BottomSheetHandle">
+        <item name="android:background">@drawable/bottom_sheet_handle</item>
+        <item name="android:backgroundTint">@color/spanish_gray</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">3dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <style name="TimePickerStyle" parent="Theme.MadNotes">
+        <item name="colorControlNormal">@color/transparent</item>
+        <item name="android:textColor">@color/mercury</item>
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:descendantFocusability">blocksDescendants</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="TimePickerDivider">
+        <item name="android:textColor">@color/mercury</item>
+        <item name="fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:gravity">center</item>
     </style>
 
 </resources>

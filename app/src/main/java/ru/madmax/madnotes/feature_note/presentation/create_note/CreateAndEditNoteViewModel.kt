@@ -5,11 +5,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ru.madmax.madnotes.domain.model.entity.Note
-import ru.madmax.madnotes.domain.use_case.NoteUseCases
 import ru.madmax.madnotes.core.util.UiEvent
+import ru.madmax.madnotes.feature_note.domain.model.entity.Note
+import ru.madmax.madnotes.feature_note.domain.use_case.NoteUseCases
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,15 +34,6 @@ class CreateAndEditNoteViewModel @Inject constructor(
                     noteUseCases.getNoteByIdUseCase(noteId)?.also { note ->
                         Log.e("note", note.toString())
                         _currentNote.value = note
-                        /*if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                            _currentNote.value = currentNote.value.copy(
-                                color = NoteColors.defaultDark
-                            )
-                        } else {
-                            _currentNote.value = currentNote.value.copy(
-                                color = NoteColors.defaultLight
-                            )
-                        }*/
                     }
                 }
             }
