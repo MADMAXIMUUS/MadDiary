@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".feature_reminders.presentation.bottomsheet.BottomSheetCreateReminderInputLocationFragment">
+
+    <View
+        android:id="@+id/bottom_sheet_notification_handle"
+        style="@style/BottomSheetHandle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/bottom_sheet_notification_title"
+        style="@style/ReminderBlockBigTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/bottom_sheet_choose_location_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottom_sheet_notification_handle" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

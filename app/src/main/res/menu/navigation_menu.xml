@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/bottom_notes"
-        android:icon="@drawable/ic_bottom_notes"
-        android:title="@string/bottom_menu_notes_title"/>
-    <item
-        android:id="@+id/bottom_categories"
-        android:icon="@drawable/ic_bottom_category"
-        android:title="@string/bottom_menu_categories_title"/>
+
     <item
         android:id="@+id/bottom_reminders"
         android:icon="@drawable/ic_bottom_events"
-        android:title="@string/bottom_menu_reminders_title"/>
+        android:title="@string/bottom_menu_reminders_title" />
+
+    <item
+        android:id="@+id/bottom_calendar"
+        android:icon="@drawable/ic_bottom_calendar"
+        android:title="@string/bottom_menu_calendar_title" />
+
+    <item
+        android:id="@+id/bottom_notes"
+        android:icon="@drawable/ic_bottom_notes"
+        android:title="@string/bottom_menu_notes_title" />
+
     <item
         android:id="@+id/bottom_settings"
         android:icon="@drawable/ic_bottom_settings"
-        android:title="@string/bottom_menu_settings_title"/>
+        android:title="@string/bottom_menu_settings_title" />
+
 </menu>

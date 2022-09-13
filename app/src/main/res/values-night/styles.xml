@@ -78,7 +78,7 @@
 
     <style name="BottomSheetHandle">
         <item name="android:background">@drawable/bottom_sheet_handle</item>
-        <item name="android:backgroundTint">@color/spanish_gray</item>
+        <item name="android:backgroundTint">@color/dark_liver</item>
         <item name="android:layout_width">80dp</item>
         <item name="android:layout_height">3dp</item>
         <item name="android:layout_marginTop">8dp</item>
@@ -97,6 +97,50 @@
         <item name="fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textSize">40sp</item>
         <item name="android:gravity">center</item>
+    </style>
+
+
+    <style name="RadioButtonStyle" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlay.App.RadioButton" parent="">
+        <item name="colorOnSurface">@color/spanish_gray</item>
+        <item name="colorSecondary">@color/mercury</item>
+        <item name="android:textColor">@color/mercury</item>
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="CheckBoxStyle" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CheckBox</item>
+    </style>
+
+    <style name="ThemeOverlay.App.CheckBox" parent="">
+        <item name="colorOnSurface">@color/spanish_gray</item>
+        <item name="colorSecondary">@color/mercury</item>
+        <item name="android:textColor">@color/mercury</item>
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="CalendarCellDayNumber">
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/mercury</item>
+    </style>
+
+    <style name="DialogCardStyle">
+        <item name="cardBackgroundColor">@color/dark_gray</item>
+        <item name="cardCornerRadius">20dp</item>
+    </style>
+
+    <style name="CalendarCellStyle">
+        <item name="android:background">@color/onyx</item>
+    </style>
+
+    <style name="CalendarStyle">
+        <item name="android:background">@color/black</item>
     </style>
 
 </resources>

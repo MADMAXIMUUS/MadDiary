@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/bottom_notes">
+    app:startDestination="@id/bottom_reminders">
     <fragment
         android:id="@+id/bottom_notes"
-        android:name="ru.madmax.madnotes.feature_note.presentation.list_note.ListNoteFragment"
-        android:label="MadNotes"
+        android:name="ru.madmax.maddiary.feature_note.presentation.list_note.ListNoteFragment"
+        android:label="@string/note_label"
         tools:layout="@layout/fragment_list_note">
         <action
             android:id="@+id/action_bottom_notes_to_searchFragment"
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/createNoteFragment"
-        android:name="ru.madmax.madnotes.feature_note.presentation.create_note.CreateAndEditNoteFragment"
+        android:name="ru.madmax.maddiary.feature_note.presentation.create_note.CreateAndEditNoteFragment"
         android:label="Note edit"
         tools:layout="@layout/fragment_create_and_edit_note">
         <argument
@@ -27,31 +27,14 @@
             app:argType="integer" />
     </fragment>
     <fragment
-        android:id="@+id/bottom_categories"
-        android:name="ru.madmax.madnotes.feature_note.presentation.list_category.ListCategoryFragment"
-        android:label="Categories"
-        tools:layout="@layout/fragment_list_category">
-        <action
-            android:id="@+id/action_bottom_categories_to_createCategoryFragment"
-            app:destination="@id/createCategoryFragment" />
-        <action
-            android:id="@+id/action_bottom_categories_to_searchFragment"
-            app:destination="@id/searchFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/createCategoryFragment"
-        android:name="ru.madmax.madnotes.feature_note.presentation.create_category.CreateCategoryFragment"
-        android:label="Categories edit"
-        tools:layout="@layout/fragment_create_and_edit_category">
-        <argument
-            android:name="categoryId"
-            android:defaultValue="-1"
-            app:argType="integer" />
-    </fragment>
+        android:id="@+id/bottom_calendar"
+        android:name="ru.madmax.maddiary.feature_reminders.presentation.calendar.CalendarFragment"
+        android:label="@string/calendar_label"
+        tools:layout="@layout/fragment_calendar" />
     <fragment
         android:id="@+id/bottom_reminders"
-        android:name="ru.madmax.madnotes.feature_reminders.presentation.list_reminders.ListReminderFragment"
-        android:label="Reminders"
+        android:name="ru.madmax.maddiary.feature_reminders.presentation.list_reminders.ListReminderFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_list_reminder">
         <action
             android:id="@+id/action_bottom_reminders_to_createReminderFragment"
@@ -62,7 +45,7 @@
     </fragment>
     <fragment
         android:id="@+id/createReminderFragment"
-        android:name="ru.madmax.madnotes.feature_reminders.presentation.create_and_edit_event.CreateAndEditEventFragment"
+        android:name="ru.madmax.maddiary.feature_reminders.presentation.create_and_edit_event.CreateAndEditEventFragment"
         android:label="Event edit"
         tools:layout="@layout/fragment_create_and_edit_event">
         <argument
@@ -72,12 +55,12 @@
     </fragment>
     <fragment
         android:id="@+id/bottom_settings"
-        android:name="ru.madmax.madnotes.core.presentaion.settings.SettingsFragment"
-        android:label="Settings"
+        android:name="ru.madmax.maddiary.core.presentation.settings.SettingsFragment"
+        android:label="@string/settings_label"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="ru.madmax.madnotes.core.presentaion.search.SearchFragment"
+        android:name="ru.madmax.maddiary.core.presentation.search.SearchFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
 </navigation>

@@ -13,6 +13,8 @@
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
         <item name="colorControlActivated">@color/mercury</item>
         <item name="colorSwitchThumbNormal">@color/spanish_gray</item>
+        <item name="radioButtonStyle">@style/RadioButtonStyle</item>
+        <item name="checkboxStyle">@style/CheckBoxStyle</item>
     </style>
 
     <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">

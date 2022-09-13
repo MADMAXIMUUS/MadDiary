@@ -11,7 +11,7 @@
         android:layout_height="60dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:contentDescription="@string/note_list_fab"
+        android:contentDescription="@string/reminder_list_fab"
         android:src="@drawable/ic_add"
         app:fabCustomSize="60dp"
         app:layout_constraintBottom_toBottomOf="parent"

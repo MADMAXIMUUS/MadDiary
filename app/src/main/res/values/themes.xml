@@ -14,6 +14,8 @@
         <item name="colorControlActivated">@color/metallic_seaweed</item>
         <item name="colorSwitchThumbNormal">@color/mercury</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+        <item name="radioButtonStyle">@style/RadioButtonStyle</item>
+        <item name="checkboxStyle">@style/CheckBoxStyle</item>
     </style>
 
     <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">

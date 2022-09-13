@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".feature_reminders.presentation.bottomsheet.BottomSheetCreateReminderChooseNotificationFragment">
+
+    <View
+        android:id="@+id/bottom_sheet_notification_handle"
+        style="@style/BottomSheetHandle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/bottom_sheet_notification_title"
+        style="@style/ReminderBlockBigTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/bottom_sheet_choose_notification_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottom_sheet_notification_handle" />
+
+    <LinearLayout
+        android:id="@+id/bottom_sheet_repeat_cb_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="40dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottom_sheet_notification_title">
+
+        <CheckBox
+            android:id="@+id/bottom_sheet_notification_never"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:checked="true"
+            android:text="@string/never" />
+
+        <CheckBox
+            android:id="@+id/bottom_sheet_notification_at_time"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/at_time_time_of_event" />
+
+        <CheckBox
+            android:id="@+id/bottom_sheet_notification_before_10"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/ten_minute_before" />
+
+        <CheckBox
+            android:id="@+id/bottom_sheet_notification_before_30"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/thirty_minute_before" />
+
+        <CheckBox
+            android:id="@+id/bottom_sheet_notification_before_1_hour"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/one_hour_before" />
+
+        <CheckBox
+            android:id="@+id/bottom_sheet_notification_before_1_day"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/one_day_before" />
+
+        <CheckBox
+            android:id="@+id/bottom_sheet_notification_before_1_week"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/one_week_before" />
+
+        <CheckBox
+            android:id="@+id/bottom_sheet_notification_before_1_month"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/one_month_before" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

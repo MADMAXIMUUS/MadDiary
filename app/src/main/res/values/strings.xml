@@ -1,15 +1,19 @@
 <resources>
-    <string name="app_name" translatable="false">MadNotes</string>
+    <string name="app_name" translatable="false">MadDiary</string>
     <string name="create_and_edit_note_title">Title</string>
     <string name="bottom_menu_reminders_title">Bottom menu reminders</string>
-    <string name="bottom_menu_categories_title">Bottom menu categories</string>
+    <string name="bottom_menu_calendar_title">Bottom menu calendar</string>
     <string name="bottom_menu_settings_title">Bottom menu settings</string>
     <string name="bottom_menu_add_title">Bottom menu add</string>
     <string name="bottom_menu_notes_title">Bottom menu notes</string>
+    <string name="calendar_label">Calendar</string>
+    <string name="settings_label">Settings</string>
+    <string name="note_label">Notes</string>
     <string name="menu_search_view">Search</string>
     <string name="menu_save">Save</string>
     <string name="menu_delete">Delete</string>
     <string name="note_list_fab">Create new note</string>
+    <string name="reminder_list_fab">Create new reminder</string>
     <string name="type_something">Type something…</string>
     <string name="reminder_start_title">Start</string>
     <string name="reminder_date_and_time_divider_description">Date and time divider</string>
@@ -19,12 +23,29 @@
     <string name="reminder_note_title">Note</string>
     <string name="reminder_settings_title">Settings</string>
     <string name="reminder_repeat_title">Repeat</string>
-    <string name="reminder_every_week">Every week</string>
     <string name="reminder_notifications_title">Notifications</string>
-    <string name="reminder_none">None</string>
     <string name="reminder_attachment_title">Attachment</string>
     <string name="bottom_sheet_choose_date_title">Choose date</string>
     <string name="bottom_sheet_choose_time_title">Choose time</string>
+    <string name="bottom_sheet_choose_note_title">Note</string>
+    <string name="bottom_sheet_choose_repeat_title">Choose repeat</string>
+    <string name="bottom_sheet_choose_notification_title">Choose notification</string>
+    <string name="bottom_sheet_choose_location_title">Choose location</string>
     <string name="confirm">Confirm</string>
     <string name="bottom_sheet_colon">:</string>
+    <string name="never">Never</string>
+    <string name="every_day">Every day</string>
+    <string name="every_working_day">Every working day</string>
+    <string name="every_weekend_day">Every weekend day</string>
+    <string name="every_second_day">Every second day</string>
+    <string name="every_week">Every week</string>
+    <string name="every_month">Every month</string>
+    <string name="every_year">Every year</string>
+    <string name="at_time_time_of_event">At the time of event</string>
+    <string name="ten_minute_before">10 minute before</string>
+    <string name="thirty_minute_before">30 minute before</string>
+    <string name="one_hour_before">1 hour before</string>
+    <string name="one_day_before">1 day before</string>
+    <string name="one_week_before">1 week before</string>
+    <string name="one_month_before">1 month before</string>
 </resources>

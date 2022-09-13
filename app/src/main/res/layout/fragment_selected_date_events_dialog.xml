@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/DialogCardStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".feature_reminders.presentation.calendar.SelectedDateEventsDialogFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/selectedDateEventsDialogDate"
+            style="@style/ReminderBlockBigTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="8 dec 2022" />
+
+        <View
+            android:id="@+id/selectedDateEventsDialogDivider"
+            style="@style/BottomSheetHandle"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selectedDateEventsDialogDate" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/selectedDateEventsDialogEvents"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selectedDateEventsDialogDivider" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_add"
+            app:fabCustomSize="48dp"
+            app:layout_constraintBottom_toBottomOf="@id/selectedDateEventsDialogEvents"
+            app:layout_constraintEnd_toEndOf="@id/selectedDateEventsDialogEvents"
+            android:contentDescription="@string/reminder_list_fab" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
