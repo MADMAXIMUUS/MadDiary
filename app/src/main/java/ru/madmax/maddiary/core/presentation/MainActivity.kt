@@ -1,4 +1,4 @@
-package ru.madmax.maddiary.core.presentation
+package ru.madmax.madDiary.core.presentation
 
 import android.animation.ObjectAnimator
 import android.os.Build
@@ -13,10 +13,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
-import ru.madmax.maddiary.R
-import ru.madmax.maddiary.core.util.isDarkTheme
-import ru.madmax.maddiary.core.util.setNavigationColor
-import ru.madmax.maddiary.databinding.ActivityMainBinding
+import ru.madmax.madDiary.R
+import ru.madmax.madDiary.core.util.isDarkTheme
+import ru.madmax.madDiary.core.util.setNavigationColor
+import ru.madmax.madDiary.databinding.ActivityMainBinding
 
 
 @AndroidEntryPoint

@@ -1,11 +1,11 @@
-package ru.madmax.maddiary.core.presentation.search
+package ru.madmax.madDiary.core.presentation.search
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.madmax.maddiary.databinding.FragmentSearchBinding
+import androidx.fragment.app.Fragment
+import ru.madmax.madDiary.databinding.FragmentSearchBinding
 
 
 class SearchFragment : Fragment() {

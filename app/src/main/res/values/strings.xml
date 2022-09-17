@@ -25,6 +25,7 @@
     <string name="reminder_repeat_title">Repeat</string>
     <string name="reminder_notifications_title">Notifications</string>
     <string name="reminder_attachment_title">Attachment</string>
+    <string name="bottom_sheet_create_reminder_title">New reminder</string>
     <string name="bottom_sheet_choose_date_title">Choose date</string>
     <string name="bottom_sheet_choose_time_title">Choose time</string>
     <string name="bottom_sheet_choose_note_title">Note</string>

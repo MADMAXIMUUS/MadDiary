@@ -5,7 +5,7 @@
     android:id="@+id/create_and_edit_note_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".feature_note.presentation.create_note.CreateAndEditNoteFragment">
+    tools:context="ru.madmax.madDiary.featureNote.presentation.createNote.CreateAndEditNoteFragment">
 
     <EditText
         android:id="@+id/create_and_edit_note_title_edt"

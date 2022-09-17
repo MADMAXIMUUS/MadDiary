@@ -1,4 +1,4 @@
-package ru.madmax.maddiary.core.util
+package ru.madmax.madDiary.core.util
 
 import androidx.room.TypeConverter
 import java.util.Date

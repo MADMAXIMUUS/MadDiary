@@ -3,6 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".core.presentation.settings.SettingsFragment">
+    tools:context="ru.madmax.madDiary.core.presentation.settings.SettingsFragment">
 
 </FrameLayout>

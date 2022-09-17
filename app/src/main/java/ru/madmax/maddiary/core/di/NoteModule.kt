@@ -1,13 +1,13 @@
-package ru.madmax.maddiary.core.di
+package ru.madmax.madDiary.core.di
 
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.madmax.maddiary.core.data.data_source.MadNoteDatabase
-import ru.madmax.maddiary.feature_note.data.repository.NoteRepositoryImpl
-import ru.madmax.maddiary.feature_note.domain.repository.NoteRepository
-import ru.madmax.maddiary.feature_note.domain.use_case.*
+import ru.madmax.madDiary.core.data.dataSource.MadNoteDatabase
+import ru.madmax.madDiary.featureNote.data.repository.NoteRepositoryImpl
+import ru.madmax.madDiary.featureNote.domain.repository.NoteRepository
+import ru.madmax.madDiary.featureNote.domain.useCase.*
 import javax.inject.Singleton
 
 

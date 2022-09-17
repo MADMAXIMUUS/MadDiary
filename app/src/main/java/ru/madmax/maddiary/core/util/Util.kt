@@ -1,2 +1,2 @@
-package ru.madmax.maddiary.core.util
+package ru.madmax.madDiary.core.util
 

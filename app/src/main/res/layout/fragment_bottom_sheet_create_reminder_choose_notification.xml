@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".feature_reminders.presentation.bottomsheet.BottomSheetCreateReminderChooseNotificationFragment">
+    tools:context="ru.madmax.madDiary.featureReminders.presentation.bottomsheet.BottomSheetCreateReminderChooseNotificationFragment">
 
     <View
         android:id="@+id/bottom_sheet_notification_handle"

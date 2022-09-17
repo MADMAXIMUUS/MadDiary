@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="60dp"
-    tools:context=".feature_reminders.presentation.bottomsheet.BottomSheetCreateReminderFragment">
+    tools:context="ru.madmax.madDiary.featureReminders.presentation.bottomsheet.BottomSheetCreateReminderFragment">
 
     <TextView
         android:id="@+id/bottom_sheet_create_reminder_title"
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:text="New Reminder"
+        android:text="@string/bottom_sheet_create_reminder_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,9 +39,9 @@
             app:cardCornerRadius="10dp">
 
             <ImageView
+                style="@style/ButtonIconColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ButtonIconColor"
                 android:contentDescription="Add reminder"
                 android:src="@drawable/ic_add_event" />
 
@@ -61,9 +61,9 @@
             app:cardCornerRadius="10dp">
 
             <ImageView
+                style="@style/ButtonIconColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ButtonIconColor"
                 android:contentDescription="Add reminder"
                 android:src="@drawable/ic_add_task" />
 
@@ -83,9 +83,9 @@
             app:cardCornerRadius="10dp">
 
             <ImageView
+                style="@style/ButtonIconColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ButtonIconColor"
                 android:contentDescription="Add reminder"
                 android:src="@drawable/ic_add_reminder" />
 

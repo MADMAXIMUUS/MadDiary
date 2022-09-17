@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
-    tools:context=".feature_reminders.presentation.create_and_edit_event.CreateAndEditEventFragment">
+    tools:context="ru.madmax.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
