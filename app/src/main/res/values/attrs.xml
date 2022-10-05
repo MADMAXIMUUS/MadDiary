@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="MadCalendarMonth">
+        <attr name="mad_daysOfWeekTitleColor" format="color" />
+        <attr name="mad_gridColor" format="color" />
+        <attr name="mad_gridWidth" format="color" />
+        <attr name="mad_dayTitleTextSize" format="dimension" />
+        <attr name="mad_selectedDayColor" format="color" />
+        <attr name="mad_currentDayColor" format="color" />
+        <attr name="mad_currentDayTitleColor" format="color" />
+        <attr name="mad_eventTextSize" format="dimension" />
+        <attr name="mad_currentMonthDaysColor" format="color" />
+        <attr name="mad_otherMonthDaysColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="MadCalendarView">
+        <attr name="mad_monthStyle" format="reference" />
+        <attr name="mad_changeMonthButtonsColor" format="color" />
+        <attr name="mad_monthYearTitleColor" format="color" />
+    </declare-styleable>
+
+    <attr name="calendarViewStyle" format="reference" />
+
+</resources>
