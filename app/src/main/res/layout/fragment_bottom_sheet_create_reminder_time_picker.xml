@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="ru.madmax.madDiary.featureReminders.presentation.bottomsheet.BottomSheetCreateReminderTimePickerFragment">
+    tools:context="ru.lopata.madDiary.featureReminders.presentation.bottomsheet.BottomSheetCreateReminderTimePickerFragment">
 
     <View
         android:id="@+id/bottom_sheet_time_handle"

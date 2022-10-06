@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ru.madmax.madDiary.core.util.UiEvent
-import ru.madmax.madDiary.featureNote.domain.model.entity.Note
-import ru.madmax.madDiary.featureNote.domain.useCase.NoteUseCases
+import ru.lopata.madDiary.core.util.UiEvent
+import ru.lopata.madDiary.featureNote.domain.model.entity.Note
+import ru.lopata.madDiary.featureNote.domain.useCase.NoteUseCases
 import javax.inject.Inject
 
 @HiltViewModel

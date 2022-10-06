@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import ru.madmax.madDiary.featureNote.domain.model.entity.Note
-import ru.madmax.madDiary.featureNote.domain.model.entity.NoteModel
-import ru.madmax.madDiary.featureNote.domain.useCase.NoteUseCases
-import ru.madmax.madDiary.featureNote.domain.util.OrderType
+import ru.lopata.madDiary.featureNote.domain.model.entity.Note
+import ru.lopata.madDiary.featureNote.domain.model.entity.NoteModel
+import ru.lopata.madDiary.featureNote.domain.useCase.NoteUseCases
+import ru.lopata.madDiary.featureNote.domain.util.OrderType
 import javax.inject.Inject
 
 @HiltViewModel

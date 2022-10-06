@@ -3,13 +3,13 @@ package ru.lopata.madDiary.core.data.dataSource
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import ru.madmax.madDiary.core.util.Converters
-import ru.madmax.madDiary.featureNote.data.dataSource.NoteDao
-import ru.madmax.madDiary.featureNote.domain.model.entity.Category
-import ru.madmax.madDiary.featureNote.domain.model.entity.Note
-import ru.madmax.madDiary.featureNote.domain.model.entity.NoteCategoryCrossRef
-import ru.madmax.madDiary.featureReminders.data.dataSource.EventDao
-import ru.madmax.madDiary.featureReminders.domain.model.Event
+import ru.lopata.madDiary.core.util.Converters
+import ru.lopata.madDiary.featureNote.data.dataSource.NoteDao
+import ru.lopata.madDiary.featureNote.domain.model.entity.Category
+import ru.lopata.madDiary.featureNote.domain.model.entity.Note
+import ru.lopata.madDiary.featureNote.domain.model.entity.NoteCategoryCrossRef
+import ru.lopata.madDiary.featureReminders.data.dataSource.EventDao
+import ru.lopata.madDiary.featureReminders.domain.model.Event
 
 @Database(
     entities = [
@@ -17,7 +17,7 @@ import ru.madmax.madDiary.featureReminders.domain.model.Event
         Category::class,
         Event::class,
         NoteCategoryCrossRef::class
-    ], version = 5
+    ], version = 7
 )
 @TypeConverters(Converters::class)
 abstract class MadNoteDatabase : RoomDatabase() {

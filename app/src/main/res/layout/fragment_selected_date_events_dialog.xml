@@ -5,7 +5,7 @@
     style="@style/DialogCardStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".feature_reminders.presentation.calendar.SelectedDateEventsDialogFragment">
+    tools:context=".featureReminders.presentation.calendarScreen.SelectedDateEventsDialogFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -9,10 +9,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ru.madmax.madDiary.core.util.UiEvent
-import ru.madmax.madDiary.featureReminders.domain.model.Event
-import ru.madmax.madDiary.featureReminders.domain.useCase.event.EventUseCases
-import java.util.*
+import ru.lopata.madDiary.core.util.UiEvent
+import ru.lopata.madDiary.featureReminders.domain.model.Event
+import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import java.time.LocalDateTime
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,15 +28,15 @@ class CreateAndEditEventViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    fun updateStartTimestamp(date: Date) {
+    fun updateStartTimestamp(date: Calendar) {
         _currentEvent.value = currentEvent.value.copy(
-            startTimestamp = date
+            startDateTime = date
         )
     }
 
-    fun updateEndTimestamp(date: Date) {
+    fun updateEndTimestamp(date: Calendar) {
         _currentEvent.value = currentEvent.value.copy(
-            endTimestamp = date
+            endDateTime = date
         )
     }
 

@@ -1,6 +1,7 @@
 package ru.lopata.madDiary.core.presentation
 
 import android.animation.ObjectAnimator
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -13,11 +14,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
-import ru.madmax.madDiary.R
-import ru.madmax.madDiary.core.util.isDarkTheme
-import ru.madmax.madDiary.core.util.setNavigationColor
-import ru.madmax.madDiary.databinding.ActivityMainBinding
-
+import ru.lopata.madDiary.R
+import ru.lopata.madDiary.core.util.isDarkTheme
+import ru.lopata.madDiary.core.util.setNavigationColor
+import ru.lopata.madDiary.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener { splashScreenView ->
                 val slideUp = ObjectAnimator.ofFloat(

@@ -8,8 +8,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import ru.madmax.madDiary.databinding.FragmentBottomSheetCreateReminderNoteBinding
-import ru.madmax.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventViewModel
+import ru.lopata.madDiary.databinding.FragmentBottomSheetCreateReminderNoteBinding
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventViewModel
 
 @AndroidEntryPoint
 class BottomSheetCreateReminderNoteFragment(

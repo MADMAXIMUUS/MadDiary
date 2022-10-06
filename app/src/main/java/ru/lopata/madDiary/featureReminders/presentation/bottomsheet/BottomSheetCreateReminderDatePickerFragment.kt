@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import ru.madmax.madDiary.databinding.FragmentBottomSheetCteateReminderDatePickerBinding
+import ru.lopata.madDiary.databinding.FragmentBottomSheetCteateReminderDatePickerBinding
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*

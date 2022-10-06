@@ -1,7 +1,7 @@
 package ru.lopata.madDiary.featureReminders.domain.useCase.event
 
-import ru.madmax.madDiary.featureReminders.domain.model.Event
-import ru.madmax.madDiary.featureReminders.domain.repository.EventRepository
+import ru.lopata.madDiary.featureReminders.domain.model.Event
+import ru.lopata.madDiary.featureReminders.domain.repository.EventRepository
 
 class CreateEventUseCase(
     val repository: EventRepository

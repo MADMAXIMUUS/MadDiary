@@ -11,7 +11,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "ru.madmax.madDiary"
+        applicationId "ru.lopata.madDiary"
         minSdk 26
         targetSdk 33
         versionCode 1
@@ -37,7 +37,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    namespace 'ru.madmax.madDiary'
+    namespace 'ru.lopata.madDiary'
 }
 
 dependencies {
@@ -53,7 +53,7 @@ dependencies {
     //Jetpack Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
-    implementation 'androidx.fragment:fragment-ktx:1.5.2'
+    implementation 'androidx.fragment:fragment-ktx:1.5.3'
 
     //RecycleView
     implementation "androidx.recyclerview:recyclerview:1.2.1"

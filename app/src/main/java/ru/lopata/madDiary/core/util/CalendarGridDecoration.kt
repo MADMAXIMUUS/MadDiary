@@ -14,7 +14,7 @@ class CalendarGridDecoration(
         state: RecyclerView.State
     ) {
         val spanCount = 7
-        val spacing = 4
+        val spacing = 2
         val position = parent.getChildAdapterPosition(view)
 
         if (position < spanCount) {

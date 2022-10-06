@@ -4,10 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.madmax.madDiary.core.data.dataSource.MadNoteDatabase
-import ru.madmax.madDiary.featureNote.data.repository.NoteRepositoryImpl
-import ru.madmax.madDiary.featureNote.domain.repository.NoteRepository
-import ru.madmax.madDiary.featureNote.domain.useCase.*
+import ru.lopata.madDiary.core.data.dataSource.MadNoteDatabase
+import ru.lopata.madDiary.featureNote.data.repository.NoteRepositoryImpl
+import ru.lopata.madDiary.featureNote.domain.repository.NoteRepository
+import ru.lopata.madDiary.featureNote.domain.useCase.*
 import javax.inject.Singleton
 
 

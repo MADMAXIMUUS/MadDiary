@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import ru.madmax.madDiary.databinding.FragmentBottomSheetCreateReminderTimePickerBinding
+import ru.lopata.madDiary.databinding.FragmentBottomSheetCreateReminderTimePickerBinding
 import java.util.*
 
 @AndroidEntryPoint

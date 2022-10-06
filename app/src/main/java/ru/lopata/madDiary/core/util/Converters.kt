@@ -1,17 +1,22 @@
 package ru.lopata.madDiary.core.util
 
 import androidx.room.TypeConverter
-import java.util.Date
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.util.*
 
 class Converters {
 
     @TypeConverter
-    fun fromTimestamp(value: Long): Date {
-        return Date(value)
+    fun fromTimestamp(value: Long): Calendar {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = value
+        return calendar
     }
 
     @TypeConverter
-    fun dateToTimestamp(date: Date): Long {
-        return date.time
+    fun dateToTimestamp(date: Calendar): Long {
+        return date.timeInMillis
     }
 }

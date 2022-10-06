@@ -49,4 +49,15 @@
     <string name="one_day_before">За день</string>
     <string name="one_week_before">За неделю</string>
     <string name="one_month_before">За месяц</string>
+
+    <string-array name="days_in_week">
+        <item>Пн</item>
+        <item>Вт</item>
+        <item>Ср</item>
+        <item>Чт</item>
+        <item>Пт</item>
+        <item>Сб</item>
+        <item>Вс</item>
+    </string-array>
+
 </resources>

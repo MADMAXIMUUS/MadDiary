@@ -6,7 +6,7 @@
     app:startDestination="@id/bottom_reminders">
     <fragment
         android:id="@+id/bottom_notes"
-        android:name="ru.madmax.madDiary.featureNote.presentation.listNote.ListNoteFragment"
+        android:name="ru.lopata.madDiary.featureNote.presentation.listNote.ListNoteFragment"
         android:label="@string/note_label"
         tools:layout="@layout/fragment_list_note">
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/createNoteFragment"
-        android:name="ru.madmax.madDiary.featureNote.presentation.createNote.CreateAndEditNoteFragment"
+        android:name="ru.lopata.madDiary.featureNote.presentation.createNote.CreateAndEditNoteFragment"
         android:label="Note edit"
         tools:layout="@layout/fragment_create_and_edit_note">
         <argument
@@ -28,12 +28,12 @@
     </fragment>
     <fragment
         android:id="@+id/bottom_calendar"
-        android:name="ru.madmax.madDiary.featureReminders.presentation.calendar.CalendarFragment"
+        android:name="ru.lopata.madDiary.featureReminders.presentation.calendarScreen.CalendarFragment"
         android:label="@string/calendar_label"
         tools:layout="@layout/fragment_calendar" />
     <fragment
         android:id="@+id/bottom_reminders"
-        android:name="ru.madmax.madDiary.featureReminders.presentation.listReminders.ListReminderFragment"
+        android:name="ru.lopata.madDiary.featureReminders.presentation.listReminders.ListReminderFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_list_reminder">
         <action
@@ -45,7 +45,7 @@
     </fragment>
     <fragment
         android:id="@+id/createReminderFragment"
-        android:name="ru.madmax.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventFragment"
+        android:name="ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventFragment"
         android:label="Event edit"
         tools:layout="@layout/fragment_create_and_edit_event">
         <argument
@@ -55,12 +55,12 @@
     </fragment>
     <fragment
         android:id="@+id/bottom_settings"
-        android:name="ru.madmax.madDiary.core.presentation.settings.SettingsFragment"
+        android:name="ru.lopata.madDiary.core.presentation.settings.SettingsFragment"
         android:label="@string/settings_label"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="ru.madmax.madDiary.core.presentation.search.SearchFragment"
+        android:name="ru.lopata.madDiary.core.presentation.search.SearchFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
 </navigation>

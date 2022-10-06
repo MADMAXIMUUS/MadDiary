@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import ru.madmax.madDiary.R
-import ru.madmax.madDiary.databinding.FragmentBottomSheetCreateReminderBinding
+import ru.lopata.madDiary.R
+import ru.lopata.madDiary.databinding.FragmentBottomSheetCreateReminderBinding
 
 @AndroidEntryPoint
 class BottomSheetCreateReminderFragment(private val navController: NavController) :

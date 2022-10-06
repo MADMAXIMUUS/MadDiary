@@ -14,12 +14,12 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import ru.madmax.madDiary.R
-import ru.madmax.madDiary.core.util.GridItemDecoration
-import ru.madmax.madDiary.databinding.FragmentListNoteBinding
+import ru.lopata.madDiary.R
+import ru.lopata.madDiary.core.util.GridItemDecoration
+import ru.lopata.madDiary.databinding.FragmentListNoteBinding
 
 @AndroidEntryPoint
-class ListNoteFragment : Fragment(R.layout.fragment_list_note) {
+class ListNoteFragment : Fragment() {
 
     private var _binding: FragmentListNoteBinding? = null
     private val binding get() = _binding!!

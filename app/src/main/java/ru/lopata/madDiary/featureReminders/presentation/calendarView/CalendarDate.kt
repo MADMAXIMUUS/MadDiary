@@ -1,11 +1,10 @@
-package ru.lopata.madDiary.featureReminders.domain.model
+package ru.lopata.madDiary.featureReminders.presentation.calendarView
 
+import ru.lopata.madDiary.featureReminders.domain.model.Event
 import ru.lopata.madDiary.featureReminders.util.DayType
 import java.time.LocalDate
 
 data class CalendarDate(
-    val isSelectedDay: Boolean = false,
-    val dateType: DayType = DayType.CURRENT_MONTH,
     val day: LocalDate = LocalDate.of(0,0,0),
     val events: List<Event> = emptyList()
 )

@@ -1,8 +1,8 @@
 package ru.lopata.madDiary.featureReminders.domain.useCase.event
 
 import kotlinx.coroutines.flow.Flow
-import ru.madmax.madDiary.featureReminders.domain.model.Event
-import ru.madmax.madDiary.featureReminders.domain.repository.EventRepository
+import ru.lopata.madDiary.featureReminders.domain.model.Event
+import ru.lopata.madDiary.featureReminders.domain.repository.EventRepository
 
 class GetEventsUseCase(val repository: EventRepository) {
 

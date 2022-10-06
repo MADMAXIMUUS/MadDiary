@@ -1,9 +1,9 @@
 package ru.lopata.madDiary.featureNote.domain.repository
 
 import kotlinx.coroutines.flow.Flow
-import ru.madmax.madDiary.featureNote.domain.model.entity.Note
-import ru.madmax.madDiary.featureNote.domain.model.relationship.NoteWithCategories
-import ru.madmax.madDiary.featureNote.domain.util.OrderType
+import ru.lopata.madDiary.featureNote.domain.model.entity.Note
+import ru.lopata.madDiary.featureNote.domain.model.relationship.NoteWithCategories
+import ru.lopata.madDiary.featureNote.domain.util.OrderType
 
 interface NoteRepository {
 

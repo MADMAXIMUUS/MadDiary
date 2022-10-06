@@ -15,7 +15,7 @@
     <style name="ReminderBlockBigTitleTextView">
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textColor">@color/mercury</item>
-        <item name="android:textSize">23sp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="ButtonIconColor">

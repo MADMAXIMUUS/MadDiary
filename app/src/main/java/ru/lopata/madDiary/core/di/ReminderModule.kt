@@ -4,10 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.madmax.madDiary.core.data.dataSource.MadNoteDatabase
-import ru.madmax.madDiary.featureReminders.domain.useCase.event.*
-import ru.madmax.madDiary.featureReminders.data.repository.EventRepositoryImpl
-import ru.madmax.madDiary.featureReminders.domain.repository.EventRepository
+import ru.lopata.madDiary.core.data.dataSource.MadNoteDatabase
+import ru.lopata.madDiary.featureReminders.data.repository.EventRepositoryImpl
+import ru.lopata.madDiary.featureReminders.domain.repository.EventRepository
+import ru.lopata.madDiary.featureReminders.domain.useCase.event.*
 import javax.inject.Singleton
 
 

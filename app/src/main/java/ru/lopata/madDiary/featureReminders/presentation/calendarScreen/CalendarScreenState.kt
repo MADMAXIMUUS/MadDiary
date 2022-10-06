@@ -1,9 +1,11 @@
 package ru.lopata.madDiary.featureReminders.presentation.calendarScreen
 
-import ru.madmax.madDiary.featureReminders.domain.model.CalendarModel
+import ru.lopata.madDiary.featureReminders.presentation.calendarView.Month
 import java.time.LocalDate
 
 data class CalendarScreenState(
+    val today: LocalDate = LocalDate.now(),
     val selectedDate: LocalDate = LocalDate.now(),
-    val calendar: List<CalendarModel> = emptyList()
+    val calendar: List<Month> = emptyList(),
+    val currentMonthIndex: Int = calendar.size / 2,
 )

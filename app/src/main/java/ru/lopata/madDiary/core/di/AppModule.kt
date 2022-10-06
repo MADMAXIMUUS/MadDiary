@@ -6,9 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.madmax.madDiary.core.data.dataSource.MIGRATION_3_4
-import ru.madmax.madDiary.core.data.dataSource.MIGRATION_4_5
-import ru.madmax.madDiary.core.data.dataSource.MadNoteDatabase
+import ru.lopata.madDiary.core.data.dataSource.*
 import javax.inject.Singleton
 
 @Module
@@ -24,7 +22,7 @@ object AppModule {
             app,
             MadNoteDatabase::class.java,
             MadNoteDatabase.NAME
-        ).addMigrations(MIGRATION_3_4, MIGRATION_4_5)
+        ).addMigrations(MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
             .build()
     }
 

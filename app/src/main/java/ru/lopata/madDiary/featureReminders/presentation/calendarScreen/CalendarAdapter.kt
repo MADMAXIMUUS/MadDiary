@@ -1,53 +1,50 @@
 package ru.lopata.madDiary.featureReminders.presentation.calendarScreen
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ru.madmax.madDiary.databinding.CalendarCellBinding
-import ru.madmax.madDiary.featureReminders.domain.model.CalendarModel
-import ru.madmax.madDiary.featureReminders.presentation.calendarScreen.CalendarAdapter.CalendarViewHolder
-import java.time.LocalDate
+import ru.lopata.madDiary.databinding.CalendarCellBinding
+import ru.lopata.madDiary.featureReminders.presentation.calendarView.CalendarDate
 
 class CalendarAdapter(
-    private val onDayClickListener: (CalendarModel) -> Unit
-) : ListAdapter<CalendarModel, CalendarViewHolder>(DiffCallback()) {
+    private val onDayClickListener: (CalendarDate) -> Unit
+) : ListAdapter<CalendarDate, CalendarAdapter.CalendarViewHolder>(DiffCallback()) {
 
     inner class CalendarViewHolder(
         private val binding: CalendarCellBinding,
-        val onDayClickListener: (CalendarModel) -> Unit
+        val onDayClickListener: (CalendarDate) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(calendarModel: CalendarModel) {
+        fun bind(calendarDate: CalendarDate) {
             binding.apply {
-                if (calendarModel.day == LocalDate.MIN)
+                /*if (calendarDate.day == LocalDate.MIN)
                     cellDayText.text = ""
                 else {
-                    cellDayText.text = calendarModel.day.dayOfMonth.toString()
-                    if (calendarModel.isSelectedDay)
+                    cellDayText.text = calendarDate.day.dayOfMonth.toString()
+                    if (calendarDate.isSelectedDay)
                         cellBorder.visibility = View.VISIBLE
                     else
                         cellBorder.visibility = View.GONE
-                    if (!calendarModel.isCurrentMonth) {
+                    if (!calendarDate.isCurrentMonth) {
                         cellDayText.isEnabled = false
                     }
-                }
+                }*/
                 root.setOnClickListener {
-                    onDayClickListener(calendarModel)
+                    onDayClickListener(calendarDate)
                 }
             }
         }
 
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<CalendarModel>() {
-        override fun areItemsTheSame(oldItem: CalendarModel, newItem: CalendarModel) =
+    class DiffCallback : DiffUtil.ItemCallback<CalendarDate>() {
+        override fun areItemsTheSame(oldItem: CalendarDate, newItem: CalendarDate) =
             oldItem.day == newItem.day
 
-        override fun areContentsTheSame(oldItem: CalendarModel, newItem: CalendarModel) =
+        override fun areContentsTheSame(oldItem: CalendarDate, newItem: CalendarDate) =
             oldItem == newItem
     }
 

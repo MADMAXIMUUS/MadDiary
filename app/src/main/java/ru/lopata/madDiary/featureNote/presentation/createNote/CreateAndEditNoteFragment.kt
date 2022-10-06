@@ -13,9 +13,9 @@ import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import ru.madmax.madDiary.R
-import ru.madmax.madDiary.core.util.UiEvent
-import ru.madmax.madDiary.databinding.FragmentCreateAndEditNoteBinding
+import ru.lopata.madDiary.R
+import ru.lopata.madDiary.core.util.UiEvent
+import ru.lopata.madDiary.databinding.FragmentCreateAndEditNoteBinding
 
 @AndroidEntryPoint
 class CreateAndEditNoteFragment : Fragment() {

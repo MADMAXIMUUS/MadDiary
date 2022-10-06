@@ -18,6 +18,27 @@
         <item name="checkboxStyle">@style/CheckBoxStyle</item>
     </style>
 
+    <style name="MadCalendarGridStyle">
+        <item name="mad_gridColor">@color/spanish_gray</item>
+        <item name="mad_daysOfWeekTitleColor">@color/onyx</item>
+        <item name="mad_daysOfWeekTitleTextSize">14sp</item>
+        <item name="mad_dayTitleTextSize">14sp</item>
+        <item name="mad_selectedDayColor">@color/spanish_gray</item>
+        <item name="mad_currentDayColor">@color/metallic_seaweed</item>
+        <item name="mad_currentDayTitleColor">@color/mercury</item>
+        <item name="mad_eventTextSize">11sp</item>
+        <item name="mad_eventTitleLightColor">@color/mercury</item>
+        <item name="mad_eventTitleDarkColor">@color/onyx</item>
+        <item name="mad_currentMonthDaysColor">@color/onyx</item>
+        <item name="mad_otherMonthDaysColor">@color/dark_cloud</item>
+    </style>
+
+    <style name="MadCalendarViewStyle">
+        <item name="mad_monthStyle">@style/MadCalendarGridStyle</item>
+        <item name="mad_changeMonthButtonsColor">@color/onyx</item>
+        <item name="mad_monthYearTitleColor">@color/onyx</item>
+    </style>
+
     <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
         <item name="materialThemeOverlay">@style/CustomToolbarStyle</item>
     </style>

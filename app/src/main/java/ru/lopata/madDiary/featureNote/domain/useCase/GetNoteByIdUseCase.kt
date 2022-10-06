@@ -1,7 +1,7 @@
 package ru.lopata.madDiary.featureNote.domain.useCase
 
-import ru.madmax.madDiary.featureNote.domain.model.entity.Note
-import ru.madmax.madDiary.featureNote.domain.repository.NoteRepository
+import ru.lopata.madDiary.featureNote.domain.model.entity.Note
+import ru.lopata.madDiary.featureNote.domain.repository.NoteRepository
 
 class GetNoteByIdUseCase(
     private val repository: NoteRepository

@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import ru.madmax.madDiary.databinding.FragmentListReminderBinding
-import ru.madmax.madDiary.featureReminders.presentation.bottomsheet.BottomSheetCreateReminderFragment
+import ru.lopata.madDiary.databinding.FragmentListReminderBinding
+import ru.lopata.madDiary.featureReminders.presentation.bottomsheet.BottomSheetCreateReminderFragment
 
 @AndroidEntryPoint
 class ListReminderFragment : Fragment() {

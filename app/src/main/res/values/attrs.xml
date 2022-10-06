@@ -3,6 +3,7 @@
 
     <declare-styleable name="MadCalendarMonth">
         <attr name="mad_daysOfWeekTitleColor" format="color" />
+        <attr name="mad_daysOfWeekTitleTextSize" format="dimension" />
         <attr name="mad_gridColor" format="color" />
         <attr name="mad_gridWidth" format="color" />
         <attr name="mad_dayTitleTextSize" format="dimension" />
@@ -10,6 +11,8 @@
         <attr name="mad_currentDayColor" format="color" />
         <attr name="mad_currentDayTitleColor" format="color" />
         <attr name="mad_eventTextSize" format="dimension" />
+        <attr name="mad_eventTitleLightColor" format="color" />
+        <attr name="mad_eventTitleDarkColor" format="color" />
         <attr name="mad_currentMonthDaysColor" format="color" />
         <attr name="mad_otherMonthDaysColor" format="color" />
     </declare-styleable>

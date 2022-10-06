@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".feature_reminders.presentation.calendar.CalendarFragment">
+    tools:context=".featureReminders.presentation.calendarScreen.CalendarFragment">
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -15,13 +15,11 @@
         <ImageButton
             android:id="@+id/calendarPrevMonthBtn"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/transparent"
-            android:src="@drawable/ic_back_arrow"
-            android:textColor="@color/gray_chateau"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:rotation="-90"
+            android:src="@drawable/ic_open_menu" />
 
         <TextView
             android:id="@+id/monthYearTV"
@@ -36,20 +34,18 @@
         <ImageButton
             android:id="@+id/calendarNextMonthBtn"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/transparent"
-            android:rotation="180"
-            android:src="@drawable/ic_back_arrow"
-            android:textColor="@color/gray_chateau"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:rotation="90"
+            android:src="@drawable/ic_open_menu" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -115,14 +111,18 @@
             android:textColor="@color/gray_chateau"
             android:textSize="16sp" />
 
-
     </LinearLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/calendarRecyclerView"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/calendarViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        style="@style/CalendarStyle"/>
+        android:layout_height="0dp"
+        android:layout_weight="1" />-->
+
+    <ru.lopata.madDiary.featureReminders.presentation.calendarView.MadCalendarMonth
+        android:id="@+id/calendar"
+        style="@style/MadCalendarGridStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import ru.madmax.madDiary.R
-import ru.madmax.madDiary.core.util.monthYear
-import ru.madmax.madDiary.databinding.FragmentSelectedDateEventsDialogBinding
-import ru.madmax.madDiary.featureReminders.domain.model.CalendarModel
+import ru.lopata.madDiary.R
+import ru.lopata.madDiary.core.util.monthYear
+import ru.lopata.madDiary.databinding.FragmentSelectedDateEventsDialogBinding
+import ru.lopata.madDiary.featureReminders.presentation.calendarView.CalendarDate
 
 @AndroidEntryPoint
 class SelectedDateEventsDialogFragment(
-    private val dayDetail: CalendarModel
+    private val dayDetail: CalendarDate
 ) : DialogFragment() {
 
     private var _binding: FragmentSelectedDateEventsDialogBinding? = null

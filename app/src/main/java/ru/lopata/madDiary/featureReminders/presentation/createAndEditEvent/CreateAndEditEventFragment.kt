@@ -13,14 +13,11 @@ import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import ru.madmax.madDiary.R
-import ru.madmax.madDiary.core.util.UiEvent
-import ru.madmax.madDiary.core.util.isDarkTheme
-import ru.madmax.madDiary.core.util.setNavigationColor
-import ru.madmax.madDiary.core.util.toDateTime
-import ru.madmax.madDiary.databinding.FragmentCreateAndEditEventBinding
-import ru.madmax.madDiary.featureReminders.presentation.bottomsheet.*
-import java.util.*
+import ru.lopata.madDiary.R
+import ru.lopata.madDiary.core.util.UiEvent
+import ru.lopata.madDiary.core.util.isDarkTheme
+import ru.lopata.madDiary.core.util.setNavigationColor
+import ru.lopata.madDiary.databinding.FragmentCreateAndEditEventBinding
 
 @AndroidEntryPoint
 class CreateAndEditEventFragment : Fragment() {
@@ -87,7 +84,7 @@ class CreateAndEditEventFragment : Fragment() {
 
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+        /*viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.currentEvent.collectLatest { event ->
                 binding.apply {
                     if (event.startTimestamp != Date(0)) {
@@ -179,7 +176,7 @@ class CreateAndEditEventFragment : Fragment() {
                     }
                 }
             }
-        }
+        }*/
     }
 
     override fun onDestroy() {

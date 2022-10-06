@@ -8,9 +8,9 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import ru.madmax.madDiary.R
-import ru.madmax.madDiary.databinding.FragmentBtoomSheetCreateReminderChooseRepeatBinding
-import ru.madmax.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventViewModel
+import ru.lopata.madDiary.R
+import ru.lopata.madDiary.databinding.FragmentBtoomSheetCreateReminderChooseRepeatBinding
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventViewModel
 
 @AndroidEntryPoint
 class BottomSheetCreateReminderChooseRepeatFragment(

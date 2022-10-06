@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import ru.madmax.madDiary.databinding.FragmentBottomSheetCreateReminderChooseNotificationBinding
-import ru.madmax.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventViewModel
+import ru.lopata.madDiary.databinding.FragmentBottomSheetCreateReminderChooseNotificationBinding
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventViewModel
 
 @AndroidEntryPoint
 class BottomSheetCreateReminderChooseNotificationFragment(
