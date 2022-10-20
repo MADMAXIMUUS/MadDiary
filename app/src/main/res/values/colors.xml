@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="black_40">#66000000</color>
+    <color name="black_66">#66000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_b0">#B0FFFFFF</color>
     <color name="metallic_seaweed">#FF057389</color>
     <color name="blueberry">#FF4285F4</color>
     <color name="blue_crayola">#FF1877F2</color>

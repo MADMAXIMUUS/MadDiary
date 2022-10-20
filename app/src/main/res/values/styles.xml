@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="EventItemReminderIcon">
+        <item name="android:tint">@color/dark_liver</item>
+    </style>
+
+    <style name="EventItemReminderSubtext">
+        <item name="android:textColor">@color/onyx</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/blogger_sans_bold</item>
+    </style>
+
     <style name="ReminderBlockTitleTextView">
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textColor">@color/gray_chateau</item>
@@ -45,7 +55,7 @@
         <item name="android:textSize">26sp</item>
     </style>
 
-    <style name="CircleBetweenDateAndTime">
+    <style name="CircleInText">
         <item name="android:layout_gravity">center</item>
         <item name="android:padding">4dp</item>
         <item name="android:tint">@color/onyx</item>
@@ -139,12 +149,9 @@
         <item name="cardCornerRadius">20dp</item>
     </style>
 
-    <style name="CalendarCellStyle">
-        <item name="android:background">@color/white</item>
-    </style>
-
-    <style name="CalendarStyle">
-        <item name="android:background">@color/alto</item>
+    <style name="CalendarButtonStyle">
+        <item name="android:tint">@color/onyx</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
 </resources>

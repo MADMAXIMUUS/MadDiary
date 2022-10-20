@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="ru.lopata.madDiary.featureReminders.presentation.bottomsheet.BottomSheetCreateReminderNoteFragment">
+    tools:context="ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.BottomSheetCreateReminderNoteFragment">
 
     <View
         android:id="@+id/bottom_sheet_note_handle"

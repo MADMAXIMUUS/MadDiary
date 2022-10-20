@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".featureReminders.presentation.calendarScreen.CalendarFragment">
 
-    <!--<LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -15,11 +16,12 @@
         <ImageButton
             android:id="@+id/calendarPrevMonthBtn"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:background="@color/transparent"
-            android:rotation="-90"
-            android:src="@drawable/ic_open_menu" />
+            style="@style/CalendarButtonStyle"
+            android:contentDescription="@string/prev_month_button"
+            android:src="@drawable/ic_prev_month"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/monthYearTV"
@@ -34,82 +36,12 @@
         <ImageButton
             android:id="@+id/calendarNextMonthBtn"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:background="@color/transparent"
-            android:rotation="90"
-            android:src="@drawable/ic_open_menu" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="M"
-            android:textAlignment="center"
-            android:textColor="@color/gray_chateau"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="T"
-            android:textAlignment="center"
-            android:textColor="@color/gray_chateau"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="W"
-            android:textAlignment="center"
-            android:textColor="@color/gray_chateau"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="T"
-            android:textAlignment="center"
-            android:textColor="@color/gray_chateau"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="F"
-            android:textAlignment="center"
-            android:textColor="@color/gray_chateau"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="S"
-            android:textAlignment="center"
-            android:textColor="@color/gray_chateau"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="S"
-            android:textAlignment="center"
-            android:textColor="@color/gray_chateau"
-            android:textSize="16sp" />
+            style="@style/CalendarButtonStyle"
+            android:contentDescription="@string/next_month_button"
+            android:src="@drawable/ic_next_month"
+            tools:ignore="TouchTargetSizeCheck" />
 
     </LinearLayout>
 
@@ -117,12 +49,6 @@
         android:id="@+id/calendarViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />-->
-
-    <ru.lopata.madDiary.featureReminders.presentation.calendarView.MadCalendarMonth
-        android:id="@+id/calendar"
-        style="@style/MadCalendarGridStyle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_weight="1" />
 
 </LinearLayout>

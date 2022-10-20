@@ -58,9 +58,6 @@ dependencies {
     //RecycleView
     implementation "androidx.recyclerview:recyclerview:1.2.1"
 
-    // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
-
     //Room
     implementation "androidx.room:room-runtime:2.4.3"
     implementation "androidx.room:room-paging:2.4.3"

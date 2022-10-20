@@ -44,7 +44,7 @@
         <item name="android:textSize">26sp</item>
     </style>
 
-    <style name="CircleBetweenDateAndTime">
+    <style name="CircleInText">
         <item name="android:layout_gravity">center</item>
         <item name="android:padding">4dp</item>
         <item name="android:tint">@color/mercury</item>
@@ -135,12 +135,19 @@
         <item name="cardCornerRadius">20dp</item>
     </style>
 
-    <style name="CalendarCellStyle">
-        <item name="android:background">@color/onyx</item>
+    <style name="CalendarButtonStyle">
+        <item name="android:tint">@color/mercury</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
-    <style name="CalendarStyle">
-        <item name="android:background">@color/black</item>
+    <style name="EventItemReminderIcon">
+        <item name="android:tint">@color/dawn_pink</item>
+    </style>
+
+    <style name="EventItemReminderSubtext">
+        <item name="android:textColor">@color/mercury</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/blogger_sans_bold</item>
     </style>
 
 </resources>

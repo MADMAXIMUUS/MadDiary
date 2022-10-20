@@ -3,8 +3,8 @@
 
     <dimen name="calendar_grid_width">1dp</dimen>
     <dimen name="calendar_day_of_week_height">30dp</dimen>
-    <dimen name="calendar_cell_height">120dp</dimen>
-    <dimen name="calendar_cell_width">60dp</dimen>
+    <dimen name="calendar_cell_height">60dp</dimen>
+    <dimen name="calendar_cell_width">40dp</dimen>
     <dimen name="calendar_day_selector_margin">2dp</dimen>
     <dimen name="calendar_today_square_width">20dp</dimen>
     <dimen name="calendar_event_title_text_size">14sp</dimen>

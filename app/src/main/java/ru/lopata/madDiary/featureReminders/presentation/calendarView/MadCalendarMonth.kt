@@ -1,7 +1,10 @@
 package ru.lopata.madDiary.featureReminders.presentation.calendarView
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PointF
+import android.graphics.RectF
 import android.icu.util.Calendar
 import android.text.Layout
 import android.text.StaticLayout
@@ -13,12 +16,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import ru.lopata.madDiary.R
-import ru.lopata.madDiary.featureReminders.domain.model.Event
-import ru.lopata.madDiary.featureReminders.util.DayType
-import java.text.NumberFormat
-import java.time.LocalDate
-import java.time.YearMonth
-import kotlin.math.floor
+import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarEvent
 
 class MadCalendarMonth @JvmOverloads constructor(
     context: Context,
@@ -26,7 +24,9 @@ class MadCalendarMonth @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private var events: List<List<Event>> = emptyList()
+    private var calendarEventList: List<CalendarEvent> = emptyList()
+
+    private var onDayClickListener: OnDayClickListener? = null
 
     private var monthNumber = 1
     private var yearNumber = 1970
@@ -36,17 +36,15 @@ class MadCalendarMonth @JvmOverloads constructor(
     private val todayTitlePaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
     private val otherMonthDaysPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
     private val eventTextPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
-    private val selectedDayPaint = Paint()
+    private val selectedDayPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val eventBackgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val currentDayHighlightPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val gridPaint = Paint()
+    private val gridPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     private val dayOfWeekLabels: Array<String> = resources.getStringArray(R.array.days_in_week)
 
     private val locale = resources.configuration.locales.get(0)
     private val calendar = Calendar.getInstance(locale)
-
-    private var dayTitleFormatter = NumberFormat.getIntegerInstance(locale)
 
     private var dayOfWeekHeight = 50
     private var cellHeight = 0
@@ -65,10 +63,11 @@ class MadCalendarMonth @JvmOverloads constructor(
     private var desiredDayOfWeekTextSize = 0f
 
     private var selectedDay = DEFAULT_SELECTED_DAY
-    private var today = -1
+    private var today = DEFAULT_SELECTED_DAY
     private var weekStart = DEFAULT_WEEK_START
-    private val dayOfWeekStart = 0
+    private var dayOfWeekStart = 0
     private var daysInMonth = 31
+    private var daysInPrevMonth = 31
     private var paddedWidth = 0
     private var paddedHeight = 0
 
@@ -78,7 +77,7 @@ class MadCalendarMonth @JvmOverloads constructor(
     private var gridWidth = 1f
     private var dayTitleTextSize = 0f
     private var selectedDayColor = 0
-    private var selectedDayWidth = 1f
+    private var selectedDayWidth = 5f
     private var currentDayColor = 0
     private var currentDayTitleColor = 0
     private var eventTextSize = 0f
@@ -92,240 +91,59 @@ class MadCalendarMonth @JvmOverloads constructor(
             initAttributes(attrs, defStyleAttr, defStyleAttr)
             initPaints()
         }
+        isFocusable = true
+        isClickable = true
         if (isInEditMode) {
-
-        }
-        /*month = Month(
-            YearMonth.of(2022, 10),
-            days = listOf(
-                CalendarDate(
-                    dateType = DayType.NOT_CURRENT_MONTH,
-                    day = LocalDate.of(2022, 9, 26)
-                ),
-                CalendarDate(
-                    dateType = DayType.NOT_CURRENT_MONTH,
-                    day = LocalDate.of(2022, 9, 27)
-                ),
-                CalendarDate(
-                    dateType = DayType.NOT_CURRENT_MONTH,
-                    day = LocalDate.of(2022, 9, 28)
-                ),
-                CalendarDate(
-                    dateType = DayType.NOT_CURRENT_MONTH,
-                    day = LocalDate.of(2022, 9, 29)
-                ),
-                CalendarDate(
-                    dateType = DayType.NOT_CURRENT_MONTH,
-                    day = LocalDate.of(2022, 9, 30)
-                ),
-                CalendarDate(
-                    dateType = DayType.TODAY,
-                    day = LocalDate.of(2022, 10, 1)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 2)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 3)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 4)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 5)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 6),
-                    events = listOf(
-                        Event(
-                            title = "Купить продукты",
-                            color = Color.RED
-                        ),
-                        Event(
-                            title = "Купить еду",
-                            color = Color.GREEN
-                        )
-                    )
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 7),
-                    events = listOf(
-                        Event(
-                            title = "Купить продукты",
-                            color = Color.BLUE
-                        ),
-                        Event(
-                            title = "Купить еду",
-                            color = Color.MAGENTA
-                        ),
-                        Event(
-                            title = "Купить еду",
-                            color = Color.YELLOW
-                        ),
-                        Event(
-                            title = "Купить еду",
-                            color = Color.YELLOW
-                        ),
-                        Event(
-                            title = "Купить еду",
-                            color = Color.YELLOW
-                        ),
-                        Event(
-                            title = "Купить еду",
-                            color = Color.YELLOW
-                        ),
-                        Event(
-                            title = "Купить еду",
-                            color = Color.YELLOW
-                        ),
-                        Event(
-                            title = "Купить еду",
-                            color = Color.YELLOW
-                        ),
-                        Event(
-                            title = "Купить еду",
-                            color = Color.YELLOW
-                        )
-                    )
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 8)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 9)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 10)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 11)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 12)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 13)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 14)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 15)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 16)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 17)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 18)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 19)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 20)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 21)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 22)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 23)
-                ),
-                CalendarDate(
-                    dateType = DayType.TODAY,
-                    day = LocalDate.of(2022, 10, 24)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 25)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 26)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 27)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 28)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 29)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 30)
-                ),
-                CalendarDate(
-                    dateType = DayType.CURRENT_MONTH,
-                    day = LocalDate.of(2022, 10, 31)
-                ),
-                CalendarDate(
-                    dateType = DayType.NOT_CURRENT_MONTH,
-                    day = LocalDate.of(2022, 11, 1)
-                ),
-                CalendarDate(
-                    dateType = DayType.NOT_CURRENT_MONTH,
-                    day = LocalDate.of(2022, 11, 2)
-                ),
-                CalendarDate(
-                    dateType = DayType.NOT_CURRENT_MONTH,
-                    day = LocalDate.of(2022, 11, 3)
-                ),
-                CalendarDate(
-                    dateType = DayType.NOT_CURRENT_MONTH,
-                    day = LocalDate.of(2022, 11, 4)
-                ),
-                CalendarDate(
-                    dateType = DayType.NOT_CURRENT_MONTH,
-                    day = LocalDate.of(2022, 11, 5)
-                ),
-                CalendarDate(
-                    dateType = DayType.NOT_CURRENT_MONTH,
-                    day = LocalDate.of(2022, 11, 6)
-                ),
+            setMonthParams(
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                -1,
+                Calendar.MONDAY
             )
-        )*/
+        }
     }
 
-    fun setEventsOnMonth(events: List<List<Event>>) {
-        this.events = events
-        requestLayout()
+    fun setSelectedDay(day: Int) {
+        selectedDay = day
         invalidate()
     }
 
-    fun getEventsOnMonth(): List<List<Event>> {
-        return events
+    fun setEventsOnMonth(events: List<CalendarEvent>) {
+        calendarEventList = events
+        invalidate()
+    }
+
+    fun setMonthParams(year: Int, month: Int, selectedDay: Int, weekStart: Int) {
+        yearNumber = year
+        if (isValidMonth(month))
+            monthNumber = month
+
+        val cal = Calendar.getInstance()
+
+        daysInMonth = getDaysInMonth(monthNumber, yearNumber)
+        daysInPrevMonth = if (monthNumber - 1 == -1) {
+            getDaysInMonth(Calendar.DECEMBER, yearNumber - 1)
+        } else {
+            getDaysInMonth(monthNumber - 1, yearNumber)
+        }
+
+        today = -1
+        for (day in 1..daysInMonth) {
+            if (isToday(day, cal)) {
+                today = day
+            }
+        }
+
+        calendar.set(Calendar.YEAR, yearNumber)
+        calendar.set(Calendar.MONTH, monthNumber)
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+
+        dayOfWeekStart = calendar.get(Calendar.DAY_OF_WEEK)
+
+        this.selectedDay = selectedDay
+        this.weekStart = weekStart
+
+        invalidate()
     }
 
     private fun initAttributes(
@@ -408,6 +226,10 @@ class MadCalendarMonth @JvmOverloads constructor(
         typedArray.recycle()
     }
 
+    fun setOnDayClickListener(listener: OnDayClickListener) {
+        onDayClickListener = listener
+    }
+
     private fun initPaints() {
         val font = resources.getFont(R.font.blogger_sans_bold)
 
@@ -449,6 +271,7 @@ class MadCalendarMonth @JvmOverloads constructor(
 
         selectedDayPaint.color = selectedDayColor
         selectedDayPaint.strokeWidth = selectedDayWidth
+        selectedDayPaint.style = Paint.Style.STROKE
 
         currentDayHighlightPaint.color = currentDayColor
         currentDayHighlightPaint.style = Paint.Style.FILL
@@ -459,12 +282,10 @@ class MadCalendarMonth @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.translate(paddingLeft.toFloat(), paddingTop.toFloat())
         drawGrid(canvas)
         drawDayOfWeek(canvas)
         drawDaysTitle(canvas)
         drawEvents(canvas)
-        canvas.translate(-paddingLeft.toFloat(), -paddingTop.toFloat())
     }
 
     private fun drawGrid(canvas: Canvas) {
@@ -497,18 +318,24 @@ class MadCalendarMonth @JvmOverloads constructor(
         }
     }
 
+    private fun getDayByTouch(x: Int, y: Int): Int {
+        val row: Int = (y - paddingTop - dayOfWeekHeight) / cellHeight
+        val col: Int = (x - paddingLeft) * DAYS_IN_WEEK / paddedWidth
+        val index: Int = col + row * DAYS_IN_WEEK
+        return index + 1 - findDayOffset()
+    }
+
     private fun drawDaysTitle(canvas: Canvas) {
-        /*val days = month?.days ?: return
         val startHeight = dayOfWeekHeight
 
         val halfLineHeight = (currentMonthDaysPaint.ascent() + currentMonthDaysPaint.descent()) / 2f
         var dayTitleRowCenter = startHeight + todaySquareTopLeftPoint.y + todaySquareWidth / 2
 
-        var col = 0
+        var col = findDayOffset()
 
-        for (i in days.indices) {
+        for (day in 1..daysInMonth) {
             val colCenter = cellWidth * col + cellWidth / 2
-            if (days[i].dateType == DayType.TODAY) {
+            if (day == today) {
                 canvas.drawRoundRect(
                     (colCenter - todaySquareWidth / 2).toFloat(),
                     dayTitleRowCenter - todaySquareWidth / 2 - 5,
@@ -518,61 +345,91 @@ class MadCalendarMonth @JvmOverloads constructor(
                     15f,
                     currentDayHighlightPaint
                 )
+                canvas.drawText(
+                    day.toString(),
+                    colCenter.toFloat(),
+                    dayTitleRowCenter - halfLineHeight,
+                    todayTitlePaint
+                )
+            } else {
+                canvas.drawText(
+                    day.toString(),
+                    colCenter.toFloat(),
+                    dayTitleRowCenter - halfLineHeight,
+                    currentMonthDaysPaint
+                )
             }
-            when (days[i].dateType) {
-                DayType.CURRENT_MONTH -> {
-                    canvas.drawText(
-                        days[i].day.dayOfMonth.toString(),
-                        colCenter.toFloat(),
-                        dayTitleRowCenter - halfLineHeight,
-                        currentMonthDaysPaint
-                    )
-                }
-                DayType.TODAY -> {
-                    canvas.drawText(
-                        days[i].day.dayOfMonth.toString(),
-                        colCenter.toFloat(),
-                        dayTitleRowCenter - halfLineHeight,
-                        todayTitlePaint
-                    )
-                }
-                else -> {
-                    canvas.drawText(
-                        days[i].day.dayOfMonth.toString(),
-                        colCenter.toFloat(),
-                        dayTitleRowCenter - halfLineHeight,
-                        otherMonthDaysPaint
-                    )
-                }
+            if (day == selectedDay) {
+                canvas.drawRoundRect(
+                    (colCenter - cellWidth / 2 + selectedDayBorderPadding).toFloat(),
+                    dayTitleRowCenter - todaySquareWidth / 2 - todaySquareTopLeftPoint.y + selectedDayBorderPadding,
+                    (colCenter + cellWidth / 2 - selectedDayBorderPadding).toFloat(),
+                    dayTitleRowCenter +
+                            todaySquareWidth / 2 +
+                            eventsRect.height(),
+                    15f,
+                    15f,
+                    selectedDayPaint
+                )
             }
             col++
-            if (col == DAYS_IN_WEEK) {
+            if (col >= DAYS_IN_WEEK) {
                 dayTitleRowCenter += cellHeight
                 col = 0
             }
-        }*/
+        }
+        val endNextMonth = if (dayTitleRowCenter + cellHeight > height) {
+            DAYS_IN_WEEK - col
+        } else {
+            DAYS_IN_WEEK - col + DAYS_IN_WEEK
+        }
+        for (day in 1..endNextMonth) {
+            val colCenter = cellWidth * col + cellWidth / 2
+            canvas.drawText(
+                day.toString(),
+                colCenter.toFloat(),
+                dayTitleRowCenter - halfLineHeight,
+                otherMonthDaysPaint
+            )
+            col++
+            if (col >= DAYS_IN_WEEK) {
+                dayTitleRowCenter += cellHeight
+                col = 0
+            }
+        }
+        col = 0
+        dayTitleRowCenter = startHeight + todaySquareTopLeftPoint.y + todaySquareWidth / 2
+        for (day in daysInPrevMonth - findDayOffset() + 1..daysInPrevMonth) {
+            val colCenter = cellWidth * col + cellWidth / 2
+            canvas.drawText(
+                day.toString(),
+                colCenter.toFloat(),
+                dayTitleRowCenter - halfLineHeight,
+                otherMonthDaysPaint
+            )
+            col++
+        }
     }
 
     private fun drawEvents(canvas: Canvas) {
-        /*val days = month?.days ?: return
         val startHeight = dayOfWeekHeight
-
-        var eventStartHeight = startHeight + eventsRect.top
         var eventBackgroundHeight: Int
-        var col = 0
-
         var staticLayout: StaticLayout
 
-        for (i in days.indices) {
+        for (i in calendarEventList.indices) {
+            var eventStartHeight = startHeight + eventsRect.top
+            val col = getColByDate(calendarEventList[i].day)
+            val row = getRowByDate(calendarEventList[i].day)
+            eventStartHeight += (cellHeight * row)
             val left = col * cellWidth + eventsRect.left
             val right = left + eventsRect.width()
-            for (j in days[i].events.indices) {
-                eventBackgroundPaint.color = days[i].events[j].color
+            for (j in calendarEventList[i].events.indices) {
+                eventBackgroundPaint.color = calendarEventList[i].events[j].color
                 eventTextPaint.color = getContrastRatioColor(
                     eventTextPaint.color,
                     eventBackgroundPaint.color
                 )
-                val text = days[i].events[j].title
+                val text = calendarEventList[i].events[j].title
                 staticLayout = StaticLayout
                     .Builder
                     .obtain(
@@ -580,7 +437,7 @@ class MadCalendarMonth @JvmOverloads constructor(
                         0,
                         text.length,
                         eventTextPaint,
-                        rectWidth - 5
+                        (eventsRect.width() - 5).toInt()
                     )
                     .setAlignment(Layout.Alignment.ALIGN_NORMAL)
                     .setEllipsize(TextUtils.TruncateAt.END)
@@ -604,12 +461,36 @@ class MadCalendarMonth @JvmOverloads constructor(
                     canvas.restore()
                 }
             }
-            col++
-            if (col == DAYS_IN_WEEK) {
-                eventStartHeight += cellHeight
-                col = 0
+        }
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        val x = (event.x + 0.5f).toInt()
+        val y = (event.y + 0.5f).toInt()
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                val touchedItem = getDayByTouch(x, y)
+                if (selectedDay != touchedItem) {
+                    selectedDay = touchedItem
+                    invalidate()
+                }
+                return true
             }
-        }*/
+            MotionEvent.ACTION_UP -> {
+                return performClick()
+            }
+        }
+        return false
+    }
+
+    override fun performClick(): Boolean {
+        val date = Calendar.getInstance().apply {
+            set(Calendar.YEAR, yearNumber)
+            set(Calendar.MONTH, monthNumber)
+            set(Calendar.DAY_OF_MONTH, selectedDay)
+        }
+        onDayClickListener?.onDayClick(this, date)
+        return super.performClick()
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -620,11 +501,8 @@ class MadCalendarMonth @JvmOverloads constructor(
         val w = right - left
         val h = bottom - top
 
-        val paddedRight = w - paddingRight
-        val paddedBottom = h - paddingBottom
-
-        val paddedWidth = paddedRight - paddingLeft
-        val paddedHeight = paddedBottom - paddingTop
+        val paddedWidth = w - paddingRight - paddingLeft
+        val paddedHeight = h - paddingBottom - paddingTop
 
         if (paddedWidth == this.paddedWidth || paddedHeight == this.paddedHeight) {
             return
@@ -636,8 +514,8 @@ class MadCalendarMonth @JvmOverloads constructor(
         val measuredPaddedHeight = measuredHeight - paddingTop - paddingBottom
         val scaleH = paddedHeight / measuredPaddedHeight.toFloat()
         val cellWidth: Int = this.paddedWidth / DAYS_IN_WEEK
-        val cellHeight: Int = this.paddedHeight / WEEKS_IN_MONTH
         dayOfWeekHeight = (desiredDayOfWeekHeight * scaleH).toInt()
+        val cellHeight: Int = (this.paddedHeight - dayOfWeekHeight) / WEEKS_IN_MONTH
         this.cellWidth = cellWidth
         this.cellHeight = cellHeight
 
@@ -647,10 +525,10 @@ class MadCalendarMonth @JvmOverloads constructor(
         todaySquareTopLeftPoint.x = cellWidth / 2f - todaySquareWidth / 2
         todaySquareTopLeftPoint.y = cellHeight * 0.1f
 
-        eventsRect.left = cellWidth * 0.01f
+        eventsRect.left = selectedDayBorderPadding + selectedDayWidth
         eventsRect.top = todaySquareTopLeftPoint.y + todaySquareWidth
-        eventsRect.right = cellWidth - cellWidth * 0.01f
-        eventsRect.bottom = cellHeight - cellHeight * 0.01f
+        eventsRect.right = cellWidth - selectedDayBorderPadding - selectedDayWidth
+        eventsRect.bottom = cellHeight - selectedDayBorderPadding - selectedDayWidth
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -663,6 +541,12 @@ class MadCalendarMonth @JvmOverloads constructor(
         setMeasuredDimension(resolvedWidth, resolvedHeight)
     }
 
+    private fun isToday(day: Int, cal: Calendar): Boolean {
+        return monthNumber == cal.get(Calendar.MONTH) &&
+                yearNumber == cal.get(Calendar.YEAR) &&
+                day == cal.get(Calendar.DAY_OF_MONTH)
+    }
+
     private fun getDaysInMonth(month: Int, year: Int): Int {
         return when (month) {
             Calendar.JANUARY, Calendar.MARCH, Calendar.MAY, Calendar.JULY, Calendar.AUGUST, Calendar.OCTOBER, Calendar.DECEMBER -> 31
@@ -672,6 +556,23 @@ class MadCalendarMonth @JvmOverloads constructor(
         }
     }
 
+    private fun getColByDate(date: Calendar): Int {
+        when (date.get(Calendar.DAY_OF_WEEK)) {
+            Calendar.SUNDAY -> return 6
+            Calendar.MONDAY -> return 0
+            Calendar.TUESDAY -> return 1
+            Calendar.WEDNESDAY -> return 2
+            Calendar.THURSDAY -> return 3
+            Calendar.FRIDAY -> return 4
+            Calendar.SATURDAY -> return 5
+            else -> return 0
+        }
+    }
+
+    private fun getRowByDate(date: Calendar): Int {
+        return date.get(Calendar.WEEK_OF_MONTH)
+    }
+
     private fun findDayOffset(): Int {
         val offset: Int = dayOfWeekStart - weekStart
         return if (dayOfWeekStart < weekStart) {
@@ -679,31 +580,26 @@ class MadCalendarMonth @JvmOverloads constructor(
         } else offset
     }
 
-    private fun getTextTrunkedWidth(
-        textWidthInPixel: Int,
-        rectWidth: Int
-    ): Int {
-        return if (textWidthInPixel < rectWidth)
-            textWidthInPixel
-        else rectWidth - 5
-    }
-
     private fun getContrastRatioColor(
         textColor: Int,
         backgroundColor: Int
     ): Int {
-        return if (ColorUtils.calculateContrast(
-                textColor, backgroundColor
-            ) > 1.5f
-        ) {
+        return if (ColorUtils.calculateContrast(textColor, backgroundColor) > 1.5f) {
             eventTitleLightColor
         } else {
             eventTitleDarkColor
         }
     }
 
-    private companion object {
+    private fun isValidMonth(month: Int): Boolean {
+        return (month >= Calendar.JANUARY && month <= Calendar.DECEMBER)
+    }
 
+    interface OnDayClickListener {
+        fun onDayClick(view: MadCalendarMonth, day: Calendar)
+    }
+
+    private companion object {
         const val DAYS_IN_WEEK = 7
         const val WEEKS_IN_MONTH = 6
         const val DEFAULT_SELECTED_DAY = -1

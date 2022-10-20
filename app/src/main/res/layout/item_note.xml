@@ -8,7 +8,7 @@
     android:background="@color/white_smoke"
     app:cardElevation="6dp"
     android:maxHeight="200dp"
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

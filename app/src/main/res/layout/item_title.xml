@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="20dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/item_title_day_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/blogger_sans_bold"
+        android:textSize="24sp"
+        tools:text="Today" />
+
+    <ImageView
+        android:id="@+id/item_title_divider"
+        style="@style/CircleInText"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="5dp"
+        android:contentDescription="@string/reminder_date_and_time_divider_description"
+        android:src="@drawable/ic_ellipse" />
+
+    <TextView
+        android:id="@+id/item_title_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/blogger_sans_bold"
+        android:textSize="22sp"
+        tools:text="nov 2, F" />
+
+
+</LinearLayout>
