@@ -1,6 +1,6 @@
  <resources>
     <string name="app_name" translatable="false">MadDiary</string>
-    <string name="create_and_edit_note_title">Title</string>
+    <string name="create_and_edit_note_title">Title…</string>
     <string name="bottom_menu_reminders_title">Bottom menu reminders</string>
     <string name="bottom_menu_calendar_title">Bottom menu calendar</string>
     <string name="bottom_menu_settings_title">Bottom menu settings</string>
@@ -56,6 +56,12 @@
      <string name="create_reminder_event_title">Event</string>
      <string name="create_reminder_task_title">Task</string>
      <string name="create_reminder_reminder_title">Reminder</string>
+     <string name="from">From</string>
+     <string name="to">to</string>
+     <string name="today">Today</string>
+     <string name="tomorrow">Tomorrow</string>
+     <string name="yesterday">Yesterday</string>
+     <string name="input_empty_error">Title cannot be empty</string>
 
      <string-array name="days_in_week">
         <item>M</item>

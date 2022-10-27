@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.bottomsheet
+package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.databinding.FragmentBottomSheetCreateReminderTimePickerBinding
-import java.util.*
+import java.sql.Date
 
 @AndroidEntryPoint
 class BottomSheetCreateReminderTimePickerFragment(
@@ -53,8 +53,8 @@ class BottomSheetCreateReminderTimePickerFragment(
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

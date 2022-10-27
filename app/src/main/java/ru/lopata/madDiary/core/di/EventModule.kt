@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ReminderModule {
+object EventModule {
 
     @Provides
     @Singleton
@@ -27,6 +27,8 @@ object ReminderModule {
         return EventUseCases(
             getEventsUseCase = GetEventsUseCase(repository),
             getEventByIdUseCase = GetEventByIdUseCase(repository),
+            getEventsBetweenDatesUseCase = GetEventsBetweenDatesUseCase(repository),
+            getEventsForDate = GetEventsForDate(repository),
             createEventUseCase = CreateEventUseCase(repository),
             deleteEventUseCase = DeleteEventUseCase(repository)
         )

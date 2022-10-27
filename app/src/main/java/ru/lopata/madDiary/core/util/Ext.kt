@@ -7,8 +7,6 @@ import android.util.Log
 import androidx.annotation.ColorInt
 import java.sql.Date
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 fun Activity.setNavigationColor(@ColorInt color: Int) {
@@ -24,11 +22,21 @@ fun Activity.isDarkTheme(): Boolean {
 fun Long.toDateTime(): String {
     val sdf = SimpleDateFormat("dd.MM.yy HH:mm", Locale("ru"))
     val netDate = Date(this)
+    return sdf.format(netDate)
+}
+
+@SuppressLint("SimpleDateFormat")
+fun Long.toTime(): String {
+    val sdf = SimpleDateFormat("HH:mm")
+    val netDate = Date(this)
     Log.e("time", sdf.format(netDate).split(" ")[0])
     return sdf.format(netDate)
 }
 
-fun LocalDate.monthYear(): String {
-    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM y")
-    return this.format(formatter)
+@SuppressLint("SimpleDateFormat")
+fun Long.toDate(): String {
+    val sdf = SimpleDateFormat("dd.MM.yy", Locale("ru"))
+    val netDate = Date(this)
+    Log.e("time", sdf.format(netDate).split(" ")[0])
+    return sdf.format(netDate)
 }

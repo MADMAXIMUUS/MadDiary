@@ -1,5 +1,7 @@
-package ru.lopata.madDiary.featureReminders.presentation.bottomsheet
+package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet
 
+import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +9,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.databinding.FragmentBottomSheetCteateReminderDatePickerBinding
-import java.time.LocalDate
-import java.time.ZoneId
-import java.util.*
+import java.sql.Date
 
 @AndroidEntryPoint
 class BottomSheetCreateReminderDatePickerFragment(
@@ -39,21 +39,32 @@ class BottomSheetCreateReminderDatePickerFragment(
             bottomSheetDateCalendar.minDate = bottomSheetDateCalendar.date
             bottomSheetDateCalendar.date = date.time
             bottomSheetDateCalendar.setOnDateChangeListener { _, year, month, day ->
-                val calender: Calendar = Calendar.getInstance()
-                calender.set(year, month, day, 0, 0, 0)
-                calender.timeZone = TimeZone.getDefault()
-                date = Date(calender.timeInMillis)
+                val calendar: Calendar = Calendar.getInstance()
+                calendar.set(year, month, day, 0, 0, 0)
+                calendar.apply {
+                    set(Calendar.MILLISECOND, 0)
+                    set(Calendar.MILLISECONDS_IN_DAY, 0)
+                }
+                calendar.timeZone = TimeZone.getDefault()
+                date = Date(calendar.timeInMillis)
                 System.currentTimeMillis()
             }
             bottomSheetDateChooseBtn.setOnClickListener {
-                if (date == Date(0))
+                if (date == Date(0)) {
+                    val calendar = Calendar.getInstance().apply {
+                        set(Calendar.HOUR, 0)
+                        set(Calendar.HOUR_OF_DAY, 0)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.MILLISECOND, 0)
+                        set(Calendar.MILLISECONDS_IN_DAY, 0)
+                    }
+                    calendar.timeZone = TimeZone.getDefault()
                     onChoose(
-                        Date.from(
-                            LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()
-                        )
+                        Date(calendar.timeInMillis)
                     )
-                else
+                } else {
                     onChoose(date)
+                }
                 dismiss()
             }
         }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="create_and_edit_note_title">Название</string>
+    <string name="create_and_edit_note_title">Название…</string>
     <string name="bottom_menu_reminders_title">Пункт \"напоминая\" нижнего меню</string>
     <string name="bottom_menu_calendar_title">Пункт \"календарь\" нижнего меню</string>
     <string name="bottom_menu_settings_title">Пункт \"настройки\" нижнего меню</string>
@@ -56,6 +56,12 @@
     <string name="create_reminder_event_title">Событие</string>
     <string name="create_reminder_task_title">Задачу</string>
     <string name="create_reminder_reminder_title">Напоминание</string>
+    <string name="from">С</string>
+    <string name="to">до</string>
+    <string name="today">Сегодня</string>
+    <string name="tomorrow">Завтра</string>
+    <string name="yesterday">Вчера</string>
+    <string name="input_empty_error">Название не может быть пустым</string>
 
     <string-array name="days_in_week">
         <item>Пн</item>

@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED;
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             splashScreen.setOnExitAnimationListener { splashScreenView ->
                 val slideUp = ObjectAnimator.ofFloat(

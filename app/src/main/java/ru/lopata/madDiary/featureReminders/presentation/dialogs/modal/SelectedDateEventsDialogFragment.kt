@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.calendarScreen
+package ru.lopata.madDiary.featureReminders.presentation.dialogs.modal
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.R
-import ru.lopata.madDiary.core.util.monthYear
 import ru.lopata.madDiary.databinding.FragmentSelectedDateEventsDialogBinding
-import ru.lopata.madDiary.featureReminders.presentation.calendarView.CalendarDate
+import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarEvent
+import java.util.*
 
 @AndroidEntryPoint
 class SelectedDateEventsDialogFragment(
-    private val dayDetail: CalendarDate
+    private val dayDetail: CalendarEvent
 ) : DialogFragment() {
 
     private var _binding: FragmentSelectedDateEventsDialogBinding? = null
@@ -38,7 +38,9 @@ class SelectedDateEventsDialogFragment(
         super.onViewCreated(view, savedInstanceState)
 
         binding.selectedDateEventsDialogDate.text =
-            "${dayDetail.day.dayOfMonth} ${dayDetail.day.monthYear()}"
+            "${dayDetail.day.get(Calendar.DAY_OF_MONTH)} " +
+                    "${dayDetail.day.get(Calendar.MONTH)}" +
+                    " ${dayDetail.day.get(Calendar.YEAR)}"
     }
 
     override fun onDestroy() {

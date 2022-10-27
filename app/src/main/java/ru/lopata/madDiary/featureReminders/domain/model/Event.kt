@@ -3,7 +3,7 @@ package ru.lopata.madDiary.featureReminders.domain.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.EventInCalendar
-import java.util.*
+import java.sql.Date
 
 @Entity(tableName = "EVENTS")
 data class Event(

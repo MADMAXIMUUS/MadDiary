@@ -5,6 +5,7 @@ import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,7 +18,10 @@ import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.UiEvent
 import ru.lopata.madDiary.core.util.isDarkTheme
 import ru.lopata.madDiary.core.util.setNavigationColor
+import ru.lopata.madDiary.core.util.toDateTime
 import ru.lopata.madDiary.databinding.FragmentCreateAndEditEventBinding
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.*
+import java.util.*
 
 @AndroidEntryPoint
 class CreateAndEditEventFragment : Fragment() {
@@ -84,18 +88,24 @@ class CreateAndEditEventFragment : Fragment() {
 
         }
 
-        /*viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+        binding.createAndEditEventTitleEdt.addTextChangedListener(afterTextChanged = { text ->
+            viewModel.updateTitle(text.toString())
+        })
+
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.currentEvent.collectLatest { event ->
                 binding.apply {
-                    if (event.startTimestamp != Date(0)) {
-                        val date = event.startTimestamp.time.toDateTime().split(" ")[0]
-                        val time = event.startTimestamp.time.toDateTime().split(" ")[1]
+                    createAndEditEventTitleEdt.setText(event.title.text)
+                    createAndEditEventTitleEdt.setSelection(event.title.cursorPosition)
+                    if (event.startDateTime != Date(0)) {
+                        val date = event.startDateTime.time.toDateTime().split(" ")[0]
+                        val time = event.startDateTime.time.toDateTime().split(" ")[1]
                         createAndEditEventStartDateDate.text = date
                         createAndEditEventStartDateTime.text = time
                     }
-                    if (event.endTimestamp != Date(0)) {
-                        val date = event.endTimestamp.time.toDateTime().split(" ")[0]
-                        val time = event.endTimestamp.time.toDateTime().split(" ")[1]
+                    if (event.endDateTime != Date(0)) {
+                        val date = event.endDateTime.time.toDateTime().split(" ")[0]
+                        val time = event.endDateTime.time.toDateTime().split(" ")[1]
                         createAndEditEventEndDateDate.text = date
                         createAndEditEventEndDateTime.text = time
                     }
@@ -110,7 +120,7 @@ class CreateAndEditEventFragment : Fragment() {
                     createAndEditEventRepeat.text = event.repeat
                     createAndEditEventNotification.text = event.notification
                     createAndEditEventStartDateRoot.setOnClickListener {
-                        BottomSheetCreateReminderDatePickerFragment(event.startTimestamp) { startDate ->
+                        BottomSheetCreateReminderDatePickerFragment(event.startDateTime) { startDate ->
                             if (!event.allDay) {
                                 BottomSheetCreateReminderTimePickerFragment(startDate) { date ->
                                     viewModel.updateStartTimestamp(date)
@@ -130,7 +140,7 @@ class CreateAndEditEventFragment : Fragment() {
                         )
                     }
                     createAndEditEventEndDateRoot.setOnClickListener {
-                        BottomSheetCreateReminderDatePickerFragment(event.endTimestamp) { endDate ->
+                        BottomSheetCreateReminderDatePickerFragment(event.endDateTime) { endDate ->
                             if (!event.allDay) {
                                 BottomSheetCreateReminderTimePickerFragment(endDate) { date ->
                                     viewModel.updateEndTimestamp(date)
@@ -176,7 +186,7 @@ class CreateAndEditEventFragment : Fragment() {
                     }
                 }
             }
-        }*/
+        }
     }
 
     override fun onDestroy() {

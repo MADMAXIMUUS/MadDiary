@@ -45,9 +45,10 @@
     </style>
 
     <style name="CircleInText">
-        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:scaleType">fitCenter</item>
         <item name="android:padding">4dp</item>
-        <item name="android:tint">@color/mercury</item>
+        <item name="android:tint">@color/gray</item>
     </style>
 
     <style name="TitleEditText">
@@ -148,6 +149,13 @@
         <item name="android:textColor">@color/mercury</item>
         <item name="android:textSize">14sp</item>
         <item name="fontFamily">@font/blogger_sans_bold</item>
+    </style>
+
+    <style name="ItemTitleDateStyle">
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:layout_gravity">center</item>
     </style>
 
 </resources>
