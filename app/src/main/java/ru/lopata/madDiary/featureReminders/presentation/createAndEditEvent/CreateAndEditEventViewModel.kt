@@ -9,10 +9,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.UiEvent
 import ru.lopata.madDiary.featureReminders.domain.model.Event
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import java.lang.Integer.max
+import java.lang.Integer.min
 import java.sql.Date
 import javax.inject.Inject
 
@@ -30,13 +31,15 @@ class CreateAndEditEventViewModel @Inject constructor(
 
     fun updateStartTimestamp(date: Date) {
         _currentEvent.value = currentEvent.value.copy(
-            startDateTime = date
+            startDateTime = date,
+            isStartDateError = false
         )
     }
 
     fun updateEndTimestamp(date: Date) {
         _currentEvent.value = currentEvent.value.copy(
-            endDateTime = date
+            endDateTime = date,
+            isEndDateError = false
         )
     }
 
@@ -58,15 +61,43 @@ class CreateAndEditEventViewModel @Inject constructor(
         )
     }
 
-    fun updateTitle(title: String) {
-        _currentEvent.value = currentEvent.value.copy(
-            title = currentEvent.value.title.copy(text = title, isEmpty = title.isEmpty())
-        )
+    fun updateTitle(title: String, start: Int) {
+        var position = 0
+        val currentText = currentEvent.value.title.text
+        if (title != currentText) {
+            /*for (i in 0 until max(title.length, currentText.length)) {
+                if (i == title.length || i == currentText.length) {
+                        position = title.length
+                    break
+                }
+                if (title[i] != currentText[i]) {
+                    position = i
+                    break
+                }
+            }*/
+            _currentEvent.value = currentEvent.value.copy(
+                title = currentEvent.value.title.copy(
+                    text = title,
+                    isEmpty = title.isEmpty(),
+                    cursorPosition = start
+                )
+            )
+            if (title.isNotEmpty()) {
+                _currentEvent.value = currentEvent.value.copy(
+                    title = currentEvent.value.title.copy(
+                        isError = false
+                    )
+                )
+            }
+        }
     }
 
     fun saveEvent() {
         viewModelScope.launch {
-            if (!currentEvent.value.title.isEmpty) {
+            if (!currentEvent.value.title.isEmpty
+                && currentEvent.value.startDateTime != Date(0)
+                && currentEvent.value.endDateTime != Date(0)
+            ) {
                 eventUseCases.createEventUseCase(
                     Event(
                         title = currentEvent.value.title.text,
@@ -84,10 +115,21 @@ class CreateAndEditEventViewModel @Inject constructor(
                 )
                 _eventFlow.emit(UiEvent.Save)
             } else {
-                _currentEvent.value = currentEvent.value.copy(
-                    title = currentEvent.value.title.copy(isError = true)
-                )
-                _eventFlow.emit(UiEvent.ShowSnackBar(R.string.input_empty_error))
+                if (currentEvent.value.title.isEmpty) {
+                    _currentEvent.value = currentEvent.value.copy(
+                        title = currentEvent.value.title.copy(isError = true)
+                    )
+                }
+                if (currentEvent.value.startDateTime == Date(0)) {
+                    _currentEvent.value = currentEvent.value.copy(
+                        isStartDateError = true
+                    )
+                }
+                if (currentEvent.value.startDateTime == Date(0)) {
+                    _currentEvent.value = currentEvent.value.copy(
+                        isEndDateError = true
+                    )
+                }
             }
         }
     }

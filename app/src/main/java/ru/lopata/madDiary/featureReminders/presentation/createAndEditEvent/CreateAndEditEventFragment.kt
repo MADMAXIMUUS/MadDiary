@@ -88,15 +88,32 @@ class CreateAndEditEventFragment : Fragment() {
 
         }
 
-        binding.createAndEditEventTitleEdt.addTextChangedListener(afterTextChanged = { text ->
-            viewModel.updateTitle(text.toString())
-        })
+        binding.createAndEditEventTitleEdt.addTextChangedListener(
+            onTextChanged = { text, start, _, _ ->
+                viewModel.updateTitle(text.toString(), start)
+            }
+        )
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.currentEvent.collectLatest { event ->
                 binding.apply {
-                    createAndEditEventTitleEdt.setText(event.title.text)
-                    createAndEditEventTitleEdt.setSelection(event.title.cursorPosition)
+                    /*createAndEditEventTitleEdt.setText(event.title.text)
+                    createAndEditEventTitleEdt.setSelection(event.title.cursorPosition)*/
+                    if (event.title.isError) {
+                        createAndEditEventTitleError.visibility = View.VISIBLE
+                    } else {
+                        createAndEditEventTitleError.visibility = View.GONE
+                    }
+                    if (event.isStartDateError) {
+                        createAndEditEventStartDateRoot.strokeWidth = 5
+                    } else {
+                        createAndEditEventStartDateRoot.strokeWidth = 0
+                    }
+                    if (event.isEndDateError) {
+                        createAndEditEventEndDateRoot.strokeWidth = 5
+                    } else {
+                        createAndEditEventEndDateRoot.strokeWidth = 0
+                    }
                     if (event.startDateTime != Date(0)) {
                         val date = event.startDateTime.time.toDateTime().split(" ")[0]
                         val time = event.startDateTime.time.toDateTime().split(" ")[1]

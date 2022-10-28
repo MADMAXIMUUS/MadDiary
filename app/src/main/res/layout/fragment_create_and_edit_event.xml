@@ -11,6 +11,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!--<com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/create_and_edit_event_title_edt"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="20dp"
+            app:errorEnabled="true"
+            android:hint="@string/create_and_edit_note_title"
+            app:errorTextColor="@android:color/holo_red_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextContrastCheck">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <TextView
+            android:id="@+id/create_and_edit_event_title_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="-10dp"
+            android:fontFamily="@font/blogger_sans_bold"
+            android:text="@string/input_empty_error"
+            android:textColor="@android:color/holo_red_light"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/create_and_edit_event_title_edt"
+            app:layout_constraintTop_toBottomOf="@id/create_and_edit_event_title_edt"
+            tools:visibility="visible" />
+
         <EditText
             android:id="@+id/create_and_edit_event_title_edt"
             style="@style/TitleEditText"
@@ -26,7 +60,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="TextContrastCheck" />
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/create_and_edit_event_start_date_root"
             style="@style/ReminderCardStyle"
             android:layout_width="0dp"
@@ -36,7 +70,9 @@
             android:layout_marginEnd="10dp"
             app:layout_constraintEnd_toStartOf="@id/create_and_edit_event_end_date_root"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/create_and_edit_event_title_edt">
+            app:layout_constraintTop_toBottomOf="@id/create_and_edit_event_title_edt"
+            app:strokeColor="@android:color/holo_red_light"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -48,7 +84,8 @@
                     style="@style/ReminderBlockTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/reminder_start_title" />
+                    android:text="@string/reminder_start_title"
+                    tools:ignore="TextContrastCheck" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -83,9 +120,9 @@
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/create_and_edit_event_end_date_root"
             style="@style/ReminderCardStyle"
             android:layout_width="0dp"
@@ -95,7 +132,9 @@
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/create_and_edit_event_start_date_root"
-            app:layout_constraintTop_toBottomOf="@id/create_and_edit_event_title_edt">
+            app:layout_constraintTop_toBottomOf="@id/create_and_edit_event_title_edt"
+            app:strokeColor="@android:color/holo_red_light"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -107,7 +146,8 @@
                     style="@style/ReminderBlockTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/reminder_end_title" />
+                    android:text="@string/reminder_end_title"
+                    tools:ignore="TextContrastCheck" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -142,9 +182,9 @@
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/create_and_edit_event_all_day_root"
             style="@style/ReminderCardStyle"
             android:layout_width="match_parent"
@@ -178,13 +218,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_gravity="center"
-                    android:checked="false" />
+                    android:checked="false"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/create_and_edit_event_location_root"
             style="@style/ReminderCardStyle"
             android:layout_width="match_parent"
@@ -206,7 +247,8 @@
                     style="@style/ReminderBlockTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/reminder_location_title" />
+                    android:text="@string/reminder_location_title"
+                    tools:ignore="TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/create_and_edit_event_location"
@@ -218,10 +260,10 @@
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/create_and_edit_event_note_root"
             style="@style/ReminderCardStyle"
             android:layout_width="match_parent"
@@ -243,7 +285,8 @@
                     style="@style/ReminderBlockTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/reminder_note_title" />
+                    android:text="@string/reminder_note_title"
+                    tools:ignore="TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/create_and_edit_event_note"
@@ -255,7 +298,7 @@
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/create_and_edit_event_settings_title"
@@ -268,7 +311,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/create_and_edit_event_note_root" />
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/create_and_edit_event_repeat_root"
             style="@style/ReminderCardStyle"
             android:layout_width="match_parent"
@@ -294,7 +337,8 @@
                         style="@style/ReminderBlockTitleTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/reminder_repeat_title" />
+                        android:text="@string/reminder_repeat_title"
+                        tools:ignore="TextContrastCheck" />
 
                     <TextView
                         android:id="@+id/create_and_edit_event_repeat"
@@ -312,13 +356,14 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     style="@style/ReminderOpenMenuIcon"
-                    android:layout_marginEnd="10dp" />
+                    android:layout_marginEnd="10dp"
+                    tools:ignore="ImageContrastCheck" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/create_and_edit_event_notification_root"
             style="@style/ReminderCardStyle"
             android:layout_width="match_parent"
@@ -344,7 +389,8 @@
                         style="@style/ReminderBlockTitleTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/reminder_notifications_title" />
+                        android:text="@string/reminder_notifications_title"
+                        tools:ignore="TextContrastCheck" />
 
                     <TextView
                         android:id="@+id/create_and_edit_event_notification"
@@ -362,13 +408,14 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     style="@style/ReminderOpenMenuIcon"
-                    android:layout_marginEnd="10dp" />
+                    android:layout_marginEnd="10dp"
+                    tools:ignore="ImageContrastCheck" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/create_and_edit_event_attachment_root"
             style="@style/ReminderCardStyle"
             android:layout_width="match_parent"
@@ -396,7 +443,8 @@
                         style="@style/ReminderBlockTitleTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/reminder_attachment_title" />
+                        android:text="@string/reminder_attachment_title"
+                        tools:ignore="TextContrastCheck" />
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/create_and_edit_event_attachment"
@@ -412,11 +460,12 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     style="@style/ReminderOpenMenuIcon"
-                    android:layout_marginEnd="10dp" />
+                    android:layout_marginEnd="10dp"
+                    tools:ignore="ImageContrastCheck" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

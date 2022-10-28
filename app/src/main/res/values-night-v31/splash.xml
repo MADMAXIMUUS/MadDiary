@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/onyx</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_anim</item>
+        <item name="windowSplashScreenAnimationDuration">2000</item>
+        <item name="postSplashScreenTheme">@style/Theme.MadNotes</item>
+        <item name="android:statusBarColor">@color/onyx</item>
+        <item name="android:navigationBarColor">@color/onyx</item>
+        <item name="backgroundColor">@color/onyx</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/company_logo_splash_center</item>
+    </style>
+</resources>

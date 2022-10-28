@@ -14,6 +14,7 @@ class TitleViewHolder(val binding: ItemTitleBinding) : RecyclerView.ViewHolder(b
             if (titleItem.title != -1) {
                 itemTitleDayTitle.text = itemView.context.getString(titleItem.title)
                 itemTitleDate.text = titleItem.date
+                itemTitleDate.visibility = View.VISIBLE
                 itemTitleDivider.visibility = View.VISIBLE
                 itemTitleDayTitle.visibility = View.VISIBLE
             }
