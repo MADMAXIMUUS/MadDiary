@@ -18,6 +18,8 @@ class EventViewHolder(val binding: ItemEventBinding) : RecyclerView.ViewHolder(b
             if (eventItem.address.isNotEmpty()) {
                 itemEventAddress.visibility = View.VISIBLE
                 itemEventAddress.text = eventItem.address
+            }else{
+                itemEventAddress.visibility = View.GONE
             }
             if (eventItem.startTime.isNotEmpty()) {
                 itemEventStartTime.text = eventItem.startTime

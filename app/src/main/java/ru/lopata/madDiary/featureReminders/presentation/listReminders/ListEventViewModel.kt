@@ -64,9 +64,10 @@ class ListEventViewModel @Inject constructor(
                         else ""
 
                         val endDate = event.endDateTime.time
-                        val endTime = if (date < endDate && date + DAY_IN_MILLISECONDS > endDate)
-                            event.endDateTime.time.toTime()
-                        else ""
+                        val endTime =
+                            if (date < endDate && date + DAY_IN_MILLISECONDS > endDate || date == endDate)
+                                event.endDateTime.time.toTime()
+                            else ""
 
                         map[Date(dateWithoutTime.timeInMillis)]?.add(
                             MainScreenItem.EventItem(
