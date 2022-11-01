@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.MadNotes" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.MadDiary" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/metallic_seaweed</item>
         <item name="colorOnPrimary">@color/dawn_pink</item>
         <item name="colorSecondary">@color/metallic_seaweed</item>

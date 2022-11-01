@@ -62,7 +62,7 @@
         <item name="android:textColor">@color/mercury</item>
     </style>
 
-    <style name="CustomCalendarMonth" parent="Theme.MadNotes">
+    <style name="CustomCalendarMonth" parent="Theme.MadDiary">
         <item name="android:textColorPrimary">@color/mercury</item>
         <item name="fontFamily">@font/blogger_sans_bold</item>
     </style>
@@ -85,7 +85,7 @@
         <item name="android:layout_marginTop">8dp</item>
     </style>
 
-    <style name="TimePickerStyle" parent="Theme.MadNotes">
+    <style name="TimePickerStyle" parent="Theme.MadDiary">
         <item name="colorControlNormal">@color/transparent</item>
         <item name="android:textColor">@color/mercury</item>
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
@@ -156,6 +156,12 @@
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/gray</item>
         <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="CreateReminderChooseTypeTitleStyle">
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textColor">@color/mercury</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
 </resources>

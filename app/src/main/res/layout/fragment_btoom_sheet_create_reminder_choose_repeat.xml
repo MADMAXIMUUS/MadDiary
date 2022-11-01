@@ -62,6 +62,12 @@
             android:text="@string/every_week" />
 
         <RadioButton
+            android:id="@+id/bottom_sheet_repeat_every_second_week"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/every_second_week" />
+
+        <RadioButton
             android:id="@+id/bottom_sheet_repeat_every_month"
             android:layout_width="match_parent"
             android:layout_height="48dp"

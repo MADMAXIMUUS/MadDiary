@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.databinding.FragmentBtoomSheetCreateReminderChooseRepeatBinding
+import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventViewModel
 
 @AndroidEntryPoint
@@ -39,22 +40,25 @@ class BottomSheetCreateReminderChooseRepeatFragment(
             viewModel.currentEvent.collectLatest { event ->
                 binding.apply {
                     when (event.repeat) {
-                        bottomSheetRepeatNever.text.toString() -> {
+                        Repeat.NO_REPEAT-> {
                             bottomSheetRepeatRbRoot.check(R.id.bottom_sheet_repeat_never)
                         }
-                        bottomSheetRepeatEveryDay.text.toString() -> {
+                        Repeat.EVERY_DAY -> {
                             bottomSheetRepeatRbRoot.check(R.id.bottom_sheet_repeat_every_day)
                         }
-                        bottomSheetRepeatEverySecondDay.text.toString() -> {
+                        Repeat.EVERY_SECOND_DAY -> {
                             bottomSheetRepeatRbRoot.check(R.id.bottom_sheet_repeat_every_second_day)
                         }
-                        bottomSheetRepeatEveryWeek.text.toString() -> {
+                        Repeat.EVERY_WEEK -> {
                             bottomSheetRepeatRbRoot.check(R.id.bottom_sheet_repeat_every_week)
                         }
-                        bottomSheetRepeatEveryMonth.text.toString() -> {
+                        Repeat.EVERY_SECOND_WEEK -> {
+                            bottomSheetRepeatRbRoot.check(R.id.bottom_sheet_repeat_every_second_week)
+                        }
+                        Repeat.EVERY_MONTH -> {
                             bottomSheetRepeatRbRoot.check(R.id.bottom_sheet_repeat_every_month)
                         }
-                        bottomSheetRepeatEveryYear.text.toString() -> {
+                        Repeat.EVERY_YEAR -> {
                             bottomSheetRepeatRbRoot.check(R.id.bottom_sheet_repeat_every_year)
                         }
                     }
@@ -66,22 +70,32 @@ class BottomSheetCreateReminderChooseRepeatFragment(
             bottomSheetRepeatRbRoot.setOnCheckedChangeListener { _, radioButtonId ->
                 when (radioButtonId) {
                     R.id.bottom_sheet_repeat_never -> {
-                        viewModel.updateRepeat(bottomSheetRepeatNever.text.toString())
+                        viewModel.updateRepeat(Repeat.NO_REPEAT)
+                        viewModel.updateRepeatTitle(R.string.never)
                     }
                     R.id.bottom_sheet_repeat_every_day -> {
-                        viewModel.updateRepeat(bottomSheetRepeatEveryDay.text.toString())
+                        viewModel.updateRepeat(Repeat.EVERY_DAY)
+                        viewModel.updateRepeatTitle(R.string.every_day)
                     }
                     R.id.bottom_sheet_repeat_every_second_day -> {
-                        viewModel.updateRepeat(bottomSheetRepeatEverySecondDay.text.toString())
+                        viewModel.updateRepeat(Repeat.EVERY_SECOND_DAY)
+                        viewModel.updateRepeatTitle(R.string.every_second_day)
                     }
                     R.id.bottom_sheet_repeat_every_week -> {
-                        viewModel.updateRepeat(bottomSheetRepeatEveryWeek.text.toString())
+                        viewModel.updateRepeat(Repeat.EVERY_WEEK)
+                        viewModel.updateRepeatTitle(R.string.every_week)
+                    }
+                    R.id.bottom_sheet_repeat_every_second_week -> {
+                        viewModel.updateRepeat(Repeat.EVERY_SECOND_WEEK)
+                        viewModel.updateRepeatTitle(R.string.every_second_week)
                     }
                     R.id.bottom_sheet_repeat_every_month -> {
-                        viewModel.updateRepeat(bottomSheetRepeatEveryMonth.text.toString())
+                        viewModel.updateRepeat(Repeat.EVERY_MONTH)
+                        viewModel.updateRepeatTitle(R.string.every_month)
                     }
                     R.id.bottom_sheet_repeat_every_year -> {
-                        viewModel.updateRepeat(bottomSheetRepeatEveryYear.text.toString())
+                        viewModel.updateRepeat(Repeat.EVERY_YEAR)
+                        viewModel.updateRepeatTitle(R.string.every_year)
                     }
                 }
             }

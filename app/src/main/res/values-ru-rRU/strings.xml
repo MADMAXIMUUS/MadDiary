@@ -36,10 +36,9 @@
     <string name="bottom_sheet_colon">:</string>
     <string name="never">Никогда</string>
     <string name="every_day">Каждый день</string>
-    <string name="every_working_day">Каждый рабочий день</string>
-    <string name="every_weekend_day">Каждый выходной</string>
     <string name="every_second_day">Каждый второй день</string>
     <string name="every_week">Каждую неделю</string>
+    <string name="every_second_week">Каждую вторую неделю</string>
     <string name="every_month">Каждый месяц</string>
     <string name="every_year">Каждый год</string>
     <string name="at_time_time_of_event">Во время события</string>

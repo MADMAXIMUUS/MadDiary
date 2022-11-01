@@ -6,5 +6,6 @@ data class EventUseCases(
     val getEventsBetweenDatesUseCase: GetEventsBetweenDatesUseCase,
     val getEventsForDate: GetEventsForDate,
     val createEventUseCase: CreateEventUseCase,
+    val createRepeatUseCase: CreateRepeatUseCase,
     val deleteEventUseCase: DeleteEventUseCase
 )

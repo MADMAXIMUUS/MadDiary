@@ -10,14 +10,16 @@ import ru.lopata.madDiary.featureNote.domain.model.entity.Note
 import ru.lopata.madDiary.featureNote.domain.model.entity.NoteCategoryCrossRef
 import ru.lopata.madDiary.featureReminders.data.dataSource.EventDao
 import ru.lopata.madDiary.featureReminders.domain.model.Event
+import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 
 @Database(
     entities = [
         Note::class,
         Category::class,
         Event::class,
+        Repeat::class,
         NoteCategoryCrossRef::class
-    ], version = 7
+    ], version = 10
 )
 @TypeConverters(Converters::class)
 abstract class MadNoteDatabase : RoomDatabase() {

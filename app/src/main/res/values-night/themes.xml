@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Theme.MadNotes" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.MadDiary" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/metallic_seaweed</item>
         <item name="colorOnPrimary">@color/onyx</item>
         <item name="colorSecondary">@color/metallic_seaweed</item>

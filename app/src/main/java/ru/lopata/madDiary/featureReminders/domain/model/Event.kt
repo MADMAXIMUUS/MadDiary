@@ -15,7 +15,6 @@ data class Event(
     val color: Int = -1,
     val location: String = "",
     val note: String = "",
-    val repeat: String = "Never",
     val notification: String = "Never",
     val attachment: String = "empty",
 

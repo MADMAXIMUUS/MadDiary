@@ -1,5 +1,6 @@
 package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,9 +12,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import ru.lopata.madDiary.core.util.UiEvent
 import ru.lopata.madDiary.featureReminders.domain.model.Event
+import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
-import java.lang.Integer.max
-import java.lang.Integer.min
 import java.sql.Date
 import javax.inject.Inject
 
@@ -55,9 +55,15 @@ class CreateAndEditEventViewModel @Inject constructor(
         )
     }
 
-    fun updateRepeat(repeat: String) {
+    fun updateRepeat(repeat: Long) {
         _currentEvent.value = currentEvent.value.copy(
             repeat = repeat
+        )
+    }
+
+    fun updateRepeatTitle(@StringRes title: Int){
+        _currentEvent.value = currentEvent.value.copy(
+            repeatTitle = title
         )
     }
 
@@ -98,7 +104,7 @@ class CreateAndEditEventViewModel @Inject constructor(
                 && currentEvent.value.startDateTime != Date(0)
                 && currentEvent.value.endDateTime != Date(0)
             ) {
-                eventUseCases.createEventUseCase(
+                val id = eventUseCases.createEventUseCase(
                     Event(
                         title = currentEvent.value.title.text,
                         startDateTime = currentEvent.value.startDateTime,
@@ -108,9 +114,15 @@ class CreateAndEditEventViewModel @Inject constructor(
                         completed = currentEvent.value.completed,
                         location = currentEvent.value.location,
                         note = currentEvent.value.note,
-                        repeat = currentEvent.value.repeat,
                         notification = currentEvent.value.notification,
                         attachment = currentEvent.value.attachment
+                    )
+                )
+                eventUseCases.createRepeatUseCase(
+                    Repeat(
+                        repeatStart = currentEvent.value.startDateTime,
+                        repeatInterval = currentEvent.value.repeat,
+                        eventOwnerId = id.toInt()
                     )
                 )
                 _eventFlow.emit(UiEvent.Save)

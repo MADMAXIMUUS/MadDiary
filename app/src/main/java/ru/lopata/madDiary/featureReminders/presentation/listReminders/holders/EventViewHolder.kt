@@ -36,7 +36,6 @@ class EventViewHolder(val binding: ItemEventBinding) : RecyclerView.ViewHolder(b
                 itemEventEndTitle.visibility = View.GONE
             }
         }
-        Log.e("Event", eventItem.toString())
     }
 
     override fun onAttach() {

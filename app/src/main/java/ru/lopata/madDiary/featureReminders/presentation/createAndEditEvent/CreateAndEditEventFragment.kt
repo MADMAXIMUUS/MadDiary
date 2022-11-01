@@ -134,7 +134,7 @@ class CreateAndEditEventFragment : Fragment() {
                     }
                     createAndEditEventNote.text = event.note
                     createAndEditEventAllDaySwitch.isChecked = event.allDay
-                    createAndEditEventRepeat.text = event.repeat
+                    createAndEditEventRepeat.text = getString(event.repeatTitle)
                     createAndEditEventNotification.text = event.notification
                     createAndEditEventStartDateRoot.setOnClickListener {
                         BottomSheetCreateReminderDatePickerFragment(event.startDateTime) { startDate ->

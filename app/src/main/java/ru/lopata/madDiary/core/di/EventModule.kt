@@ -30,6 +30,7 @@ object EventModule {
             getEventsBetweenDatesUseCase = GetEventsBetweenDatesUseCase(repository),
             getEventsForDate = GetEventsForDate(repository),
             createEventUseCase = CreateEventUseCase(repository),
+            createRepeatUseCase = CreateRepeatUseCase(repository),
             deleteEventUseCase = DeleteEventUseCase(repository)
         )
     }

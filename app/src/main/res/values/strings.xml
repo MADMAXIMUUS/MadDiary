@@ -36,10 +36,9 @@
     <string name="bottom_sheet_colon">:</string>
     <string name="never">Never</string>
     <string name="every_day">Every day</string>
-    <string name="every_working_day">Every working day</string>
-    <string name="every_weekend_day">Every weekend day</string>
     <string name="every_second_day">Every second day</string>
     <string name="every_week">Every week</string>
+    <string name="every_second_week">Every second week</string>
     <string name="every_month">Every month</string>
     <string name="every_year">Every year</string>
     <string name="at_time_time_of_event">At the time of event</string>

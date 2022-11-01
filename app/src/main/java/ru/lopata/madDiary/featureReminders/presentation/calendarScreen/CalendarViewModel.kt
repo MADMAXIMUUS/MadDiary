@@ -10,15 +10,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.lopata.madDiary.featureReminders.domain.repository.EventRepository
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarItemState
 import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarScreenState
-import ru.lopata.madDiary.featureReminders.util.getMonth
 import javax.inject.Inject
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
-    private val repository: EventRepository
+    private val eventUseCases: EventUseCases
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CalendarScreenState())
@@ -114,10 +113,11 @@ class CalendarViewModel @Inject constructor(
     private fun setMonth() {
         var monthPrev = 0
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getEvents().collect { events ->
+            eventUseCases.getEventsUseCase().collect { eventAndRepeat ->
                 val calendar = Calendar.getInstance()
-                if (events.isNotEmpty()) {
-                    calendar.time = events[0].startDateTime
+                if (eventAndRepeat.isNotEmpty()) {
+                    val event = eventAndRepeat[0].event
+                    calendar.time = event.startDateTime
                     val yearDiff =
                         Calendar.getInstance().get(Calendar.YEAR) - calendar.get(Calendar.YEAR)
                     val monthDiff =
@@ -134,5 +134,25 @@ class CalendarViewModel @Inject constructor(
                 currentPosition = monthPrev
             )
         }
+    }
+
+    private fun getMonth(
+        monthPrevCurCount: Int,
+        monthNextCurCount: Int,
+        referencePoint: Calendar
+    ): List<CalendarItemState> {
+        val calendarItemStateList = mutableListOf<CalendarItemState>()
+        val numberOfMonth = monthNextCurCount + monthPrevCurCount + 1
+        referencePoint.add(Calendar.MONTH, -monthPrevCurCount)
+        for (i in 0 until numberOfMonth) {
+            calendarItemStateList.add(
+                CalendarItemState(
+                    referencePoint.get(Calendar.YEAR),
+                    referencePoint.get(Calendar.MONTH)
+                )
+            )
+            referencePoint.add(Calendar.MONTH, 1)
+        }
+        return calendarItemStateList
     }
 }

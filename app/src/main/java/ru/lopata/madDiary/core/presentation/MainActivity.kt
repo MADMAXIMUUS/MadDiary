@@ -38,7 +38,10 @@ class MainActivity : AppCompatActivity() {
                 )
                 slideUp.interpolator = AnticipateInterpolator()
                 slideUp.duration = 200L
-                slideUp.doOnEnd { splashScreenView.remove() }
+                slideUp.doOnEnd {
+                    splashScreenView.remove()
+                }
+                slideUp.startDelay = 1000L
                 slideUp.start()
             }
         }

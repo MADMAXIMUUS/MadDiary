@@ -1,6 +1,9 @@
 package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent
 
+import androidx.annotation.StringRes
+import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.EditTextState
+import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import java.sql.Date
 
 data class CreateEventScreenState(
@@ -14,7 +17,10 @@ data class CreateEventScreenState(
     val color: Int = -1,
     val location: String = "",
     val note: String = "",
-    val repeat: String = "Never",
+    @StringRes
+    val repeatTitle: Int = R.string.never,
+    val repeat: Long = Repeat.NO_REPEAT,
+    val repeatEnd: Date = Date(0),
     val notification: String = "Never",
     val attachment: String = "empty",
     val id: Int? = null

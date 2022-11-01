@@ -3,12 +3,12 @@
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/onyx</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_anim</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/diary_logo_anim</item>
         <item name="windowSplashScreenAnimationDuration">2000</item>
-        <item name="postSplashScreenTheme">@style/Theme.MadNotes</item>
+        <item name="postSplashScreenTheme">@style/Theme.MadDiary</item>
         <item name="android:statusBarColor">@color/onyx</item>
         <item name="android:navigationBarColor">@color/onyx</item>
-        <item name="backgroundColor">@color/onyx</item>
-        <item name="android:windowSplashScreenBrandingImage">@drawable/company_logo_splash_center</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/company_logo_splash_center
+        </item>
     </style>
 </resources>
