@@ -12,6 +12,12 @@
         <item name="cardBackgroundColor">@color/dark_liver</item>
     </style>
 
+    <style name="ViewReminderCardStyle">
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">@color/transparent</item>
+    </style>
+
     <style name="ReminderBlockBigTitleTextView">
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textColor">@color/mercury</item>
@@ -162,6 +168,10 @@
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textColor">@color/mercury</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ItemEventCover">
+        <item name="android:foreground">#50000000</item>
     </style>
 
 </resources>

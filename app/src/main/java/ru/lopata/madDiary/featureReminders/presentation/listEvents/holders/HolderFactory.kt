@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.listReminders.holders
+package ru.lopata.madDiary.featureReminders.presentation.listEvents.holders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

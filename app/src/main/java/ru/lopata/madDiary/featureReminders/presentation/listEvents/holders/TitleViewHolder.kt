@@ -1,9 +1,10 @@
-package ru.lopata.madDiary.featureReminders.presentation.listReminders.holders
+package ru.lopata.madDiary.featureReminders.presentation.listEvents.holders
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import ru.lopata.madDiary.databinding.ItemTitleBinding
 import ru.lopata.madDiary.featureReminders.domain.model.MainScreenItem
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.ListEventAdapter
 
 class TitleViewHolder(val binding: ItemTitleBinding) : RecyclerView.ViewHolder(binding.root),
     MainListHolder {
@@ -26,7 +27,7 @@ class TitleViewHolder(val binding: ItemTitleBinding) : RecyclerView.ViewHolder(b
         }
     }
 
-    override fun onAttach() {
+    override fun onAttach(listener: ListEventAdapter.OnItemClickListener) {
 
     }
 

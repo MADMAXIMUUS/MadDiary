@@ -1,6 +1,5 @@
 package ru.lopata.madDiary.featureNote.presentation.createNote
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,7 +31,6 @@ class CreateAndEditNoteViewModel @Inject constructor(
             if (noteId != -1) {
                 viewModelScope.launch {
                     noteUseCases.getNoteByIdUseCase(noteId)?.also { note ->
-                        Log.e("note", note.toString())
                         _currentNote.value = note
                     }
                 }

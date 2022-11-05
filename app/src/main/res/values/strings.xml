@@ -11,6 +11,7 @@
     <string name="note_label">Notes</string>
     <string name="menu_search_view">Search</string>
     <string name="menu_save">Save</string>
+    <string name="menu_edit">Edit</string>
     <string name="menu_delete">Delete</string>
     <string name="note_list_fab">Create new note</string>
     <string name="reminder_list_fab">Create new reminder</string>

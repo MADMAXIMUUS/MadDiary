@@ -1,0 +1,144 @@
+package ru.lopata.madDiary.featureReminders.presentation.viewEvent
+
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import ru.lopata.madDiary.R
+import ru.lopata.madDiary.core.util.UiEvent
+import ru.lopata.madDiary.featureReminders.domain.model.Event
+import ru.lopata.madDiary.featureReminders.domain.model.Repeat
+import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import javax.inject.Inject
+
+@HiltViewModel
+class ViewEventViewModel @Inject constructor(
+    val eventUseCases: EventUseCases,
+    val state: SavedStateHandle
+) : ViewModel() {
+    private val _currentEvent = MutableStateFlow(ViewEventScreenState())
+    val currentEvent = _currentEvent.asStateFlow()
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
+
+    init {
+        state.get<Int>("eventId")?.let { eventId ->
+            viewModelScope.launch {
+                eventUseCases.getEventByIdUseCase(eventId)?.also { eventAndRepeat ->
+                    val event = eventAndRepeat.event
+                    val repeat = eventAndRepeat.repeat ?: Repeat()
+                    _currentEvent.update { currentValue ->
+                        currentValue.copy(
+                            title = event.title,
+                            completed = event.completed,
+                            cover = event.cover,
+                            startDateTime = event.startDateTime,
+                            endDateTime = event.endDateTime,
+                            allDay = event.allDay,
+                            color = event.color,
+                            location = event.location,
+                            note = event.note,
+                            repeatEnd = repeat.repeatEnd,
+                            eventId = eventId
+                        )
+                    }
+                    when (repeat.repeatInterval) {
+                        Repeat.NO_REPEAT -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeat = R.string.never
+                                )
+                            }
+                        }
+                        Repeat.EVERY_DAY -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeat = R.string.every_day
+                                )
+                            }
+                        }
+                        Repeat.EVERY_SECOND_DAY -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeat = R.string.every_second_day
+                                )
+                            }
+                        }
+                        Repeat.EVERY_WEEK -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeat = R.string.every_week
+                                )
+                            }
+                        }
+                        Repeat.EVERY_SECOND_WEEK -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeat = R.string.every_second_week
+                                )
+                            }
+                        }
+                        Repeat.EVERY_MONTH -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeat = R.string.every_month
+                                )
+                            }
+                        }
+                        Repeat.EVERY_YEAR -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeat = R.string.every_year
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        state.get<Int>("chapter")?.let { chapter ->
+            _currentEvent.update { currentValue ->
+                currentValue.copy(
+                    chapter = chapter
+                )
+            }
+        }
+        state.get<Int>("chapters")?.let { chapters ->
+            _currentEvent.update { currentValue ->
+                currentValue.copy(
+                    chapters = chapters
+                )
+            }
+        }
+    }
+
+    fun deleteEvent() {
+        viewModelScope.launch {
+            eventUseCases.deleteEventUseCase(
+                Event(
+                    title = currentEvent.value.title,
+                    completed = currentEvent.value.completed,
+                    startDateTime = currentEvent.value.startDateTime,
+                    endDateTime = currentEvent.value.endDateTime,
+                    allDay = currentEvent.value.allDay,
+                    color = currentEvent.value.color,
+                    cover = currentEvent.value.cover,
+                    location = currentEvent.value.location,
+                    note = currentEvent.value.notification,
+                    isAttachmentAdded = false,
+                    eventId = currentEvent.value.eventId
+                )
+            )
+            _eventFlow.emit(UiEvent.Delete)
+        }
+    }
+
+    fun editEvent() {
+        viewModelScope.launch {
+            _eventFlow.emit(UiEvent.Edit)
+        }
+    }
+}

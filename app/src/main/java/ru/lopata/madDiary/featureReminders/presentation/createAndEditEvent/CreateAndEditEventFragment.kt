@@ -83,6 +83,8 @@ class CreateAndEditEventFragment : Fragment() {
                     is UiEvent.Save -> {
                         view.findNavController().navigateUp()
                     }
+                    is UiEvent.Delete -> {}
+                    else -> {}
                 }
             }
 
@@ -135,7 +137,7 @@ class CreateAndEditEventFragment : Fragment() {
                     createAndEditEventNote.text = event.note
                     createAndEditEventAllDaySwitch.isChecked = event.allDay
                     createAndEditEventRepeat.text = getString(event.repeatTitle)
-                    createAndEditEventNotification.text = event.notification
+                    createAndEditEventNotification.text = event.notificationTitle.toString()
                     createAndEditEventStartDateRoot.setOnClickListener {
                         BottomSheetCreateReminderDatePickerFragment(event.startDateTime) { startDate ->
                             if (!event.allDay) {

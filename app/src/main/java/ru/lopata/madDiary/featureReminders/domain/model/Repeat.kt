@@ -1,15 +1,27 @@
 package ru.lopata.madDiary.featureReminders.domain.model
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import java.sql.Date
 
-@Entity(tableName = "REPEATS")
+@Entity(
+    tableName = "REPEATS",
+    foreignKeys = [
+        ForeignKey(
+            entity = Event::class,
+            parentColumns = ["eventId"],
+            onDelete = CASCADE,
+            childColumns = ["eventOwnerId"]
+        )
+    ]
+)
 data class Repeat(
     val repeatStart: Date = Date(0),
     val repeatInterval: Long = NO_REPEAT,
     val repeatEnd: Date = Date(0),
-    val eventOwnerId: Int = 0,
+    val eventOwnerId: Int = -1,
 
     @PrimaryKey val repeatId: Int? = null
 ) {

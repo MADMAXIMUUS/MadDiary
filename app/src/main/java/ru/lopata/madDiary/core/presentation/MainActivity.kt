@@ -67,13 +67,16 @@ class MainActivity : AppCompatActivity() {
         binding.mainToolbar.setupWithNavController(navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.createNoteFragment
-                || destination.id == R.id.createReminderFragment
-                || destination.id == R.id.searchFragment
+            if (destination.id in setOf(
+                    R.id.bottom_notes,
+                    R.id.bottom_calendar,
+                    R.id.bottom_reminders,
+                    R.id.bottom_settings
+                )
             ) {
-                binding.bottomNavigationView.visibility = View.GONE
-            } else {
                 binding.bottomNavigationView.visibility = View.VISIBLE
+            } else {
+                binding.bottomNavigationView.visibility = View.GONE
             }
             val isTopLevelDestination =
                 appBarConfiguration.topLevelDestinations.contains(destination.id)

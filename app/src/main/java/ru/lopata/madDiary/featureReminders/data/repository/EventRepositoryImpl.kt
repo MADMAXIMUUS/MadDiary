@@ -16,7 +16,7 @@ class EventRepositoryImpl(
         return eventDao.getEvents()
     }
 
-    override suspend fun getEventById(id: Int): Event? {
+    override suspend fun getEventById(id: Int): EventAndRepeat? {
         return eventDao.getEventById(id)
     }
 

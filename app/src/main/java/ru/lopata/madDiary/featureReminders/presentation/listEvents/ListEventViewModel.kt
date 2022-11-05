@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.listReminders
+package ru.lopata.madDiary.featureReminders.presentation.listEvents
 
 import android.icu.util.Calendar
 import androidx.lifecycle.ViewModel
@@ -41,14 +41,14 @@ class ListEventViewModel @Inject constructor(
                     val event = eventAndRepeat.event
                     val repeat = eventAndRepeat.repeat ?: Repeat()
                     var date = event.startDateTime.time
+                    val diffDate = abs(event.endDateTime.time - event.startDateTime.time)
+                    val diffDay = TimeUnit.DAYS.convert(diffDate, TimeUnit.MILLISECONDS)
+                    var chapter = 1
                     while (date <= event.endDateTime.time) {
                         val calendar = Calendar.getInstance()
                         calendar.timeInMillis = date
 
-                        val dateWithoutTime = Calendar.getInstance().apply {
-                            set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH))
-                            set(Calendar.MONTH, calendar.get(Calendar.MONTH))
-                            set(Calendar.YEAR, calendar.get(Calendar.YEAR))
+                        calendar.apply {
                             set(Calendar.HOUR_OF_DAY, 0)
                             set(Calendar.HOUR, 0)
                             set(Calendar.MINUTE, 0)
@@ -56,28 +56,30 @@ class ListEventViewModel @Inject constructor(
                             set(Calendar.MILLISECOND, 0)
                         }
 
-                        if (map[Date(dateWithoutTime.timeInMillis)] == null)
-                            map[Date(dateWithoutTime.timeInMillis)] = mutableListOf()
+                        if (map[Date(calendar.timeInMillis)] == null)
+                            map[Date(calendar.timeInMillis)] = mutableListOf()
 
-                        val startTime = if (date == event.startDateTime.time)
+                        val startTime = if (!event.allDay && date == event.startDateTime.time)
                             event.startDateTime.time.toTime()
                         else ""
 
                         val endDate = event.endDateTime.time
                         val endTime =
-                            if (date < endDate && date + DAY_IN_MILLISECONDS > endDate || date == endDate)
+                            if (!event.allDay && (date < endDate && date + DAY_IN_MILLISECONDS > endDate || date == endDate))
                                 event.endDateTime.time.toTime()
                             else ""
 
-                        map[Date(dateWithoutTime.timeInMillis)]?.add(
+                        map[Date(calendar.timeInMillis)]?.add(
                             MainScreenItem.EventItem(
                                 id = event.eventId!!,
+                                chapter = chapter,
+                                chapters = diffDay.toInt() + 1,
                                 title = event.title,
                                 isChecked = event.completed,
                                 type = MainScreenItem.EVENT,
                                 startTime = startTime,
                                 endTime = endTime,
-                                address = /*event.location*/ "Улица Ленина, 2",
+                                address = event.location,
                                 color = event.color,
                                 cover = "",
                                 isNotificationSet = false
@@ -91,13 +93,11 @@ class ListEventViewModel @Inject constructor(
                             while (interval <= repeat.repeatInterval * 6) {
                                 when (repeat.repeatInterval) {
                                     Repeat.EVERY_DAY, Repeat.EVERY_SECOND_DAY -> {
-                                        val diffDate = abs(endDate - event.startDateTime.time)
-                                        val diffDay =
-                                            TimeUnit.DAYS.convert(diffDate, TimeUnit.MILLISECONDS)
+
                                         calendar.timeInMillis =
                                             date + i * (diffDay * DAY_IN_MILLISECONDS) + interval
 
-                                        dateWithoutTime.apply {
+                                        calendar.apply {
                                             set(
                                                 Calendar.DAY_OF_MONTH,
                                                 calendar.get(Calendar.DAY_OF_MONTH)
@@ -107,26 +107,28 @@ class ListEventViewModel @Inject constructor(
                                         }
                                     }
                                     Repeat.EVERY_WEEK -> {
-                                        dateWithoutTime.add(Calendar.WEEK_OF_YEAR, 1)
+                                        calendar.add(Calendar.WEEK_OF_YEAR, 1)
                                     }
                                     Repeat.EVERY_SECOND_WEEK -> {
-                                        dateWithoutTime.add(Calendar.WEEK_OF_YEAR, 2)
+                                        calendar.add(Calendar.WEEK_OF_YEAR, 2)
                                     }
                                     Repeat.EVERY_MONTH -> {
-                                        dateWithoutTime.add(Calendar.MONTH, 1)
+                                        calendar.add(Calendar.MONTH, 1)
                                     }
                                     Repeat.EVERY_YEAR -> {
-                                        dateWithoutTime.add(Calendar.YEAR, 1)
+                                        calendar.add(Calendar.YEAR, 1)
                                     }
                                 }
 
-                                if (map[Date(dateWithoutTime.timeInMillis)] == null)
-                                    map[Date(dateWithoutTime.timeInMillis)] = mutableListOf()
+                                if (map[Date(calendar.timeInMillis)] == null)
+                                    map[Date(calendar.timeInMillis)] = mutableListOf()
 
-                                map[Date(dateWithoutTime.timeInMillis)]?.add(
+                                map[Date(calendar.timeInMillis)]?.add(
                                     MainScreenItem.EventItem(
                                         id = event.eventId!!,
                                         title = event.title,
+                                        chapter = chapter,
+                                        chapters = diffDay.toInt() + 1,
                                         isChecked = event.completed,
                                         type = MainScreenItem.EVENT,
                                         startTime = startTime,
@@ -141,7 +143,7 @@ class ListEventViewModel @Inject constructor(
                                 i++
                             }
                         }
-
+                        chapter++
                         date += DAY_IN_MILLISECONDS
 
                     }

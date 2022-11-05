@@ -3,6 +3,7 @@ package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent
 import androidx.annotation.StringRes
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.EditTextState
+import ru.lopata.madDiary.featureReminders.domain.model.Attachment
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import java.sql.Date
 
@@ -21,7 +22,8 @@ data class CreateEventScreenState(
     val repeatTitle: Int = R.string.never,
     val repeat: Long = Repeat.NO_REPEAT,
     val repeatEnd: Date = Date(0),
-    val notification: String = "Never",
-    val attachment: String = "empty",
+    @StringRes
+    val notificationTitle: List<Int> = listOf(R.string.never),
+    val attachment: List<Attachment> = emptyList(),
     val id: Int? = null
 )

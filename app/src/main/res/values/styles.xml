@@ -19,13 +19,19 @@
 
     <style name="ReminderBlockBigTitleTextView">
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
-        <item name="android:textColor">@color/onyx</item>
+        <item name="android:textColor">@color/metallic_seaweed</item>
         <item name="android:textSize">20sp</item>
     </style>
 
     <style name="ReminderCardStyle">
         <item name="cardCornerRadius">10dp</item>
         <item name="cardElevation">5dp</item>
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+
+    <style name="ViewReminderCardStyle">
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardElevation">0dp</item>
         <item name="cardBackgroundColor">@color/white</item>
     </style>
 
@@ -166,6 +172,10 @@
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textColor">@color/onyx</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ItemEventCover">
+        <item name="android:foreground">#00000000</item>
     </style>
 
 </resources>

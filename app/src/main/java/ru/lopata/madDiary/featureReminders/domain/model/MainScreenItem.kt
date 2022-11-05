@@ -10,6 +10,8 @@ sealed class MainScreenItem {
 
     data class EventItem(
         val id: Int,
+        val chapter: Int,
+        val chapters: Int,
         val title: String,
         val type: Int,
         val startTime: String,

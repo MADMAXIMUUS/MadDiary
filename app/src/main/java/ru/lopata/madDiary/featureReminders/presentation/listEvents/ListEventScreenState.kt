@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.listReminders
+package ru.lopata.madDiary.featureReminders.presentation.listEvents
 
 import ru.lopata.madDiary.featureReminders.domain.model.MainScreenItem
 

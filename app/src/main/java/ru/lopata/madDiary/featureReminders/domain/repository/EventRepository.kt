@@ -10,7 +10,7 @@ interface EventRepository {
 
     fun getEvents(): Flow<List<EventAndRepeat>>
 
-    suspend fun getEventById(id: Int): Event?
+    suspend fun getEventById(id: Int): EventAndRepeat?
 
     suspend fun getEventsBetweenDates(startDate: Date, endDate: Date): Flow<List<EventAndRepeat>>
 

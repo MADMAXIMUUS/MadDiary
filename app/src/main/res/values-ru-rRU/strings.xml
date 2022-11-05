@@ -11,6 +11,7 @@
     <string name="note_label">Заметки</string>
     <string name="menu_search_view">Поиск</string>
     <string name="menu_save">Сохранить</string>
+    <string name="menu_edit">Изменить</string>
     <string name="menu_delete">Удалить</string>
     <string name="note_list_fab">Создать новую заметку</string>
     <string name="reminder_list_fab">Создать новое напоминание</string>

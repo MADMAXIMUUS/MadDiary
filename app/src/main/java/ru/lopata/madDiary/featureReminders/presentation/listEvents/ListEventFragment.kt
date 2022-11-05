@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.listReminders
+package ru.lopata.madDiary.featureReminders.presentation.listEvents
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,7 +17,7 @@ import ru.lopata.madDiary.databinding.FragmentListEventBinding
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.BottomSheetCreateReminderFragment
 
 @AndroidEntryPoint
-class ListEventFragment : Fragment() {
+class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
 
     private var _binding: FragmentListEventBinding? = null
     private val binding get() = _binding!!
@@ -38,7 +38,7 @@ class ListEventFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
 
-        val eventAdapter = ListEventAdapter()
+        val eventAdapter = ListEventAdapter(this)
 
         binding.eventListRv.apply {
             adapter = eventAdapter
@@ -64,5 +64,15 @@ class ListEventFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onClick(id: Int, chapter: Int, chapters: Int) {
+        val action = ListEventFragmentDirections
+            .actionBottomRemindersToViewEventFragment(
+                eventId = id,
+                chapter = chapter,
+                chapters = chapters
+            )
+        navController.navigate(action)
     }
 }

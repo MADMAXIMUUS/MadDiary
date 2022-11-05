@@ -13,6 +13,10 @@ fun Activity.setNavigationColor(@ColorInt color: Int) {
     window.navigationBarColor = color
 }
 
+fun Activity.setStatusBarColor(@ColorInt color: Int) {
+    window.statusBarColor = color
+}
+
 fun Activity.isDarkTheme(): Boolean {
     return resources.configuration.uiMode and
             Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES

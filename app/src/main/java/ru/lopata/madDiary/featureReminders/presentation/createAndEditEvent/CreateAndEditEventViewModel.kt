@@ -1,5 +1,6 @@
 package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent
 
+import android.icu.util.Calendar
 import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -50,6 +51,30 @@ class CreateAndEditEventViewModel @Inject constructor(
     }
 
     fun updateAllDayState(state: Boolean) {
+        if (state) {
+            val calendarStart = Calendar.getInstance()
+            calendarStart.timeInMillis = currentEvent.value.startDateTime.time
+            calendarStart.apply {
+                set(Calendar.HOUR, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+                set(Calendar.MILLISECONDS_IN_DAY, 0)
+            }
+            val calendarEnd = Calendar.getInstance()
+            calendarEnd.timeInMillis = currentEvent.value.endDateTime.time
+            calendarEnd.apply {
+                set(Calendar.HOUR, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+                set(Calendar.MILLISECONDS_IN_DAY, 0)
+            }
+            _currentEvent.value = currentEvent.value.copy(
+                startDateTime = Date(calendarStart.timeInMillis),
+                endDateTime = Date(calendarEnd.timeInMillis),
+            )
+        }
         _currentEvent.value = currentEvent.value.copy(
             allDay = state
         )
@@ -61,7 +86,7 @@ class CreateAndEditEventViewModel @Inject constructor(
         )
     }
 
-    fun updateRepeatTitle(@StringRes title: Int){
+    fun updateRepeatTitle(@StringRes title: Int) {
         _currentEvent.value = currentEvent.value.copy(
             repeatTitle = title
         )
@@ -114,8 +139,6 @@ class CreateAndEditEventViewModel @Inject constructor(
                         completed = currentEvent.value.completed,
                         location = currentEvent.value.location,
                         note = currentEvent.value.note,
-                        notification = currentEvent.value.notification,
-                        attachment = currentEvent.value.attachment
                     )
                 )
                 eventUseCases.createRepeatUseCase(

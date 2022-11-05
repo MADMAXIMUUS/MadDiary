@@ -70,9 +70,11 @@ class CreateAndEditNoteFragment : Fragment() {
                     is UiEvent.Save -> {
                         view.findNavController().navigateUp()
                     }
+                    is UiEvent.Delete -> {
+                    }
+                    else -> {}
                 }
             }
-
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {

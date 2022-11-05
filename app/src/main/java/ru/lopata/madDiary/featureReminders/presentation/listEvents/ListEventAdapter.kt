@@ -1,17 +1,31 @@
-package ru.lopata.madDiary.featureReminders.presentation.listReminders
+package ru.lopata.madDiary.featureReminders.presentation.listEvents
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ru.lopata.madDiary.featureReminders.domain.model.MainScreenItem
-import ru.lopata.madDiary.featureReminders.presentation.listReminders.holders.HolderFactory
-import ru.lopata.madDiary.featureReminders.presentation.listReminders.holders.MainListHolder
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.holders.HolderFactory
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.holders.MainListHolder
 
-class ListEventAdapter : ListAdapter<MainScreenItem, ViewHolder>(DiffCallback()) {
+class ListEventAdapter(
+    onItemClickListener: OnItemClickListener
+) : ListAdapter<MainScreenItem, ViewHolder>(DiffCallback()) {
+
+    private var listener: OnItemClickListener = onItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return HolderFactory.getHolder(parent, viewType)
+    }
+
+    override fun onViewAttachedToWindow(holder: ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        (holder as MainListHolder).onAttach(listener)
+    }
+
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        (holder as MainListHolder).onDetach()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -38,5 +52,9 @@ class ListEventAdapter : ListAdapter<MainScreenItem, ViewHolder>(DiffCallback())
 
         override fun areContentsTheSame(oldItem: MainScreenItem, newItem: MainScreenItem) =
             oldItem == newItem
+    }
+
+    interface OnItemClickListener {
+        fun onClick(id: Int, chapter: Int, chapters: Int)
     }
 }

@@ -14,7 +14,11 @@
             app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_bottom_notes_to_createNoteFragment"
-            app:destination="@id/createNoteFragment" />
+            app:destination="@id/createNoteFragment" >
+            <argument
+                android:name="noteId"
+                android:defaultValue="-1" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/createNoteFragment"
@@ -23,17 +27,24 @@
         tools:layout="@layout/fragment_create_and_edit_note">
         <argument
             android:name="noteId"
-            android:defaultValue="-1"
-            app:argType="integer" />
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/bottom_calendar"
         android:name="ru.lopata.madDiary.featureReminders.presentation.calendarScreen.CalendarFragment"
         android:label="@string/calendar_label"
-        tools:layout="@layout/fragment_calendar" />
+        tools:layout="@layout/fragment_calendar" >
+        <action
+            android:id="@+id/action_bottom_calendar_to_createReminderFragment"
+            app:destination="@id/createReminderFragment" />
+        <action
+            android:id="@+id/action_bottom_calendar_to_viewEventFragment"
+            app:destination="@id/viewEventFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bottom_reminders"
-        android:name="ru.lopata.madDiary.featureReminders.presentation.listReminders.ListEventFragment"
+        android:name="ru.lopata.madDiary.featureReminders.presentation.listEvents.ListEventFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_list_event">
         <action
@@ -42,6 +53,9 @@
         <action
             android:id="@+id/action_bottom_reminders_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_bottom_reminders_to_viewEventFragment"
+            app:destination="@id/viewEventFragment" />
     </fragment>
     <fragment
         android:id="@+id/createReminderFragment"
@@ -49,9 +63,9 @@
         android:label="Event edit"
         tools:layout="@layout/fragment_create_and_edit_event">
         <argument
-            android:name="reminderId"
-            android:defaultValue="-1"
-            app:argType="integer" />
+            android:name="eventId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
     <fragment
         android:id="@+id/bottom_settings"
@@ -63,4 +77,25 @@
         android:name="ru.lopata.madDiary.core.presentation.search.SearchFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/viewEventFragment"
+        android:name="ru.lopata.madDiary.featureReminders.presentation.viewEvent.ViewEventFragment"
+        android:label="@string/create_reminder_event_title"
+        tools:layout="@layout/fragment_view_event">
+        <action
+            android:id="@+id/action_viewEventFragment_to_createReminderFragment"
+            app:destination="@id/createReminderFragment" />
+        <argument
+            android:name="eventId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="chapter"
+            app:argType="integer"
+            android:defaultValue="1" />
+        <argument
+            android:name="chapters"
+            app:argType="integer"
+            android:defaultValue="1" />
+    </fragment>
 </navigation>
