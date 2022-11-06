@@ -1,5 +1,6 @@
 package ru.lopata.madDiary.featureReminders.presentation.viewEvent
 
+import android.os.Bundle
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,7 @@ import kotlinx.coroutines.launch
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.UiEvent
 import ru.lopata.madDiary.featureReminders.domain.model.Event
+import ru.lopata.madDiary.featureReminders.domain.model.EventAndRepeat
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
 import javax.inject.Inject
@@ -24,12 +26,15 @@ class ViewEventViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+    private var currentRepeat = Repeat()
+
     init {
         state.get<Int>("eventId")?.let { eventId ->
             viewModelScope.launch {
                 eventUseCases.getEventByIdUseCase(eventId)?.also { eventAndRepeat ->
                     val event = eventAndRepeat.event
                     val repeat = eventAndRepeat.repeat ?: Repeat()
+                    currentRepeat = repeat
                     _currentEvent.update { currentValue ->
                         currentValue.copy(
                             title = event.title,
@@ -127,7 +132,7 @@ class ViewEventViewModel @Inject constructor(
                     color = currentEvent.value.color,
                     cover = currentEvent.value.cover,
                     location = currentEvent.value.location,
-                    note = currentEvent.value.notification,
+                    note = currentEvent.value.note,
                     isAttachmentAdded = false,
                     eventId = currentEvent.value.eventId
                 )
@@ -137,8 +142,32 @@ class ViewEventViewModel @Inject constructor(
     }
 
     fun editEvent() {
+        val bundle = Bundle()
+        bundle.putParcelable(
+            "eventAndRepeat",
+            EventAndRepeat(
+                Event(
+                    title = currentEvent.value.title,
+                    completed = currentEvent.value.completed,
+                    startDateTime = currentEvent.value.startDateTime,
+                    endDateTime = currentEvent.value.endDateTime,
+                    allDay = currentEvent.value.allDay,
+                    color = currentEvent.value.color,
+                    cover = currentEvent.value.cover,
+                    location = currentEvent.value.location,
+                    note = currentEvent.value.note,
+                    isAttachmentAdded = false,
+                    eventId = currentEvent.value.eventId
+                ),
+                currentRepeat
+            )
+        )
         viewModelScope.launch {
-            _eventFlow.emit(UiEvent.Edit)
+            _eventFlow.emit(
+                UiEvent.Edit(
+                    bundle
+                )
+            )
         }
     }
 }

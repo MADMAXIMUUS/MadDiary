@@ -1,9 +1,11 @@
 package ru.lopata.madDiary.featureReminders.domain.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 import java.sql.Date
 
 @Entity(
@@ -17,6 +19,7 @@ import java.sql.Date
         )
     ]
 )
+@Parcelize
 data class Repeat(
     val repeatStart: Date = Date(0),
     val repeatInterval: Long = NO_REPEAT,
@@ -24,7 +27,7 @@ data class Repeat(
     val eventOwnerId: Int = -1,
 
     @PrimaryKey val repeatId: Int? = null
-) {
+):Parcelable {
     companion object {
         const val NO_REPEAT: Long = 0
         const val EVERY_DAY: Long = 86400000

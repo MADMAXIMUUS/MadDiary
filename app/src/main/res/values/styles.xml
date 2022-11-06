@@ -19,6 +19,12 @@
 
     <style name="ReminderBlockBigTitleTextView">
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textColor">@color/onyx</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="DialogTitle">
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textColor">@color/metallic_seaweed</item>
         <item name="android:textSize">20sp</item>
     </style>
@@ -66,6 +72,13 @@
         <item name="android:scaleType">fitCenter</item>
         <item name="android:padding">4dp</item>
         <item name="android:tint">@color/dark_liver</item>
+    </style>
+
+    <style name="CircleDateTimeDivider">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:tint">@color/onyx</item>
     </style>
 
     <style name="TitleEditText">

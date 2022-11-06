@@ -63,9 +63,15 @@
         android:label="Event edit"
         tools:layout="@layout/fragment_create_and_edit_event">
         <argument
-            android:name="eventId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            android:name="eventAndRepeat"
+            app:argType="ru.lopata.madDiary.featureReminders.domain.model.EventAndRepeat"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="attachments"
+            app:argType="ru.lopata.madDiary.featureReminders.domain.model.Attachment[]"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/bottom_settings"

@@ -3,13 +3,14 @@ package ru.lopata.madDiary.featureReminders.presentation.viewEvent
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentViewEventBinding
+import ru.lopata.madDiary.featureReminders.domain.model.Event
 
 @AndroidEntryPoint
 class ViewEventFragment : Fragment() {
@@ -59,7 +61,7 @@ class ViewEventFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 when (menuItem.itemId) {
                     R.id.view_menu_edit -> {
-                        //viewModel.saveNote()
+                        viewModel.editEvent()
                     }
                     R.id.view_menu_delete -> {
                         viewModel.deleteEvent()
@@ -79,13 +81,17 @@ class ViewEventFragment : Fragment() {
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
-                    is UiEvent.Save -> {}
                     UiEvent.Delete -> {
                         view.findNavController().navigateUp()
                     }
-                    UiEvent.Edit -> {
-
+                    is UiEvent.Edit -> {
+                        view.findNavController().navigate(
+                            R.id.createReminderFragment, event.passObject, NavOptions.Builder()
+                                .setPopUpTo(R.id.viewEventFragment, true)
+                                .build()
+                        )
                     }
+                    else -> {}
                 }
             }
         }

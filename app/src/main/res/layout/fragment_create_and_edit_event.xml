@@ -81,7 +81,7 @@
 
                     <ImageView
                         android:id="@+id/create_and_edit_event_start_date_and_time_divider"
-                        style="@style/CircleInText"
+                        style="@style/CircleDateTimeDivider"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/reminder_date_and_time_divider_description"
@@ -143,7 +143,7 @@
 
                     <ImageView
                         android:id="@+id/create_and_edit_event_end_date_and_time_divider"
-                        style="@style/CircleInText"
+                        style="@style/CircleDateTimeDivider"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/reminder_date_and_time_divider_description"
@@ -428,10 +428,15 @@
                         android:text="@string/reminder_attachment_title"
                         tools:ignore="TextContrastCheck" />
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/create_and_edit_event_attachment"
+                    <LinearLayout
+                        android:id="@+id/create_and_edit_event_attachment_content_root"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -443,7 +448,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     style="@style/ReminderOpenMenuIcon"
                     android:layout_marginEnd="10dp"
-                    tools:ignore="ImageContrastCheck" />
+                    tools:ignore="ImageContrastCheck"/>
 
             </LinearLayout>
 

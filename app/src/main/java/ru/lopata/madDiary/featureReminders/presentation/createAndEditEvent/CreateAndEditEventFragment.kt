@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.UiEvent
@@ -63,7 +64,7 @@ class CreateAndEditEventFragment : Fragment() {
                         viewModel.saveEvent()
                     }
                     R.id.create_menu_delete -> {
-
+                        viewModel.deleteEvent()
                     }
                 }
                 return true
@@ -83,7 +84,9 @@ class CreateAndEditEventFragment : Fragment() {
                     is UiEvent.Save -> {
                         view.findNavController().navigateUp()
                     }
-                    is UiEvent.Delete -> {}
+                    is UiEvent.Delete -> {
+                        view.findNavController().navigateUp()
+                    }
                     else -> {}
                 }
             }
@@ -95,6 +98,13 @@ class CreateAndEditEventFragment : Fragment() {
                 viewModel.updateTitle(text.toString(), start)
             }
         )
+
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            viewModel.currentEvent.collectLatest { event ->
+                binding.createAndEditEventTitleEdt.setText(event.title.text)
+                this.cancel()
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.currentEvent.collectLatest { event ->
@@ -133,6 +143,9 @@ class CreateAndEditEventFragment : Fragment() {
                         createAndEditEventStartDateTime.visibility = View.GONE
                         createAndEditEventEndDateAndTimeDivider.visibility = View.GONE
                         createAndEditEventStartDateAndTimeDivider.visibility = View.GONE
+                    } else if (event.startDateTime != Date(0) && event.endDateTime != Date(0)) {
+                        createAndEditEventEndDateAndTimeDivider.visibility = View.VISIBLE
+                        createAndEditEventStartDateAndTimeDivider.visibility = View.VISIBLE
                     }
                     createAndEditEventNote.text = event.note
                     createAndEditEventAllDaySwitch.isChecked = event.allDay

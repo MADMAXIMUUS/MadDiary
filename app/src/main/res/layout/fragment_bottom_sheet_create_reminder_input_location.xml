@@ -15,7 +15,7 @@
 
     <TextView
         android:id="@+id/bottom_sheet_notification_title"
-        style="@style/ReminderBlockBigTitleTextView"
+        style="@style/DialogTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
