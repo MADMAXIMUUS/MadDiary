@@ -55,6 +55,7 @@ class ListEventAdapter(
     }
 
     interface OnItemClickListener {
-        fun onClick(id: Int, chapter: Int, chapters: Int)
+        fun onItemClick(id: Int, chapter: Int, chapters: Int)
+        fun onItemCheckedClick(id: Int, state: Boolean)
     }
 }

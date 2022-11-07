@@ -16,13 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
-import ru.lopata.madDiary.core.util.UiEvent
-import ru.lopata.madDiary.core.util.isDarkTheme
-import ru.lopata.madDiary.core.util.setNavigationColor
-import ru.lopata.madDiary.core.util.toDateTime
+import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentCreateAndEditEventBinding
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.*
-import java.util.*
 
 @AndroidEntryPoint
 class CreateAndEditEventFragment : Fragment() {
@@ -31,6 +27,41 @@ class CreateAndEditEventFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: CreateAndEditEventViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity()
+            .supportFragmentManager
+            .setFragmentResultListener(REQUEST_KEY, this) { _, bundle ->
+                if (bundle.getLong("startDate") != 0L)
+                    viewModel.updateStartDate(bundle.getLong("startDate"))
+
+                if (bundle.getBoolean("startTimeSet"))
+                    viewModel.updateStartTime(bundle.getLong("startTime"))
+
+                if (bundle.getLong("endDate") != 0L)
+                    viewModel.updateEndDate(bundle.getLong("endDate"))
+
+                if (bundle.getBoolean("endTimeSet"))
+                    viewModel.updateEndTime(bundle.getLong("endTime"))
+
+                if (bundle.getString("note") != null)
+                    viewModel.updateNote(bundle.getString("note")!!)
+
+                if (bundle.getInt("repeatTitle") != 0) {
+                    viewModel.updateRepeat(bundle.getLong("repeat"))
+                    viewModel.updateRepeatTitle(bundle.getInt("repeatTitle"))
+                }
+
+                if (bundle.getInt("color") != 0)
+                    viewModel.updateColor(bundle.getInt("color"))
+
+                if (bundle.getIntArray("notificationsTitle") != null) {
+                    viewModel.updateNotificationTitle(bundle.getIntArray("notificationsTitle")!!)
+                    viewModel.updateNotifications(bundle.getLongArray("notifications")!!)
+                }
+            }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -126,74 +157,90 @@ class CreateAndEditEventFragment : Fragment() {
                     } else {
                         createAndEditEventEndDateRoot.strokeWidth = 0
                     }
-                    if (event.startDateTime != Date(0)) {
-                        val date = event.startDateTime.time.toDateTime().split(" ")[0]
-                        val time = event.startDateTime.time.toDateTime().split(" ")[1]
-                        createAndEditEventStartDateDate.text = date
-                        createAndEditEventStartDateTime.text = time
+                    if (event.startDate != 0L || event.startTime != 0L) {
+                        createAndEditEventStartDateDate.text = event.startDate.toDate()
+                        createAndEditEventStartDateTime.text = event.startTime.toTime()
+                        createAndEditEventStartDateTime.visibility = View.VISIBLE
                     }
-                    if (event.endDateTime != Date(0)) {
-                        val date = event.endDateTime.time.toDateTime().split(" ")[0]
-                        val time = event.endDateTime.time.toDateTime().split(" ")[1]
-                        createAndEditEventEndDateDate.text = date
-                        createAndEditEventEndDateTime.text = time
+                    if (event.endDate != 0L || event.endTime != 0L) {
+                        createAndEditEventEndDateDate.text = event.endDate.toDate()
+                        createAndEditEventEndDateTime.text = event.endTime.toTime()
+                        createAndEditEventEndDateTime.visibility = View.VISIBLE
                     }
                     if (event.allDay) {
                         createAndEditEventEndDateTime.visibility = View.GONE
                         createAndEditEventStartDateTime.visibility = View.GONE
                         createAndEditEventEndDateAndTimeDivider.visibility = View.GONE
                         createAndEditEventStartDateAndTimeDivider.visibility = View.GONE
-                    } else if (event.startDateTime != Date(0) && event.endDateTime != Date(0)) {
+                    } else if (event.startDate != 0L && event.endDate != 0L) {
+                        createAndEditEventEndDateTime.visibility = View.VISIBLE
+                        createAndEditEventStartDateTime.visibility = View.VISIBLE
                         createAndEditEventEndDateAndTimeDivider.visibility = View.VISIBLE
                         createAndEditEventStartDateAndTimeDivider.visibility = View.VISIBLE
+                    }
+                    if (event.color != -1) {
+                        createAndEditEventColor.setCardBackgroundColor(event.color)
+                    }
+                    if (event.showStartTimeDialog) {
+                        BottomSheetTimePickerFragment(
+                            event.startTime,
+                            REQUEST_KEY,
+                            "startTime"
+                        ).show(
+                            requireActivity().supportFragmentManager,
+                            "BottomSheetChooseTime"
+                        )
+                        createAndEditEventStartDateAndTimeDivider.visibility = View.VISIBLE
+                    }
+                    if (event.showEndTimeDialog) {
+                        BottomSheetTimePickerFragment(
+                            event.startTime,
+                            REQUEST_KEY,
+                            "endTime"
+                        ).show(
+                            requireActivity().supportFragmentManager,
+                            "BottomSheetChooseTime"
+                        )
+                        createAndEditEventEndDateAndTimeDivider.visibility = View.VISIBLE
                     }
                     createAndEditEventNote.text = event.note
                     createAndEditEventAllDaySwitch.isChecked = event.allDay
                     createAndEditEventRepeat.text = getString(event.repeatTitle)
-                    createAndEditEventNotification.text = event.notificationTitle.toString()
+
+                    var titleString = ""
+                    event.notificationTitle.forEach { title ->
+                        if (event.notificationTitle.size == 1)
+                            titleString += getString(title)
+                        else
+                            titleString += getString(title)+"; "
+                    }
+
+                    createAndEditEventNotification.text = titleString
+
                     createAndEditEventStartDateRoot.setOnClickListener {
-                        BottomSheetCreateReminderDatePickerFragment(event.startDateTime) { startDate ->
-                            if (!event.allDay) {
-                                BottomSheetCreateReminderTimePickerFragment(startDate) { date ->
-                                    viewModel.updateStartTimestamp(date)
-                                    createAndEditEventStartDateTime.visibility = View.VISIBLE
-                                    createAndEditEventStartDateAndTimeDivider.visibility =
-                                        View.VISIBLE
-                                }.show(
-                                    requireActivity().supportFragmentManager,
-                                    "BottomSheetChooseTime"
-                                )
-                            } else {
-                                viewModel.updateStartTimestamp(startDate)
-                            }
-                        }.show(
+                        BottomSheetDatePickerFragment(
+                            event.startDate,
+                            REQUEST_KEY,
+                            "startDate"
+                        ).show(
                             requireActivity().supportFragmentManager,
                             "BottomSheetChooseDate"
                         )
                     }
+
                     createAndEditEventEndDateRoot.setOnClickListener {
-                        BottomSheetCreateReminderDatePickerFragment(event.endDateTime) { endDate ->
-                            if (!event.allDay) {
-                                BottomSheetCreateReminderTimePickerFragment(endDate) { date ->
-                                    viewModel.updateEndTimestamp(date)
-                                    createAndEditEventEndDateTime.visibility = View.VISIBLE
-                                    createAndEditEventEndDateAndTimeDivider.visibility =
-                                        View.VISIBLE
-                                }.show(
-                                    requireActivity().supportFragmentManager,
-                                    "BottomSheetChooseTime"
-                                )
-                            } else {
-                                viewModel.updateEndTimestamp(endDate)
-                            }
-                        }.show(
+                        BottomSheetDatePickerFragment(
+                            event.endDate,
+                            REQUEST_KEY,
+                            "endDate"
+                        ).show(
                             requireActivity().supportFragmentManager,
                             "BottomSheetChooseDate"
                         )
                     }
 
                     createAndEditEventNoteRoot.setOnClickListener {
-                        BottomSheetCreateReminderNoteFragment(viewModel).show(
+                        BottomSheetAddNoteFragment(event.note, REQUEST_KEY, "note").show(
                             requireActivity().supportFragmentManager,
                             "BottomSheetNote"
                         )
@@ -204,16 +251,31 @@ class CreateAndEditEventFragment : Fragment() {
                     }
 
                     createAndEditEventRepeatRoot.setOnClickListener {
-                        BottomSheetCreateReminderChooseRepeatFragment(viewModel).show(
+                        BottomSheetChooseRepeatFragment(event.repeat, REQUEST_KEY, "repeat").show(
                             requireActivity().supportFragmentManager,
                             "BottomSheetRepeat"
                         )
                     }
 
                     createAndEditEventNotificationRoot.setOnClickListener {
-                        BottomSheetCreateReminderChooseNotificationFragment(viewModel).show(
+                        BottomSheetChooseNotificationFragment(
+                            event.notifications,
+                            REQUEST_KEY,
+                            "notifications"
+                        ).show(
                             requireActivity().supportFragmentManager,
                             "BottomSheetNotification"
+                        )
+                    }
+
+                    createAndEditEventColor.setOnClickListener {
+                        BottomSheetChooseColorFragment(
+                            event.color,
+                            REQUEST_KEY,
+                            "color"
+                        ).show(
+                            requireActivity().supportFragmentManager,
+                            "BottomSheetColor"
                         )
                     }
                 }
@@ -224,6 +286,10 @@ class CreateAndEditEventFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        const val REQUEST_KEY = "createEvent"
     }
 
 }

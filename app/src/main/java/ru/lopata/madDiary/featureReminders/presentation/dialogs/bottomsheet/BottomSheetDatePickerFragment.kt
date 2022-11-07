@@ -6,18 +6,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import ru.lopata.madDiary.databinding.FragmentBottomSheetCteateReminderDatePickerBinding
+import ru.lopata.madDiary.databinding.FragmentBottomSheetDatePickerBinding
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventFragment
 import java.sql.Date
 
 @AndroidEntryPoint
-class BottomSheetCreateReminderDatePickerFragment(
-    private var date: Date,
-    private val onChoose: (Date) -> Unit
+class BottomSheetDatePickerFragment(
+    private var value: Long,
+    private val requestKey: String,
+    private val resultKey: String
 ) : BottomSheetDialogFragment() {
 
-    private var _binding: FragmentBottomSheetCteateReminderDatePickerBinding? = null
+    private var _binding: FragmentBottomSheetDatePickerBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -25,7 +29,7 @@ class BottomSheetCreateReminderDatePickerFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentBottomSheetCteateReminderDatePickerBinding.inflate(
+        _binding = FragmentBottomSheetDatePickerBinding.inflate(
             inflater,
             container,
             false
@@ -37,7 +41,7 @@ class BottomSheetCreateReminderDatePickerFragment(
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             bottomSheetDateCalendar.minDate = bottomSheetDateCalendar.date
-            bottomSheetDateCalendar.date = date.time
+            bottomSheetDateCalendar.date = value
             bottomSheetDateCalendar.setOnDateChangeListener { _, year, month, day ->
                 val calendar: Calendar = Calendar.getInstance()
                 calendar.set(year, month, day, 0, 0, 0)
@@ -46,11 +50,11 @@ class BottomSheetCreateReminderDatePickerFragment(
                     set(Calendar.MILLISECONDS_IN_DAY, 0)
                 }
                 calendar.timeZone = TimeZone.getDefault()
-                date = Date(calendar.timeInMillis)
+                value = calendar.timeInMillis
                 System.currentTimeMillis()
             }
             bottomSheetDateChooseBtn.setOnClickListener {
-                if (date == Date(0)) {
+                if (value == 0L) {
                     val calendar = Calendar.getInstance().apply {
                         set(Calendar.HOUR, 0)
                         set(Calendar.HOUR_OF_DAY, 0)
@@ -59,11 +63,15 @@ class BottomSheetCreateReminderDatePickerFragment(
                         set(Calendar.MILLISECONDS_IN_DAY, 0)
                     }
                     calendar.timeZone = TimeZone.getDefault()
-                    onChoose(
-                        Date(calendar.timeInMillis)
+                    setFragmentResult(
+                        requestKey,
+                        bundleOf(resultKey to calendar.timeInMillis)
                     )
                 } else {
-                    onChoose(date)
+                    setFragmentResult(
+                        requestKey,
+                        bundleOf(resultKey to value)
+                    )
                 }
                 dismiss()
             }

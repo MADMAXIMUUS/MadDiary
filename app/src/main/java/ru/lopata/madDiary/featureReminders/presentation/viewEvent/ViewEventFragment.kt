@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentViewEventBinding
-import ru.lopata.madDiary.featureReminders.domain.model.Event
 
 @AndroidEntryPoint
 class ViewEventFragment : Fragment() {
@@ -99,16 +98,21 @@ class ViewEventFragment : Fragment() {
             viewModel.currentEvent.collectLatest { event ->
                 binding.apply {
                     viewEventTitle.text = "${event.title}(${event.chapter}/${event.chapters})"
+                    if (event.allDay){
+                        viewEventStartDateTime.visibility = View.GONE
+                        viewEventStartDateAndTimeDivider.visibility = View.GONE
+                        viewEventEndDateTime.visibility = View.GONE
+                        viewEventEndDateAndTimeDivider.visibility = View.GONE
+                    }
                     viewEventStartDateDate.text = event.startDateTime.time.toDate()
                     viewEventStartDateTime.text = event.startDateTime.time.toTime()
-                    viewEventStartDateAndTimeDivider.visibility = View.VISIBLE
                     viewEventEndDateDate.text = event.endDateTime.time.toDate()
                     viewEventEndDateTime.text = event.endDateTime.time.toTime()
-                    viewEventEndDateAndTimeDivider.visibility = View.VISIBLE
                     viewEventNote.text = event.note
                     viewEventRepeat.text = resources.getString(event.repeat) + " " +
                             event.repeatEnd.time.toDateTime()
                     viewEventAttachmentRoot.visibility = View.GONE
+                    viewEventColor.setCardBackgroundColor(event.color)
                 }
             }
         }

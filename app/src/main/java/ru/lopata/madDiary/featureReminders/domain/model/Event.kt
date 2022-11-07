@@ -4,6 +4,8 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
+import ru.lopata.madDiary.R
+import ru.lopata.madDiary.core.util.EventColors
 import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.EventInCalendar
 import java.sql.Date
 
@@ -15,7 +17,7 @@ data class Event(
     val startDateTime: Date = Date(0),
     val endDateTime: Date = Date(0),
     val allDay: Boolean = false,
-    val color: Int = -1,
+    val color: Int = EventColors.DEFAULT,
     val cover: String = "empty",
     val location: String = "",
     val note: String = "",

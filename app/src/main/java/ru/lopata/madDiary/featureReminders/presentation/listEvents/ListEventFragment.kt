@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.core.util.ListsItemDecoration
 import ru.lopata.madDiary.databinding.FragmentListEventBinding
-import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.BottomSheetCreateReminderFragment
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.BottomSheetChooseReminderTypeFragment
 
 @AndroidEntryPoint
 class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
@@ -54,7 +54,7 @@ class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
         }
 
         binding.eventListBtnCreateReminder.setOnClickListener {
-            BottomSheetCreateReminderFragment(navController).show(
+            BottomSheetChooseReminderTypeFragment(navController).show(
                 requireActivity().supportFragmentManager,
                 "ChooseReminderType"
             )
@@ -66,7 +66,7 @@ class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
         _binding = null
     }
 
-    override fun onClick(id: Int, chapter: Int, chapters: Int) {
+    override fun onItemClick(id: Int, chapter: Int, chapters: Int) {
         val action = ListEventFragmentDirections
             .actionBottomRemindersToViewEventFragment(
                 eventId = id,
@@ -74,5 +74,9 @@ class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
                 chapters = chapters
             )
         navController.navigate(action)
+    }
+
+    override fun onItemCheckedClick(id: Int, state: Boolean) {
+        viewModel.updateEventState(id, state)
     }
 }

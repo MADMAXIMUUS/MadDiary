@@ -9,21 +9,21 @@ import androidx.navigation.NavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.R
-import ru.lopata.madDiary.databinding.FragmentBottomSheetCreateReminderBinding
+import ru.lopata.madDiary.databinding.FragmentBottomSheetChooseReminderTypeBinding
 
 
 @AndroidEntryPoint
-class BottomSheetCreateReminderFragment(private val navController: NavController) :
+class BottomSheetChooseReminderTypeFragment(private val navController: NavController) :
     BottomSheetDialogFragment() {
 
-    private var _binding: FragmentBottomSheetCreateReminderBinding? = null
+    private var _binding: FragmentBottomSheetChooseReminderTypeBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentBottomSheetCreateReminderBinding.inflate(inflater, container, false)
+        _binding = FragmentBottomSheetChooseReminderTypeBinding.inflate(inflater, container, false)
         return binding.root
     }
 

@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.annotation.ColorInt
 import java.sql.Date
 import java.text.SimpleDateFormat
+import java.time.ZoneId
 import java.util.*
 
 fun Activity.setNavigationColor(@ColorInt color: Int) {
@@ -25,22 +26,23 @@ fun Activity.isDarkTheme(): Boolean {
 @SuppressLint("SimpleDateFormat")
 fun Long.toDateTime(): String {
     val sdf = SimpleDateFormat("dd.MM.yy HH:mm", Locale("ru"))
+    sdf.timeZone = TimeZone.getDefault()
     val netDate = Date(this)
     return sdf.format(netDate)
 }
 
 @SuppressLint("SimpleDateFormat")
 fun Long.toTime(): String {
-    val sdf = SimpleDateFormat("HH:mm")
+    val sdf = SimpleDateFormat("HH:mm", Locale("ru"))
+    sdf.timeZone = TimeZone.getTimeZone("GMT")
     val netDate = Date(this)
-    Log.e("time", sdf.format(netDate).split(" ")[0])
     return sdf.format(netDate)
 }
 
 @SuppressLint("SimpleDateFormat")
 fun Long.toDate(): String {
     val sdf = SimpleDateFormat("dd.MM.yy", Locale("ru"))
+    sdf.timeZone = TimeZone.getDefault()
     val netDate = Date(this)
-    Log.e("time", sdf.format(netDate).split(" ")[0])
     return sdf.format(netDate)
 }

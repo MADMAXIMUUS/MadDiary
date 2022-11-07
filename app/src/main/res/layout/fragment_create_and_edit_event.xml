@@ -28,17 +28,31 @@
         <EditText
             android:id="@+id/create_and_edit_event_title_edt"
             style="@style/TitleEditText"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
             android:autofillHints="null"
             android:hint="@string/create_and_edit_note_title"
             android:paddingHorizontal="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/create_and_edit_event_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="TextContrastCheck" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/create_and_edit_event_color"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="30dp"
+            android:adjustViewBounds="true"
+            app:cardBackgroundColor="@color/metallic_seaweed"
+            app:cardCornerRadius="100dp"
+            app:layout_constraintBottom_toBottomOf="@id/create_and_edit_event_title_edt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/create_and_edit_event_title_edt" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/create_and_edit_event_start_date_root"
@@ -379,7 +393,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:ellipsize="end"
-                        android:maxLines="1" />
+                        android:maxLines="1"/>
 
                 </LinearLayout>
 
@@ -434,7 +448,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        
 
                     </LinearLayout>
 
@@ -448,7 +461,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     style="@style/ReminderOpenMenuIcon"
                     android:layout_marginEnd="10dp"
-                    tools:ignore="ImageContrastCheck"/>
+                    tools:ignore="ImageContrastCheck" />
 
             </LinearLayout>
 

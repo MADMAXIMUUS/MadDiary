@@ -1,4 +1,4 @@
- <resources>
+<resources>
     <string name="app_name" translatable="false">MadDiary</string>
     <string name="create_and_edit_note_title">Title…</string>
     <string name="bottom_menu_reminders_title">Bottom menu reminders</string>
@@ -27,6 +27,7 @@
     <string name="reminder_notifications_title">Notifications</string>
     <string name="reminder_attachment_title">Attachment</string>
     <string name="bottom_sheet_create_reminder_title">Create</string>
+    <string name="bottom_sheet_choose_color_title">Choose color</string>
     <string name="bottom_sheet_choose_date_title">Choose date</string>
     <string name="bottom_sheet_choose_time_title">Choose time</string>
     <string name="bottom_sheet_choose_note_title">Note</string>
@@ -52,18 +53,18 @@
     <string name="next_month_button">Next month</string>
     <string name="prev_month_button">Prev month</string>
     <string name="complete_event_cd">Complete event</string>
-     <string name="reminder_icon">Reminder icon</string>
-     <string name="create_reminder_event_title">Event</string>
-     <string name="create_reminder_task_title">Task</string>
-     <string name="create_reminder_reminder_title">Reminder</string>
-     <string name="from">From</string>
-     <string name="to">to</string>
-     <string name="today">Today</string>
-     <string name="tomorrow">Tomorrow</string>
-     <string name="yesterday">Yesterday</string>
-     <string name="input_empty_error">Title cannot be empty</string>
+    <string name="reminder_icon">Reminder icon</string>
+    <string name="create_reminder_event_title">Event</string>
+    <string name="create_reminder_task_title">Task</string>
+    <string name="create_reminder_reminder_title">Reminder</string>
+    <string name="from">From</string>
+    <string name="to">to</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="input_empty_error">Title cannot be empty</string>
 
-     <string-array name="days_in_week">
+    <string-array name="days_in_week">
         <item>M</item>
         <item>T</item>
         <item>W</item>

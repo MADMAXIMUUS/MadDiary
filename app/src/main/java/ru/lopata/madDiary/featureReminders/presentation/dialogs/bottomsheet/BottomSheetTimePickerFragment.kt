@@ -1,28 +1,33 @@
 package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet
 
+import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import ru.lopata.madDiary.databinding.FragmentBottomSheetCreateReminderTimePickerBinding
+import ru.lopata.madDiary.databinding.FragmentBottomSheetTimePickerBinding
 import java.sql.Date
 
 @AndroidEntryPoint
-class BottomSheetCreateReminderTimePickerFragment(
-    private val dateTime: Date,
-    val onChoose: (Date) -> Unit
+class BottomSheetTimePickerFragment(
+    private val time: Long,
+    private val requestKey: String,
+    private val resultKey: String
 ) : BottomSheetDialogFragment() {
 
-    private var _binding: FragmentBottomSheetCreateReminderTimePickerBinding? = null
+    private var _binding: FragmentBottomSheetTimePickerBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentBottomSheetCreateReminderTimePickerBinding.inflate(
+        _binding = FragmentBottomSheetTimePickerBinding.inflate(
             inflater,
             container,
             false
@@ -44,10 +49,13 @@ class BottomSheetCreateReminderTimePickerFragment(
                 String.format("%02d", it)
             }
             bottomSheetTimeChooseBtn.setOnClickListener {
-                val timestampHr = bottomSheetTimePickerHr.value * 60 * 60 * 1000
-                val timestampMin = bottomSheetTimePickerMin.value * 60 * 1000
-                val timeStamp = Date(dateTime.time + timestampHr + timestampMin)
-                onChoose(timeStamp)
+                val timestampHr: Long = bottomSheetTimePickerHr.value * 60L * 60L * 1000L
+                val timestampMin: Long = bottomSheetTimePickerMin.value * 60L * 1000L
+                val timeStamp = timestampHr + timestampMin
+                val bundle = Bundle()
+                bundle.putBoolean(resultKey + "Set", true)
+                bundle.putLong(resultKey, timeStamp)
+                setFragmentResult(requestKey, bundle)
                 dismiss()
             }
         }

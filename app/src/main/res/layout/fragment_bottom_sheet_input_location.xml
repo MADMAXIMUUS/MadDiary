@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.BottomSheetCreateReminderInputLocationFragment">
+    tools:context="ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.BottomSheetInputLocationFragment">
 
     <View
         android:id="@+id/bottom_sheet_notification_handle"
@@ -23,6 +23,24 @@
         android:text="@string/bottom_sheet_choose_location_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_sheet_notification_handle" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bottom_sheet_time_choose_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginVertical="10dp"
+        android:background="@drawable/rounded_button_ripple_effect"
+        android:fontFamily="@font/blogger_sans_bold"
+        android:gravity="center"
+        android:paddingVertical="15dp"
+        android:text="@string/confirm"
+        android:textColor="@color/mercury"
+        android:textSize="23sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bottom_sheet_notification_title" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

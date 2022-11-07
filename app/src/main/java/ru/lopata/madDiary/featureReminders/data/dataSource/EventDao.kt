@@ -4,7 +4,7 @@ import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import ru.lopata.madDiary.featureReminders.domain.model.Attachment
 import ru.lopata.madDiary.featureReminders.domain.model.Event
-import ru.lopata.madDiary.featureReminders.domain.model.EventAndRepeat
+import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatAttachment
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import java.sql.Date
 
@@ -13,18 +13,18 @@ interface EventDao {
 
     @Transaction
     @Query("SELECT * FROM EVENTS ORDER BY startDateTime ASC")
-    fun getEvents(): Flow<List<EventAndRepeat>>
+    fun getEvents(): Flow<List<EventRepeatAttachment>>
 
     @Transaction
     @Query("SELECT * FROM EVENTS WHERE startDateTime > :startDate AND endDateTime < :endDate")
-    fun getEventsBetweenDates(startDate: Date, endDate: Date): Flow<List<EventAndRepeat>>
+    fun getEventsBetweenDates(startDate: Date, endDate: Date): Flow<List<EventRepeatAttachment>>
 
     @Transaction
     @Query("SELECT * FROM EVENTS WHERE startDateTime == :date OR endDateTime==:date")
-    fun getEventsForDate(date: Date): Flow<List<EventAndRepeat>>
+    fun getEventsForDate(date: Date): Flow<List<EventRepeatAttachment>>
 
     @Query("SELECT * FROM EVENTS WHERE eventId = :id")
-    suspend fun getEventById(id: Int): EventAndRepeat?
+    suspend fun getEventById(id: Int): EventRepeatAttachment?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEvent(event: Event): Long

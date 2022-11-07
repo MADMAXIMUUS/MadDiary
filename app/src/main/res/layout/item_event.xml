@@ -16,10 +16,10 @@
 
         <ImageView
             android:id="@+id/item_event_cover"
+            style="@style/EventCover"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginBottom="-20dp"
-            style="@style/ItemEventCover"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/item_event_content_root"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,14 +46,14 @@
                 android:layout_gravity="center"
                 android:padding="10dp">
 
-                <ImageButton
-                    android:id="@+id/item_event_checked_button"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/item_event_color"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:background="@color/transparent"
-                    android:contentDescription="@string/complete_event_cd"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_incomplete_event"
+                    android:background="@drawable/ic_ellipse"
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="100dp"
+                    android:backgroundTint="@color/metallic_seaweed"
                     app:layout_constraintBottom_toBottomOf="@id/item_event_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/item_event_title"
@@ -69,7 +69,7 @@
                     android:gravity="center_vertical"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toStartOf="@id/item_event_attachment_icon"
-                    app:layout_constraintStart_toEndOf="@id/item_event_checked_button"
+                    app:layout_constraintStart_toEndOf="@id/item_event_color"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Тестовый текст" />
 

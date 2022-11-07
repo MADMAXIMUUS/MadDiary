@@ -9,7 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.R
 
 @AndroidEntryPoint
-class BottomSheetCreateReminderInputLocationFragment : BottomSheetDialogFragment() {
+class BottomSheetInputLocationFragment : BottomSheetDialogFragment() {
 
 
     override fun onCreateView(
@@ -18,7 +18,7 @@ class BottomSheetCreateReminderInputLocationFragment : BottomSheetDialogFragment
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(
-            R.layout.fragment_bottom_sheet_create_reminder_input_location,
+            R.layout.fragment_bottom_sheet_input_location,
             container,
             false
         )

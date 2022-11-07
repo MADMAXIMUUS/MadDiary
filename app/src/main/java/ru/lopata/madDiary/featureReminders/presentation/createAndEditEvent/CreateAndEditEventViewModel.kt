@@ -12,7 +12,7 @@ import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.EditTextState
 import ru.lopata.madDiary.core.util.UiEvent
 import ru.lopata.madDiary.featureReminders.domain.model.Event
-import ru.lopata.madDiary.featureReminders.domain.model.EventAndRepeat
+import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatAttachment
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
 import java.sql.Date
@@ -34,12 +34,30 @@ class CreateAndEditEventViewModel @Inject constructor(
     private var preEditRepeat: Repeat = Repeat()
 
     init {
-        state.get<EventAndRepeat>("eventAndRepeat")?.let { eventAndRepeat ->
+        state.get<EventRepeatAttachment>("eventAndRepeat")?.let { eventAndRepeat ->
             viewModelScope.launch {
                 val event = eventAndRepeat.event
                 preEditEvent = event
                 val repeat = eventAndRepeat.repeat ?: Repeat()
                 preEditRepeat = repeat
+                val calendarStart = Calendar.getInstance()
+                calendarStart.timeInMillis = event.startDateTime.time
+                calendarStart.apply {
+                    set(Calendar.HOUR, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                    set(Calendar.MILLISECONDS_IN_DAY, 0)
+                }
+                val calendarEnd = Calendar.getInstance()
+                calendarEnd.timeInMillis = event.endDateTime.time
+                calendarEnd.apply {
+                    set(Calendar.HOUR, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                    set(Calendar.MILLISECONDS_IN_DAY, 0)
+                }
                 _currentEvent.update { currentValue ->
                     currentValue.copy(
                         title = EditTextState(
@@ -48,8 +66,10 @@ class CreateAndEditEventViewModel @Inject constructor(
                             isError = false
                         ),
                         completed = event.completed,
-                        startDateTime = event.startDateTime,
-                        endDateTime = event.endDateTime,
+                        startDate = calendarStart.timeInMillis,
+                        startTime = event.startDateTime.time - calendarStart.timeInMillis,
+                        endDate = calendarEnd.timeInMillis,
+                        endTime = event.endDateTime.time - calendarEnd.timeInMillis,
                         allDay = event.allDay,
                         color = event.color,
                         location = event.location,
@@ -114,17 +134,47 @@ class CreateAndEditEventViewModel @Inject constructor(
         }
     }
 
-    fun updateStartTimestamp(date: Date) {
+    fun updateColor(value: Int) {
+        _currentEvent.update { currentValue ->
+            currentValue.copy(
+                color = value
+            )
+        }
+    }
+
+    fun updateStartDate(value: Long) {
+        if (value <= currentEvent.value.endDate || currentEvent.value.endDate == 0L) {
+            _currentEvent.value = currentEvent.value.copy(
+                startDate = value,
+                isStartDateError = false,
+                showStartTimeDialog = !currentEvent.value.allDay
+            )
+        }
+    }
+
+    fun updateStartTime(value: Long) {
         _currentEvent.value = currentEvent.value.copy(
-            startDateTime = date,
-            isStartDateError = false
+            startTime = value,
+            isStartDateError = false,
+            showStartTimeDialog = false
         )
     }
 
-    fun updateEndTimestamp(date: Date) {
+    fun updateEndDate(value: Long) {
+        if (value >= currentEvent.value.startDate) {
+            _currentEvent.value = currentEvent.value.copy(
+                endDate = value,
+                isEndDateError = false,
+                showEndTimeDialog = !currentEvent.value.allDay
+            )
+        }
+    }
+
+    fun updateEndTime(value: Long) {
         _currentEvent.value = currentEvent.value.copy(
-            endDateTime = date,
-            isEndDateError = false
+            endTime = value,
+            isEndDateError = false,
+            showEndTimeDialog = false
         )
     }
 
@@ -136,27 +186,9 @@ class CreateAndEditEventViewModel @Inject constructor(
 
     fun updateAllDayState(state: Boolean) {
         if (state) {
-            val calendarStart = Calendar.getInstance()
-            calendarStart.timeInMillis = currentEvent.value.startDateTime.time
-            calendarStart.apply {
-                set(Calendar.HOUR, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-                set(Calendar.MILLISECONDS_IN_DAY, 0)
-            }
-            val calendarEnd = Calendar.getInstance()
-            calendarEnd.timeInMillis = currentEvent.value.endDateTime.time
-            calendarEnd.apply {
-                set(Calendar.HOUR, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-                set(Calendar.MILLISECONDS_IN_DAY, 0)
-            }
             _currentEvent.value = currentEvent.value.copy(
-                startDateTime = Date(calendarStart.timeInMillis),
-                endDateTime = Date(calendarEnd.timeInMillis),
+                startTime = 0L,
+                endDate = 0L,
             )
         }
         _currentEvent.value = currentEvent.value.copy(
@@ -170,9 +202,21 @@ class CreateAndEditEventViewModel @Inject constructor(
         )
     }
 
-    fun updateRepeatTitle(@StringRes title: Int) {
+    fun updateRepeatTitle(@StringRes value: Int) {
         _currentEvent.value = currentEvent.value.copy(
-            repeatTitle = title
+            repeatTitle = value
+        )
+    }
+
+    fun updateNotificationTitle(title: IntArray) {
+        _currentEvent.value = currentEvent.value.copy(
+            notificationTitle = title.toList()
+        )
+    }
+
+    fun updateNotifications(notifications: LongArray) {
+        _currentEvent.value = currentEvent.value.copy(
+            notifications = notifications.toList()
         )
     }
 
@@ -221,15 +265,15 @@ class CreateAndEditEventViewModel @Inject constructor(
     fun saveEvent() {
         viewModelScope.launch {
             if (!currentEvent.value.title.isEmpty
-                && currentEvent.value.startDateTime != Date(0)
-                && currentEvent.value.endDateTime != Date(0)
+                && currentEvent.value.startDate != 0L
+                && currentEvent.value.endDate != 0L
             ) {
                 if (currentEvent.value.id == null) {
                     val id = eventUseCases.createEventUseCase(
                         Event(
                             title = currentEvent.value.title.text,
-                            startDateTime = currentEvent.value.startDateTime,
-                            endDateTime = currentEvent.value.endDateTime,
+                            startDateTime = Date(currentEvent.value.startDate + currentEvent.value.startTime),
+                            endDateTime = Date(currentEvent.value.endDate + currentEvent.value.endTime),
                             allDay = currentEvent.value.allDay,
                             color = currentEvent.value.color,
                             completed = currentEvent.value.completed,
@@ -239,7 +283,7 @@ class CreateAndEditEventViewModel @Inject constructor(
                     )
                     eventUseCases.createRepeatUseCase(
                         Repeat(
-                            repeatStart = currentEvent.value.startDateTime,
+                            repeatStart = Date(currentEvent.value.startDate + currentEvent.value.startTime),
                             repeatInterval = currentEvent.value.repeat,
                             eventOwnerId = id.toInt()
                         )
@@ -249,8 +293,8 @@ class CreateAndEditEventViewModel @Inject constructor(
                         Event(
                             eventId = currentEvent.value.id,
                             title = currentEvent.value.title.text,
-                            startDateTime = currentEvent.value.startDateTime,
-                            endDateTime = currentEvent.value.endDateTime,
+                            startDateTime = Date(currentEvent.value.startDate + currentEvent.value.startTime),
+                            endDateTime = Date(currentEvent.value.endDate + currentEvent.value.endTime),
                             allDay = currentEvent.value.allDay,
                             color = currentEvent.value.color,
                             completed = currentEvent.value.completed,
@@ -260,7 +304,7 @@ class CreateAndEditEventViewModel @Inject constructor(
                     )
                     eventUseCases.createRepeatUseCase(
                         Repeat(
-                            repeatStart = currentEvent.value.startDateTime,
+                            repeatStart = Date(currentEvent.value.startDate + currentEvent.value.startTime),
                             repeatInterval = currentEvent.value.repeat,
                             eventOwnerId = currentEvent.value.id!!
                         )
@@ -273,12 +317,12 @@ class CreateAndEditEventViewModel @Inject constructor(
                         title = currentEvent.value.title.copy(isError = true)
                     )
                 }
-                if (currentEvent.value.startDateTime == Date(0)) {
+                if (currentEvent.value.startDate == 0L) {
                     _currentEvent.value = currentEvent.value.copy(
                         isStartDateError = true
                     )
                 }
-                if (currentEvent.value.startDateTime == Date(0)) {
+                if (currentEvent.value.endDate == 0L) {
                     _currentEvent.value = currentEvent.value.copy(
                         isEndDateError = true
                     )

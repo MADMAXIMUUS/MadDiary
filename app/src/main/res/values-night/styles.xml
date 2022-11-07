@@ -183,7 +183,7 @@
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="ItemEventCover">
+    <style name="EventCover">
         <item name="android:foreground">#50000000</item>
     </style>
 

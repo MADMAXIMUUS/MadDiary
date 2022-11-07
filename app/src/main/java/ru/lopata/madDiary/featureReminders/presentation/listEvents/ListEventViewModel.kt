@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.toDate
 import ru.lopata.madDiary.core.util.toTime
@@ -30,6 +31,15 @@ class ListEventViewModel @Inject constructor(
 
     init {
         getEvents()
+    }
+
+    fun updateEventState(id: Int, state: Boolean) {
+        viewModelScope.launch {
+            eventsUseCases.getEventByIdUseCase(id)?.let {
+                val event = it.event.copy(completed = state)
+                eventsUseCases.createEventUseCase(event)
+            }
+        }
     }
 
     private fun getEvents() {

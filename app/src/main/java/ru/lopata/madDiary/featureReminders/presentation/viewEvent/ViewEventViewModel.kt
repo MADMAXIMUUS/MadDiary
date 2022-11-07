@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.UiEvent
 import ru.lopata.madDiary.featureReminders.domain.model.Event
-import ru.lopata.madDiary.featureReminders.domain.model.EventAndRepeat
+import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatAttachment
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
 import javax.inject.Inject
@@ -145,7 +145,7 @@ class ViewEventViewModel @Inject constructor(
         val bundle = Bundle()
         bundle.putParcelable(
             "eventAndRepeat",
-            EventAndRepeat(
+            EventRepeatAttachment(
                 Event(
                     title = currentEvent.value.title,
                     completed = currentEvent.value.completed,
@@ -159,7 +159,8 @@ class ViewEventViewModel @Inject constructor(
                     isAttachmentAdded = false,
                     eventId = currentEvent.value.eventId
                 ),
-                currentRepeat
+                currentRepeat,
+                emptyList()
             )
         )
         viewModelScope.launch {
