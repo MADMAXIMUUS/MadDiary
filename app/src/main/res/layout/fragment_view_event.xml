@@ -105,7 +105,6 @@
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/reminder_date_and_time_divider_description"
                             android:src="@drawable/ic_ellipse"
-                            android:visibility="gone"
                             tools:visibility="visible" />
 
                         <TextView
@@ -155,7 +154,6 @@
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/reminder_date_and_time_divider_description"
                             android:src="@drawable/ic_ellipse"
-                            android:visibility="gone"
                             tools:visibility="visible" />
 
                         <TextView

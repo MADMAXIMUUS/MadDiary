@@ -60,6 +60,7 @@ class CreateAndEditEventFragment : Fragment() {
                     viewModel.updateNotificationTitle(bundle.getIntArray("notificationsTitle")!!)
                     viewModel.updateNotifications(bundle.getLongArray("notifications")!!)
                 }
+
             }
     }
 
@@ -125,8 +126,8 @@ class CreateAndEditEventFragment : Fragment() {
         }
 
         binding.createAndEditEventTitleEdt.addTextChangedListener(
-            onTextChanged = { text, start, _, _ ->
-                viewModel.updateTitle(text.toString(), start)
+            onTextChanged = { text, _, _, _ ->
+                viewModel.updateTitle(text.toString())
             }
         )
 
@@ -181,7 +182,7 @@ class CreateAndEditEventFragment : Fragment() {
                     if (event.color != -1) {
                         createAndEditEventColor.setCardBackgroundColor(event.color)
                     }
-                    if (event.showStartTimeDialog) {
+                    createAndEditEventStartDateTime.setOnClickListener {
                         BottomSheetTimePickerFragment(
                             event.startTime,
                             REQUEST_KEY,
@@ -192,7 +193,7 @@ class CreateAndEditEventFragment : Fragment() {
                         )
                         createAndEditEventStartDateAndTimeDivider.visibility = View.VISIBLE
                     }
-                    if (event.showEndTimeDialog) {
+                    createAndEditEventEndDateTime.setOnClickListener {
                         BottomSheetTimePickerFragment(
                             event.startTime,
                             REQUEST_KEY,
@@ -212,12 +213,12 @@ class CreateAndEditEventFragment : Fragment() {
                         if (event.notificationTitle.size == 1)
                             titleString += getString(title)
                         else
-                            titleString += getString(title)+"; "
+                            titleString += getString(title) + "; "
                     }
 
                     createAndEditEventNotification.text = titleString
 
-                    createAndEditEventStartDateRoot.setOnClickListener {
+                    createAndEditEventStartDateDate.setOnClickListener {
                         BottomSheetDatePickerFragment(
                             event.startDate,
                             REQUEST_KEY,
@@ -228,7 +229,7 @@ class CreateAndEditEventFragment : Fragment() {
                         )
                     }
 
-                    createAndEditEventEndDateRoot.setOnClickListener {
+                    createAndEditEventEndDateDate.setOnClickListener {
                         BottomSheetDatePickerFragment(
                             event.endDate,
                             REQUEST_KEY,

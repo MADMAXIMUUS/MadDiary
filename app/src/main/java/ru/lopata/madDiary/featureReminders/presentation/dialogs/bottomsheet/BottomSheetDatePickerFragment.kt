@@ -11,8 +11,6 @@ import androidx.fragment.app.setFragmentResult
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.databinding.FragmentBottomSheetDatePickerBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventFragment
-import java.sql.Date
 
 @AndroidEntryPoint
 class BottomSheetDatePickerFragment(

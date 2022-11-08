@@ -1,6 +1,5 @@
 package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +10,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.EventColors
 import ru.lopata.madDiary.databinding.FragmentBottomSheetChooseColorBinding
-import ru.lopata.madDiary.databinding.FragmentBtoomSheetChooseRepeatBinding
-import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 
 class BottomSheetChooseColorFragment(
     private val color: Int,

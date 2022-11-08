@@ -1,6 +1,7 @@
 package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent
 
 import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -34,13 +35,46 @@ class CreateAndEditEventViewModel @Inject constructor(
     private var preEditRepeat: Repeat = Repeat()
 
     init {
+        val calendarStart = Calendar.getInstance()
+        calendarStart.timeZone = TimeZone.getDefault()
+        val calendarEnd = Calendar.getInstance()
+        calendarEnd.timeZone = TimeZone.getDefault()
+        calendarEnd.timeInMillis = calendarStart.timeInMillis
+        calendarEnd.add(Calendar.HOUR_OF_DAY, 1)
+        val hourStart = calendarStart.get(Calendar.HOUR_OF_DAY)
+        val minuteStart = calendarStart.get(Calendar.MINUTE)
+        val startTime = hourStart * 60L * 60L * 1000L + minuteStart * 60L * 1000L
+        val hourEnd = calendarEnd.get(Calendar.HOUR_OF_DAY)
+        val minuteEnd = calendarEnd.get(Calendar.MINUTE)
+        val endTime = hourEnd * 60L * 60L * 1000L + minuteEnd * 60L * 1000L
+        _currentEvent.update { currentValue ->
+            currentValue.copy(
+                startDate = calendarStart.apply {
+                    set(Calendar.HOUR, 0)
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                    set(Calendar.MILLISECONDS_IN_DAY, 0)
+                }.timeInMillis,
+                startTime = startTime,
+                endDate = calendarEnd.apply {
+                    set(Calendar.HOUR, 0)
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                    set(Calendar.MILLISECONDS_IN_DAY, 0)
+                }.timeInMillis,
+                endTime = endTime,
+            )
+        }
         state.get<EventRepeatAttachment>("eventAndRepeat")?.let { eventAndRepeat ->
             viewModelScope.launch {
                 val event = eventAndRepeat.event
                 preEditEvent = event
                 val repeat = eventAndRepeat.repeat ?: Repeat()
                 preEditRepeat = repeat
-                val calendarStart = Calendar.getInstance()
                 calendarStart.timeInMillis = event.startDateTime.time
                 calendarStart.apply {
                     set(Calendar.HOUR, 0)
@@ -49,7 +83,6 @@ class CreateAndEditEventViewModel @Inject constructor(
                     set(Calendar.MILLISECOND, 0)
                     set(Calendar.MILLISECONDS_IN_DAY, 0)
                 }
-                val calendarEnd = Calendar.getInstance()
                 calendarEnd.timeInMillis = event.endDateTime.time
                 calendarEnd.apply {
                     set(Calendar.HOUR, 0)
@@ -146,8 +179,7 @@ class CreateAndEditEventViewModel @Inject constructor(
         if (value <= currentEvent.value.endDate || currentEvent.value.endDate == 0L) {
             _currentEvent.value = currentEvent.value.copy(
                 startDate = value,
-                isStartDateError = false,
-                showStartTimeDialog = !currentEvent.value.allDay
+                isStartDateError = false
             )
         }
     }
@@ -155,8 +187,7 @@ class CreateAndEditEventViewModel @Inject constructor(
     fun updateStartTime(value: Long) {
         _currentEvent.value = currentEvent.value.copy(
             startTime = value,
-            isStartDateError = false,
-            showStartTimeDialog = false
+            isStartDateError = false
         )
     }
 
@@ -164,8 +195,7 @@ class CreateAndEditEventViewModel @Inject constructor(
         if (value >= currentEvent.value.startDate) {
             _currentEvent.value = currentEvent.value.copy(
                 endDate = value,
-                isEndDateError = false,
-                showEndTimeDialog = !currentEvent.value.allDay
+                isEndDateError = false
             )
         }
     }
@@ -173,8 +203,7 @@ class CreateAndEditEventViewModel @Inject constructor(
     fun updateEndTime(value: Long) {
         _currentEvent.value = currentEvent.value.copy(
             endTime = value,
-            isEndDateError = false,
-            showEndTimeDialog = false
+            isEndDateError = false
         )
     }
 
@@ -188,7 +217,7 @@ class CreateAndEditEventViewModel @Inject constructor(
         if (state) {
             _currentEvent.value = currentEvent.value.copy(
                 startTime = 0L,
-                endDate = 0L,
+                endTime = 0L
             )
         }
         _currentEvent.value = currentEvent.value.copy(
@@ -220,25 +249,13 @@ class CreateAndEditEventViewModel @Inject constructor(
         )
     }
 
-    fun updateTitle(title: String, start: Int) {
-        var position = 0
+    fun updateTitle(title: String) {
         val currentText = currentEvent.value.title.text
         if (title != currentText) {
-            /*for (i in 0 until max(title.length, currentText.length)) {
-                if (i == title.length || i == currentText.length) {
-                        position = title.length
-                    break
-                }
-                if (title[i] != currentText[i]) {
-                    position = i
-                    break
-                }
-            }*/
             _currentEvent.value = currentEvent.value.copy(
                 title = currentEvent.value.title.copy(
                     text = title,
-                    isEmpty = title.isEmpty(),
-                    cursorPosition = start
+                    isEmpty = title.isEmpty()
                 )
             )
             if (title.isNotEmpty()) {

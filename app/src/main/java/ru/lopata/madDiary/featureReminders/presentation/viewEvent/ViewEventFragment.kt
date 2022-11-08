@@ -97,17 +97,20 @@ class ViewEventFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.currentEvent.collectLatest { event ->
                 binding.apply {
-                    viewEventTitle.text = "${event.title}(${event.chapter}/${event.chapters})"
-                    if (event.allDay){
+                    if (event.chapters == 1)
+                        viewEventTitle.text = event.title
+                    else
+                        viewEventTitle.text = "${event.title}(${event.chapter}/${event.chapters})"
+                    if (event.allDay) {
                         viewEventStartDateTime.visibility = View.GONE
                         viewEventStartDateAndTimeDivider.visibility = View.GONE
                         viewEventEndDateTime.visibility = View.GONE
                         viewEventEndDateAndTimeDivider.visibility = View.GONE
                     }
                     viewEventStartDateDate.text = event.startDateTime.time.toDate()
-                    viewEventStartDateTime.text = event.startDateTime.time.toTime()
+                    viewEventStartDateTime.text = event.startDateTime.time.toTimeZone()
                     viewEventEndDateDate.text = event.endDateTime.time.toDate()
-                    viewEventEndDateTime.text = event.endDateTime.time.toTime()
+                    viewEventEndDateTime.text = event.endDateTime.time.toTimeZone()
                     viewEventNote.text = event.note
                     viewEventRepeat.text = resources.getString(event.repeat) + " " +
                             event.repeatEnd.time.toDateTime()

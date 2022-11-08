@@ -9,12 +9,12 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.toDate
-import ru.lopata.madDiary.core.util.toTime
+import ru.lopata.madDiary.core.util.toTimeZone
 import ru.lopata.madDiary.featureReminders.domain.model.MainScreenItem
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
 import java.sql.Date
-import java.util.TreeMap
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
@@ -64,19 +64,20 @@ class ListEventViewModel @Inject constructor(
                             set(Calendar.MINUTE, 0)
                             set(Calendar.SECOND, 0)
                             set(Calendar.MILLISECOND, 0)
+                            set(Calendar.MILLISECONDS_IN_DAY, 0)
                         }
 
                         if (map[Date(calendar.timeInMillis)] == null)
                             map[Date(calendar.timeInMillis)] = mutableListOf()
 
                         val startTime = if (!event.allDay && date == event.startDateTime.time)
-                            event.startDateTime.time.toTime()
+                            event.startDateTime.time.toTimeZone()
                         else ""
 
                         val endDate = event.endDateTime.time
                         val endTime =
                             if (!event.allDay && (date < endDate && date + DAY_IN_MILLISECONDS > endDate || date == endDate))
-                                event.endDateTime.time.toTime()
+                                event.endDateTime.time.toTimeZone()
                             else ""
 
                         map[Date(calendar.timeInMillis)]?.add(

@@ -158,7 +158,6 @@ class BottomSheetChooseNotificationFragment(
                     notifications[4] = Notification.HOUR
                     notificationsTitle[4] = R.string.one_hour_before
                 } else {
-                    bottomSheetNotificationNever.isChecked = false
                     notifications.remove(4)
                     notificationsTitle.remove(4)
                     if (notifications.isEmpty())
@@ -189,7 +188,7 @@ class BottomSheetChooseNotificationFragment(
                         bottomSheetNotificationNever.isChecked = true
                 }
             }
-            bottomSheetNotificationBefore1Hour.setOnCheckedChangeListener { _, isChecked ->
+            bottomSheetNotificationBefore1Month.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     bottomSheetNotificationNever.isChecked = false
                     notifications[7] = Notification.MONTH

@@ -39,6 +39,12 @@ fun Long.toTime(): String {
     return sdf.format(netDate)
 }
 
+fun Long.toTimeZone(): String {
+    val sdf = SimpleDateFormat("HH:mm", Locale("ru"))
+    val netDate = Date(this)
+    return sdf.format(netDate)
+}
+
 @SuppressLint("SimpleDateFormat")
 fun Long.toDate(): String {
     val sdf = SimpleDateFormat("dd.MM.yy", Locale("ru"))
