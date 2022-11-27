@@ -38,9 +38,10 @@
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
-            android:button="@null"
+            android:background="@drawable/rb_selector"
             android:backgroundTint="@color/metallic_seaweed"
-            android:background="@drawable/rb_selector"  />
+            android:button="@null"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <View
             android:layout_width="wrap_content"
@@ -53,9 +54,10 @@
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
+            android:background="@drawable/rb_selector"
+            android:backgroundTint="@color/yellow"
             android:button="@null"
-            android:backgroundTint="@color/dirty_yellow"
-            android:background="@drawable/rb_selector"  />
+            tools:ignore="TouchTargetSizeCheck" />
 
         <View
             android:layout_width="wrap_content"
@@ -68,9 +70,10 @@
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
+            android:background="@drawable/rb_selector"
+            android:backgroundTint="@color/green"
             android:button="@null"
-            android:backgroundTint="@color/yellow_green"
-            android:background="@drawable/rb_selector"  />
+            tools:ignore="TouchTargetSizeCheck" />
 
         <View
             android:layout_width="wrap_content"
@@ -83,9 +86,10 @@
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
+            android:background="@drawable/rb_selector"
+            android:backgroundTint="@color/blue"
             android:button="@null"
-            android:backgroundTint="@color/mariner"
-            android:background="@drawable/rb_selector"  />
+            tools:ignore="TouchTargetSizeCheck" />
 
         <View
             android:layout_width="wrap_content"
@@ -98,9 +102,10 @@
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
+            android:background="@drawable/rb_selector"
+            android:backgroundTint="@color/purple"
             android:button="@null"
-            android:backgroundTint="@color/bluish_purple"
-            android:background="@drawable/rb_selector"  />
+            tools:ignore="TouchTargetSizeCheck" />
 
         <View
             android:layout_width="wrap_content"
@@ -113,9 +118,10 @@
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
+            android:background="@drawable/rb_selector"
+            android:backgroundTint="@color/red"
             android:button="@null"
-            android:backgroundTint="@color/pinkish_purple"
-            android:background="@drawable/rb_selector"  />
+            tools:ignore="TouchTargetSizeCheck" />
 
         <!--<View
             android:layout_width="wrap_content"

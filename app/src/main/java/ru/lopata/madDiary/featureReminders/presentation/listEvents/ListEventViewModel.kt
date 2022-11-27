@@ -1,6 +1,7 @@
 package ru.lopata.madDiary.featureReminders.presentation.listEvents
 
 import android.icu.util.Calendar
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -92,7 +93,7 @@ class ListEventViewModel @Inject constructor(
                                 endTime = endTime,
                                 address = event.location,
                                 color = event.color,
-                                cover = "",
+                                cover = Uri.parse(event.cover),
                                 isNotificationSet = false
                             )
                         )
@@ -146,7 +147,7 @@ class ListEventViewModel @Inject constructor(
                                         endTime = endTime,
                                         address = event.location,
                                         color = event.color,
-                                        cover = "",
+                                        cover = Uri.parse(event.cover),
                                         isNotificationSet = false
                                     )
                                 )

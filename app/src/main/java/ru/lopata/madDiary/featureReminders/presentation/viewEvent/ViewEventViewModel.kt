@@ -1,5 +1,6 @@
 package ru.lopata.madDiary.featureReminders.presentation.viewEvent
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -39,7 +40,7 @@ class ViewEventViewModel @Inject constructor(
                         currentValue.copy(
                             title = event.title,
                             completed = event.completed,
-                            cover = event.cover,
+                            cover = Uri.parse(event.cover),
                             startDateTime = event.startDateTime,
                             endDateTime = event.endDateTime,
                             allDay = event.allDay,
@@ -130,7 +131,7 @@ class ViewEventViewModel @Inject constructor(
                     endDateTime = currentEvent.value.endDateTime,
                     allDay = currentEvent.value.allDay,
                     color = currentEvent.value.color,
-                    cover = currentEvent.value.cover,
+                    cover = currentEvent.value.cover.toString(),
                     location = currentEvent.value.location,
                     note = currentEvent.value.note,
                     isAttachmentAdded = false,
@@ -153,7 +154,7 @@ class ViewEventViewModel @Inject constructor(
                     endDateTime = currentEvent.value.endDateTime,
                     allDay = currentEvent.value.allDay,
                     color = currentEvent.value.color,
-                    cover = currentEvent.value.cover,
+                    cover = currentEvent.value.cover.toString(),
                     location = currentEvent.value.location,
                     note = currentEvent.value.note,
                     isAttachmentAdded = false,

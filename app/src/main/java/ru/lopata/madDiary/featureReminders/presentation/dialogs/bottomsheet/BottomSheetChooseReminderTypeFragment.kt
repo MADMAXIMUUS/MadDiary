@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.navigation.NavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.databinding.FragmentBottomSheetChooseReminderTypeBinding
 
 
-@AndroidEntryPoint
 class BottomSheetChooseReminderTypeFragment(private val navController: NavController) :
     BottomSheetDialogFragment() {
 

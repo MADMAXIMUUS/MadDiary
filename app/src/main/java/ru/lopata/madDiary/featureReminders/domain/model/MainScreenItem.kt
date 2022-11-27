@@ -1,5 +1,6 @@
 package ru.lopata.madDiary.featureReminders.domain.model
 
+import android.net.Uri
 import androidx.annotation.StringRes
 
 sealed class MainScreenItem {
@@ -19,7 +20,7 @@ sealed class MainScreenItem {
         val address: String,
         val color: Int,
         val isNotificationSet: Boolean,
-        val cover: String,
+        val cover: Uri,
         val isChecked: Boolean
     ) : MainScreenItem()
 

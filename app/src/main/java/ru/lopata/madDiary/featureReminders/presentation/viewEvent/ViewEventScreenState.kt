@@ -1,5 +1,6 @@
 package ru.lopata.madDiary.featureReminders.presentation.viewEvent
 
+import android.net.Uri
 import androidx.annotation.StringRes
 import ru.lopata.madDiary.R
 import java.sql.Date
@@ -7,7 +8,7 @@ import java.sql.Date
 data class ViewEventScreenState(
     val title: String = "",
     val completed: Boolean = false,
-    val cover: String = "empty",
+    val cover: Uri = Uri.EMPTY,
     val startDateTime: Date = Date(0),
     val endDateTime: Date = Date(0),
     val chapter: Int = 1,

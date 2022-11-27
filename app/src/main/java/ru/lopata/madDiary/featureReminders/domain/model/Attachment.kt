@@ -26,9 +26,8 @@ data class Attachment(
 ): Parcelable {
     companion object {
         const val IMAGE = 0
-        const val AUDIO = 1
-        const val FILE = 2
-        const val VIDEO = 3
-        const val URL = 4
+        const val VIDEO = 1
+        const val AUDIO = 2
+        const val FILE = 3
     }
 }

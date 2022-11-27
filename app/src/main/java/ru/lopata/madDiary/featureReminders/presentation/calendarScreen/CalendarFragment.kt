@@ -3,7 +3,6 @@ package ru.lopata.madDiary.featureReminders.presentation.calendarScreen
 import android.annotation.SuppressLint
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,12 +55,6 @@ class CalendarFragment : Fragment() {
             adapter = calendarPagerAdapter.apply {
                 setOnDayClickListener(object : CalendarPagerAdapter.OnDayClickListener {
                     override fun onDayCLick(view: MadCalendarMonth, day: Calendar) {
-                        Log.e(
-                            "Month",
-                            "${day.get(Calendar.DAY_OF_MONTH)}." +
-                                    "${day.get(Calendar.MONTH) + 1}." +
-                                    "${day.get(Calendar.YEAR)}"
-                        )
                         viewModel.changeSelectedDate(day)
                     }
                 })

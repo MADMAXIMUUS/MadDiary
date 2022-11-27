@@ -5,22 +5,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_b0">#B0FFFFFF</color>
     <color name="metallic_seaweed">#FF057389</color>
-    <color name="blueberry">#FF4285F4</color>
-    <color name="blue_crayola">#FF1877F2</color>
     <color name="charcoal_grey">#FF424242</color>
     <color name="mercury">#FFE3E9E5</color>
     <color name="gray_chateau">#FFA7A7A7</color>
-    <color name="burning_sand">#FFD29681</color>
-    <color name="pale_lavender">#FFE8D0FF</color>
-    <color name="pinkish_purple">#FFD43EE1</color>
-    <color name="very_light_green">#FFCFFFC8</color>
-    <color name="yellow_green">#FF47CB31</color>
-    <color name="buff">#FFFFF599</color>
-    <color name="dirty_yellow">#FFFFE500</color>
-    <color name="periwinkle">#FFD0C9FF</color>
-    <color name="bluish_purple">#FF5D46FF</color>
-    <color name="tropical_blue">#FFC1D9FF</color>
-    <color name="mariner">#FF2F6FD9</color>
     <color name="white_smoke">#FFF5F5F5</color>
     <color name="quill_gray">#FFD4D4D4</color>
     <color name="cloud">#FFC5C5C5</color>
@@ -30,8 +17,23 @@
     <color name="dune">#FF323232</color>
     <color name="dark_gray">#FF393939</color>
     <color name="transparent">#00FFFFFF</color>
-    <color name="alto">#FFD2D2D2</color>
     <color name="gray">#FF7F7F7F</color>
     <color name="spanish_gray">#FF9A9A9A</color>
     <color name="dark_liver">#FF4D4D4D</color>
+
+    <color name="blue">#FF448AFF</color>
+    <color name="light_blue">#FFE3F2FD</color>
+
+    <color name="red">#FFFF5252</color>
+    <color name="light_red">#FFFFEBEE</color>
+
+    <color name="yellow">#FFFFFF00</color>
+    <color name="light_yellow">#FFFFFDE7</color>
+
+    <color name="green">#FFB2FF59</color>
+    <color name="light_green">#FFF1F8E9</color>
+
+    <color name="purple">#FF7C4DFF</color>
+    <color name="light_purple">#FFEDE7F6</color>
+
 </resources>

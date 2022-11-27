@@ -4,7 +4,7 @@ import android.icu.util.Calendar
 
 data class CalendarScreenState(
     val selectedDay: Calendar = Calendar.getInstance(),
-    val calendar: List<CalendarItemState> = emptyList(),
+    val calendar: List<CalendarViewState> = emptyList(),
     val isNeedAnimation: Boolean = false,
     val currentPosition: Int = 0,
 )

@@ -1,5 +1,6 @@
 package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent
 
+import android.net.Uri
 import androidx.annotation.StringRes
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.EditTextState
@@ -18,6 +19,7 @@ data class CreateEventScreenState(
     val endTime: Long = 0,
     val isEndDateError: Boolean = false,
     val allDay: Boolean = false,
+    val chosenCover: Uri = Uri.EMPTY,
     val color: Int = EventColors.DEFAULT,
     val location: String = "",
     val note: String = "",
@@ -29,5 +31,6 @@ data class CreateEventScreenState(
     val notificationTitle: List<Int> = listOf(R.string.never),
     val notifications: List<Long> = listOf(-1),
     val attachment: List<Attachment> = emptyList(),
+    val covers: List<Uri> = emptyList(),
     val id: Int? = null
 )

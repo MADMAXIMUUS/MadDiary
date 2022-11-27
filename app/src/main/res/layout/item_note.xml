@@ -24,7 +24,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/blogger_sans_medium"
             android:maxLines="1"
-            android:textColor="@color/black"
+            android:textColor="@color/onyx"
             android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@id/item_note_pin_img"
             app:layout_constraintStart_toStartOf="parent"

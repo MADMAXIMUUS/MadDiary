@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.lopata.madDiary.databinding.CalendarGridBinding
-import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarItemState
+import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarViewState
 import ru.lopata.madDiary.featureReminders.presentation.calendarView.MadCalendarMonth
 
 class CalendarPagerAdapter(
     private val context: Context
-) : ListAdapter<CalendarItemState, CalendarPagerAdapter.CalendarPagerHolder>(DiffCallback()) {
+) : ListAdapter<CalendarViewState, CalendarPagerAdapter.CalendarPagerHolder>(DiffCallback()) {
 
     private var dayClickedListener: OnDayClickListener? = null
 
@@ -41,11 +41,11 @@ class CalendarPagerAdapter(
         fun onDayCLick(view: MadCalendarMonth, day: Calendar)
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<CalendarItemState>() {
-        override fun areItemsTheSame(oldItem: CalendarItemState, newItem: CalendarItemState) =
+    class DiffCallback : DiffUtil.ItemCallback<CalendarViewState>() {
+        override fun areItemsTheSame(oldItem: CalendarViewState, newItem: CalendarViewState) =
             oldItem.monthNumber == newItem.monthNumber && oldItem.yearNumber == newItem.yearNumber
 
-        override fun areContentsTheSame(oldItem: CalendarItemState, newItem: CalendarItemState) =
+        override fun areContentsTheSame(oldItem: CalendarViewState, newItem: CalendarViewState) =
             oldItem == newItem
     }
 
@@ -65,15 +65,15 @@ class CalendarPagerAdapter(
 
         private var dayClickedListener: OnDayClickListener? = null
 
-        fun bind(calendarItemState: CalendarItemState) {
+        fun bind(calendarViewState: CalendarViewState) {
             binding.calendar.apply {
                 setMonthParams(
-                    year = calendarItemState.yearNumber,
-                    month = calendarItemState.monthNumber,
-                    selectedDay = calendarItemState.initialSelectedDay,
+                    year = calendarViewState.yearNumber,
+                    month = calendarViewState.monthNumber,
+                    selectedDay = calendarViewState.initialSelectedDay,
                     weekStart = Calendar.MONDAY
                 )
-                setEventsOnMonth(calendarItemState.events)
+                setEventsOnMonth(calendarViewState.events)
                 setOnDayClickListener(object : MadCalendarMonth.OnDayClickListener {
                     override fun onDayClick(view: MadCalendarMonth, day: Calendar) {
                         this@apply.setSelectedDay(day.get(Calendar.DAY_OF_MONTH))

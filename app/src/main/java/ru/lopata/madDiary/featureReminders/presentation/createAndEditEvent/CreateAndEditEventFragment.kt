@@ -1,7 +1,9 @@
 package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -11,22 +13,42 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.*
+import ru.lopata.madDiary.databinding.BottomSheetAddCoverBinding
+import ru.lopata.madDiary.databinding.BottomSheetChooseAttachmentTypeBinding
 import ru.lopata.madDiary.databinding.FragmentCreateAndEditEventBinding
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.CoverAdapter
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.*
+import ru.lopata.madDiary.featureReminders.util.BottomSheetCallback
 
 @AndroidEntryPoint
-class CreateAndEditEventFragment : Fragment() {
+class CreateAndEditEventFragment : Fragment(), CoverAdapter.OnItemClickListener {
 
     private var _binding: FragmentCreateAndEditEventBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: CreateAndEditEventViewModel by viewModels()
+
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var bindingType: BottomSheetChooseAttachmentTypeBinding
+    private lateinit var bottomSheetCoverBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var bindingCover: BottomSheetAddCoverBinding
+    private lateinit var bottomSheetImageBehavior: BottomSheetBehavior<View>
+    private lateinit var bindingImage: BottomSheetAddCoverBinding
+    private lateinit var bottomSheetVideoBehavior: BottomSheetBehavior<View>
+    private lateinit var bindingVideo: BottomSheetAddCoverBinding
+    private lateinit var bottomSheetAudioBehavior: BottomSheetBehavior<View>
+    private lateinit var bindingAudio: BottomSheetAddCoverBinding
+    private lateinit var bottomSheetFileBehavior: BottomSheetBehavior<View>
+    private lateinit var bindingFile: BottomSheetAddCoverBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +82,6 @@ class CreateAndEditEventFragment : Fragment() {
                     viewModel.updateNotificationTitle(bundle.getIntArray("notificationsTitle")!!)
                     viewModel.updateNotifications(bundle.getLongArray("notifications")!!)
                 }
-
             }
     }
 
@@ -77,6 +98,14 @@ class CreateAndEditEventFragment : Fragment() {
             )
         }
         _binding = FragmentCreateAndEditEventBinding.inflate(inflater, container, false)
+        bindingType = BottomSheetChooseAttachmentTypeBinding
+            .bind(binding.root.findViewById(R.id.bottom_sheet_choose_attachment_type))
+        bindingCover = BottomSheetAddCoverBinding
+            .bind(binding.root.findViewById(R.id.bottom_sheet_add_cover))
+        /*bindingImage = BottomSheetChooseAttachmentTypeBinding.inflate(inflater)
+        bindingVideo = BottomSheetChooseAttachmentTypeBinding.inflate(inflater)
+        bindingAudio = BottomSheetChooseAttachmentTypeBinding.inflate(inflater)
+        bindingFile = BottomSheetChooseAttachmentTypeBinding.inflate(inflater)*/
         return binding.root
     }
 
@@ -85,23 +114,27 @@ class CreateAndEditEventFragment : Fragment() {
 
         val menuHost: MenuHost = requireActivity()
 
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.create_menu, menu)
-            }
+        attachmentBottomSheetInit()
 
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.create_menu_save -> {
-                        viewModel.saveEvent()
-                    }
-                    R.id.create_menu_delete -> {
-                        viewModel.deleteEvent()
-                    }
+        menuHost.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.create_menu, menu)
                 }
-                return true
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    when (menuItem.itemId) {
+                        R.id.create_menu_save -> {
+                            viewModel.saveEvent()
+                        }
+                        R.id.create_menu_delete -> {
+                            viewModel.deleteEvent()
+                        }
+                    }
+                    return true
+                }
+            }, viewLifecycleOwner, Lifecycle.State.RESUMED
+        )
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.eventFlow.collectLatest { event ->
@@ -125,11 +158,19 @@ class CreateAndEditEventFragment : Fragment() {
 
         }
 
-        binding.createAndEditEventTitleEdt.addTextChangedListener(
-            onTextChanged = { text, _, _, _ ->
-                viewModel.updateTitle(text.toString())
+        binding.apply {
+            createAndEditEventTitleEdt.addTextChangedListener(
+                onTextChanged = { text, _, _, _ ->
+                    viewModel.updateTitle(text.toString())
+                }
+            )
+            createAndEditEventAllDaySwitch.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.updateAllDayState(isChecked)
             }
-        )
+            createAndEditEventDeleteCoverButton.setOnClickListener {
+                viewModel.updateCover(Uri.EMPTY)
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.currentEvent.collectLatest { event ->
@@ -138,11 +179,19 @@ class CreateAndEditEventFragment : Fragment() {
             }
         }
 
+        val coverAdapter = CoverAdapter(this)
+
+        bindingCover.bottomSheetCoverRv.apply {
+            adapter = coverAdapter
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            addItemDecoration(GridItemDecoration(20, 2))
+        }
+
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.currentEvent.collectLatest { event ->
                 binding.apply {
-                    /*createAndEditEventTitleEdt.setText(event.title.text)
-                    createAndEditEventTitleEdt.setSelection(event.title.cursorPosition)*/
+                    coverAdapter.submitList(event.covers)
+                    coverAdapter.updateChosen(event.chosenCover)
                     if (event.title.isError) {
                         createAndEditEventTitleError.visibility = View.VISIBLE
                     } else {
@@ -182,6 +231,26 @@ class CreateAndEditEventFragment : Fragment() {
                     if (event.color != -1) {
                         createAndEditEventColor.setCardBackgroundColor(event.color)
                     }
+                    if (event.chosenCover != Uri.EMPTY) {
+                        motionBase.constraintSetIds.forEach {
+                            val constraintSet =
+                                motionBase.getConstraintSet(it) ?: null
+                            constraintSet?.setVisibility(motionHead.id, View.VISIBLE)
+                            constraintSet?.applyTo(motionBase)
+                        }
+                        Glide
+                            .with(createAndEditEventCover.context)
+                            .load(event.chosenCover)
+                            .into(createAndEditEventCover)
+                    } else {
+                        createAndEditEventCover.setImageDrawable(null)
+                        motionBase.constraintSetIds.forEach {
+                            val constraintSet =
+                                motionBase.getConstraintSet(it) ?: null
+                            constraintSet?.setVisibility(motionHead.id, View.GONE)
+                            constraintSet?.applyTo(motionBase)
+                        }
+                    }
                     createAndEditEventStartDateTime.setOnClickListener {
                         BottomSheetTimePickerFragment(
                             event.startTime,
@@ -195,7 +264,7 @@ class CreateAndEditEventFragment : Fragment() {
                     }
                     createAndEditEventEndDateTime.setOnClickListener {
                         BottomSheetTimePickerFragment(
-                            event.startTime,
+                            event.endTime,
                             REQUEST_KEY,
                             "endTime"
                         ).show(
@@ -210,10 +279,10 @@ class CreateAndEditEventFragment : Fragment() {
 
                     var titleString = ""
                     event.notificationTitle.forEach { title ->
-                        if (event.notificationTitle.size == 1)
-                            titleString += getString(title)
+                        titleString += if (event.notificationTitle.size == 1)
+                            getString(title)
                         else
-                            titleString += getString(title) + "; "
+                            getString(title) + "; "
                     }
 
                     createAndEditEventNotification.text = titleString
@@ -247,10 +316,6 @@ class CreateAndEditEventFragment : Fragment() {
                         )
                     }
 
-                    createAndEditEventAllDaySwitch.setOnCheckedChangeListener { _, isChecked ->
-                        viewModel.updateAllDayState(isChecked)
-                    }
-
                     createAndEditEventRepeatRoot.setOnClickListener {
                         BottomSheetChooseRepeatFragment(event.repeat, REQUEST_KEY, "repeat").show(
                             requireActivity().supportFragmentManager,
@@ -279,9 +344,124 @@ class CreateAndEditEventFragment : Fragment() {
                             "BottomSheetColor"
                         )
                     }
+
+                    createAndEditEventAttachmentRoot.setOnClickListener {
+                        if (requireActivity().isDarkTheme())
+                            requireActivity().setNavigationColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.dark_gray
+                                )
+                            )
+                        bottomSheetBehavior.apply {
+                            state = BottomSheetBehavior.STATE_EXPANDED
+                            /*addBottomSheetCallback(
+                                BottomSheetCallback(
+                                    onStateChange = { _, newState ->
+                                        if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                                            if (requireActivity().isDarkTheme())
+                                                requireActivity().setNavigationColor(
+                                                    ContextCompat.getColor(
+                                                        requireContext(),
+                                                        R.color.onyx
+                                                    )
+                                                )
+                                        }
+                                    }
+                                )
+                            )*/
+                        }
+                        bottomSheetCoverBehavior.apply {
+                            peekHeight = 1300
+                            state = BottomSheetBehavior.STATE_COLLAPSED
+                            addBottomSheetCallback(
+                                BottomSheetCallback(
+                                    onStateChange = { _, newState ->
+                                        if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                                            bindingCover.root.background =
+                                                ContextCompat.getDrawable(
+                                                    requireContext(),
+                                                    R.drawable.no_corners
+                                                )
+                                            bottomSheetBehavior.state =
+                                                BottomSheetBehavior.STATE_HIDDEN
+                                            bindingCover.bottomSheetCoverHandle.visibility =
+                                                View.INVISIBLE
+                                        }
+                                        if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                                            bindingCover.root.background =
+                                                ContextCompat.getDrawable(
+                                                    requireContext(),
+                                                    R.drawable.top_corners
+                                                )
+                                            bindingCover.bottomSheetCoverHandle.visibility =
+                                                View.VISIBLE
+                                            bottomSheetBehavior.state =
+                                                BottomSheetBehavior.STATE_EXPANDED
+                                        }
+                                    }
+                                )
+                            )
+                        }
+                    }
                 }
             }
         }
+
+        bindingType.apply {
+            bottomSheetAttachmentTypeCoverRb.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    bottomSheetCoverBehavior.apply {
+                        peekHeight = 1300
+                        state = BottomSheetBehavior.STATE_COLLAPSED
+                    }
+                } else {
+                    bottomSheetCoverBehavior.apply {
+                        peekHeight = 0
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    private fun attachmentBottomSheetInit() {
+        bottomSheetBehavior = BottomSheetBehavior
+            .from(bindingType.root)
+            .apply {
+                state = BottomSheetBehavior.STATE_HIDDEN
+            }
+
+        bottomSheetCoverBehavior = BottomSheetBehavior
+            .from(bindingCover.root)
+            .apply {
+                state = BottomSheetBehavior.STATE_HIDDEN
+            }
+
+        bottomSheetImageBehavior = BottomSheetBehavior
+            .from(binding.root.findViewById(R.id.bottom_sheet_add_image))
+            .apply {
+                state = BottomSheetBehavior.STATE_HIDDEN
+            }
+
+        bottomSheetVideoBehavior = BottomSheetBehavior
+            .from(binding.root.findViewById(R.id.bottom_sheet_add_video))
+            .apply {
+                state = BottomSheetBehavior.STATE_HIDDEN
+            }
+
+        bottomSheetAudioBehavior = BottomSheetBehavior
+            .from(binding.root.findViewById(R.id.bottom_sheet_add_audio))
+            .apply {
+                state = BottomSheetBehavior.STATE_HIDDEN
+            }
+
+        bottomSheetFileBehavior = BottomSheetBehavior
+            .from(binding.root.findViewById(R.id.bottom_sheet_add_file))
+            .apply {
+                state = BottomSheetBehavior.STATE_HIDDEN
+            }
     }
 
     override fun onDestroy() {
@@ -291,6 +471,10 @@ class CreateAndEditEventFragment : Fragment() {
 
     companion object {
         const val REQUEST_KEY = "createEvent"
+    }
+
+    override fun onItemClick(uri: Uri) {
+        viewModel.updateCover(uri)
     }
 
 }

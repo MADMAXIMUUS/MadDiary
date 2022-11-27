@@ -41,12 +41,12 @@ class ListEventAdapter(
 
     class DiffCallback : DiffUtil.ItemCallback<MainScreenItem>() {
         override fun areItemsTheSame(oldItem: MainScreenItem, newItem: MainScreenItem): Boolean {
-            if (oldItem is MainScreenItem.EventItem && newItem is MainScreenItem.EventItem) {
-                return (oldItem.id == newItem.id)
+            return if (oldItem is MainScreenItem.EventItem && newItem is MainScreenItem.EventItem) {
+                (oldItem.id == newItem.id)
             } else if (oldItem is MainScreenItem.TitleItem && newItem is MainScreenItem.TitleItem) {
-                return (oldItem.date == newItem.date) && (oldItem.title == newItem.title)
+                (oldItem.date == newItem.date) && (oldItem.title == newItem.title)
             } else {
-                return oldItem.hashCode() == newItem.hashCode()
+                oldItem.hashCode() == newItem.hashCode()
             }
         }
 

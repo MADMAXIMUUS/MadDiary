@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.setFragmentResult
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.databinding.FragmentBottomSheetChooseNotificationBinding
 import ru.lopata.madDiary.featureReminders.domain.model.Notification
 
-@AndroidEntryPoint
 class BottomSheetChooseNotificationFragment(
     private val settings: List<Long>,
     private val requestKey: String,

@@ -1,6 +1,7 @@
 package ru.lopata.madDiary.featureReminders.presentation.viewEvent
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
@@ -12,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -116,6 +118,26 @@ class ViewEventFragment : Fragment() {
                             event.repeatEnd.time.toDateTime()
                     viewEventAttachmentRoot.visibility = View.GONE
                     viewEventColor.setCardBackgroundColor(event.color)
+                    if (event.cover != Uri.EMPTY) {
+                        motionBase.constraintSetIds.forEach {
+                            val constraintSet =
+                                motionBase.getConstraintSet(it) ?: null
+                            constraintSet?.setVisibility(space.id, View.VISIBLE)
+                            constraintSet?.applyTo(motionBase)
+                        }
+                        Glide
+                            .with(viewEventCover.context)
+                            .load(event.cover)
+                            .into(viewEventCover)
+                    } else {
+                        motionBase.constraintSetIds.forEach {
+                            val constraintSet =
+                                motionBase.getConstraintSet(it) ?: null
+                            constraintSet?.setVisibility(space.id, View.GONE)
+                            constraintSet?.applyTo(motionBase)
+                        }
+                        viewEventCover.setImageDrawable(null)
+                    }
                 }
             }
         }

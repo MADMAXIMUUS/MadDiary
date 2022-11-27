@@ -191,4 +191,32 @@
         <item name="android:foreground">#00000000</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="BottomSheetAttachmentTypeStyle">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="BottomSheetAttachmentStyle">
+        <item name="android:background">@drawable/top_corners</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="EventContentBackground">
+        <item name="android:background">@drawable/top_corners_15</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="BottomSheetDividerStyle">
+        <item name="android:background">@color/cloud</item>
+    </style>
+
+    <style name="ItemCoverStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="strokeWidth">2dp</item>
+        <item name="strokeColor">@color/onyx</item>
+    </style>
+
 </resources>

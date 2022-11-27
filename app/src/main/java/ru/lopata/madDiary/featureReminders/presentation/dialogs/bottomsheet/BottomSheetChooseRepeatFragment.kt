@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.setFragmentResult
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.databinding.FragmentBtoomSheetChooseRepeatBinding
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 
-@AndroidEntryPoint
 class BottomSheetChooseRepeatFragment(
     private val repeat: Long,
     private val requestKey: String,

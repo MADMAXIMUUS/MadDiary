@@ -1,8 +1,10 @@
 package ru.lopata.madDiary.featureReminders.presentation.listEvents.holders
 
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.lopata.madDiary.databinding.ItemEventBinding
 import ru.lopata.madDiary.featureReminders.domain.model.MainScreenItem
 import ru.lopata.madDiary.featureReminders.presentation.listEvents.ListEventAdapter
@@ -42,6 +44,15 @@ class EventViewHolder(val binding: ItemEventBinding) : RecyclerView.ViewHolder(b
                 itemEventEndTitle.visibility = View.GONE
             }
             itemEventColor.backgroundTintList = ColorStateList.valueOf(eventItem.color)
+            if (eventItem.cover != Uri.EMPTY) {
+                itemEventCover.visibility = View.VISIBLE
+                Glide
+                    .with(itemEventCover.context)
+                    .load(eventItem.cover)
+                    .into(itemEventCover)
+            } else {
+                itemEventCover.visibility = View.GONE
+            }
             /*itemEventCheckedButton.isChecked = eventItem.isChecked
             itemEventCheckedButton.backgroundTintList = ColorStateList.valueOf(eventItem.color)
             itemEventCheckedButton.setOnCheckedChangeListener { _, isChecked ->

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/BottomSheetAttachmentTypeStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:behavior_hideable="true"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        style="@style/BottomSheetDividerStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bottom_sheet_choose_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_button_ripple_effect"
+        android:fontFamily="@font/blogger_sans_bold"
+        android:gravity="center"
+        android:paddingVertical="15dp"
+        android:text="@string/confirm"
+        android:textColor="@color/mercury"
+        android:textSize="23sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <HorizontalScrollView
+        android:id="@+id/bottom_sheet_hv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioGroup
+            android:id="@+id/bottom_sheet_attachment_type_root"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:checkedButton="@id/bottom_sheet_attachment_type_cover_rb"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Space
+                android:layout_width="40dp"
+                android:layout_height="60dp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/bottom_sheet_attachment_type_cover_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:button="@null"
+                android:drawableTop="@drawable/attachment_cover_rb_selector"
+                android:drawablePadding="5dp"
+                android:drawableTint="@color/red"
+                android:gravity="center"
+                android:text="@string/attachment_cover_title"
+                android:textSize="16sp" />
+
+            <Space
+                android:layout_width="40dp"
+                android:layout_height="60dp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/bottom_sheet_attachment_type_image_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:button="@null"
+                android:drawableTop="@drawable/attachment_image_rb_selector"
+                android:drawablePadding="5dp"
+                android:drawableTint="@color/purple"
+                android:gravity="center"
+                android:text="@string/attachment_image_title"
+                android:textSize="16sp" />
+
+            <Space
+                android:layout_width="40dp"
+                android:layout_height="60dp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/bottom_sheet_attachment_type_video_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:button="@null"
+                android:drawableTop="@drawable/attachment_video_rb_selector"
+                android:drawablePadding="5dp"
+                android:drawableTint="@color/blue"
+                android:gravity="center"
+                android:text="@string/attachment_video_title"
+                android:textSize="16sp" />
+
+            <Space
+                android:layout_width="40dp"
+                android:layout_height="60dp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/bottom_sheet_attachment_type_audio_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:button="@null"
+                android:drawableTop="@drawable/attachment_audio_rb_selector"
+                android:drawablePadding="5dp"
+                android:drawableTint="@color/green"
+                android:gravity="center"
+                android:text="@string/attachment_audio_title"
+                android:textSize="16sp" />
+
+            <Space
+                android:layout_width="40dp"
+                android:layout_height="60dp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/bottom_sheet_attachment_type_file_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:button="@null"
+                android:drawableTop="@drawable/attachment_file_rb_selector"
+                android:drawablePadding="5dp"
+                android:drawableTint="@color/yellow"
+                android:gravity="center"
+                android:text="@string/attachment_file_title"
+                android:textSize="16sp" />
+
+            <Space
+                android:layout_width="40dp"
+                android:layout_height="60dp" />
+
+        </RadioGroup>
+
+    </HorizontalScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

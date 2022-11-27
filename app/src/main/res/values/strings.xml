@@ -34,6 +34,7 @@
     <string name="bottom_sheet_choose_repeat_title">Choose repeat</string>
     <string name="bottom_sheet_choose_notification_title">Choose notification</string>
     <string name="bottom_sheet_choose_location_title">Choose location</string>
+    <string name="bottom_sheet_cover_title">Choose cover</string>
     <string name="confirm">Confirm</string>
     <string name="bottom_sheet_colon">:</string>
     <string name="never">Never</string>
@@ -63,6 +64,12 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="yesterday">Yesterday</string>
     <string name="input_empty_error">Title cannot be empty</string>
+    <string name="attachment_cover_title">Cover</string>
+    <string name="attachment_image_title">Image</string>
+    <string name="attachment_video_title">Video</string>
+    <string name="attachment_audio_title">Audio</string>
+    <string name="attachment_file_title">File</string>
+    <string name="bottom_sheet_choose_cover_title">Choose cover</string>
 
     <string-array name="days_in_week">
         <item>M</item>

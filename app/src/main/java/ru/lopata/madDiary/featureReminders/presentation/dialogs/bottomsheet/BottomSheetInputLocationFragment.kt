@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.R
 
-@AndroidEntryPoint
 class BottomSheetInputLocationFragment : BottomSheetDialogFragment() {
 
 

@@ -1,7 +1,9 @@
 package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent
 
+import android.content.ContentResolver
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -9,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.lopata.madDiary.BuildConfig
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.EditTextState
 import ru.lopata.madDiary.core.util.UiEvent
@@ -18,6 +21,7 @@ import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
 import java.sql.Date
 import javax.inject.Inject
+
 
 @HiltViewModel
 class CreateAndEditEventViewModel @Inject constructor(
@@ -47,6 +51,17 @@ class CreateAndEditEventViewModel @Inject constructor(
         val hourEnd = calendarEnd.get(Calendar.HOUR_OF_DAY)
         val minuteEnd = calendarEnd.get(Calendar.MINUTE)
         val endTime = hourEnd * 60L * 60L * 1000L + minuteEnd * 60L * 1000L
+        val covers = listOf(
+            getURLForResource(R.drawable.cover_1),
+            getURLForResource(R.drawable.cover_2),
+            getURLForResource(R.drawable.cover_3),
+            getURLForResource(R.drawable.cover_4),
+            getURLForResource(R.drawable.cover_5),
+            getURLForResource(R.drawable.cover_6),
+            getURLForResource(R.drawable.cover_7),
+            getURLForResource(R.drawable.cover_9),
+            getURLForResource(R.drawable.cover_11)
+        )
         _currentEvent.update { currentValue ->
             currentValue.copy(
                 startDate = calendarStart.apply {
@@ -67,6 +82,7 @@ class CreateAndEditEventViewModel @Inject constructor(
                     set(Calendar.MILLISECONDS_IN_DAY, 0)
                 }.timeInMillis,
                 endTime = endTime,
+                covers = covers
             )
         }
         state.get<EventRepeatAttachment>("eventAndRepeat")?.let { eventAndRepeat ->
@@ -109,7 +125,8 @@ class CreateAndEditEventViewModel @Inject constructor(
                         note = event.note,
                         repeat = repeat.repeatInterval,
                         repeatEnd = repeat.repeatEnd,
-                        id = event.eventId
+                        id = event.eventId,
+                        chosenCover = Uri.parse(event.cover)
                     )
                 }
                 when (repeat.repeatInterval) {
@@ -176,10 +193,13 @@ class CreateAndEditEventViewModel @Inject constructor(
     }
 
     fun updateStartDate(value: Long) {
-        if (value <= currentEvent.value.endDate || currentEvent.value.endDate == 0L) {
+        if (value <= currentEvent.value.endDate) {
             _currentEvent.value = currentEvent.value.copy(
                 startDate = value,
-                isStartDateError = false
+                isStartDateError = value + currentEvent.value.startTime >=
+                        currentEvent.value.endDate + currentEvent.value.endTime,
+                isEndDateError = value + currentEvent.value.startTime >=
+                        currentEvent.value.endDate + currentEvent.value.endTime
             )
         }
     }
@@ -187,7 +207,10 @@ class CreateAndEditEventViewModel @Inject constructor(
     fun updateStartTime(value: Long) {
         _currentEvent.value = currentEvent.value.copy(
             startTime = value,
-            isStartDateError = false
+            isStartDateError = currentEvent.value.startDate + value >=
+                    currentEvent.value.endDate + currentEvent.value.endTime,
+            isEndDateError = currentEvent.value.startDate + value >=
+                    currentEvent.value.endDate + currentEvent.value.endTime,
         )
     }
 
@@ -195,7 +218,10 @@ class CreateAndEditEventViewModel @Inject constructor(
         if (value >= currentEvent.value.startDate) {
             _currentEvent.value = currentEvent.value.copy(
                 endDate = value,
-                isEndDateError = false
+                isStartDateError = currentEvent.value.startDate + currentEvent.value.startTime >=
+                        value + currentEvent.value.endTime,
+                isEndDateError = currentEvent.value.startDate + currentEvent.value.startTime >=
+                        value + currentEvent.value.endTime
             )
         }
     }
@@ -203,7 +229,10 @@ class CreateAndEditEventViewModel @Inject constructor(
     fun updateEndTime(value: Long) {
         _currentEvent.value = currentEvent.value.copy(
             endTime = value,
-            isEndDateError = false
+            isStartDateError = currentEvent.value.startDate + currentEvent.value.startTime >=
+                    currentEvent.value.endDate + value,
+            isEndDateError = currentEvent.value.startDate + currentEvent.value.startTime >=
+                    currentEvent.value.endDate + value
         )
     }
 
@@ -282,8 +311,8 @@ class CreateAndEditEventViewModel @Inject constructor(
     fun saveEvent() {
         viewModelScope.launch {
             if (!currentEvent.value.title.isEmpty
-                && currentEvent.value.startDate != 0L
-                && currentEvent.value.endDate != 0L
+                && !currentEvent.value.isStartDateError
+                && !currentEvent.value.isEndDateError
             ) {
                 if (currentEvent.value.id == null) {
                     val id = eventUseCases.createEventUseCase(
@@ -296,6 +325,7 @@ class CreateAndEditEventViewModel @Inject constructor(
                             completed = currentEvent.value.completed,
                             location = currentEvent.value.location,
                             note = currentEvent.value.note,
+                            cover = currentEvent.value.chosenCover.toString()
                         )
                     )
                     eventUseCases.createRepeatUseCase(
@@ -317,6 +347,7 @@ class CreateAndEditEventViewModel @Inject constructor(
                             completed = currentEvent.value.completed,
                             location = currentEvent.value.location,
                             note = currentEvent.value.note,
+                            cover = currentEvent.value.chosenCover.toString()
                         )
                     )
                     eventUseCases.createRepeatUseCase(
@@ -334,17 +365,22 @@ class CreateAndEditEventViewModel @Inject constructor(
                         title = currentEvent.value.title.copy(isError = true)
                     )
                 }
-                if (currentEvent.value.startDate == 0L) {
-                    _currentEvent.value = currentEvent.value.copy(
-                        isStartDateError = true
-                    )
-                }
-                if (currentEvent.value.endDate == 0L) {
-                    _currentEvent.value = currentEvent.value.copy(
-                        isEndDateError = true
-                    )
-                }
             }
+        }
+    }
+
+    private fun getURLForResource(resourceId: Int): Uri {
+        return Uri.parse(
+            ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
+                    + BuildConfig.APPLICATION_ID + "/drawable/" + resourceId
+        )
+    }
+
+    fun updateCover(uri: Uri) {
+        _currentEvent.update { currentState ->
+            currentState.copy(
+                chosenCover = uri,
+            )
         }
     }
 }

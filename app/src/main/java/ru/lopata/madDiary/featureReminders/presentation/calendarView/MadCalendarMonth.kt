@@ -16,7 +16,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import ru.lopata.madDiary.R
-import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarEvent
+import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarDayState
 
 class MadCalendarMonth @JvmOverloads constructor(
     context: Context,
@@ -24,11 +24,11 @@ class MadCalendarMonth @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private var calendarEventList: List<CalendarEvent> = emptyList()
+    private var calendarDayStateList: List<CalendarDayState> = emptyList()
 
     private var onDayClickListener: OnDayClickListener? = null
 
-    private var monthNumber = 1
+    private var monthNumber = 0
     private var yearNumber = 1970
 
     private val daysOfWeekPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
@@ -108,8 +108,8 @@ class MadCalendarMonth @JvmOverloads constructor(
         invalidate()
     }
 
-    fun setEventsOnMonth(events: List<CalendarEvent>) {
-        calendarEventList = events
+    fun setEventsOnMonth(events: List<CalendarDayState>) {
+        calendarDayStateList = events
         invalidate()
     }
 
@@ -416,20 +416,17 @@ class MadCalendarMonth @JvmOverloads constructor(
         var eventBackgroundHeight: Int
         var staticLayout: StaticLayout
 
-        for (i in calendarEventList.indices) {
+        for (i in calendarDayStateList.indices) {
             var eventStartHeight = startHeight + eventsRect.top
-            val col = getColByDate(calendarEventList[i].day)
-            val row = getRowByDate(calendarEventList[i].day)
+            val col = getColByDate(calendarDayStateList[i].day)
+            val row = getRowByDate(calendarDayStateList[i].day)
             eventStartHeight += (cellHeight * row)
             val left = col * cellWidth + eventsRect.left
             val right = left + eventsRect.width()
-            for (j in calendarEventList[i].events.indices) {
-                eventBackgroundPaint.color = calendarEventList[i].events[j].color
-                eventTextPaint.color = getContrastRatioColor(
-                    eventTextPaint.color,
-                    eventBackgroundPaint.color
-                )
-                val text = calendarEventList[i].events[j].title
+            for (j in calendarDayStateList[i].events.indices) {
+                eventBackgroundPaint.color = calendarDayStateList[i].events[j].color
+                eventTextPaint.color = getContrastRatioColor(eventBackgroundPaint.color)
+                val text = calendarDayStateList[i].events[j].title
                 staticLayout = StaticLayout
                     .Builder
                     .obtain(
@@ -557,20 +554,27 @@ class MadCalendarMonth @JvmOverloads constructor(
     }
 
     private fun getColByDate(date: Calendar): Int {
-        when (date.get(Calendar.DAY_OF_WEEK)) {
-            Calendar.SUNDAY -> return 6
-            Calendar.MONDAY -> return 0
-            Calendar.TUESDAY -> return 1
-            Calendar.WEDNESDAY -> return 2
-            Calendar.THURSDAY -> return 3
-            Calendar.FRIDAY -> return 4
-            Calendar.SATURDAY -> return 5
-            else -> return 0
+        return when (date.get(Calendar.DAY_OF_WEEK)) {
+            Calendar.SUNDAY -> 6
+            Calendar.MONDAY -> 0
+            Calendar.TUESDAY -> 1
+            Calendar.WEDNESDAY -> 2
+            Calendar.THURSDAY -> 3
+            Calendar.FRIDAY -> 4
+            Calendar.SATURDAY -> 5
+            else -> 0
         }
     }
 
     private fun getRowByDate(date: Calendar): Int {
-        return date.get(Calendar.WEEK_OF_MONTH)
+        return if (date.get(Calendar.MONTH) < monthNumber)
+            0
+        else if (date.get(Calendar.MONTH) > monthNumber)
+            date.get(Calendar.WEEK_OF_MONTH) - 1 + date.apply {
+                add(Calendar.MONTH, -1)
+            }.get(WEEKS_IN_MONTH)
+        else
+            date.get(Calendar.WEEK_OF_MONTH) - 1
     }
 
     private fun findDayOffset(): Int {
@@ -581,10 +585,11 @@ class MadCalendarMonth @JvmOverloads constructor(
     }
 
     private fun getContrastRatioColor(
-        textColor: Int,
         backgroundColor: Int
     ): Int {
-        return if (ColorUtils.calculateContrast(textColor, backgroundColor) > 1.5f) {
+        return if (ColorUtils.calculateContrast(eventTitleLightColor, backgroundColor) >
+            ColorUtils.calculateContrast(eventTitleDarkColor, backgroundColor)
+        ) {
             eventTitleLightColor
         } else {
             eventTitleDarkColor

@@ -9,12 +9,12 @@ import androidx.fragment.app.DialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.databinding.FragmentSelectedDateEventsDialogBinding
-import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarEvent
+import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarDayState
 import java.util.*
 
 @AndroidEntryPoint
 class SelectedDateEventsDialogFragment(
-    private val dayDetail: CalendarEvent
+    private val dayDetail: CalendarDayState
 ) : DialogFragment() {
 
     private var _binding: FragmentSelectedDateEventsDialogBinding? = null

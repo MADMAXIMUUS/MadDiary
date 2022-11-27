@@ -4,9 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
-import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.EventColors
-import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.EventInCalendar
 import java.sql.Date
 
 @Parcelize
@@ -24,12 +22,4 @@ data class Event(
     val isAttachmentAdded: Boolean = false,
 
     @PrimaryKey(autoGenerate = true) val eventId: Int? = null
-) : Parcelable {
-    fun toEventInCalendar(): EventInCalendar {
-        return EventInCalendar(
-            title = title,
-            id = eventId ?: -1,
-            color = color
-        )
-    }
-}
+) : Parcelable

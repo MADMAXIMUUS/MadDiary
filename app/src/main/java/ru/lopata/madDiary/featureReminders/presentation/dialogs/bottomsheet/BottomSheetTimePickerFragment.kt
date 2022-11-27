@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.setFragmentResult
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.core.util.toTime
 import ru.lopata.madDiary.databinding.FragmentBottomSheetTimePickerBinding
 
-@AndroidEntryPoint
 class BottomSheetTimePickerFragment(
     private val time: Long,
     private val requestKey: String,
