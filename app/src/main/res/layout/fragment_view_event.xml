@@ -321,11 +321,14 @@
                     android:text="@string/reminder_attachment_title"
                     tools:ignore="TextContrastCheck" />
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/view_event_attachment_content_root"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginBottom="13dp"
+                    tools:listitem="@layout/item_attach"/>
 
             </LinearLayout>
 

@@ -6,14 +6,21 @@
     android:layout_height="match_parent"
     tools:context="ru.lopata.madDiary.core.presentation.MainActivity">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/mainToolbar"
-        style="@style/Widget.App.Toolbar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar_root"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/mainToolbar"
+            style="@style/Widget.App.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host"
@@ -24,7 +31,7 @@
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainToolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_root"
         app:navGraph="@navigation/app_navigation" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

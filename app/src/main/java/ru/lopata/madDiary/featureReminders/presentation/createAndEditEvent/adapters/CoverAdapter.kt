@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import ru.lopata.madDiary.databinding.ItemCoverBinding
+import ru.lopata.madDiary.featureReminders.domain.model.Attachment
 
-class CoverAdapter(val listener: OnItemClickListener) :
+class CoverAdapter(val listener: OnAttachmentChosenListener) :
     ListAdapter<Uri, CoverAdapter.CoverViewHolder>(DiffCallback()) {
 
     private var chosenCover: MaterialCardView? = null
@@ -31,10 +32,15 @@ class CoverAdapter(val listener: OnItemClickListener) :
                 .into(binding.coverImage)
 
             binding.coverImage.setOnClickListener {
-                chosenCover?.strokeWidth = 0
-                chosenCover = binding.root
-                binding.root.strokeWidth = 5
-                listener.onItemClick(uri)
+                if (binding.root.strokeWidth == 5) {
+                    binding.root.strokeWidth = 0
+                    chosenCover = null
+                    listener.onCoverChosen(Uri.EMPTY)
+                } else {
+                    binding.root.strokeWidth = 5
+                    chosenCover = binding.root
+                    listener.onCoverChosen(uri)
+                }
             }
         }
     }
@@ -59,9 +65,5 @@ class CoverAdapter(val listener: OnItemClickListener) :
 
         override fun areContentsTheSame(oldItem: Uri, newItem: Uri) =
             oldItem == newItem
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(uri: Uri)
     }
 }

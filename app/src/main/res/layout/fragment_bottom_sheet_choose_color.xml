@@ -55,7 +55,7 @@
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
             android:background="@drawable/rb_selector"
-            android:backgroundTint="@color/yellow"
+            android:backgroundTint="@color/orange"
             android:button="@null"
             tools:ignore="TouchTargetSizeCheck" />
 

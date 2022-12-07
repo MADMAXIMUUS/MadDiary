@@ -2,6 +2,7 @@ package ru.lopata.madDiary.featureReminders.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import ru.lopata.madDiary.featureReminders.data.dataSource.EventDao
+import ru.lopata.madDiary.featureReminders.domain.model.Attachment
 import ru.lopata.madDiary.featureReminders.domain.model.Event
 import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatAttachment
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
@@ -20,7 +21,10 @@ class EventRepositoryImpl(
         return eventDao.getEventById(id)
     }
 
-    override suspend fun getEventsBetweenDates(startDate: Date, endDate: Date): Flow<List<EventRepeatAttachment>> {
+    override suspend fun getEventsBetweenDates(
+        startDate: Date,
+        endDate: Date
+    ): Flow<List<EventRepeatAttachment>> {
         return eventDao.getEventsBetweenDates(startDate, endDate)
     }
 
@@ -34,6 +38,10 @@ class EventRepositoryImpl(
 
     override suspend fun insertRepeat(repeat: Repeat) {
         return eventDao.insertRepeat(repeat)
+    }
+
+    override suspend fun insertAttachments(attachments: List<Attachment>) {
+        return eventDao.insertAttachments(attachments)
     }
 
     override suspend fun deleteEvent(event: Event) {

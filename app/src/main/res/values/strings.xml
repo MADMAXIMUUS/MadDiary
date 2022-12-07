@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name" translatable="false">MadDiary</string>
+    <string name="app_name" translatable="false">OwlDiary</string>
+
+    <string name="create_and_edit_title">Event edit</string>
+
     <string name="create_and_edit_note_title">Title…</string>
     <string name="bottom_menu_reminders_title">Bottom menu reminders</string>
     <string name="bottom_menu_calendar_title">Bottom menu calendar</string>
@@ -70,6 +73,14 @@
     <string name="attachment_audio_title">Audio</string>
     <string name="attachment_file_title">File</string>
     <string name="bottom_sheet_choose_cover_title">Choose cover</string>
+    <string name="bottom_sheet_choose_image_title">Choose photo</string>
+    <string name="bottom_sheet_choose_video_title">Choose video</string>
+    <string name="cover_delete_button">Cover delete</string>
+    <string name="permission_not_granted"><u>Click to allow access to the gallery</u></string>
+    <string name="settings_button_title">Settings</string>
+    <string name="cancel_button_title">Not now</string>
+    <string name="permission_dialog_title">Need permission</string>
+    <string name="permission_dialog_text">To add attachments, you must grant permission to access photos, videos, audio, and music. Tap > settings > permissions and allow access to <u>files and media</u></string>
 
     <string-array name="days_in_week">
         <item>M</item>

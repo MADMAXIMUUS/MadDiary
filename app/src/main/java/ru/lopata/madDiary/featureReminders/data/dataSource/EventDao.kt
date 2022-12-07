@@ -35,9 +35,6 @@ interface EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAttachments(attachments: List<Attachment>)
 
-    @Query("SELECT * FROM ATTACHMENTS WHERE eventOwnerId = :eventId")
-    fun getAttachments(eventId: Int): Flow<List<Attachment>>
-
     @Delete
     suspend fun deleteEvent(event: Event)
 }

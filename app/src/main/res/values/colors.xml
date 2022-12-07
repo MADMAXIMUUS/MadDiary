@@ -4,6 +4,7 @@
     <color name="black_66">#66000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_b0">#B0FFFFFF</color>
+    <color name="white_e0">#E0FFFFFF</color>
     <color name="metallic_seaweed">#FF057389</color>
     <color name="charcoal_grey">#FF424242</color>
     <color name="mercury">#FFE3E9E5</color>
@@ -27,10 +28,10 @@
     <color name="red">#FFFF5252</color>
     <color name="light_red">#FFFFEBEE</color>
 
-    <color name="yellow">#FFFFFF00</color>
-    <color name="light_yellow">#FFFFFDE7</color>
+    <color name="orange">#FFFFAB40</color>
+    <color name="light_orange">#FFFFF3E0</color>
 
-    <color name="green">#FFB2FF59</color>
+    <color name="green">#FF64DD17</color>
     <color name="light_green">#FFF1F8E9</color>
 
     <color name="purple">#FF7C4DFF</color>

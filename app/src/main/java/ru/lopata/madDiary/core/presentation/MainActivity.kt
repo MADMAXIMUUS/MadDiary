@@ -1,5 +1,6 @@
 package ru.lopata.madDiary.core.presentation
 
+import android.Manifest.permission.*
 import android.animation.ObjectAnimator
 import android.content.pm.ActivityInfo
 import android.os.Build
@@ -10,14 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.isDarkTheme
+import ru.lopata.madDiary.core.util.requestPermissions
 import ru.lopata.madDiary.core.util.setNavigationColor
 import ru.lopata.madDiary.databinding.ActivityMainBinding
 
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                 slideUp.doOnEnd {
                     splashScreenView.remove()
                 }
-                slideUp.startDelay = 1000L
+                //slideUp.startDelay = 800L
                 slideUp.start()
             }
         }
@@ -66,9 +66,10 @@ class MainActivity : AppCompatActivity() {
             ),
             fallbackOnNavigateUpListener = ::onSupportNavigateUp
         )
+
         binding.mainToolbar.setupWithNavController(navController, appBarConfiguration)
 
-        navController.addOnDestinationChangedListener { controller, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id in setOf(
                     R.id.bottom_notes,
                     R.id.bottom_calendar,
@@ -77,8 +78,10 @@ class MainActivity : AppCompatActivity() {
                 )
             ) {
                 binding.bottomNavigationView.visibility = View.VISIBLE
+
             } else {
                 binding.bottomNavigationView.visibility = View.GONE
+
             }
             val isTopLevelDestination =
                 appBarConfiguration.topLevelDestinations.contains(destination.id)
@@ -92,6 +95,14 @@ class MainActivity : AppCompatActivity() {
                         R.color.back_arrow_tint
                     )
                 )
+                if (isDarkTheme()) {
+                    setNavigationColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.onyx
+                        )
+                    )
+                }
             } else {
                 if (isDarkTheme()) {
                     setNavigationColor(
@@ -105,6 +116,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.bottomNavigationView.setupWithNavController(navController)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(READ_MEDIA_VIDEO, READ_MEDIA_IMAGES)
+        } else {
+            requestPermissions(READ_EXTERNAL_STORAGE)
+        }
     }
 
 }

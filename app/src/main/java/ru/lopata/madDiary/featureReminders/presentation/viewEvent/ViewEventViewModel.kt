@@ -32,9 +32,10 @@ class ViewEventViewModel @Inject constructor(
     init {
         state.get<Int>("eventId")?.let { eventId ->
             viewModelScope.launch {
-                eventUseCases.getEventByIdUseCase(eventId)?.also { eventAndRepeat ->
-                    val event = eventAndRepeat.event
-                    val repeat = eventAndRepeat.repeat ?: Repeat()
+                eventUseCases.getEventByIdUseCase(eventId)?.also { eventRepeatAttachments ->
+                    val event = eventRepeatAttachments.event
+                    val repeat = eventRepeatAttachments.repeat ?: Repeat()
+                    val attachments = eventRepeatAttachments.attachments
                     currentRepeat = repeat
                     _currentEvent.update { currentValue ->
                         currentValue.copy(
@@ -48,6 +49,7 @@ class ViewEventViewModel @Inject constructor(
                             location = event.location,
                             note = event.note,
                             repeatEnd = repeat.repeatEnd,
+                            attachments = attachments,
                             eventId = eventId
                         )
                     }

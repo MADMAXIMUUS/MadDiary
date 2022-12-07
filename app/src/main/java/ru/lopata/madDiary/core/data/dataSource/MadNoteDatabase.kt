@@ -21,7 +21,7 @@ import ru.lopata.madDiary.featureReminders.domain.model.Repeat
         Repeat::class,
         Attachment::class,
         NoteCategoryCrossRef::class
-    ], version = 13
+    ], version = 14
 )
 @TypeConverters(Converters::class)
 abstract class MadNoteDatabase : RoomDatabase() {

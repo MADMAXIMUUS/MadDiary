@@ -15,10 +15,13 @@ import ru.lopata.madDiary.BuildConfig
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.EditTextState
 import ru.lopata.madDiary.core.util.UiEvent
+import ru.lopata.madDiary.featureReminders.domain.model.Attachment
 import ru.lopata.madDiary.featureReminders.domain.model.Event
 import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatAttachment
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.CreateEventScreenState
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
 import java.sql.Date
 import javax.inject.Inject
 
@@ -193,15 +196,13 @@ class CreateAndEditEventViewModel @Inject constructor(
     }
 
     fun updateStartDate(value: Long) {
-        if (value <= currentEvent.value.endDate) {
-            _currentEvent.value = currentEvent.value.copy(
-                startDate = value,
-                isStartDateError = value + currentEvent.value.startTime >=
-                        currentEvent.value.endDate + currentEvent.value.endTime,
-                isEndDateError = value + currentEvent.value.startTime >=
-                        currentEvent.value.endDate + currentEvent.value.endTime
-            )
-        }
+        _currentEvent.value = currentEvent.value.copy(
+            startDate = value,
+            isStartDateError = value + currentEvent.value.startTime >=
+                    currentEvent.value.endDate + currentEvent.value.endTime,
+            isEndDateError = value + currentEvent.value.startTime >=
+                    currentEvent.value.endDate + currentEvent.value.endTime
+        )
     }
 
     fun updateStartTime(value: Long) {
@@ -215,15 +216,13 @@ class CreateAndEditEventViewModel @Inject constructor(
     }
 
     fun updateEndDate(value: Long) {
-        if (value >= currentEvent.value.startDate) {
-            _currentEvent.value = currentEvent.value.copy(
-                endDate = value,
-                isStartDateError = currentEvent.value.startDate + currentEvent.value.startTime >=
-                        value + currentEvent.value.endTime,
-                isEndDateError = currentEvent.value.startDate + currentEvent.value.startTime >=
-                        value + currentEvent.value.endTime
-            )
-        }
+        _currentEvent.value = currentEvent.value.copy(
+            endDate = value,
+            isStartDateError = currentEvent.value.startDate + currentEvent.value.startTime >=
+                    value + currentEvent.value.endTime,
+            isEndDateError = currentEvent.value.startDate + currentEvent.value.startTime >=
+                    value + currentEvent.value.endTime
+        )
     }
 
     fun updateEndTime(value: Long) {
@@ -335,6 +334,19 @@ class CreateAndEditEventViewModel @Inject constructor(
                             eventOwnerId = id.toInt()
                         )
                     )
+                    val list = mutableListOf<Attachment>()
+                    currentEvent.value.attachments.forEach {
+                        list.add(
+                            Attachment(
+                                uri = it.uri,
+                                type = it.type,
+                                size = it.size,
+                                duration = it.duration,
+                                eventOwnerId = id.toInt()
+                            )
+                        )
+                    }
+                    eventUseCases.createAttachmentsUseCase(list)
                 } else {
                     eventUseCases.createEventUseCase(
                         Event(
@@ -357,6 +369,19 @@ class CreateAndEditEventViewModel @Inject constructor(
                             eventOwnerId = currentEvent.value.id!!
                         )
                     )
+                    val list = mutableListOf<Attachment>()
+                    currentEvent.value.attachments.forEach {
+                        list.add(
+                            Attachment(
+                                uri = it.uri,
+                                type = it.type,
+                                size = it.size,
+                                duration = it.duration,
+                                eventOwnerId = currentEvent.value.id!!
+                            )
+                        )
+                    }
+                    eventUseCases.createAttachmentsUseCase(list)
                 }
                 _eventFlow.emit(UiEvent.Save)
             } else {
@@ -380,6 +405,66 @@ class CreateAndEditEventViewModel @Inject constructor(
         _currentEvent.update { currentState ->
             currentState.copy(
                 chosenCover = uri,
+            )
+        }
+    }
+
+    fun updateImages(imagePathList: List<Uri>) {
+        _currentEvent.update { currentState ->
+            currentState.copy(
+                images = imagePathList.toList()
+            )
+        }
+    }
+
+    fun updateVideos(videoPathList: MutableList<VideoItemState>) {
+        _currentEvent.update { currentState ->
+            currentState.copy(
+                videos = videoPathList.toList()
+            )
+        }
+    }
+
+    fun updateChosenImage(items: List<Uri>) {
+        _currentEvent.update { currentState ->
+            currentState.copy(
+                chosenImages = items.toList()
+            )
+        }
+    }
+
+    fun updateChosenVideo(items: List<VideoItemState>) {
+        _currentEvent.update { currentState ->
+            currentState.copy(
+                chosenVideos = items.toList()
+            )
+        }
+    }
+
+    fun updateAttachment() {
+        val temp = mutableListOf<Attachment>()
+        currentEvent.value.chosenImages.forEach { uri ->
+            temp.add(
+                Attachment(
+                    uri = uri.toString(),
+                    type = Attachment.IMAGE
+                )
+            )
+        }
+
+        currentEvent.value.chosenVideos.forEach { item ->
+            temp.add(
+                Attachment(
+                    uri = item.uri.toString(),
+                    type = Attachment.VIDEO,
+                    size = item.size,
+                    duration = item.duration
+                )
+            )
+        }
+        _currentEvent.update { currentState ->
+            currentState.copy(
+                attachments = temp
             )
         }
     }

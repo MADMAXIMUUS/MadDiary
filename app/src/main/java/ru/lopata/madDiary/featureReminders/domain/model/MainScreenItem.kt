@@ -20,6 +20,7 @@ sealed class MainScreenItem {
         val address: String,
         val color: Int,
         val isNotificationSet: Boolean,
+        val isAttachmentAdded: Boolean,
         val cover: Uri,
         val isChecked: Boolean
     ) : MainScreenItem()

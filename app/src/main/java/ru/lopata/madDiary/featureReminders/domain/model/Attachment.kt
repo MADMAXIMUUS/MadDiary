@@ -22,8 +22,10 @@ data class Attachment(
     @PrimaryKey val atId: Int? = null,
     val eventOwnerId: Int = -1,
     val type: Int = IMAGE,
+    val duration: Long = 0,
+    val size: Long = 0,
     val uri: String = "empty"
-): Parcelable {
+) : Parcelable {
     companion object {
         const val IMAGE = 0
         const val VIDEO = 1

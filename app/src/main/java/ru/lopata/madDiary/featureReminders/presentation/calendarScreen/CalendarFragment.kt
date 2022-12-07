@@ -8,12 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.databinding.FragmentCalendarBinding
 import ru.lopata.madDiary.featureReminders.presentation.calendarView.MadCalendarMonth
 import java.text.SimpleDateFormat
@@ -67,9 +65,9 @@ class CalendarFragment : Fragment() {
             })
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            viewModel.uiState.collectLatest {
+                viewModel.uiState.collectLatest { state ->
 
                     calendarPagerAdapter.submitList(state.calendar)
                     binding.monthYearTV.text = SimpleDateFormat(

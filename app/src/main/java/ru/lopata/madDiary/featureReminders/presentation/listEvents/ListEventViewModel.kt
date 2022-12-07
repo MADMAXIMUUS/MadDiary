@@ -48,9 +48,10 @@ class ListEventViewModel @Inject constructor(
         job = eventsUseCases.getEventsUseCase()
             .onEach { events ->
                 val map = mutableMapOf<Date, MutableList<MainScreenItem>>()
-                events.forEach { eventAndRepeat ->
-                    val event = eventAndRepeat.event
-                    val repeat = eventAndRepeat.repeat ?: Repeat()
+                events.forEach { eventRepeatAttachments ->
+                    val event = eventRepeatAttachments.event
+                    val repeat = eventRepeatAttachments.repeat ?: Repeat()
+                    val attachments = eventRepeatAttachments.attachments
                     var date = event.startDateTime.time
                     val diffDate = abs(event.endDateTime.time - event.startDateTime.time)
                     val diffDay = TimeUnit.DAYS.convert(diffDate, TimeUnit.MILLISECONDS)
@@ -93,6 +94,7 @@ class ListEventViewModel @Inject constructor(
                                 endTime = endTime,
                                 address = event.location,
                                 color = event.color,
+                                isAttachmentAdded = attachments.isNotEmpty(),
                                 cover = Uri.parse(event.cover),
                                 isNotificationSet = false
                             )
@@ -147,6 +149,7 @@ class ListEventViewModel @Inject constructor(
                                         endTime = endTime,
                                         address = event.location,
                                         color = event.color,
+                                        isAttachmentAdded = attachments.isNotEmpty(),
                                         cover = Uri.parse(event.cover),
                                         isNotificationSet = false
                                     )

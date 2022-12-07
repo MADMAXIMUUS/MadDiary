@@ -40,7 +40,7 @@ class BottomSheetChooseColorFragment(
                 EventColors.PURPLE -> {
                     bottomSheetChooseColorRbRoot.check(R.id.bottom_sheet_choose_color_purple)
                 }
-                EventColors.YEllOW -> {
+                EventColors.ORANGE -> {
                     bottomSheetChooseColorRbRoot.check(R.id.bottom_sheet_choose_color_yellow)
                 }
                 EventColors.BLUE -> {
@@ -71,7 +71,7 @@ class BottomSheetChooseColorFragment(
             if (isChecked) {
                 setFragmentResult(
                     requestKey,
-                    bundleOf(resultKey to EventColors.YEllOW)
+                    bundleOf(resultKey to EventColors.ORANGE)
                 )
                 dismiss()
             }

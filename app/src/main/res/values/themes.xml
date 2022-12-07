@@ -16,6 +16,23 @@
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
         <item name="radioButtonStyle">@style/RadioButtonStyle</item>
         <item name="checkboxStyle">@style/CheckBoxStyle</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/Widget.App.ActionMode</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_close_light</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
+    </style>
+
+    <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorPrimary">@color/metallic_seaweed</item>
+        <item name="colorSecondary">@color/onyx</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/onyx</item>
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.App.Body.Text</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.App.Button</item>
     </style>
 
     <style name="MadCalendarGridStyle">
@@ -45,10 +62,12 @@
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">22sp</item>
+        <item name="fontFamily">@font/blogger_sans_bold</item>
     </style>
 
     <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
     <style name="ModalBottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet.Modal">
@@ -69,6 +88,7 @@
         <item name="elevation">@dimen/toolbar_elevation</item>
         <item name="colorOnPrimary">@color/metallic_seaweed</item>
         <item name="iconTint">@color/metallic_seaweed</item>
+        <item name="android:textColorSecondary">@color/mercury</item>
     </style>
 
     <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">

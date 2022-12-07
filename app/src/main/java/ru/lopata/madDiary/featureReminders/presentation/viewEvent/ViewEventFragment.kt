@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentViewEventBinding
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AttachmentAdapter
 
 @AndroidEntryPoint
 class ViewEventFragment : Fragment() {
@@ -53,10 +55,11 @@ class ViewEventFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val menuHost: MenuHost = requireActivity()
+        val attachmentAdapter = AttachmentAdapter()
 
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.view_event_menu, menu)
+                menuInflater.inflate(R.menu.view_menu, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -98,6 +101,7 @@ class ViewEventFragment : Fragment() {
         }
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.currentEvent.collectLatest { event ->
+                attachmentAdapter.submitList(event.attachments)
                 binding.apply {
                     if (event.chapters == 1)
                         viewEventTitle.text = event.title
@@ -139,6 +143,17 @@ class ViewEventFragment : Fragment() {
                         viewEventCover.setImageDrawable(null)
                     }
                 }
+            }
+        }
+        binding.apply {
+            viewEventAttachmentContentRoot.apply {
+                adapter = attachmentAdapter
+                layoutManager = LinearLayoutManager(
+                    requireContext(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+                addItemDecoration(HorizontalListsItemDecoration(10, 10))
             }
         }
     }

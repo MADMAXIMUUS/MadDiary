@@ -95,8 +95,8 @@ dependencies {
     //Lottie
     implementation 'com.airbnb.android:lottie:5.2.0'
 
-    //Picasso
-    implementation 'com.squareup.picasso:picasso:2.8'
+    //ExoPlayer
+    implementation "com.google.android.exoplayer:exoplayer:2.18.2"
 }
 
 kapt {

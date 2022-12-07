@@ -164,3 +164,19 @@ val MIGRATION_12_13 = object : Migration(12, 13) {
         )
     }
 }
+
+val MIGRATION_13_14 = object : Migration(13, 14) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("DROP TABLE ATTACHMENTS")
+        database.execSQL(
+            "CREATE TABLE ATTACHMENTS(" +
+                    "atId INTEGER PRIMARY KEY," +
+                    "eventOwnerId INTEGER NOT NULL," +
+                    "type INTEGER NOT NULL," +
+                    "duration BIGINT NOT NULL,"+
+                    "size BIGINT NOT NULL,"+
+                    "uri TEXT NOT NULL," +
+                    "FOREIGN KEY(eventOwnerId) REFERENCES EVENTS(eventId) ON UPDATE NO ACTION ON DELETE CASCADE)"
+        )
+    }
+}

@@ -53,6 +53,10 @@ class EventViewHolder(val binding: ItemEventBinding) : RecyclerView.ViewHolder(b
             } else {
                 itemEventCover.visibility = View.GONE
             }
+            if (eventItem.isAttachmentAdded)
+                itemEventAttachmentIcon.visibility = View.VISIBLE
+            else
+                itemEventAttachmentIcon.visibility = View.GONE
             /*itemEventCheckedButton.isChecked = eventItem.isChecked
             itemEventCheckedButton.backgroundTintList = ColorStateList.valueOf(eventItem.color)
             itemEventCheckedButton.setOnCheckedChangeListener { _, isChecked ->

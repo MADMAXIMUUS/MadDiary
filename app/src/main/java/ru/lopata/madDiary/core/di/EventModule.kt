@@ -31,6 +31,7 @@ object EventModule {
             getEventsForDate = GetEventsForDate(repository),
             createEventUseCase = CreateEventUseCase(repository),
             createRepeatUseCase = CreateRepeatUseCase(repository),
+            createAttachmentsUseCase = CreateAttachmentsUseCase(repository),
             deleteEventUseCase = DeleteEventUseCase(repository)
         )
     }

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="create_and_edit_note_title">Название…</string>
+
+    <string name="create_and_edit_title">Редактирование события</string>
+
     <string name="bottom_menu_reminders_title">Пункт \"напоминая\" нижнего меню</string>
     <string name="bottom_menu_calendar_title">Пункт \"календарь\" нижнего меню</string>
     <string name="bottom_menu_settings_title">Пункт \"настройки\" нижнего меню</string>
@@ -70,6 +73,14 @@
     <string name="attachment_audio_title">Аудио</string>
     <string name="attachment_file_title">Файл</string>
     <string name="bottom_sheet_choose_cover_title">Выберите обложку</string>
+    <string name="bottom_sheet_choose_image_title">Выберите фото</string>
+    <string name="bottom_sheet_choose_video_title">Выберите видео</string>
+    <string name="cover_delete_button">Удаление обложки</string>
+    <string name="permission_not_granted"><u>Нажмите, чтобы разрешить доступ к галерее</u></string>
+    <string name="settings_button_title">Настройки</string>
+    <string name="cancel_button_title">Не сейчас</string>
+    <string name="permission_dialog_title">Необходимо разрешение</string>
+    <string name="permission_dialog_text">Для добавления вложений необходимо выдать разрешение на доступ к фото, видео, аудио и музыке. Нажмите > настройки > разрешения и разрешите доступ к <u>Файлам и медиа</u></string>
 
     <string-array name="days_in_week">
         <item>Пн</item>
