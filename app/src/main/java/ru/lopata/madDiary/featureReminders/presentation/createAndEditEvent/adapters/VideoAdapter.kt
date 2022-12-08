@@ -41,6 +41,11 @@ class VideoAdapter(val listener: OnAttachmentChosenListener) :
     fun updateChosen(items: List<VideoItemState>) {
         chosenVideoUris.clear()
         chosenVideoUris.addAll(items)
+        currentList.forEachIndexed { index, item ->
+            if (item in items){
+                notifyItemChanged(index)
+            }
+        }
     }
 
     fun getChosenUris(): List<VideoItemState> {

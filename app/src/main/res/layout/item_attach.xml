@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/AttachCardStyle"
     android:layout_width="wrap_content"
-    android:layout_height="40dp">
+    android:layout_height="50dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="4dp">
+        android:layout_marginHorizontal="6dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/attach_icon"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize30Percent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize15Percent"
             tools:src="@drawable/ic_attachment_image" />
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -41,7 +41,7 @@
             android:ellipsize="end"
             android:maxWidth="100dp"
             android:maxLines="1"
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

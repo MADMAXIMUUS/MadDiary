@@ -97,7 +97,7 @@
                         style="@style/ReminderBlockContentTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="12.01" />
+                        tools:text="12.01.22" />
 
                     <ImageView
                         android:id="@+id/view_event_start_date_and_time_divider"
@@ -170,7 +170,7 @@
 
             <LinearLayout
                 android:id="@+id/view_event_location_root"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -200,7 +200,7 @@
 
             <LinearLayout
                 android:id="@+id/view_event_note_root"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -241,7 +241,7 @@
 
             <LinearLayout
                 android:id="@+id/view_event_repeat_root"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
@@ -270,7 +270,7 @@
 
             <LinearLayout
                 android:id="@+id/view_event_notification_root"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -301,7 +301,7 @@
 
             <LinearLayout
                 android:id="@+id/view_event_attachment_root"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -326,9 +326,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginBottom="13dp"
-                    tools:listitem="@layout/item_attach"/>
+                    tools:listitem="@layout/item_attach" />
 
             </LinearLayout>
 

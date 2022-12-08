@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import ru.lopata.madDiary.databinding.ItemCoverBinding
-import ru.lopata.madDiary.featureReminders.domain.model.Attachment
 
 class CoverAdapter(val listener: OnAttachmentChosenListener) :
     ListAdapter<Uri, CoverAdapter.CoverViewHolder>(DiffCallback()) {
@@ -32,11 +31,12 @@ class CoverAdapter(val listener: OnAttachmentChosenListener) :
                 .into(binding.coverImage)
 
             binding.coverImage.setOnClickListener {
-                if (binding.root.strokeWidth == 5) {
+                if (chosenCover == binding.root && binding.root.strokeWidth == 5) {
                     binding.root.strokeWidth = 0
                     chosenCover = null
                     listener.onCoverChosen(Uri.EMPTY)
                 } else {
+                    chosenCover?.strokeWidth = 0
                     binding.root.strokeWidth = 5
                     chosenCover = binding.root
                     listener.onCoverChosen(uri)

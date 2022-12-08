@@ -480,14 +480,14 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:orientation="vertical"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="13dp"
                             android:layout_marginStart="13dp"
+                            android:layout_marginTop="13dp"
                             android:layout_marginEnd="10dp"
                             android:orientation="horizontal">
 
@@ -513,10 +513,10 @@
                             android:id="@+id/create_and_edit_event_attachment_content_root"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
                             android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="5dp"
                             android:layout_marginBottom="13dp"
-                            tools:listitem="@layout/item_attach"/>
+                            tools:listitem="@layout/item_attach" />
 
                     </LinearLayout>
 

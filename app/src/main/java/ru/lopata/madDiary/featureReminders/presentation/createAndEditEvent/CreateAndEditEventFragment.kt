@@ -57,7 +57,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
     private val viewModel: CreateAndEditEventViewModel by viewModels()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var bindingType: BottomSheetChooseAttachmentTypeBinding
-    private lateinit var bottomSheetBehaviorButton: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var bottomSheetButtonBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var bindingButton: BottomSheetButtonBinding
     private lateinit var bottomSheetCoverBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var bindingCover: BottomSheetAddBinding
@@ -194,6 +194,15 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val menuHost: MenuHost = requireActivity()
@@ -240,7 +249,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                 contextActionMode = null
                 if (isNeedClose) {
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetBehaviorButton.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     videoAdapter.updateChosen(emptyList())
                     bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -295,6 +304,9 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                     is UiEvent.Delete -> {
                         view.findNavController().navigateUp()
                     }
+                    is UiEvent.UpdateUiState -> {
+                        binding.createAndEditEventTitleEdt.setText(viewModel.currentEvent.value.title.text)
+                    }
                     else -> {}
                 }
             }
@@ -302,16 +314,18 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
         }
 
         binding.apply {
-            createAndEditEventTitleEdt.addTextChangedListener(
-                onTextChanged = { text, _, _, _ ->
-                    viewModel.updateTitle(text.toString())
-                }
-            )
             createAndEditEventTitleEdt.setOnClickListener {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                if (bottomSheetCoverBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+                    bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+                if (bottomSheetImageBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+                    bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+                if (bottomSheetVideoBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+                    bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+                if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 /*bottomSheetAudioBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN*/
             }
@@ -324,6 +338,17 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
             }
             scrollView2.setOnScrollChangeListener { _, _, _, _, _ ->
                 requireActivity().hideKeyboard()
+                if (bottomSheetCoverBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+                    bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+                if (bottomSheetImageBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+                    bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+                if (bottomSheetVideoBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+                    bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+                if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             }
             createAndEditEventAttachmentContentRoot.apply {
                 adapter = attachmentAdapter
@@ -333,13 +358,6 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                     false
                 )
                 addItemDecoration(HorizontalListsItemDecoration(10, 10))
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-            viewModel.currentEvent.collectLatest { event ->
-                binding.createAndEditEventTitleEdt.setText(event.title.text)
-                this.cancel()
             }
         }
 
@@ -371,6 +389,13 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                     videoAdapter.submitList(event.videos)
                     videoAdapter.updateChosen(event.chosenVideos)
                     attachmentAdapter.submitList(event.attachments)
+
+                    createAndEditEventTitleEdt.addTextChangedListener(
+                        afterTextChanged = { text ->
+                            viewModel.updateTitle(text.toString())
+                        }
+                    )
+
                     if (event.title.isError) {
                         createAndEditEventTitleError.visibility = View.VISIBLE
                     } else {
@@ -576,7 +601,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                                         isNeedClose = false
                                         contextActionMode?.finish()
                                         bindingCover.bottomSheetHandle.alpha = 1f
-                                        if (bottomSheetBehaviorButton.state == BottomSheetBehavior.STATE_HIDDEN) {
+                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
                                             bottomSheetBehavior.state =
                                                 BottomSheetBehavior.STATE_EXPANDED
                                         }
@@ -612,7 +637,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                                         bindingCover.bottomSheetHandle.alpha = 1 - offset
                                     } else if (state == BottomSheetBehavior.STATE_DRAGGING) {
                                         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bottomSheetBehaviorButton.state =
+                                        bottomSheetButtonBehavior.state =
                                             BottomSheetBehavior.STATE_HIDDEN
                                     }
                                 }
@@ -620,7 +645,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                         )
                     }
                     bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetBehaviorButton.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
@@ -658,7 +683,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                                         isNeedClose = false
                                         contextActionMode?.finish()
                                         bindingImage.bottomSheetHandle.alpha = 1f
-                                        if (bottomSheetBehaviorButton.state == BottomSheetBehavior.STATE_HIDDEN) {
+                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
                                             bottomSheetBehavior.state =
                                                 BottomSheetBehavior.STATE_EXPANDED
                                         }
@@ -689,14 +714,14 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                                     } else if (offset >= 0f && state == BottomSheetBehavior.STATE_DRAGGING) {
                                         isNeedClose = false
                                         contextActionMode?.finish()
-                                        if (bottomSheetBehaviorButton.state == BottomSheetBehavior.STATE_HIDDEN) {
+                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
                                             bottomSheetBehavior.state =
                                                 BottomSheetBehavior.STATE_EXPANDED
                                         }
                                         bindingImage.bottomSheetHandle.alpha = 1 - offset
                                     } else if (state == BottomSheetBehavior.STATE_DRAGGING) {
                                         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bottomSheetBehaviorButton.state =
+                                        bottomSheetButtonBehavior.state =
                                             BottomSheetBehavior.STATE_HIDDEN
                                     }
                                 }
@@ -704,7 +729,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                         )
                     }
                     bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetBehaviorButton.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
@@ -734,7 +759,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                                         }
                                     } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                                         bindingVideo.bottomSheetHandle.alpha = 1f
-                                        if (bottomSheetBehaviorButton.state == BottomSheetBehavior.STATE_HIDDEN) {
+                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
                                             bottomSheetBehavior.state =
                                                 BottomSheetBehavior.STATE_EXPANDED
                                         }
@@ -773,14 +798,14 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                                     } else if (offset >= 0f && state == BottomSheetBehavior.STATE_DRAGGING) {
                                         isNeedClose = false
                                         contextActionMode?.finish()
-                                        if (bottomSheetBehaviorButton.state == BottomSheetBehavior.STATE_HIDDEN) {
+                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
                                             bottomSheetBehavior.state =
                                                 BottomSheetBehavior.STATE_EXPANDED
                                         }
                                         bindingVideo.bottomSheetHandle.alpha = 1 - offset
                                     } else if (state == BottomSheetBehavior.STATE_DRAGGING) {
                                         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bottomSheetBehaviorButton.state =
+                                        bottomSheetButtonBehavior.state =
                                             BottomSheetBehavior.STATE_HIDDEN
                                     }
                                 }
@@ -788,7 +813,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                         )
                     }
                     bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetBehaviorButton.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
@@ -803,7 +828,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                 state = BottomSheetBehavior.STATE_HIDDEN
             }
 
-        bottomSheetBehaviorButton = BottomSheetBehavior
+        bottomSheetButtonBehavior = BottomSheetBehavior
             .from(bindingButton.root)
             .apply {
                 state = BottomSheetBehavior.STATE_HIDDEN
@@ -858,6 +883,11 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
 
         binding.bottomSheetButton.bottomSheetChooseButton.setOnClickListener {
             viewModel.updateAttachment()
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -962,27 +992,29 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
     }
 
     override fun onImagesChosen(items: List<Uri>) {
-        viewModel.updateChosenImage(items)
-        if (items.isNotEmpty()) {
-            bottomSheetBehaviorButton.state = BottomSheetBehavior.STATE_EXPANDED
+        val prevState = viewModel.currentEvent.value.chosenImages
+        if (items.isNotEmpty() || items != prevState) {
+            bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         } else {
-            bottomSheetBehaviorButton.state = BottomSheetBehavior.STATE_HIDDEN
+            bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             if (bottomSheetImageBehavior.state != BottomSheetBehavior.STATE_EXPANDED)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
+        viewModel.updateChosenImage(items)
     }
 
     override fun onVideosChosen(items: List<VideoItemState>) {
-        viewModel.updateChosenVideo(items)
-        if (items.isNotEmpty()) {
-            bottomSheetBehaviorButton.state = BottomSheetBehavior.STATE_EXPANDED
+        val prevState = viewModel.currentEvent.value.chosenVideos
+        if (items.isNotEmpty() || items != prevState) {
+            bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         } else {
-            bottomSheetBehaviorButton.state = BottomSheetBehavior.STATE_HIDDEN
+            bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             if (bottomSheetVideoBehavior.state != BottomSheetBehavior.STATE_EXPANDED)
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
+        viewModel.updateChosenVideo(items)
     }
 
     override fun onAudioChosen(uri: Uri) {

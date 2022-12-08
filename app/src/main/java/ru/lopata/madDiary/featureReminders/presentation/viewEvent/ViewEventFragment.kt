@@ -120,7 +120,10 @@ class ViewEventFragment : Fragment() {
                     viewEventNote.text = event.note
                     viewEventRepeat.text = resources.getString(event.repeat) + " " +
                             event.repeatEnd.time.toDateTime()
-                    viewEventAttachmentRoot.visibility = View.GONE
+                    if (event.attachments.isNotEmpty())
+                        viewEventAttachmentRoot.visibility = View.VISIBLE
+                    else
+                        viewEventAttachmentRoot.visibility = View.GONE
                     viewEventColor.setCardBackgroundColor(event.color)
                     if (event.cover != Uri.EMPTY) {
                         motionBase.constraintSetIds.forEach {

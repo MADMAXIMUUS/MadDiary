@@ -88,11 +88,12 @@ class CreateAndEditEventViewModel @Inject constructor(
                 covers = covers
             )
         }
-        state.get<EventRepeatAttachment>("eventAndRepeat")?.let { eventAndRepeat ->
+        state.get<EventRepeatAttachment>("eventRepeatAttachments")?.let { eventRepeatAttachments ->
             viewModelScope.launch {
-                val event = eventAndRepeat.event
+                val event = eventRepeatAttachments.event
                 preEditEvent = event
-                val repeat = eventAndRepeat.repeat ?: Repeat()
+                val repeat = eventRepeatAttachments.repeat ?: Repeat()
+                val attachments = eventRepeatAttachments.attachments
                 preEditRepeat = repeat
                 calendarStart.timeInMillis = event.startDateTime.time
                 calendarStart.apply {
@@ -109,6 +110,24 @@ class CreateAndEditEventViewModel @Inject constructor(
                     set(Calendar.SECOND, 0)
                     set(Calendar.MILLISECOND, 0)
                     set(Calendar.MILLISECONDS_IN_DAY, 0)
+                }
+                val images = mutableListOf<Uri>()
+                val videos = mutableListOf<VideoItemState>()
+                attachments.forEach {
+                    when (it.type) {
+                        Attachment.IMAGE -> {
+                            images.add(Uri.parse(it.uri))
+                        }
+                        Attachment.VIDEO -> {
+                            videos.add(
+                                VideoItemState(
+                                    uri = Uri.parse(it.uri),
+                                    size = it.size,
+                                    duration = it.duration
+                                )
+                            )
+                        }
+                    }
                 }
                 _currentEvent.update { currentValue ->
                     currentValue.copy(
@@ -129,9 +148,13 @@ class CreateAndEditEventViewModel @Inject constructor(
                         repeat = repeat.repeatInterval,
                         repeatEnd = repeat.repeatEnd,
                         id = event.eventId,
-                        chosenCover = Uri.parse(event.cover)
+                        attachments = attachments,
+                        chosenCover = Uri.parse(event.cover),
+                        chosenImages = images,
+                        chosenVideos = videos
                     )
                 }
+                _eventFlow.emit(UiEvent.UpdateUiState)
                 when (repeat.repeatInterval) {
                     Repeat.NO_REPEAT -> {
                         _currentEvent.update { currentValue ->

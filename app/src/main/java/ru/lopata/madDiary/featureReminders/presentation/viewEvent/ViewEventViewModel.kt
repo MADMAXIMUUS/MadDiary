@@ -147,7 +147,7 @@ class ViewEventViewModel @Inject constructor(
     fun editEvent() {
         val bundle = Bundle()
         bundle.putParcelable(
-            "eventAndRepeat",
+            "eventRepeatAttachments",
             EventRepeatAttachment(
                 Event(
                     title = currentEvent.value.title,
@@ -162,8 +162,8 @@ class ViewEventViewModel @Inject constructor(
                     isAttachmentAdded = false,
                     eventId = currentEvent.value.eventId
                 ),
-                currentRepeat,
-                emptyList()
+                repeat = currentRepeat,
+                attachments = currentEvent.value.attachments
             )
         )
         viewModelScope.launch {

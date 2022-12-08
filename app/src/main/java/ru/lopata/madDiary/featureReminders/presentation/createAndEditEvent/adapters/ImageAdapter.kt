@@ -3,14 +3,11 @@ package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adap
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.CheckBox
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.lopata.madDiary.databinding.ItemImageBinding
-import ru.lopata.madDiary.featureReminders.domain.model.Attachment
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
 
 class ImageAdapter(val listener: OnAttachmentChosenListener) :
     ListAdapter<Uri, ImageAdapter.ImageViewHolder>(DiffCallback()) {
@@ -43,6 +40,11 @@ class ImageAdapter(val listener: OnAttachmentChosenListener) :
     fun updateChosen(uris: List<Uri>) {
         chosenImageUris.clear()
         chosenImageUris.addAll(uris)
+        currentList.forEachIndexed { index, item ->
+            if (item in uris){
+                notifyItemChanged(index)
+            }
+        }
     }
 
     fun getChosenUris(): List<Uri> {

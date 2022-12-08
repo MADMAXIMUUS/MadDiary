@@ -196,9 +196,9 @@
         <item name="cornerSize">10%</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.App.CornerSize30Percent" parent="">
+    <style name="ShapeAppearanceOverlay.App.CornerSize15Percent" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">30%</item>
+        <item name="cornerSize">15%</item>
     </style>
 
     <style name="BottomSheetAttachmentTypeStyle">

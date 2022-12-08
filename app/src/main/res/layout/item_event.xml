@@ -63,17 +63,16 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/item_event_title"
                     android:layout_width="0dp"
-                    android:layout_height="24dp"
+                    android:layout_height="28dp"
                     android:layout_marginStart="10dp"
                     android:checked="true"
                     android:fontFamily="@font/blogger_sans_bold"
-                    android:gravity="center_vertical"
                     android:linksClickable="false"
                     android:textSize="22sp"
                     app:layout_constraintEnd_toStartOf="@id/item_event_attachment_icon"
                     app:layout_constraintStart_toEndOf="@id/item_event_color"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Тестовый текст" />
+                    tools:text="Тестовое название" />
 
                 <ImageView
                     android:id="@+id/item_event_reminder_icon"
