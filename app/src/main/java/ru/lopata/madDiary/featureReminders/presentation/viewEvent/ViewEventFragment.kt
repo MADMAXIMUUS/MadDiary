@@ -22,6 +22,7 @@ import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentViewEventBinding
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AttachmentAdapter
+import java.io.File
 
 @AndroidEntryPoint
 class ViewEventFragment : Fragment() {
@@ -86,6 +87,9 @@ class ViewEventFragment : Fragment() {
                         ).show()
                     }
                     UiEvent.Delete -> {
+                        viewModel.currentEvent.value.attachments.forEach { attachment ->
+                            Uri.parse(attachment.uri).path?.let { File(it).delete() }
+                        }
                         view.findNavController().navigateUp()
                     }
                     is UiEvent.Edit -> {

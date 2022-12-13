@@ -26,6 +26,9 @@ interface EventDao {
     @Query("SELECT * FROM EVENTS WHERE eventId = :id")
     suspend fun getEventById(id: Int): EventRepeatAttachment?
 
+    @Query("SELECT * FROM ATTACHMENTS WHERE eventOwnerId = :eventId")
+    fun getAttachmentsByEventId(eventId: Long): Flow<List<Attachment>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEvent(event: Event): Long
 

@@ -5,8 +5,8 @@ import androidx.annotation.StringRes
 
 sealed class UiEvent {
     data class ShowSnackBar(@StringRes val message: Int) : UiEvent()
-    object Save : UiEvent()
+    data class Save(val eventId: Long) : UiEvent()
     data class Edit(val passObject: Bundle) : UiEvent()
-    object UpdateUiState: UiEvent()
+    object UpdateUiState : UiEvent()
     object Delete : UiEvent()
 }

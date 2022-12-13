@@ -336,8 +336,9 @@ class CreateAndEditEventViewModel @Inject constructor(
                 && !currentEvent.value.isStartDateError
                 && !currentEvent.value.isEndDateError
             ) {
+                val id: Long
                 if (currentEvent.value.id == null) {
-                    val id = eventUseCases.createEventUseCase(
+                    id = eventUseCases.createEventUseCase(
                         Event(
                             title = currentEvent.value.title.text,
                             startDateTime = Date(currentEvent.value.startDate + currentEvent.value.startTime),
@@ -371,6 +372,7 @@ class CreateAndEditEventViewModel @Inject constructor(
                     }
                     eventUseCases.createAttachmentsUseCase(list)
                 } else {
+                    id = currentEvent.value.id!!.toLong()
                     eventUseCases.createEventUseCase(
                         Event(
                             eventId = currentEvent.value.id,
@@ -406,7 +408,7 @@ class CreateAndEditEventViewModel @Inject constructor(
                     }
                     eventUseCases.createAttachmentsUseCase(list)
                 }
-                _eventFlow.emit(UiEvent.Save)
+                _eventFlow.emit(UiEvent.Save(id))
             } else {
                 if (currentEvent.value.title.isEmpty) {
                     _currentEvent.value = currentEvent.value.copy(

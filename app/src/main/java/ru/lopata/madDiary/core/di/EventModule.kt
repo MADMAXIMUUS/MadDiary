@@ -32,6 +32,7 @@ object EventModule {
             createEventUseCase = CreateEventUseCase(repository),
             createRepeatUseCase = CreateRepeatUseCase(repository),
             createAttachmentsUseCase = CreateAttachmentsUseCase(repository),
+            getAttachmentByEventId = GetAttachmentByEventId(repository),
             deleteEventUseCase = DeleteEventUseCase(repository)
         )
     }

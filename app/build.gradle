@@ -53,7 +53,7 @@ dependencies {
     //Jetpack Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
-    implementation 'androidx.fragment:fragment-ktx:1.5.4'
+    implementation 'androidx.fragment:fragment-ktx:1.5.5'
 
     //RecycleView
     implementation "androidx.recyclerview:recyclerview:1.2.1"
@@ -97,6 +97,9 @@ dependencies {
 
     //ExoPlayer
     implementation "com.google.android.exoplayer:exoplayer:2.18.2"
+
+    //Compressor
+    implementation 'id.zelory:compressor:3.0.1'
 }
 
 kapt {

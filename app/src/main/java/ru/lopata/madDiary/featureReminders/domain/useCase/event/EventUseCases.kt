@@ -8,5 +8,6 @@ data class EventUseCases(
     val createEventUseCase: CreateEventUseCase,
     val createRepeatUseCase: CreateRepeatUseCase,
     val createAttachmentsUseCase: CreateAttachmentsUseCase,
+    val getAttachmentByEventId: GetAttachmentByEventId,
     val deleteEventUseCase: DeleteEventUseCase
 )

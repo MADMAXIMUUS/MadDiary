@@ -2,7 +2,10 @@ package ru.lopata.madDiary.core.presentation
 
 import android.Manifest.permission.*
 import android.animation.ObjectAnimator
+import android.content.ComponentName
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
+import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -118,10 +121,87 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navController)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestPermissions(READ_MEDIA_VIDEO, READ_MEDIA_IMAGES)
+            requestPermissions(READ_MEDIA_VIDEO, READ_MEDIA_IMAGES, POST_NOTIFICATIONS)
         } else {
             requestPermissions(READ_EXTERNAL_STORAGE)
         }
+
+        val calendar = Calendar.getInstance()
+        if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER && calendar.get(Calendar.DAY_OF_MONTH) > 15 ||
+            calendar.get(Calendar.MONTH) == Calendar.JANUARY && calendar.get(Calendar.DAY_OF_MONTH) < 15
+        ) {
+            setNewYear()
+        } else if (calendar.get(Calendar.MONTH) == Calendar.OCTOBER && calendar.get(Calendar.DAY_OF_MONTH) > 29) {
+            setHalloween()
+        } else {
+            setDefault()
+        }
+    }
+
+    private fun setNewYear() {
+
+        val manager = packageManager
+        manager.setComponentEnabledSetting(
+            ComponentName(packageName, "ru.lopata.madDiary.NewYear"),
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
+
+        manager.setComponentEnabledSetting(
+            ComponentName(packageName, "ru.lopata.madDiary.Halloween"),
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+            PackageManager.DONT_KILL_APP
+        )
+
+        manager.setComponentEnabledSetting(
+            ComponentName(packageName, "ru.lopata.madDiary.Default"),
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+            PackageManager.DONT_KILL_APP
+        )
+    }
+
+    private fun setHalloween() {
+
+        val manager = packageManager
+        manager.setComponentEnabledSetting(
+            ComponentName(packageName, "ru.lopata.madDiary.Halloween"),
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
+
+        manager.setComponentEnabledSetting(
+            ComponentName(packageName, "ru.lopata.madDiary.NewYear"),
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+            PackageManager.DONT_KILL_APP
+        )
+
+        manager.setComponentEnabledSetting(
+            ComponentName(packageName, "ru.lopata.madDiary.Default"),
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+            PackageManager.DONT_KILL_APP
+        )
+    }
+
+    private fun setDefault() {
+
+        val manager = packageManager
+        manager.setComponentEnabledSetting(
+            ComponentName(packageName, "ru.lopata.madDiary.Halloween"),
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+            PackageManager.DONT_KILL_APP
+        )
+
+        manager.setComponentEnabledSetting(
+            ComponentName(packageName, "ru.lopata.madDiary.NewYear"),
+            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+            PackageManager.DONT_KILL_APP
+        )
+
+        manager.setComponentEnabledSetting(
+            ComponentName(packageName, "ru.lopata.madDiary.Default"),
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
     }
 
 }

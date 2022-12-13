@@ -44,6 +44,10 @@ class EventRepositoryImpl(
         return eventDao.insertAttachments(attachments)
     }
 
+    override suspend fun getAttachmentsByEventId(eventId: Long): Flow<List<Attachment>> {
+        return eventDao.getAttachmentsByEventId(eventId)
+    }
+
     override suspend fun deleteEvent(event: Event) {
         return eventDao.deleteEvent(event)
     }

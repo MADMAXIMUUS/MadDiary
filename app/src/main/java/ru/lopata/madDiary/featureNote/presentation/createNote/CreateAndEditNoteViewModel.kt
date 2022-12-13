@@ -50,7 +50,7 @@ class CreateAndEditNoteViewModel @Inject constructor(
                         noteId = _currentNote.value.noteId
                     )
                 )
-                _eventFlow.emit(UiEvent.Save)
+                _eventFlow.emit(UiEvent.Save(_currentNote.value.noteId!!.toLong()))
             }
         }
     }

@@ -35,6 +35,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.BuildConfig
 import ru.lopata.madDiary.R
+import ru.lopata.madDiary.core.domain.service.CopyAttachmentService
 import ru.lopata.madDiary.core.presentation.MainActivity
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.BottomSheetAddBinding
@@ -45,6 +46,7 @@ import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapt
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.*
 import ru.lopata.madDiary.featureReminders.util.BottomSheetCallback
+import java.io.File
 
 @AndroidEntryPoint
 class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
@@ -299,9 +301,16 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                         ).show()
                     }
                     is UiEvent.Save -> {
+                        val intent = Intent(requireContext(), CopyAttachmentService::class.java)
+                        intent.putExtra("eventId", event.eventId)
+                        requireActivity().startService(intent)
+                        ContextCompat.startForegroundService(requireContext(), intent)
                         view.findNavController().navigateUp()
                     }
                     is UiEvent.Delete -> {
+                        viewModel.currentEvent.value.attachments.forEach { attachment ->
+                            Uri.parse(attachment.uri).path?.let { File(it).delete() }
+                        }
                         view.findNavController().navigateUp()
                     }
                     is UiEvent.UpdateUiState -> {
