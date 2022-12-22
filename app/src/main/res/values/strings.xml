@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name" translatable="false">OwlDiary</string>
 
+    <!--Screens title-->
     <string name="create_and_edit_title">Event edit</string>
+    <string name="calendar_label">Calendar</string>
+    <string name="settings_label">Settings</string>
+    <string name="note_label">Notes</string>
 
     <string name="create_and_edit_note_title">Title…</string>
     <string name="bottom_menu_reminders_title">Bottom menu reminders</string>
@@ -9,9 +13,6 @@
     <string name="bottom_menu_settings_title">Bottom menu settings</string>
     <string name="bottom_menu_add_title">Bottom menu add</string>
     <string name="bottom_menu_notes_title">Bottom menu notes</string>
-    <string name="calendar_label">Calendar</string>
-    <string name="settings_label">Settings</string>
-    <string name="note_label">Notes</string>
     <string name="menu_search_view">Search</string>
     <string name="menu_save">Save</string>
     <string name="menu_edit">Edit</string>
@@ -81,6 +82,14 @@
     <string name="cancel_button_title">Not now</string>
     <string name="permission_dialog_title">Need permission</string>
     <string name="permission_dialog_text">To add attachments, you must grant permission to access photos, videos, audio, and music. Tap > settings > permissions and allow access to <u>files and media</u></string>
+
+    <!--Happy Message-->
+    <string name="happy_new_year">Merry Christmas and Happy Ney Year!!!</string>
+    <string name="happy_halloween">Happy Halloween!!!</string>
+
+    <string name="internal_storage">Internal storage</string>
+    <string name="internal_storage_subtitle">Add file from your device</string>
+    <string name="add_file_rv_title">Recent files</string>
 
     <string-array name="days_in_week">
         <item>M</item>

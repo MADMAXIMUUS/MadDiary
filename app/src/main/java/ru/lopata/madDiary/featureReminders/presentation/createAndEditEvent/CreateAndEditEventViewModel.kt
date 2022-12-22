@@ -9,6 +9,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.lopata.madDiary.BuildConfig
@@ -21,10 +23,11 @@ import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatAttachment
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.CreateEventScreenState
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
 import java.sql.Date
 import javax.inject.Inject
-
 
 @HiltViewModel
 class CreateAndEditEventViewModel @Inject constructor(
@@ -42,6 +45,171 @@ class CreateAndEditEventViewModel @Inject constructor(
     private var preEditRepeat: Repeat = Repeat()
 
     init {
+        CoroutineScope(Dispatchers.IO).launch {
+            initTime()
+            initCovers()
+            initEvent(state)
+            initFiles()
+        }
+    }
+
+    private fun initFiles() {
+        CoroutineScope(Dispatchers.IO).launch {
+            eventUseCases.getAttachmentsUseCase().collectLatest { attachments ->
+                val list = mutableListOf<FileItemState>()
+                attachments.forEach { attachment ->
+                    val file = FileItemState(
+                        uri = Uri.parse(attachment.uri),
+                        size = attachment.size,
+                        sizeTitle = (attachment.size/1000F).toString()+"Kb",
+                        name = attachment.name,
+                        type = attachment.fileExtension
+                    )
+                    if (file !in list) {
+                        list.add(file)
+                    }
+                }
+                _currentEvent.update { currentEvent ->
+                    currentEvent.copy(
+                        files = list
+                    )
+                }
+            }
+        }
+    }
+
+    private fun initEvent(state: SavedStateHandle) {
+        val calendarStart = Calendar.getInstance()
+        val calendarEnd = Calendar.getInstance()
+        state.get<EventRepeatAttachment>("eventRepeatAttachments")
+            ?.let { eventRepeatAttachments ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    val event = eventRepeatAttachments.event
+                    preEditEvent = event
+                    val repeat = eventRepeatAttachments.repeat ?: Repeat()
+                    val attachments = eventRepeatAttachments.attachments
+                    preEditRepeat = repeat
+                    calendarStart.timeInMillis = event.startDateTime.time
+                    calendarStart.apply {
+                        set(Calendar.HOUR, 0)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
+                        set(Calendar.MILLISECONDS_IN_DAY, 0)
+                    }
+                    calendarEnd.timeInMillis = event.endDateTime.time
+                    calendarEnd.apply {
+                        set(Calendar.HOUR, 0)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
+                        set(Calendar.MILLISECONDS_IN_DAY, 0)
+                    }
+                    val images = mutableListOf<ImageItemState>()
+                    val videos = mutableListOf<VideoItemState>()
+                    attachments.forEach {
+                        when (it.type) {
+                            Attachment.IMAGE -> {
+                                images.add(
+                                    ImageItemState(
+                                        uri = Uri.parse(it.uri),
+                                        size = it.size
+                                    )
+                                )
+                            }
+                            Attachment.VIDEO -> {
+                                videos.add(
+                                    VideoItemState(
+                                        uri = Uri.parse(it.uri),
+                                        size = it.size,
+                                        duration = it.duration
+                                    )
+                                )
+                            }
+                        }
+                    }
+                    _currentEvent.update { currentValue ->
+                        currentValue.copy(
+                            title = EditTextState(
+                                text = event.title,
+                                isEmpty = false,
+                                isError = false
+                            ),
+                            completed = event.completed,
+                            startDate = calendarStart.timeInMillis,
+                            startTime = event.startDateTime.time - calendarStart.timeInMillis,
+                            endDate = calendarEnd.timeInMillis,
+                            endTime = event.endDateTime.time - calendarEnd.timeInMillis,
+                            allDay = event.allDay,
+                            color = event.color,
+                            location = event.location,
+                            note = event.note,
+                            repeat = repeat.repeatInterval,
+                            repeatEnd = repeat.repeatEnd,
+                            id = event.eventId,
+                            attachments = attachments,
+                            chosenCover = Uri.parse(event.cover),
+                            chosenImages = images,
+                            chosenVideos = videos
+                        )
+                    }
+                    _eventFlow.emit(UiEvent.UpdateUiState)
+                    when (repeat.repeatInterval) {
+                        Repeat.NO_REPEAT -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeatTitle = R.string.never
+                                )
+                            }
+                        }
+                        Repeat.EVERY_DAY -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeatTitle = R.string.every_day
+                                )
+                            }
+                        }
+                        Repeat.EVERY_SECOND_DAY -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeatTitle = R.string.every_second_day
+                                )
+                            }
+                        }
+                        Repeat.EVERY_WEEK -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeatTitle = R.string.every_week
+                                )
+                            }
+                        }
+                        Repeat.EVERY_SECOND_WEEK -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeatTitle = R.string.every_second_week
+                                )
+                            }
+                        }
+                        Repeat.EVERY_MONTH -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeatTitle = R.string.every_month
+                                )
+                            }
+                        }
+                        Repeat.EVERY_YEAR -> {
+                            _currentEvent.update { currentValue ->
+                                currentValue.copy(
+                                    repeatTitle = R.string.every_year
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
+    private fun initTime() {
         val calendarStart = Calendar.getInstance()
         calendarStart.timeZone = TimeZone.getDefault()
         val calendarEnd = Calendar.getInstance()
@@ -54,6 +222,33 @@ class CreateAndEditEventViewModel @Inject constructor(
         val hourEnd = calendarEnd.get(Calendar.HOUR_OF_DAY)
         val minuteEnd = calendarEnd.get(Calendar.MINUTE)
         val endTime = hourEnd * 60L * 60L * 1000L + minuteEnd * 60L * 1000L
+        calendarStart.apply {
+            set(Calendar.HOUR, 0)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            set(Calendar.MILLISECONDS_IN_DAY, 0)
+        }
+        calendarEnd.apply {
+            set(Calendar.HOUR, 0)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            set(Calendar.MILLISECONDS_IN_DAY, 0)
+        }
+        _currentEvent.update { currentValue ->
+            currentValue.copy(
+                startDate = calendarStart.timeInMillis,
+                startTime = startTime,
+                endDate = calendarEnd.timeInMillis,
+                endTime = endTime
+            )
+        }
+    }
+
+    private fun initCovers() {
         val covers = listOf(
             getURLForResource(R.drawable.cover_1),
             getURLForResource(R.drawable.cover_2),
@@ -67,146 +262,8 @@ class CreateAndEditEventViewModel @Inject constructor(
         )
         _currentEvent.update { currentValue ->
             currentValue.copy(
-                startDate = calendarStart.apply {
-                    set(Calendar.HOUR, 0)
-                    set(Calendar.HOUR_OF_DAY, 0)
-                    set(Calendar.MINUTE, 0)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
-                    set(Calendar.MILLISECONDS_IN_DAY, 0)
-                }.timeInMillis,
-                startTime = startTime,
-                endDate = calendarEnd.apply {
-                    set(Calendar.HOUR, 0)
-                    set(Calendar.HOUR_OF_DAY, 0)
-                    set(Calendar.MINUTE, 0)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
-                    set(Calendar.MILLISECONDS_IN_DAY, 0)
-                }.timeInMillis,
-                endTime = endTime,
                 covers = covers
             )
-        }
-        state.get<EventRepeatAttachment>("eventRepeatAttachments")?.let { eventRepeatAttachments ->
-            viewModelScope.launch {
-                val event = eventRepeatAttachments.event
-                preEditEvent = event
-                val repeat = eventRepeatAttachments.repeat ?: Repeat()
-                val attachments = eventRepeatAttachments.attachments
-                preEditRepeat = repeat
-                calendarStart.timeInMillis = event.startDateTime.time
-                calendarStart.apply {
-                    set(Calendar.HOUR, 0)
-                    set(Calendar.MINUTE, 0)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
-                    set(Calendar.MILLISECONDS_IN_DAY, 0)
-                }
-                calendarEnd.timeInMillis = event.endDateTime.time
-                calendarEnd.apply {
-                    set(Calendar.HOUR, 0)
-                    set(Calendar.MINUTE, 0)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
-                    set(Calendar.MILLISECONDS_IN_DAY, 0)
-                }
-                val images = mutableListOf<Uri>()
-                val videos = mutableListOf<VideoItemState>()
-                attachments.forEach {
-                    when (it.type) {
-                        Attachment.IMAGE -> {
-                            images.add(Uri.parse(it.uri))
-                        }
-                        Attachment.VIDEO -> {
-                            videos.add(
-                                VideoItemState(
-                                    uri = Uri.parse(it.uri),
-                                    size = it.size,
-                                    duration = it.duration
-                                )
-                            )
-                        }
-                    }
-                }
-                _currentEvent.update { currentValue ->
-                    currentValue.copy(
-                        title = EditTextState(
-                            text = event.title,
-                            isEmpty = false,
-                            isError = false
-                        ),
-                        completed = event.completed,
-                        startDate = calendarStart.timeInMillis,
-                        startTime = event.startDateTime.time - calendarStart.timeInMillis,
-                        endDate = calendarEnd.timeInMillis,
-                        endTime = event.endDateTime.time - calendarEnd.timeInMillis,
-                        allDay = event.allDay,
-                        color = event.color,
-                        location = event.location,
-                        note = event.note,
-                        repeat = repeat.repeatInterval,
-                        repeatEnd = repeat.repeatEnd,
-                        id = event.eventId,
-                        attachments = attachments,
-                        chosenCover = Uri.parse(event.cover),
-                        chosenImages = images,
-                        chosenVideos = videos
-                    )
-                }
-                _eventFlow.emit(UiEvent.UpdateUiState)
-                when (repeat.repeatInterval) {
-                    Repeat.NO_REPEAT -> {
-                        _currentEvent.update { currentValue ->
-                            currentValue.copy(
-                                repeatTitle = R.string.never
-                            )
-                        }
-                    }
-                    Repeat.EVERY_DAY -> {
-                        _currentEvent.update { currentValue ->
-                            currentValue.copy(
-                                repeatTitle = R.string.every_day
-                            )
-                        }
-                    }
-                    Repeat.EVERY_SECOND_DAY -> {
-                        _currentEvent.update { currentValue ->
-                            currentValue.copy(
-                                repeatTitle = R.string.every_second_day
-                            )
-                        }
-                    }
-                    Repeat.EVERY_WEEK -> {
-                        _currentEvent.update { currentValue ->
-                            currentValue.copy(
-                                repeatTitle = R.string.every_week
-                            )
-                        }
-                    }
-                    Repeat.EVERY_SECOND_WEEK -> {
-                        _currentEvent.update { currentValue ->
-                            currentValue.copy(
-                                repeatTitle = R.string.every_second_week
-                            )
-                        }
-                    }
-                    Repeat.EVERY_MONTH -> {
-                        _currentEvent.update { currentValue ->
-                            currentValue.copy(
-                                repeatTitle = R.string.every_month
-                            )
-                        }
-                    }
-                    Repeat.EVERY_YEAR -> {
-                        _currentEvent.update { currentValue ->
-                            currentValue.copy(
-                                repeatTitle = R.string.every_year
-                            )
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -366,6 +423,8 @@ class CreateAndEditEventViewModel @Inject constructor(
                                 type = it.type,
                                 size = it.size,
                                 duration = it.duration,
+                                name = it.name,
+                                fileExtension = it.fileExtension,
                                 eventOwnerId = id.toInt()
                             )
                         )
@@ -401,7 +460,9 @@ class CreateAndEditEventViewModel @Inject constructor(
                                 uri = it.uri,
                                 type = it.type,
                                 size = it.size,
+                                name = it.name,
                                 duration = it.duration,
+                                fileExtension = it.fileExtension,
                                 eventOwnerId = currentEvent.value.id!!
                             )
                         )
@@ -434,7 +495,7 @@ class CreateAndEditEventViewModel @Inject constructor(
         }
     }
 
-    fun updateImages(imagePathList: List<Uri>) {
+    fun updateImages(imagePathList: List<ImageItemState>) {
         _currentEvent.update { currentState ->
             currentState.copy(
                 images = imagePathList.toList()
@@ -450,7 +511,7 @@ class CreateAndEditEventViewModel @Inject constructor(
         }
     }
 
-    fun updateChosenImage(items: List<Uri>) {
+    fun updateChosenImage(items: List<ImageItemState>) {
         _currentEvent.update { currentState ->
             currentState.copy(
                 chosenImages = items.toList()
@@ -468,11 +529,12 @@ class CreateAndEditEventViewModel @Inject constructor(
 
     fun updateAttachment() {
         val temp = mutableListOf<Attachment>()
-        currentEvent.value.chosenImages.forEach { uri ->
+        currentEvent.value.chosenImages.forEach { item ->
             temp.add(
                 Attachment(
-                    uri = uri.toString(),
-                    type = Attachment.IMAGE
+                    uri = item.uri.toString(),
+                    type = Attachment.IMAGE,
+                    size = item.size
                 )
             )
         }
@@ -487,9 +549,35 @@ class CreateAndEditEventViewModel @Inject constructor(
                 )
             )
         }
+
+        currentEvent.value.chosenFiles.forEach { item ->
+            temp.add(
+                Attachment(
+                    uri = item.uri.toString(),
+                    type = Attachment.FILE,
+                    size = item.size,
+                    name = item.name,
+                    fileExtension = item.type
+                )
+            )
+        }
+
         _currentEvent.update { currentState ->
             currentState.copy(
                 attachments = temp
+            )
+        }
+    }
+
+    fun updateAddedFiles(item: FileItemState) {
+        val newList = mutableListOf<FileItemState>()
+        newList.addAll(currentEvent.value.chosenFiles)
+        if (item !in newList) {
+            newList.add(item)
+        }
+        _currentEvent.update { currentState ->
+            currentState.copy(
+                chosenFiles = newList
             )
         }
     }

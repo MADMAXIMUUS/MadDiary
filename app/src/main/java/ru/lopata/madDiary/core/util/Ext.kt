@@ -6,9 +6,13 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import ru.lopata.madDiary.R
 import java.sql.Date
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,6 +45,24 @@ fun Activity.checkPermission(permission: String): Boolean {
 
 fun Activity.requestPermissions(vararg permission: String) {
     ActivityCompat.requestPermissions(this, permission, 200)
+}
+
+fun Activity.showToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
+fun Activity.showPermissionDialog(message: String, toSettings: () -> Unit) {
+    MaterialAlertDialogBuilder(this)
+        .setTitle(resources.getString(R.string.permission_dialog_title))
+        .setMessage(resources.getString(R.string.permission_dialog_text))
+        .setNegativeButton(resources.getString(R.string.cancel_button_title)) { dialog, _ ->
+            dialog.dismiss()
+        }
+        .setPositiveButton(resources.getString(R.string.settings_button_title)) { dialog, _ ->
+            toSettings()
+            dialog.dismiss()
+        }
+        .show()
 }
 
 @SuppressLint("SimpleDateFormat")

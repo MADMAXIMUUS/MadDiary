@@ -4,8 +4,8 @@
     style="@style/BottomSheetAttachmentTypeStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:behavior_hideable="true"
     android:background="@color/transparent"
+    app:behavior_hideable="true"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <ImageButton
@@ -14,10 +14,11 @@
         android:layout_height="70dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:contentDescription="@string/reminder_list_fab"
-        android:src="@drawable/app_logo_foreground"
         android:background="@drawable/rounded_button_ripple_effect_oval"
+        android:contentDescription="@string/reminder_list_fab"
+        android:src="@drawable/ic_next_month"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/mercury" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

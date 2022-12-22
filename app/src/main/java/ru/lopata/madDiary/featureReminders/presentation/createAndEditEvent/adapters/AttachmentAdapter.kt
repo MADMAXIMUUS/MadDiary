@@ -31,6 +31,7 @@ class AttachmentAdapter :
                         attachIcon.imageTintList = null
                         attachIcon.scaleType = ImageView.ScaleType.CENTER_CROP
                         attachPlay.visibility = View.GONE
+                        attachTitle.visibility = View.GONE
                     }
                     Attachment.VIDEO -> {
                         Glide
@@ -40,17 +41,22 @@ class AttachmentAdapter :
                         attachIcon.imageTintList = null
                         attachIcon.scaleType = ImageView.ScaleType.CENTER_CROP
                         attachPlay.visibility = View.VISIBLE
+                        attachTitle.visibility = View.GONE
                     }
                     Attachment.AUDIO -> {
                         attachIcon.setImageResource(R.drawable.ic_attachment_audio)
                         attachIcon.imageTintList = ColorStateList.valueOf(EventColors.GREEN)
-                        attachIcon.scaleType = null
+                        attachIcon.scaleType = ImageView.ScaleType.CENTER_CROP
                         attachPlay.visibility = View.GONE
+                        attachTitle.text = item.name
+                        attachTitle.visibility = View.VISIBLE
                     }
                     Attachment.FILE -> {
                         attachIcon.setImageResource(R.drawable.ic_attachment_file)
+                        attachTitle.visibility = View.VISIBLE
+                        attachTitle.text = item.name
                         attachIcon.imageTintList = ColorStateList.valueOf(EventColors.ORANGE)
-                        attachIcon.scaleType = null
+                        attachIcon.scaleType = ImageView.ScaleType.CENTER_CROP
                         attachPlay.visibility = View.GONE
                     }
                 }

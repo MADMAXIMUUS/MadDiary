@@ -2,16 +2,17 @@
 <resources>
     <string name="create_and_edit_note_title">Название…</string>
 
+    <!--Screens title-->
     <string name="create_and_edit_title">Редактирование события</string>
+    <string name="note_label">Заметки</string>
+    <string name="calendar_label">Календарь</string>
+    <string name="settings_label">Настройки</string>
 
     <string name="bottom_menu_reminders_title">Пункт \"напоминая\" нижнего меню</string>
     <string name="bottom_menu_calendar_title">Пункт \"календарь\" нижнего меню</string>
     <string name="bottom_menu_settings_title">Пункт \"настройки\" нижнего меню</string>
     <string name="bottom_menu_add_title">Пункт \"создать\" нижнего меню</string>
     <string name="bottom_menu_notes_title">Пункт \"заметки\" нижнего меню</string>
-    <string name="calendar_label">Календарь</string>
-    <string name="settings_label">Настройки</string>
-    <string name="note_label">Заметки</string>
     <string name="menu_search_view">Поиск</string>
     <string name="menu_save">Сохранить</string>
     <string name="menu_edit">Изменить</string>
@@ -82,6 +83,15 @@
     <string name="permission_dialog_title">Необходимо разрешение</string>
     <string name="permission_dialog_text">Для добавления вложений необходимо выдать разрешение на доступ к фото, видео, аудио и музыке. Нажмите > настройки > разрешения и разрешите доступ к <u>Файлам и медиа</u></string>
 
+    <string name="internal_storage">Внутреннее хранилище</string>
+    <string name="internal_storage_subtitle">Добавить файл с устройства</string>
+    <string name="add_file_rv_title">Недавние файлы</string>
+
+    <!--Happy Message-->
+    <string name="happy_new_year">Счастливого Нового Года и Рождества!!!</string>
+    <string name="happy_halloween">Счастливого Хэллоуина!!!</string>
+
+    <!--Arrays-->
     <string-array name="days_in_week">
         <item>Пн</item>
         <item>Вт</item>

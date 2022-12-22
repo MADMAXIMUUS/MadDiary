@@ -26,6 +26,9 @@ interface EventDao {
     @Query("SELECT * FROM EVENTS WHERE eventId = :id")
     suspend fun getEventById(id: Int): EventRepeatAttachment?
 
+    @Query("SELECT * FROM ATTACHMENTS WHERE type = :type")
+    fun getAttachments(type: Int = Attachment.FILE): Flow<List<Attachment>>
+
     @Query("SELECT * FROM ATTACHMENTS WHERE eventOwnerId = :eventId")
     fun getAttachmentsByEventId(eventId: Long): Flow<List<Attachment>>
 

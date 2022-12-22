@@ -173,10 +173,26 @@ val MIGRATION_13_14 = object : Migration(13, 14) {
                     "atId INTEGER PRIMARY KEY," +
                     "eventOwnerId INTEGER NOT NULL," +
                     "type INTEGER NOT NULL," +
-                    "duration BIGINT NOT NULL,"+
-                    "size BIGINT NOT NULL,"+
+                    "duration BIGINT NOT NULL," +
+                    "size BIGINT NOT NULL," +
                     "uri TEXT NOT NULL," +
                     "FOREIGN KEY(eventOwnerId) REFERENCES EVENTS(eventId) ON UPDATE NO ACTION ON DELETE CASCADE)"
+        )
+    }
+}
+
+val MIGRATION_14_15 = object : Migration(14, 15) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            "ALTER TABLE ATTACHMENTS ADD COLUMN name TEXT NOT NULL"
+        )
+    }
+}
+
+val MIGRATION_15_16 = object : Migration(15, 16) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            "ALTER TABLE ATTACHMENTS ADD COLUMN fileExtension TEXT NOT NULL"
         )
     }
 }

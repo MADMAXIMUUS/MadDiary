@@ -1,6 +1,7 @@
 package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent
 
 import android.Manifest.permission.*
+import android.app.Activity
 import android.content.ContentUris
 import android.content.Intent
 import android.database.Cursor
@@ -8,10 +9,12 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.provider.Settings
 import android.view.*
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.view.ActionMode.Callback
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +31,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -38,23 +40,21 @@ import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.domain.service.CopyAttachmentService
 import ru.lopata.madDiary.core.presentation.MainActivity
 import ru.lopata.madDiary.core.util.*
-import ru.lopata.madDiary.databinding.BottomSheetAddBinding
-import ru.lopata.madDiary.databinding.BottomSheetButtonBinding
-import ru.lopata.madDiary.databinding.BottomSheetChooseAttachmentTypeBinding
-import ru.lopata.madDiary.databinding.FragmentCreateAndEditEventBinding
+import ru.lopata.madDiary.databinding.*
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.*
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.*
 import ru.lopata.madDiary.featureReminders.util.BottomSheetCallback
 import java.io.File
+
 
 @AndroidEntryPoint
 class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
 
     private var _binding: FragmentCreateAndEditEventBinding? = null
     private val binding get() = _binding!!
-
-    private val coroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     private val viewModel: CreateAndEditEventViewModel by viewModels()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
@@ -70,10 +70,10 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
     private lateinit var bottomSheetAudioBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var bindingAudio: BottomSheetAddBinding
     private lateinit var bottomSheetFileBehavior: BottomSheetBehavior<ConstraintLayout>
-    private lateinit var bindingFile: BottomSheetAddBinding
+    private lateinit var bindingFile: BottomSheetAddFileBinding
 
-    private var activityResultLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
+    private val permResultLauncher = registerForActivityResult(
+        RequestMultiplePermissions()
     ) { result ->
         var allAreGranted = true
         for (perm in result.values) {
@@ -86,17 +86,47 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
             getPhotos()
             getVideos()
         } else {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(resources.getString(R.string.permission_dialog_title))
-                .setMessage(resources.getString(R.string.permission_dialog_text))
-                .setNegativeButton(resources.getString(R.string.cancel_button_title)) { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .setPositiveButton(resources.getString(R.string.settings_button_title)) { dialog, _ ->
+            requireActivity()
+                .showPermissionDialog(
+                    resources.getString(R.string.permission_dialog_text)
+                ) {
                     showAppSettingsScreen()
-                    dialog.dismiss()
                 }
-                .show()
+        }
+    }
+
+    private val fileResultLauncher = registerForActivityResult(
+        StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val file: Intent? = result.data
+            if (file != null) {
+                bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                if (file.data != null) {
+                    var fileName = ""
+                    val resolver = requireActivity().contentResolver
+                    file.data.let { returnUri ->
+                        resolver.query(returnUri!!, null, null, null)
+                    }?.use { cursor ->
+                        val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                        cursor.moveToFirst()
+                        fileName = cursor.getString(nameIndex)
+                    }
+                    val fileDescriptor = resolver.openFileDescriptor(file.data!!, "r")
+                    val fileSize = fileDescriptor?.statSize
+                    val type = resolver.getType(file.data!!).toString()
+                    viewModel.updateAddedFiles(
+                        FileItemState(
+                            uri = file.data!!,
+                            size = fileSize ?: 0,
+                            name = fileName,
+                            type = type,
+                        )
+                    )
+                    viewModel.updateAttachment()
+                }
+            }
         }
     }
 
@@ -158,14 +188,14 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
     }
 
     private fun getPhotos() {
-        coroutineScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             getGalleryImagesPath()
             this.cancel()
         }
     }
 
     private fun getVideos() {
-        coroutineScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             getGalleryVideoPath()
             this.cancel()
         }
@@ -191,8 +221,9 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
             .bind(binding.root.findViewById(R.id.bottom_sheet_add_image))
         bindingVideo = BottomSheetAddBinding
             .bind(binding.root.findViewById(R.id.bottom_sheet_add_video))
-        /*bindingAudio = BottomSheetChooseAttachmentTypeBinding.inflate(inflater)
-        bindingFile = BottomSheetChooseAttachmentTypeBinding.inflate(inflater)*/
+        bindingFile = BottomSheetAddFileBinding
+            .bind(binding.root.findViewById(R.id.bottom_sheet_add_file))
+        /*bindingAudio = BottomSheetChooseAttachmentTypeBinding.inflate(inflater))*/
         return binding.root
     }
 
@@ -212,6 +243,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
         val coverAdapter = CoverAdapter(this)
         val imageAdapter = ImageAdapter(this)
         val videoAdapter = VideoAdapter(this)
+        val fileAdapter = FileAdapter(this)
 
         val attachmentAdapter = AttachmentAdapter()
 
@@ -333,6 +365,12 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                 if (bottomSheetVideoBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
                     bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
+                if (bottomSheetFileBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+                    bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+                if (bottomSheetButtonBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
+                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
                 if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 /*bottomSheetAudioBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -373,19 +411,25 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
         bindingCover.bottomSheetRv.apply {
             adapter = coverAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)
-            addItemDecoration(GridItemDecoration(20, 2))
+            addItemDecoration(AttachItemDecoration(20, 2))
         }
 
         bindingImage.bottomSheetRv.apply {
             adapter = imageAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
-            addItemDecoration(GridItemDecoration(10, 3))
+            addItemDecoration(AttachItemDecoration(10, 3))
         }
 
         bindingVideo.bottomSheetRv.apply {
             adapter = videoAdapter
             layoutManager = GridLayoutManager(requireContext(), 3)
-            addItemDecoration(GridItemDecoration(10, 3))
+            addItemDecoration(AttachItemDecoration(10, 3))
+        }
+
+        bindingFile.bottomSheetRv.apply {
+            adapter = fileAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(FileItemDecoration(10, 20))
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
@@ -397,6 +441,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                     imageAdapter.updateChosen(event.chosenImages)
                     videoAdapter.submitList(event.videos)
                     videoAdapter.updateChosen(event.chosenVideos)
+                    fileAdapter.submitList(event.files)
                     attachmentAdapter.submitList(event.attachments)
 
                     createAndEditEventTitleEdt.addTextChangedListener(
@@ -656,6 +701,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                     bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
             bottomSheetAttachmentTypeImageRb.setOnCheckedChangeListener { _, isChecked ->
@@ -740,6 +786,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                     bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
             bottomSheetAttachmentTypeVideoRb.setOnCheckedChangeListener { _, isChecked ->
@@ -753,7 +800,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                             BottomSheetCallback(
                                 onStateChange = { _, newState ->
                                     if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                                        bindingImage.bottomSheetHandle.alpha = 0f
+                                        bindingVideo.bottomSheetHandle.alpha = 0f
                                         bottomSheetBehavior.state =
                                             BottomSheetBehavior.STATE_HIDDEN
                                         bindingVideo.root.background =
@@ -824,6 +871,91 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                     bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                }
+            }
+            bottomSheetAttachmentTypeFileRb.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    bottomSheetFileBehavior.apply {
+                        bindingFile.bottomSheetRv.scrollToPosition(0)
+                        peekHeight = 1300
+                        state = BottomSheetBehavior.STATE_COLLAPSED
+                        addBottomSheetCallback(
+                            BottomSheetCallback(
+                                onStateChange = { _, newState ->
+                                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                                        bindingFile.bottomSheetHandle.alpha = 0f
+                                        bottomSheetBehavior.state =
+                                            BottomSheetBehavior.STATE_HIDDEN
+                                        bindingFile.root.background =
+                                            ContextCompat.getDrawable(
+                                                requireContext(),
+                                                R.drawable.no_corners
+                                            )
+                                        if (contextActionMode == null) {
+                                            isNeedClose = true
+                                            contextActionMode = (requireActivity() as MainActivity)
+                                                .startSupportActionMode(actionModCallBack)
+                                        }
+                                    } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                                        bindingFile.bottomSheetHandle.alpha = 1f
+                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
+                                            bottomSheetBehavior.state =
+                                                BottomSheetBehavior.STATE_EXPANDED
+                                        }
+                                    } else if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                                        isNeedClose = false
+                                        contextActionMode?.finish()
+                                        bindingFile.root.background =
+                                            ContextCompat.getDrawable(
+                                                requireContext(),
+                                                R.drawable.top_corners
+                                            )
+                                    } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                                        isNeedClose = false
+                                        contextActionMode?.finish()
+                                        if (bindingType.bottomSheetAttachmentTypeFileRb.isChecked) {
+                                            bindingType.bottomSheetAttachmentTypeRoot.clearCheck()
+                                            bindingFile.root.background =
+                                                ContextCompat.getDrawable(
+                                                    requireContext(),
+                                                    R.drawable.top_corners
+                                                )
+                                            if (requireActivity().isDarkTheme())
+                                                requireActivity().setNavigationColor(
+                                                    ContextCompat.getColor(
+                                                        requireContext(),
+                                                        R.color.onyx
+                                                    )
+                                                )
+                                        }
+                                    }
+                                },
+                                onSlideSheet = { _, offset, prev ->
+                                    if (offset > 0 && prev < offset) {
+                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                                        bindingFile.bottomSheetHandle.alpha = 1 - offset
+                                    } else if (offset >= 0f && state == BottomSheetBehavior.STATE_DRAGGING) {
+                                        isNeedClose = false
+                                        contextActionMode?.finish()
+                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
+                                            bottomSheetBehavior.state =
+                                                BottomSheetBehavior.STATE_EXPANDED
+                                        }
+                                        bindingFile.bottomSheetHandle.alpha = 1 - offset
+                                    } else if (state == BottomSheetBehavior.STATE_DRAGGING) {
+                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                                        bottomSheetButtonBehavior.state =
+                                            BottomSheetBehavior.STATE_HIDDEN
+                                    }
+                                }
+                            )
+                        )
+                    }
+                    bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
         }
@@ -849,18 +981,11 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                 state = BottomSheetBehavior.STATE_HIDDEN
             }
 
-        bindingCover.bottomSheetTitle.text =
-            getString(R.string.bottom_sheet_choose_cover_title)
-
         bottomSheetImageBehavior = BottomSheetBehavior
             .from(bindingImage.root)
             .apply {
                 state = BottomSheetBehavior.STATE_HIDDEN
             }
-
-
-        bindingImage.bottomSheetTitle.text =
-            getString(R.string.bottom_sheet_choose_image_title)
 
         bottomSheetVideoBehavior = BottomSheetBehavior
             .from(bindingVideo.root)
@@ -868,17 +993,13 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                 state = BottomSheetBehavior.STATE_HIDDEN
             }
 
-        bindingVideo.bottomSheetTitle.text =
-            getString(R.string.bottom_sheet_choose_video_title)
-
         /*bottomSheetAudioBehavior = BottomSheetBehavior
             .from(bindingAudio.root)
             .apply {
                 state = BottomSheetBehavior.STATE_HIDDEN
             }
+            */
 
-            bindingAudio.bottomSheetTitle.text =
-            getString(R.string.bottom_sheet_choose_audio_title)
 
         bottomSheetFileBehavior = BottomSheetBehavior
             .from(bindingFile.root)
@@ -886,9 +1007,11 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                 state = BottomSheetBehavior.STATE_HIDDEN
             }
 
-            bindingFile.bottomSheetTitle.text =
-            getString(R.string.bottom_sheet_choose_file_title)
-            */
+        bindingFile.bottomSheetInternal.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "*/*"
+            fileResultLauncher.launch(intent)
+        }
 
         binding.bottomSheetButton.bottomSheetChooseButton.setOnClickListener {
             viewModel.updateAttachment()
@@ -903,13 +1026,13 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
             if (!requireActivity().checkPermission(READ_MEDIA_IMAGES)) {
                 bindingImage.bottomSheetPermissionMessage.visibility = View.VISIBLE
                 bindingImage.bottomSheetPermissionMessage.setOnClickListener {
-                    activityResultLauncher.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VIDEO))
+                    permResultLauncher.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VIDEO))
                 }
             }
             if (!requireActivity().checkPermission(READ_MEDIA_VIDEO)) {
                 bindingVideo.bottomSheetPermissionMessage.visibility = View.VISIBLE
                 bindingVideo.bottomSheetPermissionMessage.setOnClickListener {
-                    activityResultLauncher.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VIDEO))
+                    permResultLauncher.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VIDEO))
                 }
             }
         } else {
@@ -917,10 +1040,10 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                 bindingImage.bottomSheetPermissionMessage.visibility = View.VISIBLE
                 bindingVideo.bottomSheetPermissionMessage.visibility = View.VISIBLE
                 bindingImage.bottomSheetPermissionMessage.setOnClickListener {
-                    activityResultLauncher.launch(arrayOf(READ_EXTERNAL_STORAGE))
+                    permResultLauncher.launch(arrayOf(READ_EXTERNAL_STORAGE))
                 }
                 bindingVideo.bottomSheetPermissionMessage.setOnClickListener {
-                    activityResultLauncher.launch(arrayOf(READ_EXTERNAL_STORAGE))
+                    permResultLauncher.launch(arrayOf(READ_EXTERNAL_STORAGE))
                 }
             }
         }
@@ -941,9 +1064,12 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
 
     private suspend fun getGalleryImagesPath() = coroutineScope {
         launch {
-            val imagePathList = mutableListOf<Uri>()
+            val imagePathList = mutableListOf<ImageItemState>()
             val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            val projection = arrayOf(MediaStore.MediaColumns._ID)
+            val projection = arrayOf(
+                MediaStore.MediaColumns._ID,
+                MediaStore.Video.VideoColumns.SIZE
+            )
             val sortOrder = MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC"
             val cursor: Cursor? = requireContext()
                 .contentResolver
@@ -952,7 +1078,14 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                 while (cursor.moveToNext()) {
                     val id: Int =
                         cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
-                    imagePathList.add(ContentUris.withAppendedId(uri, id.toLong()))
+                    val size = cursor
+                        .getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.SIZE))
+                    imagePathList.add(
+                        ImageItemState(
+                            uri = ContentUris.withAppendedId(uri, id.toLong()),
+                            size = size
+                        )
+                    )
                 }
                 cursor.close()
             }
@@ -1000,7 +1133,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
         viewModel.updateCover(uri)
     }
 
-    override fun onImagesChosen(items: List<Uri>) {
+    override fun onImagesChosen(items: List<ImageItemState>) {
         val prevState = viewModel.currentEvent.value.chosenImages
         if (items.isNotEmpty() || items != prevState) {
             bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -1030,8 +1163,11 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
 
     }
 
-    override fun onFileChosen(uri: Uri) {
-
+    override fun onFileChosen(item: FileItemState) {
+        viewModel.updateAddedFiles(item)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        viewModel.updateAttachment()
     }
 
     companion object {

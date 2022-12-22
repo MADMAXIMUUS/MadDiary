@@ -53,7 +53,7 @@ class CopyAttachmentService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val eventId = intent?.getLongExtra("eventId", 0) ?: 0
         CoroutineScope(Dispatchers.IO).launch {
-            val flow = useCases.getAttachmentByEventId(eventId)
+            val flow = useCases.getAttachmentByEventIdUseCase(eventId)
             flow.collectLatest { attachments ->
                 val totalImages = attachments.count()
                 CoroutineScope(Dispatchers.Main).launch {
@@ -77,6 +77,8 @@ class CopyAttachmentService : Service() {
                                 type = attachment.type,
                                 atId = attachment.atId,
                                 size = attachment.size,
+                                name = attachment.name,
+                                fileExtension = attachment.fileExtension,
                                 duration = attachment.duration
                             )
                         )

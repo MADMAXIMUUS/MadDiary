@@ -46,7 +46,13 @@ class CoverAdapter(val listener: OnAttachmentChosenListener) :
     }
 
     fun updateChosen(uri: Uri) {
+        chosenCover?.strokeWidth = 0
         chosenCoverUri = uri
+        currentList.forEachIndexed { index, item ->
+            if (item == uri) {
+                notifyItemChanged(index)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoverViewHolder {

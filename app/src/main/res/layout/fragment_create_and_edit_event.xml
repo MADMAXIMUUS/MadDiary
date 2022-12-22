@@ -309,7 +309,6 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/create_and_edit_event_note_root"
                     style="@style/ReminderCardStyle"
@@ -528,12 +527,12 @@
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
-    <!--<include
-        android:id="@+id/bottom_sheet_add_file"
-        tools:visibility = "gone"
-        layout="@layout/bottom_sheet_add" />
-
     <include
+        android:id="@+id/bottom_sheet_add_file"
+        layout="@layout/bottom_sheet_add_file"
+        tools:visibility="gone" />
+
+    <!--<include
         android:id="@+id/bottom_sheet_add_audio"
         tools:visibility = "gone"
         layout="@layout/bottom_sheet_add" />-->

@@ -31,10 +31,12 @@ data class CreateEventScreenState(
     val notificationTitle: List<Int> = listOf(R.string.never),
     val notifications: List<Long> = listOf(-1),
     val covers: List<Uri> = emptyList(),
-    val images: List<Uri> = emptyList(),
+    val images: List<ImageItemState> = emptyList(),
     val videos: List<VideoItemState> = emptyList(),
-    val chosenImages: List<Uri> = emptyList(),
+    val files: List<FileItemState> = emptyList(),
+    val chosenImages: List<ImageItemState> = emptyList(),
     val chosenVideos: List<VideoItemState> = emptyList(),
+    val chosenFiles: List<FileItemState> = emptyList(),
     val attachments: List<Attachment> = emptyList(),
     val id: Int? = null
 )
