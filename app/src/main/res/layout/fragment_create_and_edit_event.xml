@@ -532,10 +532,15 @@
         layout="@layout/bottom_sheet_add_file"
         tools:visibility="gone" />
 
-    <!--<include
+    <include
+        android:id="@+id/bottom_sheet_add_audio_button"
+        layout="@layout/bottom_sheet_add_audio_button"
+        tools:visibility="gone" />
+
+    <include
         android:id="@+id/bottom_sheet_add_audio"
-        tools:visibility = "gone"
-        layout="@layout/bottom_sheet_add" />-->
+        layout="@layout/bottom_sheet_add_audio"
+        tools:visibility="gone" />
 
     <include
         android:id="@+id/bottom_sheet_add_video"

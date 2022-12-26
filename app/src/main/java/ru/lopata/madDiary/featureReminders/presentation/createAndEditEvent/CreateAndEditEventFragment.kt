@@ -8,6 +8,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.provider.Settings
@@ -42,13 +43,13 @@ import ru.lopata.madDiary.core.presentation.MainActivity
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.*
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.*
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.AudioItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.*
 import ru.lopata.madDiary.featureReminders.util.BottomSheetCallback
 import java.io.File
-
 
 @AndroidEntryPoint
 class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
@@ -68,7 +69,9 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
     private lateinit var bottomSheetVideoBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var bindingVideo: BottomSheetAddBinding
     private lateinit var bottomSheetAudioBehavior: BottomSheetBehavior<ConstraintLayout>
-    private lateinit var bindingAudio: BottomSheetAddBinding
+    private lateinit var bindingAudio: BottomSheetAddAudioBinding
+    private lateinit var bottomSheetAudioButtonBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var bindingAudioButton: BottomSheetAddAudioButtonBinding
     private lateinit var bottomSheetFileBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var bindingFile: BottomSheetAddFileBinding
 
@@ -223,7 +226,10 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
             .bind(binding.root.findViewById(R.id.bottom_sheet_add_video))
         bindingFile = BottomSheetAddFileBinding
             .bind(binding.root.findViewById(R.id.bottom_sheet_add_file))
-        /*bindingAudio = BottomSheetChooseAttachmentTypeBinding.inflate(inflater))*/
+        bindingAudio = BottomSheetAddAudioBinding
+            .bind(binding.root.findViewById(R.id.bottom_sheet_add_audio))
+        bindingAudioButton = BottomSheetAddAudioButtonBinding
+            .bind(binding.root.findViewById(R.id.bottom_sheet_add_audio_button))
         return binding.root
     }
 
@@ -306,8 +312,8 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                         bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                         bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                         bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        /*bottomSheetAudioBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN*/
+                        bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                        /*bottomSheetAudioBehavior.state = BottomSheetBehavior.STATE_HIDDEN*/
                     } else {
                         isEnabled = false
                         view.findNavController().navigateUp()
@@ -702,6 +708,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                     bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetAudioButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
             bottomSheetAttachmentTypeImageRb.setOnCheckedChangeListener { _, isChecked ->
@@ -787,6 +794,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                     bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetAudioButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
             bottomSheetAttachmentTypeVideoRb.setOnCheckedChangeListener { _, isChecked ->
@@ -874,6 +882,57 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                     bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
+            bottomSheetAttachmentTypeAudioRb.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    bottomSheetAudioBehavior.apply {
+                        peekHeight = 340
+                        //state = BottomSheetBehavior.STATE_COLLAPSED
+                    }
+                    bottomSheetAudioButtonBehavior.apply {
+                        state = BottomSheetBehavior.STATE_EXPANDED
+                        addBottomSheetCallback(
+                            BottomSheetCallback(
+                                onStateChange = { _, newState ->
+                                    if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                                        if (bindingType.bottomSheetAttachmentTypeAudioRb.isChecked) {
+                                            bindingType.bottomSheetAttachmentTypeRoot.clearCheck()
+                                            if (requireActivity().isDarkTheme())
+                                                requireActivity().setNavigationColor(
+                                                    ContextCompat.getColor(
+                                                        requireContext(),
+                                                        R.color.onyx
+                                                    )
+                                                )
+                                        }
+                                    }
+                                },
+                                onSlideSheet = { _, offset, prev ->
+                                    if (offset > 0 && prev < offset) {
+                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                                        bindingCover.bottomSheetHandle.alpha = 1 - offset
+                                    } else if (offset >= 0f && state == BottomSheetBehavior.STATE_DRAGGING) {
+                                        isNeedClose = false
+                                        contextActionMode?.finish()
+                                        bottomSheetBehavior.state =
+                                            BottomSheetBehavior.STATE_EXPANDED
+                                        bindingCover.bottomSheetHandle.alpha = 1 - offset
+                                    } else if (state == BottomSheetBehavior.STATE_DRAGGING) {
+                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                                        bottomSheetAudioBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                                        bottomSheetButtonBehavior.state =
+                                            BottomSheetBehavior.STATE_HIDDEN
+                                    }
+                                }
+                            )
+                        )
+                    }
+                    bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                }
+            }
             bottomSheetAttachmentTypeFileRb.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     bottomSheetFileBehavior.apply {
@@ -956,6 +1015,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                     bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                     bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    bottomSheetAudioButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 }
             }
         }
@@ -993,13 +1053,17 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                 state = BottomSheetBehavior.STATE_HIDDEN
             }
 
-        /*bottomSheetAudioBehavior = BottomSheetBehavior
+        bottomSheetAudioBehavior = BottomSheetBehavior
             .from(bindingAudio.root)
             .apply {
                 state = BottomSheetBehavior.STATE_HIDDEN
             }
-            */
 
+        bottomSheetAudioButtonBehavior = BottomSheetBehavior
+            .from(bindingAudioButton.root)
+            .apply {
+                state = BottomSheetBehavior.STATE_HIDDEN
+            }
 
         bottomSheetFileBehavior = BottomSheetBehavior
             .from(bindingFile.root)
@@ -1011,6 +1075,12 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "*/*"
             fileResultLauncher.launch(intent)
+        }
+
+        bindingAudioButton.bottomSheetMicButton.setOnClickListener {
+            bindingAudioButton.bottomSheetTimer.visibility = View.VISIBLE
+            bindingAudioButton.bottomSheetTimer.base = SystemClock.elapsedRealtime()
+            bindingAudioButton.bottomSheetTimer.start()
         }
 
         binding.bottomSheetButton.bottomSheetChooseButton.setOnClickListener {
@@ -1159,8 +1229,12 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
         viewModel.updateChosenVideo(items)
     }
 
-    override fun onAudioChosen(uri: Uri) {
-
+    override fun onAudioChosen(item: AudioItemState) {
+        viewModel.updateAddedAudios(item)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetAudioBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetAudioButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        viewModel.updateAttachment()
     }
 
     override fun onFileChosen(item: FileItemState) {

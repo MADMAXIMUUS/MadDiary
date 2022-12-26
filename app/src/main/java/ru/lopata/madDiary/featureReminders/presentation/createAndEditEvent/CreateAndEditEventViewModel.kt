@@ -22,10 +22,7 @@ import ru.lopata.madDiary.featureReminders.domain.model.Event
 import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatAttachment
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.CreateEventScreenState
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.*
 import java.sql.Date
 import javax.inject.Inject
 
@@ -61,7 +58,7 @@ class CreateAndEditEventViewModel @Inject constructor(
                     val file = FileItemState(
                         uri = Uri.parse(attachment.uri),
                         size = attachment.size,
-                        sizeTitle = (attachment.size/1000F).toString()+"Kb",
+                        sizeTitle = "%.1f Kb".format(attachment.size / 1000F),
                         name = attachment.name,
                         type = attachment.fileExtension
                     )
@@ -578,6 +575,19 @@ class CreateAndEditEventViewModel @Inject constructor(
         _currentEvent.update { currentState ->
             currentState.copy(
                 chosenFiles = newList
+            )
+        }
+    }
+
+    fun updateAddedAudios(item: AudioItemState) {
+        val newList = mutableListOf<AudioItemState>()
+        newList.addAll(currentEvent.value.chosenAudios)
+        if (item !in newList) {
+            newList.add(item)
+        }
+        _currentEvent.update { currentState ->
+            currentState.copy(
+                chosenAudios = newList
             )
         }
     }

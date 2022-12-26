@@ -34,9 +34,11 @@ data class CreateEventScreenState(
     val images: List<ImageItemState> = emptyList(),
     val videos: List<VideoItemState> = emptyList(),
     val files: List<FileItemState> = emptyList(),
+    val audios: List<FileItemState> = emptyList(),
     val chosenImages: List<ImageItemState> = emptyList(),
     val chosenVideos: List<VideoItemState> = emptyList(),
     val chosenFiles: List<FileItemState> = emptyList(),
+    val chosenAudios: List<AudioItemState> = emptyList(),
     val attachments: List<Attachment> = emptyList(),
     val id: Int? = null
 )

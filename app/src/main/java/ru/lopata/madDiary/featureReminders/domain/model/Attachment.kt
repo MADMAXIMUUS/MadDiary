@@ -1,12 +1,10 @@
 package ru.lopata.madDiary.featureReminders.domain.model
 
 import android.os.Parcelable
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
-import com.airbnb.lottie.network.FileExtension
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -28,7 +26,7 @@ data class Attachment(
     val size: Long = 0,
     val name: String = "",
     val fileExtension: String = "",
-    val uri: String = "empty"
+    val uri: String = ""
 ) : Parcelable {
     companion object {
         const val IMAGE = 0
