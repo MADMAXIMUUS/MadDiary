@@ -527,44 +527,4 @@
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 
-    <include
-        android:id="@+id/bottom_sheet_add_file"
-        layout="@layout/bottom_sheet_add_file"
-        tools:visibility="gone" />
-
-    <include
-        android:id="@+id/bottom_sheet_add_audio_button"
-        layout="@layout/bottom_sheet_add_audio_button"
-        tools:visibility="gone" />
-
-    <include
-        android:id="@+id/bottom_sheet_add_audio"
-        layout="@layout/bottom_sheet_add_audio"
-        tools:visibility="gone" />
-
-    <include
-        android:id="@+id/bottom_sheet_add_video"
-        layout="@layout/bottom_sheet_add"
-        tools:visibility="gone" />
-
-    <include
-        android:id="@+id/bottom_sheet_add_image"
-        layout="@layout/bottom_sheet_add"
-        tools:visibility="gone" />
-
-    <include
-        android:id="@+id/bottom_sheet_add_cover"
-        layout="@layout/bottom_sheet_add"
-        tools:visibility="gone" />
-
-    <include
-        android:id="@+id/bottom_sheet_choose_attachment_type"
-        layout="@layout/bottom_sheet_choose_attachment_type"
-        tools:visibility="gone" />
-
-    <include
-        android:id="@+id/bottom_sheet_button"
-        layout="@layout/bottom_sheet_button"
-        tools:visibility="gone" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="50dp"
-    tools:context=".featureReminders.presentation.dialogs.bottomsheet.BottomSheetChooseColorFragment">
+    tools:context=".featureReminders.presentation.dialogs.bottomSheet.BottomSheetChooseColorFragment">
 
     <TextView
         android:id="@+id/bottom_sheet_create_reminder_title"

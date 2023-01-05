@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet
+package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet
 
 import android.os.Bundle
 import android.view.LayoutInflater

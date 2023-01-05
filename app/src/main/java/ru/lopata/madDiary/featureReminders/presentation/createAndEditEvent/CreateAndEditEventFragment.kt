@@ -8,17 +8,12 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.provider.Settings
 import android.view.*
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.appcompat.view.ActionMode
-import androidx.appcompat.view.ActionMode.Callback
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -28,10 +23,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -39,16 +32,15 @@ import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.BuildConfig
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.domain.service.CopyAttachmentService
-import ru.lopata.madDiary.core.presentation.MainActivity
 import ru.lopata.madDiary.core.util.*
-import ru.lopata.madDiary.databinding.*
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.*
+import ru.lopata.madDiary.databinding.FragmentCreateAndEditEventBinding
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AttachmentAdapter
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentChosenListener
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.AudioItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
-import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.*
-import ru.lopata.madDiary.featureReminders.util.BottomSheetCallback
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.*
 import java.io.File
 
 @AndroidEntryPoint
@@ -58,25 +50,12 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
     private val binding get() = _binding!!
 
     private val viewModel: CreateAndEditEventViewModel by viewModels()
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
-    private lateinit var bindingType: BottomSheetChooseAttachmentTypeBinding
-    private lateinit var bottomSheetButtonBehavior: BottomSheetBehavior<ConstraintLayout>
-    private lateinit var bindingButton: BottomSheetButtonBinding
-    private lateinit var bottomSheetCoverBehavior: BottomSheetBehavior<ConstraintLayout>
-    private lateinit var bindingCover: BottomSheetAddBinding
-    private lateinit var bottomSheetImageBehavior: BottomSheetBehavior<ConstraintLayout>
-    private lateinit var bindingImage: BottomSheetAddBinding
-    private lateinit var bottomSheetVideoBehavior: BottomSheetBehavior<ConstraintLayout>
-    private lateinit var bindingVideo: BottomSheetAddBinding
-    private lateinit var bottomSheetAudioBehavior: BottomSheetBehavior<ConstraintLayout>
-    private lateinit var bindingAudio: BottomSheetAddAudioBinding
-    private lateinit var bottomSheetAudioButtonBehavior: BottomSheetBehavior<ConstraintLayout>
-    private lateinit var bindingAudioButton: BottomSheetAddAudioButtonBinding
-    private lateinit var bottomSheetFileBehavior: BottomSheetBehavior<ConstraintLayout>
-    private lateinit var bindingFile: BottomSheetAddFileBinding
+    private var isEdit = false
+
+    private lateinit var menuProvider: MenuProvider
 
     private val permResultLauncher = registerForActivityResult(
-        RequestMultiplePermissions()
+        ActivityResultContracts.RequestMultiplePermissions()
     ) { result ->
         var allAreGranted = true
         for (perm in result.values) {
@@ -84,8 +63,6 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
         }
 
         if (allAreGranted) {
-            bindingImage.bottomSheetPermissionMessage.visibility = View.GONE
-            bindingVideo.bottomSheetPermissionMessage.visibility = View.GONE
             getPhotos()
             getVideos()
         } else {
@@ -99,13 +76,11 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
     }
 
     private val fileResultLauncher = registerForActivityResult(
-        StartActivityForResult()
+        ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val file: Intent? = result.data
             if (file != null) {
-                bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
                 if (file.data != null) {
                     var fileName = ""
                     val resolver = requireActivity().contentResolver
@@ -132,14 +107,6 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
             }
         }
     }
-
-    private lateinit var menuProvider: MenuProvider
-
-    private lateinit var actionModCallBack: Callback
-
-    private var contextActionMode: ActionMode? = null
-
-    private var isNeedClose: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -204,52 +171,17 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
         }
     }
 
-    private fun shouldInterceptBackPress(): Boolean {
-        return bindingType.bottomSheetAttachmentTypeRoot.checkedRadioButtonId != -1
-    }
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCreateAndEditEventBinding.inflate(inflater, container, false)
-        bindingType = BottomSheetChooseAttachmentTypeBinding
-            .bind(binding.root.findViewById(R.id.bottom_sheet_choose_attachment_type))
-        bindingButton = BottomSheetButtonBinding
-            .bind(binding.root.findViewById(R.id.bottom_sheet_button))
-        bindingCover = BottomSheetAddBinding
-            .bind(binding.root.findViewById(R.id.bottom_sheet_add_cover))
-        bindingImage = BottomSheetAddBinding
-            .bind(binding.root.findViewById(R.id.bottom_sheet_add_image))
-        bindingVideo = BottomSheetAddBinding
-            .bind(binding.root.findViewById(R.id.bottom_sheet_add_video))
-        bindingFile = BottomSheetAddFileBinding
-            .bind(binding.root.findViewById(R.id.bottom_sheet_add_file))
-        bindingAudio = BottomSheetAddAudioBinding
-            .bind(binding.root.findViewById(R.id.bottom_sheet_add_audio))
-        bindingAudioButton = BottomSheetAddAudioButtonBinding
-            .bind(binding.root.findViewById(R.id.bottom_sheet_add_audio_button))
         return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val menuHost: MenuHost = requireActivity()
-
-        val coverAdapter = CoverAdapter(this)
-        val imageAdapter = ImageAdapter(this)
-        val videoAdapter = VideoAdapter(this)
-        val fileAdapter = FileAdapter(this)
 
         val attachmentAdapter = AttachmentAdapter()
 
@@ -271,49 +203,12 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
             }
         }
 
-        actionModCallBack = object : Callback {
-
-            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                return true
-            }
-
-            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                return false
-            }
-
-            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-                return false
-            }
-
-            override fun onDestroyActionMode(mode: ActionMode?) {
-                contextActionMode = null
-                if (isNeedClose) {
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    videoAdapter.updateChosen(emptyList())
-                    bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    imageAdapter.updateChosen(emptyList())
-                    bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    coverAdapter.updateChosen(Uri.EMPTY)
-                }
-            }
-        }
-
-        attachmentBottomSheetInit()
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    if (shouldInterceptBackPress()) {
+                    if (isEdit) {
                         isEnabled = true
-                        contextActionMode?.finish()
-                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                        /*bottomSheetAudioBehavior.state = BottomSheetBehavior.STATE_HIDDEN*/
                     } else {
                         isEnabled = false
                         view.findNavController().navigateUp()
@@ -361,47 +256,14 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
         }
 
         binding.apply {
-            createAndEditEventTitleEdt.setOnClickListener {
-                if (bottomSheetCoverBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
-                    bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
-                if (bottomSheetImageBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
-                    bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
-                if (bottomSheetVideoBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
-                    bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
-                if (bottomSheetFileBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
-                    bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
-                if (bottomSheetButtonBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
-                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
-                if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                /*bottomSheetAudioBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN*/
-            }
             createAndEditEventAllDaySwitch.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.updateAllDayState(isChecked)
             }
             createAndEditEventDeleteCoverButton.setOnClickListener {
                 viewModel.updateCover(Uri.EMPTY)
-                coverAdapter.updateChosen(Uri.EMPTY)
             }
             scrollView2.setOnScrollChangeListener { _, _, _, _, _ ->
                 requireActivity().hideKeyboard()
-                if (bottomSheetCoverBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
-                    bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
-                if (bottomSheetImageBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
-                    bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
-                if (bottomSheetVideoBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
-                    bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
-                if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN)
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
             }
             createAndEditEventAttachmentContentRoot.apply {
                 adapter = attachmentAdapter
@@ -414,40 +276,9 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
             }
         }
 
-        bindingCover.bottomSheetRv.apply {
-            adapter = coverAdapter
-            layoutManager = GridLayoutManager(requireContext(), 2)
-            addItemDecoration(AttachItemDecoration(20, 2))
-        }
-
-        bindingImage.bottomSheetRv.apply {
-            adapter = imageAdapter
-            layoutManager = GridLayoutManager(requireContext(), 3)
-            addItemDecoration(AttachItemDecoration(10, 3))
-        }
-
-        bindingVideo.bottomSheetRv.apply {
-            adapter = videoAdapter
-            layoutManager = GridLayoutManager(requireContext(), 3)
-            addItemDecoration(AttachItemDecoration(10, 3))
-        }
-
-        bindingFile.bottomSheetRv.apply {
-            adapter = fileAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(FileItemDecoration(10, 20))
-        }
-
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.currentEvent.collectLatest { event ->
                 binding.apply {
-                    coverAdapter.submitList(event.covers)
-                    coverAdapter.updateChosen(event.chosenCover)
-                    imageAdapter.submitList(event.images)
-                    imageAdapter.updateChosen(event.chosenImages)
-                    videoAdapter.submitList(event.videos)
-                    videoAdapter.updateChosen(event.chosenVideos)
-                    fileAdapter.submitList(event.files)
                     attachmentAdapter.submitList(event.attachments)
 
                     createAndEditEventTitleEdt.addTextChangedListener(
@@ -611,520 +442,26 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                     }
 
                     createAndEditEventAttachmentRoot.setOnClickListener {
-                        getPhotos()
-                        if (requireActivity().isDarkTheme())
-                            requireActivity().setNavigationColor(
-                                ContextCompat.getColor(
-                                    requireContext(),
-                                    R.color.dark_gray
-                                )
+                        BottomSheetAttachmentRootFragment
+                            .Builder()
+                            .covers(event.covers)
+                            .chosenCover(event.chosenCover)
+                            .images(event.images)
+                            .chosenImages(event.chosenImages)
+                            .videos(event.videos)
+                            .chosenVideos(event.chosenVideos)
+                            .files(event.files)
+                            .onAttachmentChosenListener(this@CreateAndEditEventFragment)
+                            .build()
+                            .show(
+                                requireActivity().supportFragmentManager,
+                                "BottomSheetAttachment"
                             )
-                        bindingType.bottomSheetAttachmentTypeRoot.clearCheck()
-                        bindingType.bottomSheetAttachmentTypeRoot.check(R.id.bottom_sheet_attachment_type_cover_rb)
-                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                     }
                 }
             }
         }
 
-        bindingType.apply {
-            bottomSheetAttachmentTypeCoverRb.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    bottomSheetCoverBehavior.apply {
-                        peekHeight = 1300
-                        state = BottomSheetBehavior.STATE_COLLAPSED
-                        bindingCover.bottomSheetRv.scrollToPosition(0)
-                        addBottomSheetCallback(
-                            BottomSheetCallback(
-                                onStateChange = { _, newState ->
-                                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                                        bindingImage.bottomSheetHandle.alpha = 0f
-                                        bottomSheetBehavior.state =
-                                            BottomSheetBehavior.STATE_HIDDEN
-                                        bindingCover.root.background =
-                                            ContextCompat.getDrawable(
-                                                requireContext(),
-                                                R.drawable.no_corners
-                                            )
-                                        if (contextActionMode == null) {
-                                            isNeedClose = true
-                                            contextActionMode = (requireActivity() as MainActivity)
-                                                .startSupportActionMode(actionModCallBack)
-                                        }
-                                    } else if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                                        bindingCover.root.background =
-                                            ContextCompat.getDrawable(
-                                                requireContext(),
-                                                R.drawable.top_corners
-                                            )
-                                    } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        bindingCover.bottomSheetHandle.alpha = 1f
-                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-                                            bottomSheetBehavior.state =
-                                                BottomSheetBehavior.STATE_EXPANDED
-                                        }
-                                    } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        if (bindingType.bottomSheetAttachmentTypeCoverRb.isChecked) {
-                                            bindingType.bottomSheetAttachmentTypeRoot.clearCheck()
-                                            bindingCover.root.background =
-                                                ContextCompat.getDrawable(
-                                                    requireContext(),
-                                                    R.drawable.top_corners
-                                                )
-                                            if (requireActivity().isDarkTheme())
-                                                requireActivity().setNavigationColor(
-                                                    ContextCompat.getColor(
-                                                        requireContext(),
-                                                        R.color.onyx
-                                                    )
-                                                )
-                                        }
-                                    }
-                                },
-                                onSlideSheet = { _, offset, prev ->
-                                    if (offset > 0 && prev < offset) {
-                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bindingCover.bottomSheetHandle.alpha = 1 - offset
-                                    } else if (offset >= 0f && state == BottomSheetBehavior.STATE_DRAGGING) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        bottomSheetBehavior.state =
-                                            BottomSheetBehavior.STATE_EXPANDED
-                                        bindingCover.bottomSheetHandle.alpha = 1 - offset
-                                    } else if (state == BottomSheetBehavior.STATE_DRAGGING) {
-                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bottomSheetButtonBehavior.state =
-                                            BottomSheetBehavior.STATE_HIDDEN
-                                    }
-                                }
-                            )
-                        )
-                    }
-                    bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetAudioButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                }
-            }
-            bottomSheetAttachmentTypeImageRb.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    getPhotos()
-                    bottomSheetImageBehavior.apply {
-                        bindingCover.bottomSheetRv.scrollToPosition(0)
-                        peekHeight = 1300
-                        state = BottomSheetBehavior.STATE_COLLAPSED
-                        addBottomSheetCallback(
-                            BottomSheetCallback(
-                                onStateChange = { _, newState ->
-                                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                                        bindingImage.bottomSheetHandle.alpha = 0f
-                                        bottomSheetBehavior.state =
-                                            BottomSheetBehavior.STATE_HIDDEN
-                                        bindingImage.root.background =
-                                            ContextCompat.getDrawable(
-                                                requireContext(),
-                                                R.drawable.no_corners
-                                            )
-                                        if (contextActionMode == null) {
-                                            isNeedClose = true
-                                            contextActionMode = (requireActivity() as MainActivity)
-                                                .startSupportActionMode(actionModCallBack)
-                                        }
-                                    } else if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                                        bindingImage.root.background =
-                                            ContextCompat.getDrawable(
-                                                requireContext(),
-                                                R.drawable.top_corners
-                                            )
-                                    } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        bindingImage.bottomSheetHandle.alpha = 1f
-                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-                                            bottomSheetBehavior.state =
-                                                BottomSheetBehavior.STATE_EXPANDED
-                                        }
-                                    } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        if (bindingType.bottomSheetAttachmentTypeImageRb.isChecked) {
-                                            bindingType.bottomSheetAttachmentTypeRoot.clearCheck()
-                                            bindingImage.root.background =
-                                                ContextCompat.getDrawable(
-                                                    requireContext(),
-                                                    R.drawable.top_corners
-                                                )
-                                            if (requireActivity().isDarkTheme())
-                                                requireActivity().setNavigationColor(
-                                                    ContextCompat.getColor(
-                                                        requireContext(),
-                                                        R.color.onyx
-                                                    )
-                                                )
-                                        }
-                                    }
-                                },
-                                onSlideSheet = { _, offset, prev ->
-                                    if (offset > 0 && prev < offset) {
-                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bindingImage.bottomSheetHandle.alpha = 1 - offset
-                                    } else if (offset >= 0f && state == BottomSheetBehavior.STATE_DRAGGING) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-                                            bottomSheetBehavior.state =
-                                                BottomSheetBehavior.STATE_EXPANDED
-                                        }
-                                        bindingImage.bottomSheetHandle.alpha = 1 - offset
-                                    } else if (state == BottomSheetBehavior.STATE_DRAGGING) {
-                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bottomSheetButtonBehavior.state =
-                                            BottomSheetBehavior.STATE_HIDDEN
-                                    }
-                                }
-                            )
-                        )
-                    }
-                    bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetAudioButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                }
-            }
-            bottomSheetAttachmentTypeVideoRb.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    getVideos()
-                    bottomSheetVideoBehavior.apply {
-                        bindingCover.bottomSheetRv.scrollToPosition(0)
-                        peekHeight = 1300
-                        state = BottomSheetBehavior.STATE_COLLAPSED
-                        addBottomSheetCallback(
-                            BottomSheetCallback(
-                                onStateChange = { _, newState ->
-                                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                                        bindingVideo.bottomSheetHandle.alpha = 0f
-                                        bottomSheetBehavior.state =
-                                            BottomSheetBehavior.STATE_HIDDEN
-                                        bindingVideo.root.background =
-                                            ContextCompat.getDrawable(
-                                                requireContext(),
-                                                R.drawable.no_corners
-                                            )
-                                        if (contextActionMode == null) {
-                                            isNeedClose = true
-                                            contextActionMode = (requireActivity() as MainActivity)
-                                                .startSupportActionMode(actionModCallBack)
-                                        }
-                                    } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                                        bindingVideo.bottomSheetHandle.alpha = 1f
-                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-                                            bottomSheetBehavior.state =
-                                                BottomSheetBehavior.STATE_EXPANDED
-                                        }
-                                    } else if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        bindingVideo.root.background =
-                                            ContextCompat.getDrawable(
-                                                requireContext(),
-                                                R.drawable.top_corners
-                                            )
-                                    } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        if (bindingType.bottomSheetAttachmentTypeVideoRb.isChecked) {
-                                            bindingType.bottomSheetAttachmentTypeRoot.clearCheck()
-                                            bindingVideo.root.background =
-                                                ContextCompat.getDrawable(
-                                                    requireContext(),
-                                                    R.drawable.top_corners
-                                                )
-                                            if (requireActivity().isDarkTheme())
-                                                requireActivity().setNavigationColor(
-                                                    ContextCompat.getColor(
-                                                        requireContext(),
-                                                        R.color.onyx
-                                                    )
-                                                )
-                                        }
-                                    }
-                                },
-                                onSlideSheet = { _, offset, prev ->
-                                    if (offset > 0 && prev < offset) {
-                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bindingVideo.bottomSheetHandle.alpha = 1 - offset
-                                    } else if (offset >= 0f && state == BottomSheetBehavior.STATE_DRAGGING) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-                                            bottomSheetBehavior.state =
-                                                BottomSheetBehavior.STATE_EXPANDED
-                                        }
-                                        bindingVideo.bottomSheetHandle.alpha = 1 - offset
-                                    } else if (state == BottomSheetBehavior.STATE_DRAGGING) {
-                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bottomSheetButtonBehavior.state =
-                                            BottomSheetBehavior.STATE_HIDDEN
-                                    }
-                                }
-                            )
-                        )
-                    }
-                    bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                }
-            }
-            bottomSheetAttachmentTypeAudioRb.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    bottomSheetAudioBehavior.apply {
-                        peekHeight = 340
-                        //state = BottomSheetBehavior.STATE_COLLAPSED
-                    }
-                    bottomSheetAudioButtonBehavior.apply {
-                        state = BottomSheetBehavior.STATE_EXPANDED
-                        addBottomSheetCallback(
-                            BottomSheetCallback(
-                                onStateChange = { _, newState ->
-                                    if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                                        if (bindingType.bottomSheetAttachmentTypeAudioRb.isChecked) {
-                                            bindingType.bottomSheetAttachmentTypeRoot.clearCheck()
-                                            if (requireActivity().isDarkTheme())
-                                                requireActivity().setNavigationColor(
-                                                    ContextCompat.getColor(
-                                                        requireContext(),
-                                                        R.color.onyx
-                                                    )
-                                                )
-                                        }
-                                    }
-                                },
-                                onSlideSheet = { _, offset, prev ->
-                                    if (offset > 0 && prev < offset) {
-                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bindingCover.bottomSheetHandle.alpha = 1 - offset
-                                    } else if (offset >= 0f && state == BottomSheetBehavior.STATE_DRAGGING) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        bottomSheetBehavior.state =
-                                            BottomSheetBehavior.STATE_EXPANDED
-                                        bindingCover.bottomSheetHandle.alpha = 1 - offset
-                                    } else if (state == BottomSheetBehavior.STATE_DRAGGING) {
-                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bottomSheetAudioBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bottomSheetButtonBehavior.state =
-                                            BottomSheetBehavior.STATE_HIDDEN
-                                    }
-                                }
-                            )
-                        )
-                    }
-                    bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                }
-            }
-            bottomSheetAttachmentTypeFileRb.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    bottomSheetFileBehavior.apply {
-                        bindingFile.bottomSheetRv.scrollToPosition(0)
-                        peekHeight = 1300
-                        state = BottomSheetBehavior.STATE_COLLAPSED
-                        addBottomSheetCallback(
-                            BottomSheetCallback(
-                                onStateChange = { _, newState ->
-                                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                                        bindingFile.bottomSheetHandle.alpha = 0f
-                                        bottomSheetBehavior.state =
-                                            BottomSheetBehavior.STATE_HIDDEN
-                                        bindingFile.root.background =
-                                            ContextCompat.getDrawable(
-                                                requireContext(),
-                                                R.drawable.no_corners
-                                            )
-                                        if (contextActionMode == null) {
-                                            isNeedClose = true
-                                            contextActionMode = (requireActivity() as MainActivity)
-                                                .startSupportActionMode(actionModCallBack)
-                                        }
-                                    } else if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                                        bindingFile.bottomSheetHandle.alpha = 1f
-                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-                                            bottomSheetBehavior.state =
-                                                BottomSheetBehavior.STATE_EXPANDED
-                                        }
-                                    } else if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        bindingFile.root.background =
-                                            ContextCompat.getDrawable(
-                                                requireContext(),
-                                                R.drawable.top_corners
-                                            )
-                                    } else if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        if (bindingType.bottomSheetAttachmentTypeFileRb.isChecked) {
-                                            bindingType.bottomSheetAttachmentTypeRoot.clearCheck()
-                                            bindingFile.root.background =
-                                                ContextCompat.getDrawable(
-                                                    requireContext(),
-                                                    R.drawable.top_corners
-                                                )
-                                            if (requireActivity().isDarkTheme())
-                                                requireActivity().setNavigationColor(
-                                                    ContextCompat.getColor(
-                                                        requireContext(),
-                                                        R.color.onyx
-                                                    )
-                                                )
-                                        }
-                                    }
-                                },
-                                onSlideSheet = { _, offset, prev ->
-                                    if (offset > 0 && prev < offset) {
-                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bindingFile.bottomSheetHandle.alpha = 1 - offset
-                                    } else if (offset >= 0f && state == BottomSheetBehavior.STATE_DRAGGING) {
-                                        isNeedClose = false
-                                        contextActionMode?.finish()
-                                        if (bottomSheetButtonBehavior.state == BottomSheetBehavior.STATE_HIDDEN) {
-                                            bottomSheetBehavior.state =
-                                                BottomSheetBehavior.STATE_EXPANDED
-                                        }
-                                        bindingFile.bottomSheetHandle.alpha = 1 - offset
-                                    } else if (state == BottomSheetBehavior.STATE_DRAGGING) {
-                                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                                        bottomSheetButtonBehavior.state =
-                                            BottomSheetBehavior.STATE_HIDDEN
-                                    }
-                                }
-                            )
-                        )
-                    }
-                    bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    bottomSheetAudioButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                }
-            }
-        }
-
-    }
-
-    private fun attachmentBottomSheetInit() {
-        bottomSheetBehavior = BottomSheetBehavior
-            .from(bindingType.root)
-            .apply {
-                state = BottomSheetBehavior.STATE_HIDDEN
-            }
-
-        bottomSheetButtonBehavior = BottomSheetBehavior
-            .from(bindingButton.root)
-            .apply {
-                state = BottomSheetBehavior.STATE_HIDDEN
-            }
-
-        bottomSheetCoverBehavior = BottomSheetBehavior
-            .from(bindingCover.root)
-            .apply {
-                state = BottomSheetBehavior.STATE_HIDDEN
-            }
-
-        bottomSheetImageBehavior = BottomSheetBehavior
-            .from(bindingImage.root)
-            .apply {
-                state = BottomSheetBehavior.STATE_HIDDEN
-            }
-
-        bottomSheetVideoBehavior = BottomSheetBehavior
-            .from(bindingVideo.root)
-            .apply {
-                state = BottomSheetBehavior.STATE_HIDDEN
-            }
-
-        bottomSheetAudioBehavior = BottomSheetBehavior
-            .from(bindingAudio.root)
-            .apply {
-                state = BottomSheetBehavior.STATE_HIDDEN
-            }
-
-        bottomSheetAudioButtonBehavior = BottomSheetBehavior
-            .from(bindingAudioButton.root)
-            .apply {
-                state = BottomSheetBehavior.STATE_HIDDEN
-            }
-
-        bottomSheetFileBehavior = BottomSheetBehavior
-            .from(bindingFile.root)
-            .apply {
-                state = BottomSheetBehavior.STATE_HIDDEN
-            }
-
-        bindingFile.bottomSheetInternal.setOnClickListener {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "*/*"
-            fileResultLauncher.launch(intent)
-        }
-
-        bindingAudioButton.bottomSheetMicButton.setOnClickListener {
-            bindingAudioButton.bottomSheetTimer.visibility = View.VISIBLE
-            bindingAudioButton.bottomSheetTimer.base = SystemClock.elapsedRealtime()
-            bindingAudioButton.bottomSheetTimer.start()
-        }
-
-        binding.bottomSheetButton.bottomSheetChooseButton.setOnClickListener {
-            viewModel.updateAttachment()
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            bottomSheetCoverBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            bottomSheetImageBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            bottomSheetVideoBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (!requireActivity().checkPermission(READ_MEDIA_IMAGES)) {
-                bindingImage.bottomSheetPermissionMessage.visibility = View.VISIBLE
-                bindingImage.bottomSheetPermissionMessage.setOnClickListener {
-                    permResultLauncher.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VIDEO))
-                }
-            }
-            if (!requireActivity().checkPermission(READ_MEDIA_VIDEO)) {
-                bindingVideo.bottomSheetPermissionMessage.visibility = View.VISIBLE
-                bindingVideo.bottomSheetPermissionMessage.setOnClickListener {
-                    permResultLauncher.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VIDEO))
-                }
-            }
-        } else {
-            if (!requireActivity().checkPermission(READ_EXTERNAL_STORAGE)) {
-                bindingImage.bottomSheetPermissionMessage.visibility = View.VISIBLE
-                bindingVideo.bottomSheetPermissionMessage.visibility = View.VISIBLE
-                bindingImage.bottomSheetPermissionMessage.setOnClickListener {
-                    permResultLauncher.launch(arrayOf(READ_EXTERNAL_STORAGE))
-                }
-                bindingVideo.bottomSheetPermissionMessage.setOnClickListener {
-                    permResultLauncher.launch(arrayOf(READ_EXTERNAL_STORAGE))
-                }
-            }
-        }
-    }
-
-    private fun showAppSettingsScreen() {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
-        intent.data = uri
-        startActivity(intent)
     }
 
     override fun onDestroy() {
@@ -1199,48 +536,49 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
         }
     }
 
+    private fun showAppSettingsScreen() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        val uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
+        intent.data = uri
+        startActivity(intent)
+    }
+
+    override fun onPermissionButtonClick() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permResultLauncher.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VIDEO))
+        } else {
+            permResultLauncher.launch(arrayOf(READ_EXTERNAL_STORAGE))
+        }
+    }
+
+    override fun onInternalButtonClick() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "*/*"
+        fileResultLauncher.launch(intent)
+    }
+
     override fun onCoverChosen(uri: Uri) {
         viewModel.updateCover(uri)
     }
 
     override fun onImagesChosen(items: List<ImageItemState>) {
-        val prevState = viewModel.currentEvent.value.chosenImages
-        if (items.isNotEmpty() || items != prevState) {
-            bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        } else {
-            bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            if (bottomSheetImageBehavior.state != BottomSheetBehavior.STATE_EXPANDED)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        }
         viewModel.updateChosenImage(items)
+        viewModel.updateAttachment()
     }
 
     override fun onVideosChosen(items: List<VideoItemState>) {
-        val prevState = viewModel.currentEvent.value.chosenVideos
-        if (items.isNotEmpty() || items != prevState) {
-            bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        } else {
-            bottomSheetButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-            if (bottomSheetVideoBehavior.state != BottomSheetBehavior.STATE_EXPANDED)
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-        }
         viewModel.updateChosenVideo(items)
+        viewModel.updateAttachment()
     }
 
     override fun onAudioChosen(item: AudioItemState) {
         viewModel.updateAddedAudios(item)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        bottomSheetAudioBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        bottomSheetAudioButtonBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         viewModel.updateAttachment()
     }
 
     override fun onFileChosen(item: FileItemState) {
         viewModel.updateAddedFiles(item)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        bottomSheetFileBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         viewModel.updateAttachment()
     }
 

@@ -5,11 +5,14 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.Transformation
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ru.lopata.madDiary.R
@@ -54,7 +57,7 @@ fun Activity.showToast(message: String) {
 fun Activity.showPermissionDialog(message: String, toSettings: () -> Unit) {
     MaterialAlertDialogBuilder(this)
         .setTitle(resources.getString(R.string.permission_dialog_title))
-        .setMessage(resources.getString(R.string.permission_dialog_text))
+        .setMessage(message)
         .setNegativeButton(resources.getString(R.string.cancel_button_title)) { dialog, _ ->
             dialog.dismiss()
         }
@@ -63,6 +66,55 @@ fun Activity.showPermissionDialog(message: String, toSettings: () -> Unit) {
             dialog.dismiss()
         }
         .show()
+}
+
+
+
+fun View.expand(){
+    measure(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+    val targetHeight: Int = measuredHeight
+
+    layoutParams.height = 1
+    visibility = View.VISIBLE
+
+    val a: Animation = object : Animation(){
+        override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
+            layoutParams.height = if (interpolatedTime == 1f)
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            else
+                (targetHeight * interpolatedTime).toInt()
+            requestLayout()
+
+        }
+
+        override fun willChangeBounds(): Boolean {
+            return true
+        }
+    }
+
+    a.duration = (targetHeight / context.resources.displayMetrics.density).toInt().toLong()
+    startAnimation(a)
+}
+
+fun View.collapse() {
+    val initialHeight : Int = measuredHeight
+    val a : Animation = object : Animation(){
+        override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
+            if (interpolatedTime == 1f){
+                visibility = View.GONE
+            }else{
+                layoutParams.height = initialHeight - (initialHeight * interpolatedTime).toInt()
+                requestLayout()
+            }
+        }
+
+        override fun willChangeBounds(): Boolean {
+            return true
+        }
+    }
+
+    a.duration = (initialHeight / context.resources.displayMetrics.density).toInt().toLong()
+    startAnimation(a)
 }
 
 @SuppressLint("SimpleDateFormat")

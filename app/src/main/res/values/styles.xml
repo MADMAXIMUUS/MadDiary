@@ -202,12 +202,7 @@
     </style>
 
     <style name="BottomSheetAttachmentTypeStyle">
-        <item name="android:background">@color/white_smoke_2</item>
-    </style>
-
-    <style name="BottomSheetAttachmentStyle">
-        <item name="android:background">@drawable/top_corners</item>
-        <item name="android:backgroundTint">@color/white_smoke_2</item>
+        <item name="android:background">@color/white</item>
     </style>
 
     <style name="EventContentBackground">

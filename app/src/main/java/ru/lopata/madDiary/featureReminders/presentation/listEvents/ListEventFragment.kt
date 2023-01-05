@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.core.util.ListsItemDecoration
 import ru.lopata.madDiary.databinding.FragmentListEventBinding
-import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.BottomSheetChooseReminderTypeFragment
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.BottomSheetChooseReminderTypeFragment
 
 @AndroidEntryPoint
 class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {

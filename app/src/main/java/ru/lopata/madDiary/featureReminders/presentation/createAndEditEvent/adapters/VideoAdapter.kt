@@ -42,14 +42,10 @@ class VideoAdapter(val listener: OnAttachmentChosenListener) :
         chosenVideoUris.clear()
         chosenVideoUris.addAll(items)
         currentList.forEachIndexed { index, item ->
-            if (item in items){
+            if (item in items) {
                 notifyItemChanged(index)
             }
         }
-    }
-
-    fun getChosenUris(): List<VideoItemState> {
-        return chosenVideoUris
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {

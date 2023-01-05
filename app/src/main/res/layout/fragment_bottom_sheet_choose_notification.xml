@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.BottomSheetChooseNotificationFragment">
+    tools:context="ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.BottomSheetChooseNotificationFragment">
 
     <View
         android:id="@+id/bottom_sheet_notification_handle"

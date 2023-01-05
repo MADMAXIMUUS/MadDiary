@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet
+package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet
 
 import android.icu.util.Calendar
 import android.icu.util.TimeZone

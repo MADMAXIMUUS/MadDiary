@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="40dp"
-    tools:context="ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomsheet.BottomSheetChooseReminderTypeFragment">
+    tools:context="ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.BottomSheetChooseReminderTypeFragment">
 
     <TextView
         android:id="@+id/bottom_sheet_create_reminder_title"

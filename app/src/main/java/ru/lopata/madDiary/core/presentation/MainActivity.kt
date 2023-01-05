@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
                 slideUp.doOnEnd {
                     splashScreenView.remove()
                 }
-                //slideUp.startDelay = 800L
                 slideUp.start()
             }
         }

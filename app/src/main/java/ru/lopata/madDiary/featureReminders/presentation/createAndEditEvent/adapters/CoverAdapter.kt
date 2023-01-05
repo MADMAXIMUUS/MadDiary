@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import ru.lopata.madDiary.databinding.ItemCoverBinding
 
-class CoverAdapter(val listener: OnAttachmentChosenListener) :
+class CoverAdapter(val listener: OnAttachmentChosenListener?) :
     ListAdapter<Uri, CoverAdapter.CoverViewHolder>(DiffCallback()) {
 
     private var chosenCover: MaterialCardView? = null
@@ -34,12 +34,12 @@ class CoverAdapter(val listener: OnAttachmentChosenListener) :
                 if (chosenCover == binding.root && binding.root.strokeWidth == 5) {
                     binding.root.strokeWidth = 0
                     chosenCover = null
-                    listener.onCoverChosen(Uri.EMPTY)
+                    listener?.onCoverChosen(Uri.EMPTY)
                 } else {
                     chosenCover?.strokeWidth = 0
                     binding.root.strokeWidth = 5
                     chosenCover = binding.root
-                    listener.onCoverChosen(uri)
+                    listener?.onCoverChosen(uri)
                 }
             }
         }
