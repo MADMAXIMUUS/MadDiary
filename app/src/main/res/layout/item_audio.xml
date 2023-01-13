@@ -13,11 +13,12 @@
         android:orientation="horizontal">
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/item_audio_play_pause_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_bottom_category" />
+            android:src="@drawable/ic_play" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -25,7 +26,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/item_file_name"
+                android:id="@+id/item_audio_name"
                 style="@style/ReminderBlockContentTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,13 +35,13 @@
                 tools:text="Some title" />
 
             <TextView
-                android:id="@+id/item_file_size"
+                android:id="@+id/item_audio_duration"
                 style="@style/ReminderBlockTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:textSize="14sp"
-                tools:text="19 KB" />
+                tools:text="00:20" />
 
         </LinearLayout>
 

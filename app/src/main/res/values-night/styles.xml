@@ -210,12 +210,6 @@
         <item name="strokeColor">@color/mercury</item>
     </style>
 
-    <style name="Widget.App.ActionMode" parent="Widget.AppCompat.ActionMode">
-        <item name="background">@color/dark_gray</item>
-        <item name="android:actionBarDivider">@null</item>
-        <item name="height">?attr/actionBarSize</item>
-    </style>
-
     <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
         <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
     </style>
@@ -264,6 +258,12 @@
         <item name="cardBackgroundColor">@color/transparent</item>
         <item name="cardElevation">0dp</item>
         <item name="cardCornerRadius">10dp</item>
+    </style>
+
+    <style name="WaveView">
+        <item name="mad_waveLineColor">@color/mercury</item>
+        <item name="android:background">@color/dune</item>
+        <item name="mad_waveLineWidth">2dp</item>
     </style>
 
 </resources>

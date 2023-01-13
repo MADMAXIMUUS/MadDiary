@@ -19,7 +19,8 @@
             android:id="@+id/mainToolbar"
             style="@style/Widget.App.Toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_close" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -31,9 +32,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:id="@+id/bottom_sheet_attachment_nav_host"
-        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_attachment_sticky_confirm"

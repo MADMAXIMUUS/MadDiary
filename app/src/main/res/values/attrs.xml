@@ -5,7 +5,7 @@
         <attr name="mad_daysOfWeekTitleColor" format="color" />
         <attr name="mad_daysOfWeekTitleTextSize" format="dimension" />
         <attr name="mad_gridColor" format="color" />
-        <attr name="mad_gridWidth" format="color" />
+        <attr name="mad_gridWidth" format="dimension" />
         <attr name="mad_dayTitleTextSize" format="dimension" />
         <attr name="mad_selectedDayColor" format="color" />
         <attr name="mad_currentDayColor" format="color" />
@@ -24,5 +24,10 @@
     </declare-styleable>
 
     <attr name="calendarViewStyle" format="reference" />
+
+    <declare-styleable name="MadWaveformView">
+        <attr name="mad_waveLineColor" format="color" />
+        <attr name="mad_waveLineWidth" format="dimension" />
+    </declare-styleable>
 
 </resources>

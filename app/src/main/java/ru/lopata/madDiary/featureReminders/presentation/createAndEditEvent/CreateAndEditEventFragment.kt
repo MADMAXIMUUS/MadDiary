@@ -450,6 +450,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
                             .chosenImages(event.chosenImages)
                             .videos(event.videos)
                             .chosenVideos(event.chosenVideos)
+                            .audios(event.audios)
                             .files(event.files)
                             .onAttachmentChosenListener(this@CreateAndEditEventFragment)
                             .build()

@@ -16,10 +16,6 @@
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
         <item name="radioButtonStyle">@style/RadioButtonStyle</item>
         <item name="checkboxStyle">@style/CheckBoxStyle</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="actionModeStyle">@style/Widget.App.ActionMode</item>
-        <item name="actionModeCloseDrawable">@drawable/ic_close_light</item>
-        <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
     </style>
 
@@ -88,6 +84,7 @@
         <item name="elevation">@dimen/toolbar_elevation</item>
         <item name="colorOnPrimary">@color/metallic_seaweed</item>
         <item name="iconTint">@color/metallic_seaweed</item>
+        <item name="navigationIconTint">@color/metallic_seaweed</item>
         <item name="android:textColorSecondary">@color/mercury</item>
     </style>
 

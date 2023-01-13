@@ -210,6 +210,11 @@
         <item name="android:backgroundTint">@color/white</item>
     </style>
 
+    <style name="BottomSheetAttachmentStyle">
+        <item name="android:background">@drawable/top_corners</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
     <style name="BottomSheetDividerStyle">
         <item name="android:background">@color/cloud</item>
     </style>
@@ -217,12 +222,6 @@
     <style name="ItemCoverStyle" parent="Widget.MaterialComponents.CardView">
         <item name="strokeWidth">2dp</item>
         <item name="strokeColor">@color/onyx</item>
-    </style>
-
-    <style name="Widget.App.ActionMode" parent="Widget.AppCompat.ActionMode">
-        <item name="background">@color/white</item>
-        <item name="android:actionBarDivider">@null</item>
-        <item name="height">?attr/actionBarSize</item>
     </style>
 
     <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
@@ -272,6 +271,12 @@
         <item name="cardBackgroundColor">@color/transparent</item>
         <item name="cardElevation">0dp</item>
         <item name="cardCornerRadius">10dp</item>
+    </style>
+
+    <style name="WaveView">
+        <item name="mad_waveLineColor">@color/metallic_seaweed</item>
+        <item name="android:background">@color/mercury</item>
+        <item name="mad_waveLineWidth">2dp</item>
     </style>
 
 </resources>

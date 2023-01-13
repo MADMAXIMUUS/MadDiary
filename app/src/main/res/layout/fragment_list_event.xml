@@ -6,25 +6,26 @@
     tools:context="ru.lopata.madDiary.featureReminders.presentation.listEvents.ListEventFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/event_list_rv"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    tools:listitem="@layout/item_event"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/event_list_rv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_event" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/event_list_btn_create_reminder"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:contentDescription="@string/reminder_list_fab"
         android:src="@drawable/ic_add"
-        app:fabCustomSize="60dp"
+        app:fabCustomSize="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="30dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

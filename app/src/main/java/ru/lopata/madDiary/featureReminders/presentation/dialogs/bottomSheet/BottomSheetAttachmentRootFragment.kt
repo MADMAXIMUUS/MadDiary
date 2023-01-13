@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.google.android.material.R.id.design_bottom_sheet
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -21,16 +20,14 @@ import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.state
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
-import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.AttachCoverFragment
-import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.AttachFileFragment
-import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.AttachImageFragment
-import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.AttachVideoFragment
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.*
 import ru.lopata.madDiary.featureReminders.util.BottomSheetCallback
 
 open class BottomSheetAttachmentRootFragment private constructor(
     private val covers: List<Uri>,
     private val images: List<ImageItemState>,
     private val videos: List<VideoItemState>,
+    private val audios: List<AudioItemState>,
     private val files: List<FileItemState>,
     private val chosenCover: Uri,
     private var chosenImages: List<ImageItemState>,
@@ -50,6 +47,12 @@ open class BottomSheetAttachmentRootFragment private constructor(
     private var expandedHeight = 0
     private var topMarginConfirm = 0
 
+    private lateinit var coverFragment: AttachCoverFragment
+    private lateinit var imageFragment: AttachImageFragment
+    private lateinit var videoFragment: AttachVideoFragment
+    private lateinit var audioFragment: AttachAudioFragment
+    private lateinit var fileFragment: AttachFileFragment
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,14 +69,17 @@ open class BottomSheetAttachmentRootFragment private constructor(
         super.onViewCreated(view, savedInstanceState)
 
         val fragmentManager = childFragmentManager
-        var fragment: Fragment = AttachCoverFragment(covers, chosenCover, this)
+        coverFragment = AttachCoverFragment(covers, chosenCover, this)
+        imageFragment = AttachImageFragment(images, chosenImages, this)
+        videoFragment = AttachVideoFragment(videos, chosenVideos, this)
+        audioFragment = AttachAudioFragment(audios, this)
+        fileFragment = AttachFileFragment(files, this)
         fragmentManager.beginTransaction()
         fragmentManager.commit {
             setReorderingAllowed(true)
-            replace(R.id.bottom_sheet_attachment_nav_host, fragment)
+            replace(R.id.bottom_sheet_attachment_nav_host, coverFragment)
         }
 
-        binding.mainToolbar.setNavigationIcon(R.drawable.ic_close_dark)
         binding.mainToolbar.setNavigationOnClickListener {
             dismiss()
         }
@@ -82,8 +88,7 @@ open class BottomSheetAttachmentRootFragment private constructor(
 
         binding.bottomSheetAttachmentTypeCoverRb.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                fragment = AttachCoverFragment(covers, chosenCover, this)
-                fragmentManager.beginTransaction()
+                val transaction = fragmentManager.beginTransaction()
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     setCustomAnimations(
@@ -92,14 +97,14 @@ open class BottomSheetAttachmentRootFragment private constructor(
                         androidx.navigation.ui.R.anim.nav_default_pop_enter_anim,
                         androidx.navigation.ui.R.anim.nav_default_pop_exit_anim,
                     )
-                    replace(R.id.bottom_sheet_attachment_nav_host, fragment)
+                    replace(R.id.bottom_sheet_attachment_nav_host, coverFragment)
                 }
+                transaction.commit()
             }
         }
         binding.bottomSheetAttachmentTypeImageRb.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                fragment = AttachImageFragment(images, chosenImages, this)
-                fragmentManager.beginTransaction()
+                val transaction = fragmentManager.beginTransaction()
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     setCustomAnimations(
@@ -108,18 +113,18 @@ open class BottomSheetAttachmentRootFragment private constructor(
                         androidx.navigation.ui.R.anim.nav_default_pop_enter_anim,
                         androidx.navigation.ui.R.anim.nav_default_pop_exit_anim,
                     )
-                    replace(R.id.bottom_sheet_attachment_nav_host, fragment)
+                    replace(R.id.bottom_sheet_attachment_nav_host, imageFragment)
                 }
                 binding.bottomSheetConfirmButton.setOnClickListener {
                     listener?.onImagesChosen(chosenImages)
                     dismiss()
                 }
+                transaction.commit()
             }
         }
         binding.bottomSheetAttachmentTypeVideoRb.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                fragment = AttachVideoFragment(videos, chosenVideos, this)
-                fragmentManager.beginTransaction()
+                val transaction = fragmentManager.beginTransaction()
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     setCustomAnimations(
@@ -128,18 +133,18 @@ open class BottomSheetAttachmentRootFragment private constructor(
                         androidx.navigation.ui.R.anim.nav_default_pop_enter_anim,
                         androidx.navigation.ui.R.anim.nav_default_pop_exit_anim,
                     )
-                    replace(R.id.bottom_sheet_attachment_nav_host, fragment)
+                    replace(R.id.bottom_sheet_attachment_nav_host, videoFragment)
                 }
                 binding.bottomSheetConfirmButton.setOnClickListener {
                     listener?.onVideosChosen(chosenVideos)
                     dismiss()
                 }
+                transaction.commit()
             }
         }
-        binding.bottomSheetAttachmentTypeFileRb.setOnCheckedChangeListener { _, isChecked ->
+        binding.bottomSheetAttachmentTypeAudioRb.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                fragment = AttachFileFragment(files, this)
-                fragmentManager.beginTransaction()
+                val transaction = fragmentManager.beginTransaction()
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     setCustomAnimations(
@@ -148,8 +153,25 @@ open class BottomSheetAttachmentRootFragment private constructor(
                         androidx.navigation.ui.R.anim.nav_default_pop_enter_anim,
                         androidx.navigation.ui.R.anim.nav_default_pop_exit_anim,
                     )
-                    replace(R.id.bottom_sheet_attachment_nav_host, fragment)
+                    replace(R.id.bottom_sheet_attachment_nav_host, audioFragment)
                 }
+                transaction.commit()
+            }
+        }
+        binding.bottomSheetAttachmentTypeFileRb.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                val transaction = fragmentManager.beginTransaction()
+                fragmentManager.commit {
+                    setReorderingAllowed(true)
+                    setCustomAnimations(
+                        androidx.navigation.ui.R.anim.nav_default_enter_anim,
+                        androidx.navigation.ui.R.anim.nav_default_exit_anim,
+                        androidx.navigation.ui.R.anim.nav_default_pop_enter_anim,
+                        androidx.navigation.ui.R.anim.nav_default_pop_exit_anim,
+                    )
+                    replace(R.id.bottom_sheet_attachment_nav_host, fileFragment)
+                }
+                transaction.commit()
             }
         }
     }
@@ -290,16 +312,19 @@ open class BottomSheetAttachmentRootFragment private constructor(
 
     override fun onAudioChosen(item: AudioItemState) {
         listener?.onAudioChosen(item)
+        dismiss()
     }
 
     override fun onFileChosen(item: FileItemState) {
         listener?.onFileChosen(item)
+        dismiss()
     }
 
     data class Builder(
         private var covers: List<Uri> = emptyList(),
         private var images: List<ImageItemState> = emptyList(),
         private var videos: List<VideoItemState> = emptyList(),
+        private var audios: List<AudioItemState> = emptyList(),
         private var files: List<FileItemState> = emptyList(),
         private var chosenCover: Uri = Uri.EMPTY,
         private var chosenImages: List<ImageItemState> = emptyList(),
@@ -309,6 +334,7 @@ open class BottomSheetAttachmentRootFragment private constructor(
         fun covers(covers: List<Uri>) = apply { this.covers = covers }
         fun images(images: List<ImageItemState>) = apply { this.images = images }
         fun videos(videos: List<VideoItemState>) = apply { this.videos = videos }
+        fun audios(audios: List<AudioItemState>) = apply { this.audios = audios }
         fun files(files: List<FileItemState>) = apply { this.files = files }
         fun chosenCover(cover: Uri) = apply { this.chosenCover = cover }
         fun chosenImages(images: List<ImageItemState>) = apply { this.chosenImages = images }
@@ -320,6 +346,7 @@ open class BottomSheetAttachmentRootFragment private constructor(
             covers,
             images,
             videos,
+            audios,
             files,
             chosenCover,
             chosenImages,

@@ -14,7 +14,7 @@ import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.state
 
 class AttachFileFragment(
     private val files: List<FileItemState>,
-    private val lister: OnAttachmentChosenListener
+    private val listener: OnAttachmentChosenListener
 ) : Fragment() {
 
     private var _binding: FragmentAttachFileBinding? = null
@@ -34,11 +34,11 @@ class AttachFileFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = FileAdapter(lister)
+        val adapter = FileAdapter(listener)
         adapter.submitList(files)
         binding.apply {
             bottomSheetInternal.setOnClickListener {
-                lister.onInternalButtonClick()
+                listener.onInternalButtonClick()
             }
             bottomSheetRv.apply {
                 this.adapter = adapter

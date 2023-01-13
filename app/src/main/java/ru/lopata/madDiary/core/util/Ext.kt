@@ -1,6 +1,5 @@
 package ru.lopata.madDiary.core.util
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
@@ -117,7 +116,6 @@ fun View.collapse() {
     startAnimation(a)
 }
 
-@SuppressLint("SimpleDateFormat")
 fun Long.toDateTime(): String {
     val sdf = SimpleDateFormat("dd.MM.yy HH:mm", Locale("ru"))
     sdf.timeZone = TimeZone.getDefault()
@@ -125,7 +123,6 @@ fun Long.toDateTime(): String {
     return sdf.format(netDate)
 }
 
-@SuppressLint("SimpleDateFormat")
 fun Long.toTime(): String {
     val sdf = SimpleDateFormat("HH:mm", Locale("ru"))
     sdf.timeZone = TimeZone.getTimeZone("GMT")
@@ -145,9 +142,15 @@ fun Long.toTimeDuration(): String {
     return sdf.format(netDate)
 }
 
-@SuppressLint("SimpleDateFormat")
 fun Long.toDate(): String {
     val sdf = SimpleDateFormat("dd.MM.yy", Locale("ru"))
+    sdf.timeZone = TimeZone.getDefault()
+    val netDate = Date(this)
+    return sdf.format(netDate)
+}
+
+fun Long.toFileName():String{
+    val sdf = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale("ru"))
     sdf.timeZone = TimeZone.getDefault()
     val netDate = Date(this)
     return sdf.format(netDate)
