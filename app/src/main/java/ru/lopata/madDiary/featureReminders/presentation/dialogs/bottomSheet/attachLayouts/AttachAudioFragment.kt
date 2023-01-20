@@ -210,6 +210,12 @@ class AttachAudioFragment(
         isPause = false
         isStopButton = false
 
+        try {
+            record.release()
+        } catch (e: IOException) {
+            e.localizedMessage?.let { Log.e("MediaRecorder", it) }
+        }
+
         initMediaPlayer()
     }
 
