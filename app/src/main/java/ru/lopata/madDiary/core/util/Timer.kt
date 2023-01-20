@@ -7,7 +7,7 @@ class Timer(listener: OnTimerTickListener) {
     private var handler = Handler(Looper.getMainLooper())
     private lateinit var runnable: Runnable
 
-    private var duration = 0L
+    var duration = 0L
     private var delay = 100L
 
     init {
@@ -19,14 +19,13 @@ class Timer(listener: OnTimerTickListener) {
     }
 
     private fun format(): String {
-        val millis = duration % 1000
         val seconds = (duration / 1000) % 60
         val minutes = (duration / 60000) % 60
         val hours = (duration / (60000 * 60))
         return if (hours > 0)
-            "%02d:%02d:%02d.%03d".format(hours,minutes,seconds,millis)
+            "%02d:%02d:%02d".format(hours, minutes, seconds)
         else
-            "%02d:%02d.%03d".format(minutes,seconds,millis)
+            "%02d:%02d".format(minutes, seconds)
     }
 
     fun start() {

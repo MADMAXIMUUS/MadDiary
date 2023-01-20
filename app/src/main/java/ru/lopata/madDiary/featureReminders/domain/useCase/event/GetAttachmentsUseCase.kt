@@ -7,7 +7,7 @@ import ru.lopata.madDiary.featureReminders.domain.repository.EventRepository
 class GetAttachmentsUseCase(
     private val repository: EventRepository
 ) {
-    operator fun invoke(): Flow<List<Attachment>> {
-        return repository.getAttachments()
+    operator fun invoke(type: Int = Attachment.FILE): Flow<List<Attachment>> {
+        return repository.getAttachments(type)
     }
 }

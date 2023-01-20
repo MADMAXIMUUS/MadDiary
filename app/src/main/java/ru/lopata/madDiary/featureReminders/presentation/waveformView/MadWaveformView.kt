@@ -68,6 +68,13 @@ class MadWaveformView @JvmOverloads constructor(
         linePaint.strokeCap = Paint.Cap.ROUND
     }
 
+    fun clear() {
+        amplitude.clear()
+        amps = emptyList()
+        invalidate()
+        requestLayout()
+    }
+
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         if (!changed) {
             return
@@ -117,7 +124,7 @@ class MadWaveformView @JvmOverloads constructor(
         super.onDraw(canvas)
         amps = amplitude.takeLast(maxSpikes)
         for (i in amps.indices) {
-            val x =i*(waveLineWidth + d)
+            val x = i * (waveLineWidth + d)
             val y1 = sh / 2 - amps[i] / 2
             val y2 = sh / 2 + amps[i] / 2
             canvas.drawLine(x, y1, x, y2, linePaint)

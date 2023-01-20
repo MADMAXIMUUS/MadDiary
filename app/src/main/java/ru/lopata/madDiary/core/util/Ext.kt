@@ -142,6 +142,12 @@ fun Long.toTimeDuration(): String {
     return sdf.format(netDate)
 }
 
+fun Int.toTimeDuration(): String {
+    val sdf = SimpleDateFormat("mm:ss", Locale("ru"))
+    val netDate = Date(this.toLong())
+    return sdf.format(netDate)
+}
+
 fun Long.toDate(): String {
     val sdf = SimpleDateFormat("dd.MM.yy", Locale("ru"))
     sdf.timeZone = TimeZone.getDefault()

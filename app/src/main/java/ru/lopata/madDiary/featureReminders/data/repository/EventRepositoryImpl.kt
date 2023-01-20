@@ -44,8 +44,8 @@ class EventRepositoryImpl(
         return eventDao.insertAttachments(attachments)
     }
 
-    override fun getAttachments(): Flow<List<Attachment>> {
-        return eventDao.getAttachments()
+    override fun getAttachments(type: Int): Flow<List<Attachment>> {
+        return eventDao.getAttachments(type)
     }
 
     override suspend fun getAttachmentsByEventId(eventId: Long): Flow<List<Attachment>> {

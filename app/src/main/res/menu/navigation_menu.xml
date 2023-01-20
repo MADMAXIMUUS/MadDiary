@@ -3,22 +3,22 @@
 
     <item
         android:id="@+id/bottom_reminders"
-        android:icon="@drawable/ic_bottom_events"
+        android:icon="@drawable/bottom_menu_events_selector"
         android:title="@string/bottom_menu_reminders_title" />
 
     <item
         android:id="@+id/bottom_calendar"
-        android:icon="@drawable/ic_bottom_calendar"
+        android:icon="@drawable/bottom_menu_calendar_selector"
         android:title="@string/bottom_menu_calendar_title" />
 
     <item
         android:id="@+id/bottom_notes"
-        android:icon="@drawable/ic_bottom_notes"
+        android:icon="@drawable/bottom_menu_notes_selector"
         android:title="@string/bottom_menu_notes_title" />
 
     <item
         android:id="@+id/bottom_settings"
-        android:icon="@drawable/ic_bottom_settings"
+        android:icon="@drawable/bottom_menu_settings_selector"
         android:title="@string/bottom_menu_settings_title" />
 
 </menu>

@@ -74,11 +74,12 @@ open class BottomSheetAttachmentRootFragment private constructor(
         videoFragment = AttachVideoFragment(videos, chosenVideos, this)
         audioFragment = AttachAudioFragment(audios, this)
         fileFragment = AttachFileFragment(files, this)
-        fragmentManager.beginTransaction()
+        var transaction = fragmentManager.beginTransaction()
         fragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.bottom_sheet_attachment_nav_host, coverFragment)
         }
+        transaction.commit()
 
         binding.mainToolbar.setNavigationOnClickListener {
             dismiss()
@@ -88,7 +89,7 @@ open class BottomSheetAttachmentRootFragment private constructor(
 
         binding.bottomSheetAttachmentTypeCoverRb.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                val transaction = fragmentManager.beginTransaction()
+                transaction = fragmentManager.beginTransaction()
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     setCustomAnimations(
@@ -104,7 +105,7 @@ open class BottomSheetAttachmentRootFragment private constructor(
         }
         binding.bottomSheetAttachmentTypeImageRb.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                val transaction = fragmentManager.beginTransaction()
+                transaction = fragmentManager.beginTransaction()
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     setCustomAnimations(
@@ -124,7 +125,7 @@ open class BottomSheetAttachmentRootFragment private constructor(
         }
         binding.bottomSheetAttachmentTypeVideoRb.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                val transaction = fragmentManager.beginTransaction()
+                transaction = fragmentManager.beginTransaction()
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     setCustomAnimations(
@@ -144,7 +145,7 @@ open class BottomSheetAttachmentRootFragment private constructor(
         }
         binding.bottomSheetAttachmentTypeAudioRb.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                val transaction = fragmentManager.beginTransaction()
+                transaction = fragmentManager.beginTransaction()
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     setCustomAnimations(
@@ -160,7 +161,7 @@ open class BottomSheetAttachmentRootFragment private constructor(
         }
         binding.bottomSheetAttachmentTypeFileRb.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                val transaction = fragmentManager.beginTransaction()
+                transaction = fragmentManager.beginTransaction()
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     setCustomAnimations(

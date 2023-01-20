@@ -1,6 +1,7 @@
 package ru.lopata.madDiary.featureReminders.presentation.calendarScreen
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -60,6 +61,21 @@ class CalendarFragment : Fragment() {
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
+                    if (position > viewModel.uiState.value.currentPosition) {
+                        when (val drawable = binding.calendarNextMonthBtn.drawable) {
+                            is AnimatedVectorDrawable -> {
+                                drawable.reset()
+                                drawable.start()
+                            }
+                        }
+                    } else if (position < viewModel.uiState.value.currentPosition) {
+                        when (val drawable = binding.calendarPrevMonthBtn.drawable) {
+                            is AnimatedVectorDrawable -> {
+                                drawable.reset()
+                                drawable.start()
+                            }
+                        }
+                    }
                     viewModel.updateSelectedMonthIndex(position)
                 }
             })
@@ -84,10 +100,22 @@ class CalendarFragment : Fragment() {
         }
 
         binding.calendarNextMonthBtn.setOnClickListener {
+            when (val drawable = binding.calendarNextMonthBtn.drawable) {
+                is AnimatedVectorDrawable -> {
+                    drawable.reset()
+                    drawable.start()
+                }
+            }
             viewModel.toNextMonth()
         }
 
         binding.calendarPrevMonthBtn.setOnClickListener {
+            when (val drawable = binding.calendarPrevMonthBtn.drawable) {
+                is AnimatedVectorDrawable -> {
+                    drawable.reset()
+                    drawable.start()
+                }
+            }
             viewModel.toPrevMonth()
         }
     }

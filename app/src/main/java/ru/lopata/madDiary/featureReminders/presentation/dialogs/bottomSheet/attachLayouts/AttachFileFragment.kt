@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import ru.lopata.madDiary.core.util.ListsItemDecoration
+import ru.lopata.madDiary.core.util.FileItemDecoration
 import ru.lopata.madDiary.databinding.FragmentAttachFileBinding
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.FileAdapter
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentChosenListener
@@ -43,7 +43,7 @@ class AttachFileFragment(
             bottomSheetRv.apply {
                 this.adapter = adapter
                 layoutManager = LinearLayoutManager(requireContext())
-                addItemDecoration(ListsItemDecoration(20,20))
+                addItemDecoration(FileItemDecoration(20,20))
             }
         }
     }

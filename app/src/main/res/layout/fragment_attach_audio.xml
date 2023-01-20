@@ -16,71 +16,170 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ru.lopata.madDiary.featureReminders.presentation.waveformView.MadWaveformView
-        android:id="@+id/bottom_sheet_wave"
-        style="@style/WaveView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_sheet_timer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/bottom_sheet_timer"
-        style="@style/ReminderBlockBigTitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:textSize="30sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@id/bottom_sheet_mic_and_pause_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="00:10.000"
-        tools:visibility="visible" />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/bottom_sheet_mic_and_pause_button"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="120dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_sheet_record_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:lottie_rawRes="@raw/pause_button_anim"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/bottom_sheet_play_and_cancel_button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="30dp"
-        android:src="@drawable/ic_pause"
-        app:backgroundTint="@color/mercury"
-        app:fabCustomSize="60dp"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_mic_and_pause_button"
-        app:layout_constraintEnd_toStartOf="@id/bottom_sheet_mic_and_pause_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bottom_sheet_mic_and_pause_button"
-        app:tint="@color/onyx"
-        tools:ignore="ContentDescription" />
+        <ru.lopata.madDiary.featureReminders.presentation.waveformView.MadWaveformView
+            android:id="@+id/bottom_sheet_wave"
+            style="@style/WaveView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintBottom_toTopOf="@id/bottom_sheet_timer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/bottom_sheet_stop_and_list_and_confirm_button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="30dp"
-        android:src="@drawable/ic_stop"
-        app:backgroundTint="@color/mercury"
-        app:fabCustomSize="60dp"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_mic_and_pause_button"
+        <TextView
+            android:id="@+id/bottom_sheet_timer"
+            style="@style/ReminderBlockBigTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:textSize="30sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/bottom_sheet_mic_and_pause_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="00:10.000"
+            tools:visibility="visible" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/bottom_sheet_mic_and_pause_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="120dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_rawRes="@raw/pause_button_anim" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/bottom_sheet_cancel_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="30dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_mic_and_pause_button"
+            app:layout_constraintEnd_toStartOf="@id/bottom_sheet_mic_and_pause_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bottom_sheet_mic_and_pause_button"
+            app:lottie_rawRes="@raw/delete_button_anim"
+            app:tint="@color/onyx"
+            tools:visibility="visible" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/bottom_sheet_list_and_stop_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_mic_and_pause_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/bottom_sheet_mic_and_pause_button"
+            app:layout_constraintTop_toTopOf="@id/bottom_sheet_mic_and_pause_button"
+            app:lottie_rawRes="@raw/list_stop_button_anim" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_sheet_player_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/bottom_sheet_mic_and_pause_button"
-        app:layout_constraintTop_toTopOf="@id/bottom_sheet_mic_and_pause_button"
-        app:tint="@color/onyx"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/bottom_sheet_cassette"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:padding="60dp"
+            style="@style/WaveView"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/bottom_sheet_seekbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/cassette_anim" />
+
+        <SeekBar
+            android:id="@+id/bottom_sheet_seekbar"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginBottom="30dp"
+            app:layout_constraintBottom_toTopOf="@id/bottom_sheet_play_and_pause_button"
+            app:layout_constraintEnd_toStartOf="@id/bottom_sheet_timer_duration_max"
+            app:layout_constraintStart_toEndOf="@id/bottom_sheet_timer_duration" />
+
+        <TextView
+            android:id="@+id/bottom_sheet_timer_duration"
+            style="@style/ReminderBlockBigTitleTextView"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_seekbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bottom_sheet_seekbar"
+            tools:text="00:10" />
+
+        <TextView
+            android:id="@+id/bottom_sheet_timer_duration_max"
+            style="@style/ReminderBlockBigTitleTextView"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_seekbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bottom_sheet_seekbar"
+            tools:text="00:10" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/bottom_sheet_play_and_pause_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="120dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_rawRes="@raw/play_pause_button_anim" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/bottom_sheet_cancel_play_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="30dp"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_play_and_pause_button"
+            app:layout_constraintEnd_toStartOf="@id/bottom_sheet_play_and_pause_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bottom_sheet_play_and_pause_button"
+            app:lottie_rawRes="@raw/delete_button_anim" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/bottom_sheet_confirm_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_play_and_pause_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/bottom_sheet_play_and_pause_button"
+            app:layout_constraintTop_toTopOf="@id/bottom_sheet_play_and_pause_button"
+            app:lottie_rawRes="@raw/check_button_anim" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,12 +47,13 @@ class CreateAndEditEventViewModel @Inject constructor(
             initCovers()
             initEvent(state)
             initFiles()
+            initAudios()
         }
     }
 
     private fun initFiles() {
         CoroutineScope(Dispatchers.IO).launch {
-            eventUseCases.getAttachmentsUseCase().collectLatest { attachments ->
+            eventUseCases.getAttachmentsUseCase(Attachment.FILE).collectLatest { attachments ->
                 val list = mutableListOf<FileItemState>()
                 attachments.forEach { attachment ->
                     val file = FileItemState(
@@ -69,6 +70,30 @@ class CreateAndEditEventViewModel @Inject constructor(
                 _currentEvent.update { currentEvent ->
                     currentEvent.copy(
                         files = list
+                    )
+                }
+            }
+        }
+    }
+
+    private fun initAudios() {
+        CoroutineScope(Dispatchers.IO).launch {
+            eventUseCases.getAttachmentsUseCase(Attachment.AUDIO).collectLatest { attachments ->
+                val list = mutableListOf<AudioItemState>()
+                attachments.forEach { attachment ->
+                    val audio = AudioItemState(
+                        uri = Uri.parse(attachment.uri),
+                        size = attachment.size,
+                        duration = attachment.duration,
+                        name = attachment.name
+                    )
+                    if (audio !in list) {
+                        list.add(audio)
+                    }
+                }
+                _currentEvent.update { currentEvent ->
+                    currentEvent.copy(
+                        audios = list
                     )
                 }
             }
@@ -542,6 +567,18 @@ class CreateAndEditEventViewModel @Inject constructor(
                     uri = item.uri.toString(),
                     type = Attachment.VIDEO,
                     size = item.size,
+                    duration = item.duration
+                )
+            )
+        }
+
+        currentEvent.value.chosenAudios.forEach { item ->
+            temp.add(
+                Attachment(
+                    uri = item.uri.toString(),
+                    type = Attachment.AUDIO,
+                    size = item.size,
+                    name = item.name,
                     duration = item.duration
                 )
             )

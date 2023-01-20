@@ -3,7 +3,6 @@ package ru.lopata.madDiary.core.util
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import ru.lopata.madDiary.featureReminders.domain.model.MainScreenItem
 
 class FileItemDecoration(
     private val spaceTop: Int,

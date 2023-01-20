@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".featureReminders.presentation.calendarScreen.CalendarFragment">
 
@@ -13,14 +12,15 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/calendarPrevMonthBtn"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
+            android:padding="10dp"
             style="@style/CalendarButtonStyle"
             android:contentDescription="@string/prev_month_button"
-            android:src="@drawable/ic_prev_month"
+            android:src="@drawable/ic_prev_month_anim"
             tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
@@ -33,14 +33,15 @@
             android:textAlignment="center"
             tools:text="Feb 2021" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/calendarNextMonthBtn"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:padding="10dp"
             android:layout_weight="1"
             style="@style/CalendarButtonStyle"
             android:contentDescription="@string/next_month_button"
-            android:src="@drawable/ic_next_month"
+            android:src="@drawable/ic_next_month_anim"
             tools:ignore="TouchTargetSizeCheck" />
 
     </LinearLayout>
