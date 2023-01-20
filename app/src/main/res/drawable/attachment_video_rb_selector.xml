@@ -1,5 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="true" android:drawable="@drawable/ic_attachment_video_checked"/>
-    <item android:state_checked="false" android:drawable="@drawable/ic_attachment_video"/>
-</selector>
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/state_on"
+    android:drawable="@drawable/ic_attachment_video_checked"
+    android:state_checked="true" />
+<item
+    android:id="@+id/state_off"
+    android:drawable="@drawable/ic_attachment_video"
+    android:state_checked="false" />
+
+<transition
+    android:drawable="@drawable/attachment_video_anim"
+    android:fromId="@id/state_off"
+    android:toId="@id/state_on" />
+
+</animated-selector>

@@ -1,0 +1,101 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="38dp"
+            android:height="38dp"
+            android:viewportWidth="38"
+            android:viewportHeight="38">
+            <group
+                android:name="group"
+                android:pivotX="19"
+                android:pivotY="19">
+                <path
+                    android:name="path"
+                    android:pathData="M 22.83 5.65 L 21.92 1.5 L 15.92 1.5 L 14.96 5.91"
+                    android:fillColor="#00000000"
+                    android:strokeColor="#000"
+                    android:strokeWidth="3"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round"/>
+                <path
+                    android:name="path_1"
+                    android:pathData="M 14.95 31.91 L 15.92 36.5 L 21.92 36.5 L 22.89 31.96"
+                    android:fillColor="#00000000"
+                    android:strokeColor="#000"
+                    android:strokeWidth="3"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round"/>
+                <path
+                    android:name="path_2"
+                    android:pathData="M 31.98 22.92 L 36.5 21.96 L 36.5 15.96 L 32.19 15.04"
+                    android:fillColor="#00000000"
+                    android:strokeColor="#000"
+                    android:strokeWidth="3"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round"/>
+                <path
+                    android:name="path_3"
+                    android:pathData="M 5.84 15 L 1.5 15.96 L 1.5 21.96 L 5.83 22.91"
+                    android:fillColor="#00000000"
+                    android:strokeColor="#000"
+                    android:strokeWidth="3"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round"/>
+                <path
+                    android:name="path_4"
+                    android:pathData="M 12.38 6.87 L 8.68 4.48 L 4.44 8.72 L 7 12.68"
+                    android:fillColor="#00000000"
+                    android:strokeColor="#000"
+                    android:strokeWidth="3"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round"/>
+                <path
+                    android:name="path_5"
+                    android:pathData="M 25.46 31.07 L 29.28 33.56 L 33.52 29.32 L 31.08 25.57"
+                    android:fillColor="#00000000"
+                    android:strokeColor="#000"
+                    android:strokeWidth="3"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round"/>
+                <path
+                    android:name="path_6"
+                    android:pathData="M 31.01 12.44 L 33.48 8.64 L 29.24 4.4 L 25.38 6.91"
+                    android:fillColor="#00000000"
+                    android:strokeColor="#000"
+                    android:strokeWidth="3"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round"/>
+                <path
+                    android:name="path_7"
+                    android:pathData="M 6.89 25.39 L 4.4 29.24 L 8.64 33.48 L 12.5 30.99"
+                    android:fillColor="#00000000"
+                    android:strokeColor="#000"
+                    android:strokeWidth="3"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round"/>
+                <path
+                    android:name="path_8"
+                    android:pathData="M 18.9 18.98 M 6.5 18.98 C 6.5 15.693 7.807 12.536 10.132 10.212 C 12.456 7.887 15.613 6.58 18.9 6.58 C 22.187 6.58 25.344 7.887 27.668 10.212 C 29.993 12.536 31.3 15.693 31.3 18.98 C 31.3 22.267 29.993 25.424 27.668 27.748 C 25.344 30.073 22.187 31.38 18.9 31.38 C 15.613 31.38 12.456 30.073 10.132 27.748 C 7.807 25.424 6.5 22.267 6.5 18.98"
+                    android:fillColor="#00000000"
+                    android:strokeColor="#000"
+                    android:strokeWidth="2"
+                    android:strokeLineCap="round"
+                    android:strokeLineJoin="round"/>
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="group">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="rotation"
+                android:duration="600"
+                android:valueFrom="0"
+                android:valueTo="360"
+                android:valueType="floatType"
+                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+        </aapt:attr>
+    </target>
+</animated-vector>
