@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import ru.lopata.madDiary.databinding.ItemCoverBinding
 
-class CoverAdapter(val listener: OnAttachmentChosenListener?) :
+class CoverAdapter(val listener: OnAttachmentDialogListener?) :
     ListAdapter<Uri, CoverAdapter.CoverViewHolder>(DiffCallback()) {
 
     private var chosenCover: MaterialCardView? = null

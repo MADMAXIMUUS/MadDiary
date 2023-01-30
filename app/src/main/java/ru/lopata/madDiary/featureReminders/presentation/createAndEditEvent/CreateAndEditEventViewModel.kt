@@ -533,7 +533,7 @@ class CreateAndEditEventViewModel @Inject constructor(
         }
     }
 
-    fun updateChosenImage(items: List<ImageItemState>) {
+    fun updateChosenImages(items: List<ImageItemState>) {
         _currentEvent.update { currentState ->
             currentState.copy(
                 chosenImages = items.toList()
@@ -541,7 +541,7 @@ class CreateAndEditEventViewModel @Inject constructor(
         }
     }
 
-    fun updateChosenVideo(items: List<VideoItemState>) {
+    fun updateChosenVideos(items: List<VideoItemState>) {
         _currentEvent.update { currentState ->
             currentState.copy(
                 chosenVideos = items.toList()
@@ -625,6 +625,36 @@ class CreateAndEditEventViewModel @Inject constructor(
         _currentEvent.update { currentState ->
             currentState.copy(
                 chosenAudios = newList
+            )
+        }
+    }
+
+    fun updateChosenImage(item: ImageItemState, state: Boolean) {
+        val newList = mutableListOf<ImageItemState>()
+        newList.addAll(currentEvent.value.chosenImages)
+        if (state) {
+            newList.add(item)
+        } else {
+            newList.remove(item)
+        }
+        _currentEvent.update { currentState ->
+            currentState.copy(
+                chosenImages = newList
+            )
+        }
+    }
+
+    fun updateChosenVideo(item: VideoItemState, state: Boolean) {
+        val newList = mutableListOf<VideoItemState>()
+        newList.addAll(currentEvent.value.chosenVideos)
+        if (state) {
+            newList.add(item)
+        } else {
+            newList.remove(item)
+        }
+        _currentEvent.update { currentState ->
+            currentState.copy(
+                chosenVideos = newList
             )
         }
     }

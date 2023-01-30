@@ -9,19 +9,17 @@ import ru.lopata.madDiary.core.util.toTimeDuration
 import ru.lopata.madDiary.databinding.ItemAudioBinding
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.AudioItemState
 
-class AudioAdapter(val listener: OnAttachmentChosenListener) :
+class AudioAdapter(val listener: OnAttachmentDialogListener) :
     ListAdapter<AudioItemState, AudioAdapter.AudioViewHolder>(DiffCallback()) {
 
     inner class AudioViewHolder(val binding: ItemAudioBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private var isPlay = false
-
         fun onBind(item: AudioItemState) {
             binding.itemAudioName.text = item.name
             binding.itemAudioDuration.text = item.duration.toTimeDuration()
             binding.itemAudioPlayPauseButton.setOnClickListener {
-
+                listener.onAudioDialogShow(item, false)
             }
             binding.root.setOnClickListener {
                 listener.onAudioChosen(item)

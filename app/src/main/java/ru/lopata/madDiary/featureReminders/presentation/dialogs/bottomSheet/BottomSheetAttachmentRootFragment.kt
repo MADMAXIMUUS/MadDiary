@@ -1,6 +1,7 @@
 package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
@@ -8,22 +9,28 @@ import android.os.Bundle
 import android.view.*
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import com.google.android.material.R.id.design_bottom_sheet
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.lopata.madDiary.R
+import ru.lopata.madDiary.core.util.isDarkTheme
+import ru.lopata.madDiary.core.util.setStatusBarColor
 import ru.lopata.madDiary.databinding.FragmentBottomSheetAttachmentRootBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentChosenListener
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.AudioItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.*
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.AudioPreviewDialog
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.ImagePreviewDialog
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.VideoPreviewDialog
 import ru.lopata.madDiary.featureReminders.util.BottomSheetCallback
 
-open class BottomSheetAttachmentRootFragment private constructor(
+class BottomSheetAttachmentRootFragment private constructor(
     private val covers: List<Uri>,
     private val images: List<ImageItemState>,
     private val videos: List<VideoItemState>,
@@ -32,8 +39,8 @@ open class BottomSheetAttachmentRootFragment private constructor(
     private val chosenCover: Uri,
     private var chosenImages: List<ImageItemState>,
     private var chosenVideos: List<VideoItemState>,
-    private val listener: OnAttachmentChosenListener?
-) : BottomSheetDialogFragment(), OnAttachmentChosenListener {
+    private val listener: OnAttachmentDialogListener?
+) : BottomSheetDialogFragment(), OnAttachmentDialogListener {
 
     private var _binding: FragmentBottomSheetAttachmentRootBinding? = null
     private val binding get() = _binding!!
@@ -81,8 +88,10 @@ open class BottomSheetAttachmentRootFragment private constructor(
         }
         transaction.commit()
 
-        binding.mainToolbar.setNavigationOnClickListener {
-            dismiss()
+        binding.bottomSheetCloseButton.setOnClickListener {
+            if (binding.bottomSheetAttachmentStickyConfirm.visibility != View.VISIBLE) {
+                dismiss()
+            }
         }
 
         binding.bottomSheetAttachmentTypeRoot.check(R.id.bottom_sheet_attachment_type_cover_rb)
@@ -118,6 +127,7 @@ open class BottomSheetAttachmentRootFragment private constructor(
                 }
                 binding.bottomSheetConfirmButton.setOnClickListener {
                     listener?.onImagesChosen(chosenImages)
+
                     dismiss()
                 }
                 transaction.commit()
@@ -188,11 +198,25 @@ open class BottomSheetAttachmentRootFragment private constructor(
                         dialog.behavior.maxHeight = expandedHeight
                         confirmButtonLayoutParams.topMargin =
                             (((dialog.behavior.maxHeight - buttonConfirmHeight) - collapsedConfirmMargin) + collapsedConfirmMargin)
-                        binding.toolbarRoot.visibility = View.VISIBLE
+                        binding.bottomSheetCloseButton.visibility = View.VISIBLE
+                        if (requireActivity().isDarkTheme())
+                            requireActivity().setStatusBarColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.dark_gray
+                                )
+                            )
                     } else {
-                        dialog.behavior.maxHeight = (expandedHeight * 0.935).toInt()
-                        binding.toolbarRoot.visibility = View.GONE
                         dialog.window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                        dialog.behavior.maxHeight = (expandedHeight * 0.915).toInt()
+                        binding.bottomSheetCloseButton.visibility = View.GONE
+                        if (requireActivity().isDarkTheme())
+                            requireActivity().setStatusBarColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.onyx
+                                )
+                            )
                     }
                 },
                 onSlideSheet = { _, slideOffset, _ ->
@@ -237,7 +261,7 @@ open class BottomSheetAttachmentRootFragment private constructor(
         bottomSheet.layoutParams = bottomSheetLayoutParams
         BottomSheetBehavior.from(bottomSheet).skipCollapsed = false
         BottomSheetBehavior.from(bottomSheet).peekHeight = peekHeight
-        BottomSheetBehavior.from(bottomSheet).maxHeight = (expandedHeight * 0.935).toInt()
+        BottomSheetBehavior.from(bottomSheet).maxHeight = (expandedHeight * 0.915).toInt()
         BottomSheetBehavior.from(bottomSheet).isHideable = true
 
         buttonHeight =
@@ -300,6 +324,19 @@ open class BottomSheetAttachmentRootFragment private constructor(
         }
     }
 
+    override fun onImageChosen(item: ImageItemState, state: Boolean) {
+        val list = imageFragment.updateChosen(item, state)
+        if (list.isNotEmpty() || list != chosenImages) {
+            binding.bottomSheetAttachmentSticky.visibility = View.GONE
+            binding.bottomSheetAttachmentStickyConfirm.visibility = View.VISIBLE
+            chosenImages = list
+        } else {
+            binding.bottomSheetAttachmentSticky.visibility = View.VISIBLE
+            binding.bottomSheetAttachmentStickyConfirm.visibility = View.INVISIBLE
+        }
+        onImagesChosen(list)
+    }
+
     override fun onVideosChosen(items: List<VideoItemState>) {
         if (items.isNotEmpty() || items != chosenVideos) {
             binding.bottomSheetAttachmentSticky.visibility = View.GONE
@@ -309,6 +346,19 @@ open class BottomSheetAttachmentRootFragment private constructor(
             binding.bottomSheetAttachmentSticky.visibility = View.VISIBLE
             binding.bottomSheetAttachmentStickyConfirm.visibility = View.INVISIBLE
         }
+    }
+
+    override fun onVideoChosen(item: VideoItemState, state: Boolean) {
+        val list = videoFragment.updateChosen(item, state)
+        if (list.isNotEmpty() || list != chosenVideos) {
+            binding.bottomSheetAttachmentSticky.visibility = View.GONE
+            binding.bottomSheetAttachmentStickyConfirm.visibility = View.VISIBLE
+            chosenVideos = list
+        } else {
+            binding.bottomSheetAttachmentSticky.visibility = View.VISIBLE
+            binding.bottomSheetAttachmentStickyConfirm.visibility = View.INVISIBLE
+        }
+        onVideosChosen(list)
     }
 
     override fun onAudioChosen(item: AudioItemState) {
@@ -321,6 +371,39 @@ open class BottomSheetAttachmentRootFragment private constructor(
         dismiss()
     }
 
+    override fun onImageDialogShow(item: ImageItemState, isChosen: Boolean) {
+        ImagePreviewDialog(item, isChosen, this).show(
+            requireActivity().supportFragmentManager,
+            "ImagePreviewDialog"
+        )
+    }
+
+    override fun onVideoDialogShow(item: VideoItemState, isChosen: Boolean) {
+        VideoPreviewDialog(item, isChosen, this).show(
+            requireActivity().supportFragmentManager,
+            "VideoPreviewDialog"
+        )
+    }
+
+    override fun onAudioDialogShow(item: AudioItemState, isChosen: Boolean) {
+        AudioPreviewDialog(item, isChosen, this).show(
+            requireActivity().supportFragmentManager,
+            "ImagePreviewDialog"
+        )
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        if (requireActivity().isDarkTheme()) {
+            requireActivity().setStatusBarColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.onyx
+                )
+            )
+        }
+    }
+
     data class Builder(
         private var covers: List<Uri> = emptyList(),
         private var images: List<ImageItemState> = emptyList(),
@@ -330,7 +413,7 @@ open class BottomSheetAttachmentRootFragment private constructor(
         private var chosenCover: Uri = Uri.EMPTY,
         private var chosenImages: List<ImageItemState> = emptyList(),
         private var chosenVideos: List<VideoItemState> = emptyList(),
-        private var listener: OnAttachmentChosenListener? = null
+        private var listener: OnAttachmentDialogListener? = null
     ) {
         fun covers(covers: List<Uri>) = apply { this.covers = covers }
         fun images(images: List<ImageItemState>) = apply { this.images = images }
@@ -340,7 +423,7 @@ open class BottomSheetAttachmentRootFragment private constructor(
         fun chosenCover(cover: Uri) = apply { this.chosenCover = cover }
         fun chosenImages(images: List<ImageItemState>) = apply { this.chosenImages = images }
         fun chosenVideos(videos: List<VideoItemState>) = apply { this.chosenVideos = videos }
-        fun onAttachmentChosenListener(listener: OnAttachmentChosenListener) =
+        fun onAttachmentChosenListener(listener: OnAttachmentDialogListener) =
             apply { this.listener = listener }
 
         fun build() = BottomSheetAttachmentRootFragment(

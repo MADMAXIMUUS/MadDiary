@@ -10,30 +10,47 @@ import ru.lopata.madDiary.core.util.toTimeDuration
 import ru.lopata.madDiary.databinding.ItemVideoBinding
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
 
-class VideoAdapter(val listener: OnAttachmentChosenListener) :
-    ListAdapter<VideoItemState, VideoAdapter.VideoViewHolder>(DiffCallback()) {
+class VideoAdapter(
+    private val listener: OnAttachmentDialogListener
+) : ListAdapter<VideoItemState, VideoAdapter.VideoViewHolder>(DiffCallback()) {
 
     private var chosenVideoUris: MutableList<VideoItemState> = mutableListOf()
 
     inner class VideoViewHolder(val binding: ItemVideoBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        private var isChecked: Boolean = false
+
         fun onBind(item: VideoItemState) {
-            binding.chosenVideoCb.isChecked = item in chosenVideoUris
+            if (isChecked) {
+                binding.chosenVideoCb.speed = 1.5f
+                binding.chosenVideoCb.setMinAndMaxProgress(0f, 0.5f)
+                binding.chosenVideoCb.playAnimation()
+            }
             Glide
                 .with(binding.thumbnail.context)
                 .load(item.uri)
                 .into(binding.thumbnail)
             binding.duration.text = item.duration.toTimeDuration()
-            binding.thumbnail.setOnClickListener {
-                if (binding.chosenVideoCb.isChecked) {
-                    chosenVideoUris.remove(item)
-                    binding.chosenVideoCb.isChecked = false
-                } else {
+
+            binding.chosenVideoCb.setOnClickListener {
+                if (!isChecked) {
                     chosenVideoUris.add(item)
-                    binding.chosenVideoCb.isChecked = true
+                    binding.chosenVideoCb.speed = 2f
+                    binding.chosenVideoCb.setMinAndMaxProgress(0f, 0.5f)
+                    binding.chosenVideoCb.playAnimation()
+                    isChecked = true
+                } else {
+                    chosenVideoUris.remove(item)
+                    binding.chosenVideoCb.speed = 2f
+                    binding.chosenVideoCb.setMinAndMaxProgress(0.5f, 1.0f)
+                    binding.chosenVideoCb.playAnimation()
+                    isChecked = false
                 }
                 listener.onVideosChosen(chosenVideoUris)
+            }
+            binding.thumbnail.setOnClickListener {
+                listener.onVideoDialogShow(item, isChecked)
             }
         }
     }
@@ -47,6 +64,8 @@ class VideoAdapter(val listener: OnAttachmentChosenListener) :
             }
         }
     }
+
+    fun getChosenItems() = chosenVideoUris
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
         val binding = ItemVideoBinding.inflate(LayoutInflater.from(parent.context), parent, false)

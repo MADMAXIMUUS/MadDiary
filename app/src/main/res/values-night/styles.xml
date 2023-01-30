@@ -13,7 +13,7 @@
     </style>
 
     <style name="ViewReminderCardStyle">
-        <item name="cardCornerRadius">10dp</item>
+        <item name="cardCornerRadius">15dp</item>
         <item name="cardElevation">0dp</item>
         <item name="cardBackgroundColor">@color/transparent</item>
     </style>
@@ -118,7 +118,6 @@
         <item name="android:textSize">40sp</item>
         <item name="android:gravity">center</item>
     </style>
-
 
     <style name="RadioButtonStyle" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
@@ -264,6 +263,18 @@
         <item name="mad_waveLineColor">@color/mercury</item>
         <item name="android:background">@color/dune</item>
         <item name="mad_waveLineWidth">2dp</item>
+    </style>
+
+    <style name="ToolbarButtonStyle">
+        <item name="android:backgroundTint">@color/dark_gray</item>
+        <item name="android:background">@drawable/all_corners</item>
+        <item name="android:tint">@color/mercury</item>
+    </style>
+
+    <style name="ToolbarButtonStyleDialog">
+        <item name="android:backgroundTint">@color/dark_liver</item>
+        <item name="android:background">@drawable/all_corners</item>
+        <item name="android:tint">@color/mercury</item>
     </style>
 
 </resources>

@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import ru.lopata.madDiary.core.util.AttachItemDecoration
 import ru.lopata.madDiary.databinding.FragmentAttachCoverBinding
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.CoverAdapter
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentChosenListener
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
 
 class AttachCoverFragment(
     private val covers: List<Uri>,
     private val chosenCover: Uri,
-    private val listener: OnAttachmentChosenListener?
+    private val listener: OnAttachmentDialogListener?
 ) : Fragment() {
 
     private var _binding: FragmentAttachCoverBinding? = null

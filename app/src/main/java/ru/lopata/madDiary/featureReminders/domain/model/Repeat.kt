@@ -3,7 +3,7 @@ package ru.lopata.madDiary.featureReminders.domain.model
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.ForeignKey.CASCADE
+import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 import java.sql.Date

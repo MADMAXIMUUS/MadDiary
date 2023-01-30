@@ -12,17 +12,32 @@ import androidx.recyclerview.widget.GridLayoutManager
 import ru.lopata.madDiary.core.util.AttachItemDecoration
 import ru.lopata.madDiary.core.util.checkPermission
 import ru.lopata.madDiary.databinding.FragmentAttachVideoBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentChosenListener
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.VideoAdapter
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
 
 class AttachVideoFragment(
     private val videos: List<VideoItemState>,
     private val chosenVideos: List<VideoItemState>,
-    private val listener: OnAttachmentChosenListener
+    private val listener: OnAttachmentDialogListener
 ) : Fragment() {
     private var _binding: FragmentAttachVideoBinding? = null
     private val binding get() = _binding!!
+
+    private val videoAdapter = VideoAdapter(listener)
+
+    fun updateChosen(video: VideoItemState, state: Boolean): List<VideoItemState> {
+        val oldList = videoAdapter.getChosenItems()
+        val newList = mutableListOf<VideoItemState>()
+        newList.addAll(oldList)
+        if (state) {
+            newList.add(video)
+        } else {
+            newList.remove(video)
+        }
+        videoAdapter.updateChosen(newList)
+        return newList
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +53,8 @@ class AttachVideoFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = VideoAdapter(listener)
-        adapter.submitList(videos)
-        adapter.updateChosen(chosenVideos)
+        videoAdapter.submitList(videos)
+        videoAdapter.updateChosen(chosenVideos)
         binding.apply {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (!requireActivity().checkPermission(READ_MEDIA_VIDEO)) {
@@ -62,7 +76,7 @@ class AttachVideoFragment(
                 }
             }
             bottomSheetRv.apply {
-                this.adapter = adapter
+                this.adapter = videoAdapter
                 layoutManager = GridLayoutManager(requireContext(), 3)
                 addItemDecoration(AttachItemDecoration(10, 3))
             }

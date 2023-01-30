@@ -84,14 +84,6 @@ class CreateAndEditNoteFragment : Fragment() {
                     createAndEditNoteTitleEdt.setSelection(note.title.length)
                     createAndEditNoteDataEdt.setText(note.text)
                     createAndEditNoteDataEdt.setSelection(note.text.length)
-                    createAndEditNoteRoot.setBackgroundColor(note.color)
-                    /*if (note.color == NoteColors.defaultDark) {
-                        createAndEditNoteDataEdt.setTextColor(Color.parseColor("#FFE3E9E5"))
-                        createAndEditNoteTitleEdt.setTextColor(Color.parseColor("#FFE3E9E5"))
-                    } else {
-                        createAndEditNoteDataEdt.setTextColor(Color.parseColor("#FF121212"))
-                        createAndEditNoteTitleEdt.setTextColor(Color.parseColor("#FF121212"))
-                    }*/
                 }
             }
         }
@@ -105,6 +97,20 @@ class CreateAndEditNoteFragment : Fragment() {
             createAndEditNoteDataEdt.addTextChangedListener(afterTextChanged = { text ->
                 viewModel.noteDescriptionChange(text.toString())
             })
+
+            binding.apply {
+                createAndEditNoteBackButton.setOnClickListener {
+                    view.findNavController().navigateUp()
+                }
+
+                createAndEditNoteConfirmButton.setOnClickListener {
+                    viewModel.saveNote()
+                }
+
+                createAndEditNoteDeleteButton.setOnClickListener {
+
+                }
+            }
         }
     }
 

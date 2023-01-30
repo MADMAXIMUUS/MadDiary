@@ -6,23 +6,20 @@
     android:layout_height="wrap_content"
     tools:context=".featureReminders.presentation.dialogs.bottomSheet.BottomSheetAttachmentRootFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/toolbar_root"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/bottom_sheet_close_button"
+        style="@style/ToolbarButtonStyleDialog"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_close"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/mainToolbar"
-            style="@style/Widget.App.Toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_close" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible"
+        tools:ignore="ContentDescription" />
 
     <View
         android:id="@+id/bottom_sheet_handle"
@@ -36,8 +33,9 @@
         android:id="@+id/bottom_sheet_attachment_nav_host"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_attachment_sticky_confirm"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_root" />
+        app:layout_constraintTop_toBottomOf="@id/bottom_sheet_close_button" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_sheet_attachment_sticky_confirm"

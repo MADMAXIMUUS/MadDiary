@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/onyx"
+    tools:context=".featureReminders.presentation.dialogs.modal.ImagePreviewDialog">
+
+    <ImageView
+        android:id="@+id/image_preview_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/cover_1"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/image_preview_back_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:padding="5dp"
+        android:background="@drawable/all_corners"
+        android:backgroundTint="@color/dark_gray"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/mercury"
+        tools:ignore="ContentDescription" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/image_preview_choose_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/all_corners"
+        android:backgroundTint="@color/dark_gray"
+        android:contentDescription="@string/cover_delete_button"
+        android:padding="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_rawRes="@raw/chosen_media_button_anim" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

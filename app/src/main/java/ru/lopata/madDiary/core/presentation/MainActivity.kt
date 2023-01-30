@@ -12,7 +12,6 @@ import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -55,22 +54,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.mainToolbar)
-
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         val navController = navHostFragment.navController
-        val appBarConfiguration = AppBarConfiguration(
-            topLevelDestinationIds = setOf(
-                R.id.bottom_notes,
-                R.id.bottom_calendar,
-                R.id.bottom_reminders,
-                R.id.bottom_settings
-            ),
-            fallbackOnNavigateUpListener = ::onSupportNavigateUp
-        )
-
-        binding.mainToolbar.setupWithNavController(navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id in setOf(
@@ -81,39 +67,13 @@ class MainActivity : AppCompatActivity() {
                 )
             ) {
                 binding.bottomNavigationView.visibility = View.VISIBLE
-
-            } else {
-                binding.bottomNavigationView.visibility = View.GONE
-
-            }
-            val isTopLevelDestination =
-                appBarConfiguration.topLevelDestinations.contains(destination.id)
-            if (!isTopLevelDestination) {
-                binding.mainToolbar.setNavigationIcon(
-                    R.drawable.ic_back_arrow
-                )
-                binding.mainToolbar.setNavigationIconTint(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.back_arrow_tint
-                    )
-                )
                 if (isDarkTheme()) {
-                    setNavigationColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.onyx
-                        )
-                    )
+                    setNavigationColor(ContextCompat.getColor(this, R.color.dark_gray))
                 }
             } else {
+                binding.bottomNavigationView.visibility = View.GONE
                 if (isDarkTheme()) {
-                    setNavigationColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.dark_gray
-                        )
-                    )
+                    setNavigationColor(ContextCompat.getColor(this, R.color.onyx))
                 }
             }
         }

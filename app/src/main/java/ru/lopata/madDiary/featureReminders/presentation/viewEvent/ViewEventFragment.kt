@@ -5,11 +5,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -55,26 +52,19 @@ class ViewEventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val menuHost: MenuHost = requireActivity()
         val attachmentAdapter = AttachmentAdapter()
 
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.view_menu, menu)
+        binding.apply {
+            viewEventBackButton.setOnClickListener {
+                view.findNavController().navigateUp()
             }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.view_menu_edit -> {
-                        viewModel.editEvent()
-                    }
-                    R.id.view_menu_delete -> {
-                        viewModel.deleteEvent()
-                    }
-                }
-                return true
+            viewEventEditButton.setOnClickListener {
+                viewModel.editEvent()
             }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+            viewEventDeleteButton.setOnClickListener {
+                viewModel.deleteEvent()
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.eventFlow.collectLatest { event ->

@@ -2,17 +2,13 @@ package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adap
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import ru.lopata.madDiary.databinding.ItemFileBinding
-import ru.lopata.madDiary.databinding.ItemImageBinding
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
 
-class FileAdapter(val listener: OnAttachmentChosenListener) :
+class FileAdapter(val listener: OnAttachmentDialogListener) :
     ListAdapter<FileItemState, FileAdapter.ImageViewHolder>(DiffCallback()) {
 
     inner class ImageViewHolder(val binding: ItemFileBinding) :

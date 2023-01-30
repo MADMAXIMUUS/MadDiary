@@ -7,12 +7,64 @@
     android:layout_height="match_parent"
     tools:context="ru.lopata.madDiary.featureNote.presentation.createNote.CreateAndEditNoteFragment">
 
+    <ImageView
+        android:id="@+id/create_and_edit_note_delete_button"
+        style="@style/ToolbarButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/create_and_edit_note_confirm_button"
+        style="@style/ToolbarButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="10dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_save"
+        app:layout_constraintEnd_toStartOf="@id/create_and_edit_note_delete_button"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        style="@style/DialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/note_label"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/create_and_edit_note_back_button"
+        style="@style/ToolbarButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
     <EditText
         android:id="@+id/create_and_edit_note_title_edt"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:autofillHints="null"
         android:background="@color/transparent"
         android:fontFamily="@font/blogger_sans_medium"
@@ -24,7 +76,7 @@
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/create_and_edit_note_delete_button"
         tools:ignore="TextContrastCheck" />
 
     <EditText
@@ -64,7 +116,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
-                android:contentDescription="Font Bold"
+                android:contentDescription="@string/note_tools_font_bol"
                 android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_font_bold" />
@@ -73,7 +125,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
-                android:contentDescription="Font Italic"
+                android:contentDescription="@string/note_tools_font_italic"
                 android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_font_italic" />
@@ -82,7 +134,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
-                android:contentDescription="Font Underline"
+                android:contentDescription="@string/note_tools_font_underline"
                 android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_font_underline" />
@@ -91,7 +143,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
-                android:contentDescription="Add dot list"
+                android:contentDescription="@string/note_tools_add_dot_list"
                 android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_dot_list" />
@@ -100,7 +152,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
-                android:contentDescription="Add numeric list"
+                android:contentDescription="@string/note_tools_add_numeric_list"
                 android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_number_list" />
@@ -109,7 +161,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
-                android:contentDescription="Add todo"
+                android:contentDescription="@string/note_tools_add_todo"
                 android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_todo" />
@@ -118,7 +170,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
-                android:contentDescription="Attach image"
+                android:contentDescription="@string/note_tools_attach_image"
                 android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_attach_image" />
@@ -127,7 +179,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
-                android:contentDescription="Attach draw"
+                android:contentDescription="@string/note_tools_attach_draw"
                 android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_attach_draw" />
@@ -136,7 +188,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
-                android:contentDescription="Attach voice"
+                android:contentDescription="@string/note_tools_attach_voice"
                 android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_attach_voice" />
@@ -145,7 +197,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:clickable="true"
-                android:contentDescription="Choose color"
+                android:contentDescription="@string/note_tools_choose_color"
                 android:focusable="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_choose_color" />

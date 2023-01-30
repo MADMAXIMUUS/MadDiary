@@ -11,16 +11,15 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.provider.Settings
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,16 +34,19 @@ import ru.lopata.madDiary.core.domain.service.CopyAttachmentService
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentCreateAndEditEventBinding
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AttachmentAdapter
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentChosenListener
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.AudioItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.*
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.AudioPreviewDialog
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.ImagePreviewDialog
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.VideoPreviewDialog
 import java.io.File
 
 @AndroidEntryPoint
-class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
+class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
 
     private var _binding: FragmentCreateAndEditEventBinding? = null
     private val binding get() = _binding!!
@@ -52,7 +54,9 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
     private val viewModel: CreateAndEditEventViewModel by viewModels()
     private var isEdit = false
 
-    private lateinit var menuProvider: MenuProvider
+    private lateinit var imageDialog: ImagePreviewDialog
+    private lateinit var videoDialog: VideoPreviewDialog
+    private lateinit var audioDialog: AudioPreviewDialog
 
     private val permResultLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -181,27 +185,8 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val menuHost: MenuHost = requireActivity()
 
-        val attachmentAdapter = AttachmentAdapter()
-
-        menuProvider = object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.create_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.create_menu_save -> {
-                        viewModel.saveEvent()
-                    }
-                    R.id.create_menu_delete -> {
-                        viewModel.deleteEvent()
-                    }
-                }
-                return true
-            }
-        }
+        val attachmentAdapter = AttachmentAdapter(this)
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -217,11 +202,19 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
 
             })
 
-        menuHost.addMenuProvider(
-            menuProvider,
-            viewLifecycleOwner,
-            Lifecycle.State.RESUMED
-        )
+        binding.apply {
+            createAndEditEventBackButton.setOnClickListener {
+                view.findNavController().navigateUp()
+            }
+
+            createAndEditEventConfirmButton.setOnClickListener {
+                viewModel.saveEvent()
+            }
+
+            createAndEditEventDeleteButton.setOnClickListener {
+                viewModel.deleteEvent()
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.eventFlow.collectLatest { event ->
@@ -564,12 +557,22 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
     }
 
     override fun onImagesChosen(items: List<ImageItemState>) {
-        viewModel.updateChosenImage(items)
+        viewModel.updateChosenImages(items)
+        viewModel.updateAttachment()
+    }
+
+    override fun onImageChosen(item: ImageItemState, state: Boolean) {
+        viewModel.updateChosenImage(item, state)
         viewModel.updateAttachment()
     }
 
     override fun onVideosChosen(items: List<VideoItemState>) {
-        viewModel.updateChosenVideo(items)
+        viewModel.updateChosenVideos(items)
+        viewModel.updateAttachment()
+    }
+
+    override fun onVideoChosen(item: VideoItemState, state: Boolean) {
+        viewModel.updateChosenVideo(item, state)
         viewModel.updateAttachment()
     }
 
@@ -581,6 +584,30 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentChosenListener {
     override fun onFileChosen(item: FileItemState) {
         viewModel.updateAddedFiles(item)
         viewModel.updateAttachment()
+    }
+
+    override fun onImageDialogShow(item: ImageItemState, isChosen: Boolean) {
+        imageDialog = ImagePreviewDialog(item, isChosen, this)
+        imageDialog.show(
+            requireActivity().supportFragmentManager,
+            "MediaPreviewDialog"
+        )
+    }
+
+    override fun onVideoDialogShow(item: VideoItemState, isChosen: Boolean) {
+        videoDialog = VideoPreviewDialog(item, isChosen, this)
+        videoDialog.show(
+            requireActivity().supportFragmentManager,
+            "MediaPreviewDialog"
+        )
+    }
+
+    override fun onAudioDialogShow(item: AudioItemState, isChosen: Boolean) {
+        audioDialog = AudioPreviewDialog(item, isChosen, this)
+        audioDialog.show(
+            requireActivity().supportFragmentManager,
+            "MediaPreviewDialog"
+        )
     }
 
     companion object {

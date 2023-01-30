@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ru.lopata.madDiary.core.util.FileItemDecoration
 import ru.lopata.madDiary.databinding.FragmentAttachFileBinding
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.FileAdapter
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentChosenListener
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
 
 class AttachFileFragment(
     private val files: List<FileItemState>,
-    private val listener: OnAttachmentChosenListener
+    private val listener: OnAttachmentDialogListener
 ) : Fragment() {
 
     private var _binding: FragmentAttachFileBinding? = null

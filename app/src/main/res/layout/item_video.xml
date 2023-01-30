@@ -18,21 +18,14 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srs="@drawable/cover_1" />
 
-    <CheckBox
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/chosen_video_cb"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/event_item_rb_selector"
-        android:backgroundTint="@color/white_e0"
-        android:button="@null"
-        android:clickable="false"
-        android:focusable="false"
-        android:gravity="center"
-        android:text=""
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="11dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_rawRes="@raw/chosen_media_button_anim" />
 
     <TextView
         android:id="@+id/duration"

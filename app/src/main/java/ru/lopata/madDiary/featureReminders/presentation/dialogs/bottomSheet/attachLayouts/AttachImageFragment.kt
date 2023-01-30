@@ -13,17 +13,19 @@ import ru.lopata.madDiary.core.util.AttachItemDecoration
 import ru.lopata.madDiary.core.util.checkPermission
 import ru.lopata.madDiary.databinding.FragmentAttachImageBinding
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.ImageAdapter
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentChosenListener
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
 
 class AttachImageFragment(
     private val images: List<ImageItemState>,
     private val chosenImages: List<ImageItemState>,
-    private val listener: OnAttachmentChosenListener
+    private val listener: OnAttachmentDialogListener
 ) : Fragment() {
 
     private var _binding: FragmentAttachImageBinding? = null
     private val binding get() = _binding!!
+
+    private val imageAdapter = ImageAdapter(listener)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,9 +41,8 @@ class AttachImageFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = ImageAdapter(listener)
-        adapter.submitList(images)
-        adapter.updateChosen(chosenImages)
+        imageAdapter.submitList(images)
+        imageAdapter.updateChosen(chosenImages)
         binding.apply {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (!requireActivity().checkPermission(READ_MEDIA_IMAGES)) {
@@ -63,11 +64,24 @@ class AttachImageFragment(
                 }
             }
             bottomSheetRv.apply {
-                this.adapter = adapter
+                adapter = imageAdapter
                 layoutManager = GridLayoutManager(requireContext(), 3)
                 addItemDecoration(AttachItemDecoration(10, 3))
             }
         }
+    }
+
+    fun updateChosen(image: ImageItemState, state: Boolean): List<ImageItemState> {
+        val oldList = imageAdapter.getChosenUris()
+        val newList = mutableListOf<ImageItemState>()
+        newList.addAll(oldList)
+        if (state) {
+            newList.add(image)
+        } else {
+            newList.remove(image)
+        }
+        imageAdapter.updateChosen(newList)
+        return newList
     }
 
     override fun onDestroy() {

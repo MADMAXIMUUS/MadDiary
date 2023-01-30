@@ -91,6 +91,18 @@
     <string name="internal_storage_subtitle">Add file from your device</string>
     <string name="add_file_rv_title">Recent files</string>
 
+    <!--Note tools-->
+    <string name="note_tools_font_bol">Font Bold</string>
+    <string name="note_tools_font_italic">Font Italic</string>
+    <string name="note_tools_font_underline">Font Underline</string>
+    <string name="note_tools_add_dot_list">Add dot list</string>
+    <string name="note_tools_add_numeric_list">Add numeric list</string>
+    <string name="note_tools_add_todo">Add todo</string>
+    <string name="note_tools_attach_image">Attach image</string>
+    <string name="note_tools_attach_draw">Attach draw</string>
+    <string name="note_tools_attach_voice">Attach voice</string>
+    <string name="note_tools_choose_color">Choose color</string>
+
     <string-array name="days_in_week">
         <item>M</item>
         <item>T</item>

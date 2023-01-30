@@ -20,7 +20,7 @@ import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.core.util.Timer.OnTimerTickListener
 import ru.lopata.madDiary.databinding.FragmentAttachAudioBinding
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AudioAdapter
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentChosenListener
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.AudioItemState
 import java.io.File
 import java.io.IOException
@@ -28,7 +28,7 @@ import java.nio.file.Files
 
 class AttachAudioFragment(
     private val audios: List<AudioItemState>,
-    private val listener: OnAttachmentChosenListener
+    private val listener: OnAttachmentDialogListener
 ) : Fragment(), OnTimerTickListener {
 
     private var _binding: FragmentAttachAudioBinding? = null
