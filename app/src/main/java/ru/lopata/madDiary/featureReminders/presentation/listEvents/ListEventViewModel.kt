@@ -12,6 +12,7 @@ import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.toDate
 import ru.lopata.madDiary.core.util.toTimeZone
 import ru.lopata.madDiary.featureReminders.domain.model.MainScreenItem
+import ru.lopata.madDiary.featureReminders.domain.model.Notification
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
 import java.sql.Date
@@ -48,10 +49,11 @@ class ListEventViewModel @Inject constructor(
         job = eventsUseCases.getEventsUseCase()
             .onEach { events ->
                 val map = mutableMapOf<Date, MutableList<MainScreenItem>>()
-                events.forEach { eventRepeatAttachments ->
-                    val event = eventRepeatAttachments.event
-                    val repeat = eventRepeatAttachments.repeat ?: Repeat()
-                    val attachments = eventRepeatAttachments.attachments
+                events.forEach { eventRepeatNotificationsAttachments ->
+                    val event = eventRepeatNotificationsAttachments.event
+                    val repeat = eventRepeatNotificationsAttachments.repeat ?: Repeat()
+                    val attachments = eventRepeatNotificationsAttachments.attachments
+                    val notifications = eventRepeatNotificationsAttachments.notifications
                     var date = event.startDateTime.time
                     val diffDate = abs(event.endDateTime.time - event.startDateTime.time)
                     val diffDay = TimeUnit.DAYS.convert(diffDate, TimeUnit.MILLISECONDS)
@@ -82,6 +84,9 @@ class ListEventViewModel @Inject constructor(
                                 event.endDateTime.time.toTimeZone()
                             else ""
 
+                        val isNotificationSet = notifications.isNotEmpty() &&
+                                notifications[0].time != Notification.NEVER
+
                         map[Date(calendar.timeInMillis)]?.add(
                             MainScreenItem.EventItem(
                                 id = event.eventId!!,
@@ -96,7 +101,7 @@ class ListEventViewModel @Inject constructor(
                                 color = event.color,
                                 isAttachmentAdded = attachments.isNotEmpty(),
                                 cover = Uri.parse(event.cover),
-                                isNotificationSet = false
+                                isNotificationSet = isNotificationSet
                             )
                         )
 
@@ -104,7 +109,7 @@ class ListEventViewModel @Inject constructor(
                         if (repeat.repeatInterval != Repeat.NO_REPEAT) {
                             var interval = repeat.repeatInterval
                             var i = 1
-                            while (interval <= repeat.repeatInterval * 6) {
+                            while (event.startDateTime.time + diffDay + interval <= repeat.repeatEnd.time + DAY_IN_MILLISECONDS) {
                                 when (repeat.repeatInterval) {
                                     Repeat.EVERY_DAY, Repeat.EVERY_SECOND_DAY -> {
 
@@ -151,7 +156,7 @@ class ListEventViewModel @Inject constructor(
                                         color = event.color,
                                         isAttachmentAdded = attachments.isNotEmpty(),
                                         cover = Uri.parse(event.cover),
-                                        isNotificationSet = false
+                                        isNotificationSet = isNotificationSet
                                     )
                                 )
                                 interval += repeat.repeatInterval

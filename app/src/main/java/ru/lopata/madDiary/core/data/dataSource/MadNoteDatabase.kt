@@ -11,6 +11,7 @@ import ru.lopata.madDiary.featureNote.domain.model.entity.NoteCategoryCrossRef
 import ru.lopata.madDiary.featureReminders.data.dataSource.EventDao
 import ru.lopata.madDiary.featureReminders.domain.model.Attachment
 import ru.lopata.madDiary.featureReminders.domain.model.Event
+import ru.lopata.madDiary.featureReminders.domain.model.Notification
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 
 @Database(
@@ -20,8 +21,9 @@ import ru.lopata.madDiary.featureReminders.domain.model.Repeat
         Event::class,
         Repeat::class,
         Attachment::class,
+        Notification::class,
         NoteCategoryCrossRef::class
-    ], version = 16
+    ], version = 17
 )
 @TypeConverters(Converters::class)
 abstract class MadNoteDatabase : RoomDatabase() {

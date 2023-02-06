@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.lopata.madDiary.databinding.FragmentBottomSheetDatePickerBinding
+import java.time.ZoneId
 
 class BottomSheetDatePickerFragment(
     private var value: Long,
@@ -49,6 +50,7 @@ class BottomSheetDatePickerFragment(
                 value = calendar.timeInMillis
                 System.currentTimeMillis()
             }
+            bottomSheetDateCalendar.firstDayOfWeek = Calendar.MONDAY
             bottomSheetDateChooseBtn.setOnClickListener {
                 if (value == 0L) {
                     val calendar = Calendar.getInstance().apply {

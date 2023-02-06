@@ -3,7 +3,7 @@ package ru.lopata.madDiary.featureReminders.presentation.viewEvent
 import android.net.Uri
 import androidx.annotation.StringRes
 import ru.lopata.madDiary.R
-import ru.lopata.madDiary.featureReminders.domain.model.Attachment
+import ru.lopata.madDiary.featureReminders.domain.model.*
 import java.sql.Date
 
 data class ViewEventScreenState(
@@ -18,10 +18,58 @@ data class ViewEventScreenState(
     val color: Int = -1,
     val location: String = "",
     val note: String = "",
-    val notification: String = "Never",
+    val notificationTitle: List<Int> = listOf(R.string.never),
+    val notifications: List<Long> = listOf(Notification.NEVER),
     @StringRes
-    val repeat: Int = R.string.never,
+    val repeatTitle: Int = R.string.never,
+    val repeat: Long = Repeat.NO_REPEAT,
     val repeatEnd: Date = Date(0),
     val attachments: List<Attachment> = emptyList(),
     val eventId: Int = -1
-)
+) {
+    fun toEvent(): Event {
+        return Event(
+            eventId = eventId,
+            title = title,
+            completed = completed,
+            startDateTime = startDateTime,
+            endDateTime = endDateTime,
+            allDay = allDay,
+            color = color,
+            location = location,
+            note = note,
+            isAttachmentAdded = attachments.isNotEmpty()
+        )
+    }
+
+    fun toEventRepeatAttachment(): EventRepeatNotificationAttachment {
+        val event = Event(
+            eventId = eventId,
+            title = title,
+            completed = completed,
+            startDateTime = startDateTime,
+            endDateTime = endDateTime,
+            allDay = allDay,
+            color = color,
+            location = location,
+            note = note,
+            isAttachmentAdded = attachments.isNotEmpty()
+        )
+        val repeat = Repeat(
+            repeatStart = startDateTime,
+            repeatInterval = repeat,
+            repeatEnd = repeatEnd
+        )
+        val list = mutableListOf<Notification>()
+        notifications.forEach {
+            list.add(
+                Notification(
+                    time = it
+                )
+            )
+        }
+        return EventRepeatNotificationAttachment(
+            event, repeat, attachments, list
+        )
+    }
+}

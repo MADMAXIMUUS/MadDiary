@@ -2,10 +2,7 @@ package ru.lopata.madDiary.featureReminders.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import ru.lopata.madDiary.featureReminders.data.dataSource.EventDao
-import ru.lopata.madDiary.featureReminders.domain.model.Attachment
-import ru.lopata.madDiary.featureReminders.domain.model.Event
-import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatAttachment
-import ru.lopata.madDiary.featureReminders.domain.model.Repeat
+import ru.lopata.madDiary.featureReminders.domain.model.*
 import ru.lopata.madDiary.featureReminders.domain.repository.EventRepository
 import java.sql.Date
 
@@ -13,23 +10,16 @@ class EventRepositoryImpl(
     private val eventDao: EventDao
 ) : EventRepository {
 
-    override fun getEvents(): Flow<List<EventRepeatAttachment>> {
+    override fun getEvents(): Flow<List<EventRepeatNotificationAttachment>> {
         return eventDao.getEvents()
     }
 
-    override suspend fun getEventById(id: Int): EventRepeatAttachment? {
+    override suspend fun getEventById(id: Int): EventRepeatNotificationAttachment? {
         return eventDao.getEventById(id)
     }
 
-    override suspend fun getEventsBetweenDates(
-        startDate: Date,
-        endDate: Date
-    ): Flow<List<EventRepeatAttachment>> {
-        return eventDao.getEventsBetweenDates(startDate, endDate)
-    }
-
-    override suspend fun getEventsForDate(date: Date): Flow<List<EventRepeatAttachment>> {
-        return eventDao.getEventsForDate(date)
+    override suspend fun getEventsFromDate(startDate: Date): Flow<List<EventRepeatNotificationAttachment>> {
+        return eventDao.getEventsFromDate(startDate)
     }
 
     override suspend fun insertEvent(event: Event): Long {
@@ -42,6 +32,10 @@ class EventRepositoryImpl(
 
     override suspend fun insertAttachments(attachments: List<Attachment>) {
         return eventDao.insertAttachments(attachments)
+    }
+
+    override suspend fun insertNotifications(notifications: List<Notification>) {
+        return eventDao.insertNotifications(notifications)
     }
 
     override fun getAttachments(type: Int): Flow<List<Attachment>> {

@@ -6,7 +6,7 @@ import androidx.room.Relation
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class EventRepeatAttachment(
+data class EventRepeatNotificationAttachment(
     @Embedded val event: Event,
     @Relation(
         parentColumn = "eventId",
@@ -17,5 +17,10 @@ data class EventRepeatAttachment(
         parentColumn = "eventId",
         entityColumn = "eventOwnerId"
     )
-    val attachments: List<Attachment>
-): Parcelable
+    val attachments: List<Attachment>,
+    @Relation(
+        parentColumn = "eventId",
+        entityColumn = "eventOwnerId"
+    )
+    val notifications: List<Notification>
+) : Parcelable

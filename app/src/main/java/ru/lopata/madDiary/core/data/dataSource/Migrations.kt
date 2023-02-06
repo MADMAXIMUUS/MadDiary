@@ -196,3 +196,15 @@ val MIGRATION_15_16 = object : Migration(15, 16) {
         )
     }
 }
+
+val MIGRATION_16_17 = object : Migration(16, 17) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            "CREATE TABLE NOTIFICATIONS(" +
+                    "id INTEGER PRIMARY KEY," +
+                    "eventOwnerId INTEGER NOT NULL," +
+                    "time BIGINT NOT NULL," +
+                    "FOREIGN KEY(eventOwnerId) REFERENCES EVENTS(eventId) ON UPDATE NO ACTION ON DELETE CASCADE)"
+        )
+    }
+}

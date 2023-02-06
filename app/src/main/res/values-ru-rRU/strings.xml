@@ -48,7 +48,7 @@
     <string name="every_second_week">Каждую вторую неделю</string>
     <string name="every_month">Каждый месяц</string>
     <string name="every_year">Каждый год</string>
-    <string name="at_time_time_of_event">Во время события</string>
+    <string name="at_time_of_event">Во время события</string>
     <string name="ten_minute_before">За 10 минут</string>
     <string name="thirty_minute_before">За 30 минут</string>
     <string name="one_hour_before">За час</string>
@@ -81,6 +81,7 @@
     <string name="settings_button_title">Настройки</string>
     <string name="cancel_button_title">Не сейчас</string>
     <string name="permission_dialog_title">Необходимо разрешение</string>
+    <string name="until">" до "</string>
     <string name="permission_dialog_text">Для добавления вложений необходимо выдать разрешение на доступ к фото, видео, аудио и музыке. Нажмите > настройки > разрешения и разрешите доступ к <u>Файлам и медиа</u></string>
 
     <string name="internal_storage">Внутреннее хранилище</string>
@@ -102,6 +103,14 @@
     <string name="note_tools_attach_draw">Attach draw</string>
     <string name="note_tools_attach_voice">Attach voice</string>
     <string name="note_tools_choose_color">Choose color</string>
+
+    <!--Notification chanel name-->
+    <string name="attachment_chanel_name">Прогресс копирования вложений</string>
+    <string name="event_chanel_name">События</string>
+
+    <!--Notification descriptions-->
+    <string name="attachment_description">Визуальное отображение копирования вложений</string>
+    <string name="event_description">Уведомления о новых событиях</string>
 
     <!--Arrays-->
     <string-array name="days_in_week">

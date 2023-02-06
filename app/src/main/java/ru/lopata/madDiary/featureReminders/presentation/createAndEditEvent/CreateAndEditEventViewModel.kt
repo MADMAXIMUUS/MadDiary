@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
 import android.net.Uri
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -17,10 +18,7 @@ import ru.lopata.madDiary.BuildConfig
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.EditTextState
 import ru.lopata.madDiary.core.util.UiEvent
-import ru.lopata.madDiary.featureReminders.domain.model.Attachment
-import ru.lopata.madDiary.featureReminders.domain.model.Event
-import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatAttachment
-import ru.lopata.madDiary.featureReminders.domain.model.Repeat
+import ru.lopata.madDiary.featureReminders.domain.model.*
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.*
 import java.sql.Date
@@ -103,13 +101,14 @@ class CreateAndEditEventViewModel @Inject constructor(
     private fun initEvent(state: SavedStateHandle) {
         val calendarStart = Calendar.getInstance()
         val calendarEnd = Calendar.getInstance()
-        state.get<EventRepeatAttachment>("eventRepeatAttachments")
-            ?.let { eventRepeatAttachments ->
+        state.get<EventRepeatNotificationAttachment>("eventRepeatAttachments")
+            ?.let { eventRepeatNotificationsAttachments ->
                 CoroutineScope(Dispatchers.IO).launch {
-                    val event = eventRepeatAttachments.event
+                    val event = eventRepeatNotificationsAttachments.event
                     preEditEvent = event
-                    val repeat = eventRepeatAttachments.repeat ?: Repeat()
-                    val attachments = eventRepeatAttachments.attachments
+                    val repeat = eventRepeatNotificationsAttachments.repeat ?: Repeat()
+                    val attachments = eventRepeatNotificationsAttachments.attachments
+                    val notification = eventRepeatNotificationsAttachments.notifications
                     preEditRepeat = repeat
                     calendarStart.timeInMillis = event.startDateTime.time
                     calendarStart.apply {
@@ -129,6 +128,8 @@ class CreateAndEditEventViewModel @Inject constructor(
                     }
                     val images = mutableListOf<ImageItemState>()
                     val videos = mutableListOf<VideoItemState>()
+                    val audios = mutableListOf<AudioItemState>()
+                    val files = mutableListOf<FileItemState>()
                     attachments.forEach {
                         when (it.type) {
                             Attachment.IMAGE -> {
@@ -148,7 +149,57 @@ class CreateAndEditEventViewModel @Inject constructor(
                                     )
                                 )
                             }
+                            Attachment.AUDIO -> {
+                                audios.add(
+                                    AudioItemState(
+                                        uri = Uri.parse(it.uri),
+                                        name = it.name,
+                                        size = it.size,
+                                        duration = it.duration
+                                    )
+                                )
+                            }
+                            Attachment.FILE -> {
+                                files.add(
+                                    FileItemState(
+                                        uri = Uri.parse(it.uri),
+                                        size = it.size,
+                                        name = it.name
+                                    )
+                                )
+                            }
                         }
+                    }
+                    val notificationsTitle = mutableListOf<Int>()
+                    val notifications = mutableListOf<Long>()
+                    notification.forEach {
+                        when (it.time) {
+                            Notification.NEVER -> {
+                                notificationsTitle.add(R.string.never)
+                            }
+                            Notification.AT_TIME -> {
+                                notificationsTitle.add(R.string.at_time_of_event)
+                            }
+                            Notification.MINUTE_10 -> {
+                                notificationsTitle.add(R.string.ten_minute_before)
+                            }
+                            Notification.MINUTE_30 -> {
+                                notificationsTitle.add(R.string.thirty_minute_before)
+                            }
+                            Notification.HOUR -> {
+                                notificationsTitle.add(R.string.one_hour_before)
+                            }
+                            Notification.DAY -> {
+                                notificationsTitle.add(R.string.one_day_before)
+                            }
+                            Notification.WEEK -> {
+                                notificationsTitle.add(R.string.one_week_before)
+                            }
+                            Notification.MONTH -> {
+                                notificationsTitle.add(R.string.one_month_before)
+                            }
+                        }
+                        notifications.add(it.time)
                     }
                     _currentEvent.update { currentValue ->
                         currentValue.copy(
@@ -165,6 +216,8 @@ class CreateAndEditEventViewModel @Inject constructor(
                             allDay = event.allDay,
                             color = event.color,
                             location = event.location,
+                            notificationTitle = notificationsTitle,
+                            notifications = notifications,
                             note = event.note,
                             repeat = repeat.repeatInterval,
                             repeatEnd = repeat.repeatEnd,
@@ -175,7 +228,6 @@ class CreateAndEditEventViewModel @Inject constructor(
                             chosenVideos = videos
                         )
                     }
-                    _eventFlow.emit(UiEvent.UpdateUiState)
                     when (repeat.repeatInterval) {
                         Repeat.NO_REPEAT -> {
                             _currentEvent.update { currentValue ->
@@ -227,6 +279,7 @@ class CreateAndEditEventViewModel @Inject constructor(
                             }
                         }
                     }
+                    _eventFlow.emit(UiEvent.UpdateUiState)
                 }
             }
     }
@@ -356,6 +409,11 @@ class CreateAndEditEventViewModel @Inject constructor(
     }
 
     fun updateRepeat(repeat: Long) {
+        if (repeat == Repeat.NO_REPEAT) {
+            _currentEvent.value = currentEvent.value.copy(
+                repeatEnd = Date(0)
+            )
+        }
         _currentEvent.value = currentEvent.value.copy(
             repeat = repeat
         )
@@ -434,6 +492,7 @@ class CreateAndEditEventViewModel @Inject constructor(
                         Repeat(
                             repeatStart = Date(currentEvent.value.startDate + currentEvent.value.startTime),
                             repeatInterval = currentEvent.value.repeat,
+                            repeatEnd = currentEvent.value.repeatEnd,
                             eventOwnerId = id.toInt()
                         )
                     )
@@ -452,6 +511,16 @@ class CreateAndEditEventViewModel @Inject constructor(
                         )
                     }
                     eventUseCases.createAttachmentsUseCase(list)
+                    val notificationList = mutableListOf<Notification>()
+                    currentEvent.value.notifications.forEach {
+                        notificationList.add(
+                            Notification(
+                                eventOwnerId = id.toInt(),
+                                time = it
+                            )
+                        )
+                    }
+                    eventUseCases.createNotificationsUseCase(notificationList)
                 } else {
                     id = currentEvent.value.id!!.toLong()
                     eventUseCases.createEventUseCase(
@@ -472,6 +541,7 @@ class CreateAndEditEventViewModel @Inject constructor(
                         Repeat(
                             repeatStart = Date(currentEvent.value.startDate + currentEvent.value.startTime),
                             repeatInterval = currentEvent.value.repeat,
+                            repeatEnd = currentEvent.value.repeatEnd,
                             eventOwnerId = currentEvent.value.id!!
                         )
                     )
@@ -490,6 +560,22 @@ class CreateAndEditEventViewModel @Inject constructor(
                         )
                     }
                     eventUseCases.createAttachmentsUseCase(list)
+
+                    val notificationList = mutableListOf<Notification>()
+                    currentEvent.value.notifications.forEach {
+                        notificationList.add(
+                            Notification(
+                                eventOwnerId = currentEvent.value.id!!,
+                                time = it
+                            )
+                        )
+                    }
+                    eventUseCases.createNotificationsUseCase(notificationList)
+                }
+                _currentEvent.update { currentState ->
+                    currentState.copy(
+                        id = id.toInt()
+                    )
                 }
                 _eventFlow.emit(UiEvent.Save(id))
             } else {
@@ -502,7 +588,7 @@ class CreateAndEditEventViewModel @Inject constructor(
         }
     }
 
-    private fun getURLForResource(resourceId: Int): Uri {
+    private fun getURLForResource(@DrawableRes resourceId: Int): Uri {
         return Uri.parse(
             ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
                     + BuildConfig.APPLICATION_ID + "/drawable/" + resourceId
@@ -655,6 +741,14 @@ class CreateAndEditEventViewModel @Inject constructor(
         _currentEvent.update { currentState ->
             currentState.copy(
                 chosenVideos = newList
+            )
+        }
+    }
+
+    fun updateRepeatEnd(newDate: Long) {
+        _currentEvent.update { currentState ->
+            currentState.copy(
+                repeatEnd = Date(newDate)
             )
         }
     }

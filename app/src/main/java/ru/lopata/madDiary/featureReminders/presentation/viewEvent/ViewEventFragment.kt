@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentViewEventBinding
+import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AttachmentAdapter
 import java.io.File
 
@@ -80,6 +81,10 @@ class ViewEventFragment : Fragment() {
                         viewModel.currentEvent.value.attachments.forEach { attachment ->
                             Uri.parse(attachment.uri).path?.let { File(it).delete() }
                         }
+
+                        val alarmScheduler = AndroidAlarmScheduler(requireContext())
+                        alarmScheduler.cancel(viewModel.currentEvent.value.toEventRepeatAttachment())
+
                         view.findNavController().navigateUp()
                     }
                     is UiEvent.Edit -> {
@@ -97,10 +102,10 @@ class ViewEventFragment : Fragment() {
             viewModel.currentEvent.collectLatest { event ->
                 attachmentAdapter.submitList(event.attachments)
                 binding.apply {
-                    if (event.chapters == 1)
-                        viewEventTitle.text = event.title
-                    else
+                    if (event.chapters > 1)
                         viewEventTitle.text = "${event.title}(${event.chapter}/${event.chapters})"
+                    else
+                        viewEventTitle.text = event.title
                     if (event.allDay) {
                         viewEventStartDateTime.visibility = View.GONE
                         viewEventStartDateAndTimeDivider.visibility = View.GONE
@@ -112,8 +117,9 @@ class ViewEventFragment : Fragment() {
                     viewEventEndDateDate.text = event.endDateTime.time.toDate()
                     viewEventEndDateTime.text = event.endDateTime.time.toTimeZone()
                     viewEventNote.text = event.note
-                    viewEventRepeat.text = resources.getString(event.repeat) + " " +
-                            event.repeatEnd.time.toDateTime()
+                    viewEventRepeat.text = resources.getString(event.repeatTitle) +
+                            getString(R.string.until) +
+                            event.repeatEnd.time.toDate()
                     if (event.attachments.isNotEmpty())
                         viewEventAttachmentRoot.visibility = View.VISIBLE
                     else

@@ -6,6 +6,8 @@ import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.RectF
 import android.icu.util.Calendar
+import android.icu.util.TimeZone
+import android.icu.util.ULocale
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
@@ -43,8 +45,11 @@ class MadCalendarMonth @JvmOverloads constructor(
 
     private val dayOfWeekLabels: Array<String> = resources.getStringArray(R.array.days_in_week)
 
-    private val locale = resources.configuration.locales.get(0)
-    private val calendar = Calendar.getInstance(locale)
+    private val timeZone = TimeZone.getDefault()
+    private val locale = ULocale.forLocale(resources.configuration.locales.get(0))
+    private val calendar = Calendar.getInstance(timeZone, locale).apply {
+        firstDayOfWeek = Calendar.MONDAY
+    }
 
     private var dayOfWeekHeight = 50
     private var cellHeight = 0
@@ -567,14 +572,18 @@ class MadCalendarMonth @JvmOverloads constructor(
     }
 
     private fun getRowByDate(date: Calendar): Int {
-        return if (date.get(Calendar.MONTH) < monthNumber)
+        val localeDate = Calendar.getInstance(timeZone, locale).apply {
+            timeInMillis = date.timeInMillis
+            firstDayOfWeek = Calendar.MONDAY
+        }
+        return if (localeDate.get(Calendar.MONTH) < monthNumber)
             0
-        else if (date.get(Calendar.MONTH) > monthNumber)
-            date.get(Calendar.WEEK_OF_MONTH) - 1 + date.apply {
+        else if (localeDate.get(Calendar.MONTH) > monthNumber)
+            localeDate.get(Calendar.WEEK_OF_MONTH) - 1 + localeDate.apply {
                 add(Calendar.MONTH, -1)
             }.get(WEEKS_IN_MONTH)
         else
-            date.get(Calendar.WEEK_OF_MONTH) - 1
+            localeDate.get(Calendar.WEEK_OF_MONTH) - 1
     }
 
     private fun findDayOffset(): Int {

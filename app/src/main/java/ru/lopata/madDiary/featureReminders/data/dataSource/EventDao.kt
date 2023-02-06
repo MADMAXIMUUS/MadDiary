@@ -2,10 +2,7 @@ package ru.lopata.madDiary.featureReminders.data.dataSource
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import ru.lopata.madDiary.featureReminders.domain.model.Attachment
-import ru.lopata.madDiary.featureReminders.domain.model.Event
-import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatAttachment
-import ru.lopata.madDiary.featureReminders.domain.model.Repeat
+import ru.lopata.madDiary.featureReminders.domain.model.*
 import java.sql.Date
 
 @Dao
@@ -13,18 +10,14 @@ interface EventDao {
 
     @Transaction
     @Query("SELECT * FROM EVENTS ORDER BY startDateTime ASC")
-    fun getEvents(): Flow<List<EventRepeatAttachment>>
+    fun getEvents(): Flow<List<EventRepeatNotificationAttachment>>
 
     @Transaction
-    @Query("SELECT * FROM EVENTS WHERE startDateTime > :startDate AND endDateTime < :endDate")
-    fun getEventsBetweenDates(startDate: Date, endDate: Date): Flow<List<EventRepeatAttachment>>
-
-    @Transaction
-    @Query("SELECT * FROM EVENTS WHERE startDateTime == :date OR endDateTime==:date")
-    fun getEventsForDate(date: Date): Flow<List<EventRepeatAttachment>>
+    @Query("SELECT * FROM EVENTS WHERE startDateTime >= :startDate")
+    fun getEventsFromDate(startDate: Date): Flow<List<EventRepeatNotificationAttachment>>
 
     @Query("SELECT * FROM EVENTS WHERE eventId = :id")
-    suspend fun getEventById(id: Int): EventRepeatAttachment?
+    suspend fun getEventById(id: Int): EventRepeatNotificationAttachment?
 
     @Query("SELECT * FROM ATTACHMENTS WHERE type = :type")
     fun getAttachments(type: Int = Attachment.FILE): Flow<List<Attachment>>
@@ -37,6 +30,9 @@ interface EventDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRepeat(repeat: Repeat)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertNotifications(notifications: List<Notification>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAttachments(attachments: List<Attachment>)

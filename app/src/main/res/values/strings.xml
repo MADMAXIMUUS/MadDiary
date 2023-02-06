@@ -48,7 +48,7 @@
     <string name="every_second_week">Every second week</string>
     <string name="every_month">Every month</string>
     <string name="every_year">Every year</string>
-    <string name="at_time_time_of_event">At the time of event</string>
+    <string name="at_time_of_event">At the time of event</string>
     <string name="ten_minute_before">10 minute before</string>
     <string name="thirty_minute_before">30 minute before</string>
     <string name="one_hour_before">1 hour before</string>
@@ -81,6 +81,7 @@
     <string name="settings_button_title">Settings</string>
     <string name="cancel_button_title">Not now</string>
     <string name="permission_dialog_title">Need permission</string>
+    <string name="until">" until "</string>
     <string name="permission_dialog_text">To add attachments, you must grant permission to access photos, videos, audio, and music. Tap > settings > permissions and allow access to <u>files and media</u></string>
 
     <!--Happy Message-->
@@ -102,6 +103,14 @@
     <string name="note_tools_attach_draw">Attach draw</string>
     <string name="note_tools_attach_voice">Attach voice</string>
     <string name="note_tools_choose_color">Choose color</string>
+    
+    <!--Notification chanel name-->
+    <string name="attachment_chanel_name">Attachment copy progress</string>
+    <string name="event_chanel_name">Events</string>
+
+    <!--Notification descriptions-->
+    <string name="attachment_description">Visual display of copying attachments</string>
+    <string name="event_description">New event notifications</string>
 
     <string-array name="days_in_week">
         <item>M</item>

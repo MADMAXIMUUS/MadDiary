@@ -54,7 +54,7 @@ class BottomSheetChooseNotificationFragment(
                     }
                     Notification.AT_TIME -> {
                         notifications[1] = Notification.AT_TIME
-                        notificationsTitle[1] = R.string.at_time_time_of_event
+                        notificationsTitle[1] = R.string.at_time_of_event
                         bottomSheetNotificationAtTime.isChecked = true
                         bottomSheetNotificationNever.isChecked = false
                     }
@@ -117,7 +117,7 @@ class BottomSheetChooseNotificationFragment(
                 if (isChecked) {
                     bottomSheetNotificationNever.isChecked = false
                     notifications[1] = Notification.AT_TIME
-                    notificationsTitle[1] = R.string.at_time_time_of_event
+                    notificationsTitle[1] = R.string.at_time_of_event
                 } else {
                     notifications.remove(1)
                     notificationsTitle.remove(1)

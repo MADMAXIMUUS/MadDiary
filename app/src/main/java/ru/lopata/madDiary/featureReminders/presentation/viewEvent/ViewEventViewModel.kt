@@ -11,15 +11,16 @@ import kotlinx.coroutines.launch
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.UiEvent
 import ru.lopata.madDiary.featureReminders.domain.model.Event
-import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatAttachment
+import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatNotificationAttachment
+import ru.lopata.madDiary.featureReminders.domain.model.Notification
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
 import javax.inject.Inject
 
 @HiltViewModel
 class ViewEventViewModel @Inject constructor(
-    val eventUseCases: EventUseCases,
-    val state: SavedStateHandle
+    private val eventUseCases: EventUseCases,
+    state: SavedStateHandle
 ) : ViewModel() {
     private val _currentEvent = MutableStateFlow(ViewEventScreenState())
     val currentEvent = _currentEvent.asStateFlow()
@@ -28,6 +29,7 @@ class ViewEventViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     private var currentRepeat = Repeat()
+    private var currentNotifications = listOf<Notification>()
 
     init {
         state.get<Int>("eventId")?.let { eventId ->
@@ -36,7 +38,9 @@ class ViewEventViewModel @Inject constructor(
                     val event = eventRepeatAttachments.event
                     val repeat = eventRepeatAttachments.repeat ?: Repeat()
                     val attachments = eventRepeatAttachments.attachments
+                    val notifications = eventRepeatAttachments.notifications
                     currentRepeat = repeat
+                    currentNotifications = notifications
                     _currentEvent.update { currentValue ->
                         currentValue.copy(
                             title = event.title,
@@ -57,52 +61,80 @@ class ViewEventViewModel @Inject constructor(
                         Repeat.NO_REPEAT -> {
                             _currentEvent.update { currentValue ->
                                 currentValue.copy(
-                                    repeat = R.string.never
+                                    repeatTitle = R.string.never,
+                                    repeat = currentRepeat.repeatInterval
                                 )
                             }
                         }
                         Repeat.EVERY_DAY -> {
                             _currentEvent.update { currentValue ->
                                 currentValue.copy(
-                                    repeat = R.string.every_day
+                                    repeatTitle = R.string.every_day,
+                                    repeat = currentRepeat.repeatInterval
                                 )
                             }
                         }
                         Repeat.EVERY_SECOND_DAY -> {
                             _currentEvent.update { currentValue ->
                                 currentValue.copy(
-                                    repeat = R.string.every_second_day
+                                    repeatTitle = R.string.every_second_day,
+                                    repeat = currentRepeat.repeatInterval
                                 )
                             }
                         }
                         Repeat.EVERY_WEEK -> {
                             _currentEvent.update { currentValue ->
                                 currentValue.copy(
-                                    repeat = R.string.every_week
+                                    repeatTitle = R.string.every_week,
+                                    repeat = currentRepeat.repeatInterval
                                 )
                             }
                         }
                         Repeat.EVERY_SECOND_WEEK -> {
                             _currentEvent.update { currentValue ->
                                 currentValue.copy(
-                                    repeat = R.string.every_second_week
+                                    repeatTitle = R.string.every_second_week,
+                                    repeat = currentRepeat.repeatInterval
                                 )
                             }
                         }
                         Repeat.EVERY_MONTH -> {
                             _currentEvent.update { currentValue ->
                                 currentValue.copy(
-                                    repeat = R.string.every_month
+                                    repeatTitle = R.string.every_month,
+                                    repeat = currentRepeat.repeatInterval
                                 )
                             }
                         }
                         Repeat.EVERY_YEAR -> {
                             _currentEvent.update { currentValue ->
                                 currentValue.copy(
-                                    repeat = R.string.every_year
+                                    repeatTitle = R.string.every_year,
+                                    repeat = currentRepeat.repeatInterval
                                 )
                             }
                         }
+                    }
+                    val titles = mutableListOf<Int>()
+                    val notification = mutableListOf<Long>()
+                    currentNotifications.forEach {
+                        when (it.time) {
+                            Notification.NEVER -> titles.add(R.string.never)
+                            Notification.AT_TIME -> titles.add(R.string.at_time_of_event)
+                            Notification.MINUTE_10 -> titles.add(R.string.ten_minute_before)
+                            Notification.MINUTE_30 -> titles.add(R.string.thirty_minute_before)
+                            Notification.HOUR -> titles.add(R.string.one_hour_before)
+                            Notification.DAY -> titles.add(R.string.one_day_before)
+                            Notification.WEEK -> titles.add(R.string.one_week_before)
+                            Notification.MONTH -> titles.add(R.string.one_month_before)
+                        }
+                        notification.add(it.time)
+                    }
+                    _currentEvent.update { currentState ->
+                        currentState.copy(
+                            notifications = notification,
+                            notificationTitle = titles
+                        )
                     }
                 }
             }
@@ -148,7 +180,7 @@ class ViewEventViewModel @Inject constructor(
         val bundle = Bundle()
         bundle.putParcelable(
             "eventRepeatAttachments",
-            EventRepeatAttachment(
+            EventRepeatNotificationAttachment(
                 Event(
                     title = currentEvent.value.title,
                     completed = currentEvent.value.completed,
@@ -163,7 +195,8 @@ class ViewEventViewModel @Inject constructor(
                     eventId = currentEvent.value.eventId
                 ),
                 repeat = currentRepeat,
-                attachments = currentEvent.value.attachments
+                attachments = currentEvent.value.attachments,
+                notifications = currentNotifications
             )
         )
         viewModelScope.launch {

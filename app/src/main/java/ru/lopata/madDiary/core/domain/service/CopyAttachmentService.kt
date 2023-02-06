@@ -97,9 +97,11 @@ class CopyAttachmentService : Service() {
     private fun createNotificationChannel() {
         val notificationChannel = NotificationChannel(
             "progress_channel",
-            "Progress",
+            getString(R.string.attachment_chanel_name),
             NotificationManager.IMPORTANCE_LOW
-        )
+        ).apply {
+            description = getString(R.string.attachment_description)
+        }
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(notificationChannel)
     }

@@ -19,6 +19,8 @@ class EventViewHolder(val binding: ItemEventBinding) : RecyclerView.ViewHolder(b
         binding.apply {
             if (eventItem.isNotificationSet) {
                 itemEventReminderIcon.visibility = View.VISIBLE
+            }else{
+                itemEventReminderIcon.visibility = View.GONE
             }
             itemEventTitle.text = eventItem.title
             if (eventItem.address.isNotEmpty()) {

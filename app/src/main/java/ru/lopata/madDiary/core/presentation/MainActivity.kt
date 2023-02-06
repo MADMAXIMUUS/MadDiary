@@ -23,6 +23,7 @@ import ru.lopata.madDiary.core.util.isDarkTheme
 import ru.lopata.madDiary.core.util.requestPermissions
 import ru.lopata.madDiary.core.util.setNavigationColor
 import ru.lopata.madDiary.databinding.ActivityMainBinding
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.ListEventFragmentDirections
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -78,6 +79,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val eventId = intent.getIntExtra("eventId", -1)
+
+        if (eventId != -1) {
+            val action = ListEventFragmentDirections
+                .actionBottomRemindersToViewEventFragment(
+                    eventId = eventId,
+                    chapter = -1,
+                    chapters = -1
+                )
+            navController.navigate(action)
+        }
+
         binding.bottomNavigationView.setupWithNavController(navController)
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -88,5 +101,6 @@ class MainActivity : AppCompatActivity() {
                 requestPermissions(READ_EXTERNAL_STORAGE)
             }
         }
+
     }
 }

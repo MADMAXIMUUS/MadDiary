@@ -5,8 +5,7 @@ import androidx.annotation.StringRes
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.EditTextState
 import ru.lopata.madDiary.core.util.EventColors
-import ru.lopata.madDiary.featureReminders.domain.model.Attachment
-import ru.lopata.madDiary.featureReminders.domain.model.Repeat
+import ru.lopata.madDiary.featureReminders.domain.model.*
 import java.sql.Date
 
 data class CreateEventScreenState(
@@ -41,4 +40,50 @@ data class CreateEventScreenState(
     val chosenAudios: List<AudioItemState> = emptyList(),
     val attachments: List<Attachment> = emptyList(),
     val id: Int? = null
-)
+) {
+    fun toEvent(): Event {
+        return Event(
+            eventId = id,
+            title = title.text,
+            completed = completed,
+            startDateTime = Date(startDate + startTime),
+            endDateTime = Date(endDate + endTime),
+            allDay = allDay,
+            color = color,
+            location = location,
+            note = note,
+            isAttachmentAdded = attachments.isNotEmpty()
+        )
+    }
+
+    fun toEventRepeatNotificationAttachment(): EventRepeatNotificationAttachment {
+        val event = Event(
+            eventId = id,
+            title = title.text,
+            completed = completed,
+            startDateTime = Date(startDate + startTime),
+            endDateTime = Date(endDate + endTime),
+            allDay = allDay,
+            color = color,
+            location = location,
+            note = note,
+            isAttachmentAdded = attachments.isNotEmpty()
+        )
+        val repeat = Repeat(
+            repeatStart = Date(startDate + startTime),
+            repeatInterval = repeat,
+            repeatEnd = repeatEnd
+        )
+        val list = mutableListOf<Notification>()
+        notifications.forEach {
+            list.add(
+                Notification(
+                    time = it
+                )
+            )
+        }
+        return EventRepeatNotificationAttachment(
+            event, repeat, attachments, list
+        )
+    }
+}

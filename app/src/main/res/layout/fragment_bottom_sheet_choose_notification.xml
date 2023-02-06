@@ -40,67 +40,97 @@
             android:id="@+id/bottom_sheet_notification_never"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="@null"
+            android:button="@null"
             android:checked="true"
+            android:drawableStart="@drawable/checkbox_selector"
+            android:drawablePadding="10dp"
+            android:paddingHorizontal="10dp"
             android:text="@string/never" />
 
         <CheckBox
             android:id="@+id/bottom_sheet_notification_at_time"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="@string/at_time_time_of_event" />
+            android:background="@null"
+            android:button="@null"
+            android:drawableStart="@drawable/checkbox_selector"
+            android:drawablePadding="10dp"
+            android:paddingHorizontal="10dp"
+            android:text="@string/at_time_of_event" />
 
         <CheckBox
             android:id="@+id/bottom_sheet_notification_before_10"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="@null"
+            android:button="@null"
+            android:drawableStart="@drawable/checkbox_selector"
+            android:drawablePadding="10dp"
+            android:paddingHorizontal="10dp"
             android:text="@string/ten_minute_before" />
 
         <CheckBox
             android:id="@+id/bottom_sheet_notification_before_30"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="@null"
+            android:button="@null"
+            android:drawableStart="@drawable/checkbox_selector"
+            android:drawablePadding="10dp"
+            android:paddingHorizontal="10dp"
             android:text="@string/thirty_minute_before" />
 
         <CheckBox
             android:id="@+id/bottom_sheet_notification_before_1_hour"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="@null"
+            android:button="@null"
+            android:drawableStart="@drawable/checkbox_selector"
+            android:drawablePadding="10dp"
+            android:paddingHorizontal="10dp"
             android:text="@string/one_hour_before" />
 
         <CheckBox
             android:id="@+id/bottom_sheet_notification_before_1_day"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="@null"
+            android:button="@null"
+            android:drawableStart="@drawable/checkbox_selector"
+            android:drawablePadding="10dp"
+            android:paddingHorizontal="10dp"
             android:text="@string/one_day_before" />
 
         <CheckBox
             android:id="@+id/bottom_sheet_notification_before_1_week"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="@null"
+            android:button="@null"
+            android:drawableStart="@drawable/checkbox_selector"
+            android:drawablePadding="10dp"
+            android:paddingHorizontal="10dp"
             android:text="@string/one_week_before" />
 
         <CheckBox
             android:id="@+id/bottom_sheet_notification_before_1_month"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="@null"
+            android:button="@null"
+            android:drawableStart="@drawable/checkbox_selector"
+            android:drawablePadding="10dp"
+            android:paddingHorizontal="10dp"
             android:text="@string/one_month_before" />
 
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bottom_sheet_notification_choose_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="10dp"
-        android:background="@drawable/rounded_button_ripple_effect"
-        android:fontFamily="@font/blogger_sans_bold"
-        android:letterSpacing="0"
-        android:paddingHorizontal="120dp"
-        android:paddingVertical="12dp"
+        style="@style/ConfirmButtonStyle"
         android:text="@string/confirm"
-        android:textAllCaps="false"
-        android:textColor="@color/mercury"
-        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

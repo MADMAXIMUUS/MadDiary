@@ -1,30 +1,26 @@
 package ru.lopata.madDiary.featureReminders.domain.repository
 
 import kotlinx.coroutines.flow.Flow
-import ru.lopata.madDiary.featureReminders.domain.model.Attachment
-import ru.lopata.madDiary.featureReminders.domain.model.Event
-import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatAttachment
-import ru.lopata.madDiary.featureReminders.domain.model.Repeat
+import ru.lopata.madDiary.featureReminders.domain.model.*
 import java.sql.Date
 
 interface EventRepository {
 
-    fun getEvents(): Flow<List<EventRepeatAttachment>>
+    fun getEvents(): Flow<List<EventRepeatNotificationAttachment>>
 
-    suspend fun getEventById(id: Int): EventRepeatAttachment?
+    suspend fun getEventById(id: Int): EventRepeatNotificationAttachment?
 
-    suspend fun getEventsBetweenDates(
-        startDate: Date,
-        endDate: Date
-    ): Flow<List<EventRepeatAttachment>>
-
-    suspend fun getEventsForDate(date: Date): Flow<List<EventRepeatAttachment>>
+    suspend fun getEventsFromDate(
+        startDate: Date
+    ): Flow<List<EventRepeatNotificationAttachment>>
 
     suspend fun insertEvent(event: Event): Long
 
     suspend fun insertRepeat(repeat: Repeat)
 
     suspend fun insertAttachments(attachments: List<Attachment>)
+
+    suspend fun insertNotifications(notifications: List<Notification>)
 
     fun getAttachments(type: Int): Flow<List<Attachment>>
 

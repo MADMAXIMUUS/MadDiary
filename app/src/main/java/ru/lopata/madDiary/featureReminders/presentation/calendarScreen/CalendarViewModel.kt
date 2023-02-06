@@ -70,7 +70,7 @@ class CalendarViewModel @Inject constructor(
                         if (repeat.repeatInterval != Repeat.NO_REPEAT) {
                             var interval = repeat.repeatInterval
                             var i = 1
-                            while (interval <= repeat.repeatInterval * 6) {
+                            while (event.startDateTime.time + diffDay + interval <= repeat.repeatEnd.time + DAY_IN_MILLISECONDS) {
                                 when (repeat.repeatInterval) {
                                     Repeat.EVERY_DAY, Repeat.EVERY_SECOND_DAY -> {
                                         calendar = Calendar.getInstance()

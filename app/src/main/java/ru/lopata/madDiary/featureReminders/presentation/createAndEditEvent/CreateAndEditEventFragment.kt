@@ -1,7 +1,10 @@
 package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent
 
 import android.Manifest.permission.*
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Intent
 import android.database.Cursor
@@ -33,6 +36,9 @@ import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.domain.service.CopyAttachmentService
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentCreateAndEditEventBinding
+import ru.lopata.madDiary.featureReminders.domain.model.Notification
+import ru.lopata.madDiary.featureReminders.domain.model.Repeat
+import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AttachmentAdapter
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.AudioItemState
@@ -44,6 +50,7 @@ import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.AudioPrevi
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.ImagePreviewDialog
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.VideoPreviewDialog
 import java.io.File
+import java.sql.Date
 
 @AndroidEntryPoint
 class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
@@ -135,6 +142,31 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                 if (bundle.getInt("repeatTitle") != 0) {
                     viewModel.updateRepeat(bundle.getLong("repeat"))
                     viewModel.updateRepeatTitle(bundle.getInt("repeatTitle"))
+                    if (bundle.getLong("repeat") != Repeat.NO_REPEAT) {
+                        if (viewModel.currentEvent.value.repeatEnd == Date(0)) {
+                            BottomSheetDatePickerFragment(
+                                viewModel.currentEvent.value.startDate,
+                                REQUEST_KEY,
+                                "repeatEnd"
+                            ).show(
+                                requireActivity().supportFragmentManager,
+                                "DatePickerDialog"
+                            )
+                        } else {
+                            BottomSheetDatePickerFragment(
+                                viewModel.currentEvent.value.repeatEnd.time,
+                                REQUEST_KEY,
+                                "repeatEnd"
+                            ).show(
+                                requireActivity().supportFragmentManager,
+                                "DatePickerDialog"
+                            )
+                        }
+                    }
+                }
+
+                if (bundle.getLong("repeatEnd") != 0L) {
+                    viewModel.updateRepeatEnd(bundle.getLong("repeatEnd"))
                 }
 
                 if (bundle.getInt("color") != 0)
@@ -183,6 +215,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -228,15 +261,36 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                     }
                     is UiEvent.Save -> {
                         val intent = Intent(requireContext(), CopyAttachmentService::class.java)
-                        intent.putExtra("eventId", event.eventId)
+                        intent.putExtra("eventId", event.id)
                         requireActivity().startService(intent)
                         ContextCompat.startForegroundService(requireContext(), intent)
+
+                        if (viewModel.currentEvent.value.notifications[0] != Notification.NEVER) {
+                            val channel = NotificationChannel(
+                                "eventAlarm",
+                                getString(R.string.event_chanel_name),
+                                NotificationManager.IMPORTANCE_HIGH
+                            ).apply {
+                                description = getString(R.string.event_description)
+                            }
+                            val notificationManager = requireContext()
+                                .getSystemService(NotificationManager::class.java)
+                            notificationManager.createNotificationChannel(channel)
+
+                            val alarmScheduler = AndroidAlarmScheduler(requireContext())
+                            alarmScheduler.schedule(viewModel.currentEvent.value.toEventRepeatNotificationAttachment())
+                        }
+
                         view.findNavController().navigateUp()
                     }
                     is UiEvent.Delete -> {
                         viewModel.currentEvent.value.attachments.forEach { attachment ->
                             Uri.parse(attachment.uri).path?.let { File(it).delete() }
                         }
+
+                        val alarmScheduler = AndroidAlarmScheduler(requireContext())
+                        alarmScheduler.cancel(viewModel.currentEvent.value.toEventRepeatNotificationAttachment())
+
                         view.findNavController().navigateUp()
                     }
                     is UiEvent.UpdateUiState -> {
@@ -316,6 +370,15 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                         createAndEditEventEndDateAndTimeDivider.visibility = View.VISIBLE
                         createAndEditEventStartDateAndTimeDivider.visibility = View.VISIBLE
                     }
+
+                    createAndEditEventRepeat.text = getString(event.repeatTitle)
+
+                    if (event.repeatEnd != Date(0)) {
+                        createAndEditEventRepeat.text = createAndEditEventRepeat.text.toString() +
+                                getString(R.string.until) +
+                                event.repeatEnd.time.toDate()
+                    }
+
                     if (event.color != -1) {
                         createAndEditEventColor.setCardBackgroundColor(event.color)
                     }
@@ -364,7 +427,6 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                     }
                     createAndEditEventNote.text = event.note
                     createAndEditEventAllDaySwitch.isChecked = event.allDay
-                    createAndEditEventRepeat.text = getString(event.repeatTitle)
 
                     var titleString = ""
                     event.notificationTitle.forEach { title ->

@@ -27,12 +27,12 @@ object EventModule {
         return EventUseCases(
             getEventsUseCase = GetEventsUseCase(repository),
             getEventByIdUseCase = GetEventByIdUseCase(repository),
-            getEventsBetweenDatesUseCase = GetEventsBetweenDatesUseCase(repository),
-            getEventsForDate = GetEventsForDate(repository),
+            getEventsFromDateUseCase = GetEventsFromDateUseCase(repository),
             createEventUseCase = CreateEventUseCase(repository),
             createRepeatUseCase = CreateRepeatUseCase(repository),
             createAttachmentsUseCase = CreateAttachmentsUseCase(repository),
             getAttachmentsUseCase = GetAttachmentsUseCase(repository),
+            createNotificationsUseCase = CreateNotificationsUseCase(repository),
             getAttachmentByEventIdUseCase = GetAttachmentByEventIdUseCase(repository),
             deleteEventUseCase = DeleteEventUseCase(repository)
         )
