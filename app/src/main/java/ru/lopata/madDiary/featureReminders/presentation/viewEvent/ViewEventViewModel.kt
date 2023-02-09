@@ -179,7 +179,7 @@ class ViewEventViewModel @Inject constructor(
     fun editEvent() {
         val bundle = Bundle()
         bundle.putParcelable(
-            "eventRepeatAttachments",
+            "eventRepeatNotificationAttachments",
             EventRepeatNotificationAttachment(
                 Event(
                     title = currentEvent.value.title,

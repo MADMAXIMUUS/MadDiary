@@ -12,15 +12,15 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentViewEventBinding
-import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AttachmentAdapter
+import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
 import java.io.File
+import java.sql.Date
 
 @AndroidEntryPoint
 class ViewEventFragment : Fragment() {
@@ -70,13 +70,6 @@ class ViewEventFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.eventFlow.collectLatest { event ->
                 when (event) {
-                    is UiEvent.ShowSnackBar -> {
-                        Snackbar.make(
-                            view,
-                            event.message,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
                     UiEvent.Delete -> {
                         viewModel.currentEvent.value.attachments.forEach { attachment ->
                             Uri.parse(attachment.uri).path?.let { File(it).delete() }
@@ -117,9 +110,24 @@ class ViewEventFragment : Fragment() {
                     viewEventEndDateDate.text = event.endDateTime.time.toDate()
                     viewEventEndDateTime.text = event.endDateTime.time.toTimeZone()
                     viewEventNote.text = event.note
-                    viewEventRepeat.text = resources.getString(event.repeatTitle) +
-                            getString(R.string.until) +
-                            event.repeatEnd.time.toDate()
+                    if (event.repeatEnd != Date(0)) {
+                        viewEventRepeat.text = resources.getString(event.repeatTitle) +
+                                getString(R.string.until) +
+                                event.repeatEnd.time.toDate()
+                    } else {
+                        viewEventRepeat.text = resources.getString(event.repeatTitle)
+                    }
+
+                    var titleString = ""
+                    event.notificationTitle.forEach { title ->
+                        titleString += if (event.notificationTitle.size == 1)
+                            getString(title)
+                        else
+                            getString(title) + "; "
+                    }
+
+                    viewEventNotification.text = titleString
+
                     if (event.attachments.isNotEmpty())
                         viewEventAttachmentRoot.visibility = View.VISIBLE
                     else

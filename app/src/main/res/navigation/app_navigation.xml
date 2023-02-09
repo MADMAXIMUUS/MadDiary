@@ -48,6 +48,11 @@
         android:name="ru.lopata.madDiary.featureReminders.presentation.listEvents.ListEventFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_list_event">
+        <argument
+            android:name="navigationEvent"
+            android:defaultValue="@null"
+            app:argType="ru.lopata.madDiary.core.util.NavigationEvent"
+            app:nullable="true" />
         <action
             android:id="@+id/action_bottom_reminders_to_createReminderFragment"
             app:destination="@id/createReminderFragment" />
@@ -64,10 +69,19 @@
         android:label="@string/create_and_edit_title"
         tools:layout="@layout/fragment_create_and_edit_event">
         <argument
-            android:name="eventRepeatAtachments"
+            android:name="eventRepeatNotificationAttachments"
             android:defaultValue="@null"
             app:argType="ru.lopata.madDiary.featureReminders.domain.model.EventRepeatNotificationAttachment"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_createReminderFragment_to_bottom_reminders"
+            app:destination="@id/bottom_reminders">
+            <argument
+                android:name="navigationEvent"
+                android:defaultValue="@null"
+                app:argType="ru.lopata.madDiary.core.util.NavigationEvent"
+                app:nullable="true" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/bottom_settings"
@@ -99,6 +113,15 @@
             android:name="chapters"
             android:defaultValue="1"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_viewEventFragment_to_bottom_reminders"
+            app:destination="@id/bottom_reminders">
+            <argument
+                android:name="navigationEvent"
+                android:defaultValue="@null"
+                app:argType="ru.lopata.madDiary.core.util.NavigationEvent"
+                app:nullable="true" />
+        </action>
     </fragment>
     <action
         android:id="@+id/action_global_viewEventFragment"

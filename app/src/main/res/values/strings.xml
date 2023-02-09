@@ -103,7 +103,7 @@
     <string name="note_tools_attach_draw">Attach draw</string>
     <string name="note_tools_attach_voice">Attach voice</string>
     <string name="note_tools_choose_color">Choose color</string>
-    
+
     <!--Notification chanel name-->
     <string name="attachment_chanel_name">Attachment copy progress</string>
     <string name="event_chanel_name">Events</string>
@@ -111,6 +111,12 @@
     <!--Notification descriptions-->
     <string name="attachment_description">Visual display of copying attachments</string>
     <string name="event_description">New event notifications</string>
+
+    <!--Snackbar message-->
+    <string name="event_created">Event: %1$s created!</string>
+    <string name="event_updated">Event: %1$s updated!</string>
+    <string name="event_deleted">Event: %1$s deleted!</string>
+    <string name="undo">Undo</string>
 
     <string-array name="days_in_week">
         <item>M</item>

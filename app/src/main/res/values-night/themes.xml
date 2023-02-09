@@ -24,9 +24,11 @@
         <item name="colorSurface">@color/dark_gray</item>
         <item name="colorOnSurface">@color/mercury</item>
         <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
-        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text
+        <item name="materialAlertDialogTitleTextStyle">
+            @style/MaterialAlertDialog.App.Title.Text
         </item>
-        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.App.Body.Text
+        <item name="materialAlertDialogBodyTextStyle">
+            @style/MaterialAlertDialog.App.Body.Text
         </item>
         <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button</item>
         <item name="buttonBarNegativeButtonStyle">@style/Widget.App.Button</item>

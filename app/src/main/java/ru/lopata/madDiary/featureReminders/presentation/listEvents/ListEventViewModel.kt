@@ -5,15 +5,14 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.toDate
 import ru.lopata.madDiary.core.util.toTimeZone
-import ru.lopata.madDiary.featureReminders.domain.model.MainScreenItem
-import ru.lopata.madDiary.featureReminders.domain.model.Notification
-import ru.lopata.madDiary.featureReminders.domain.model.Repeat
+import ru.lopata.madDiary.featureReminders.domain.model.*
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
 import java.sql.Date
 import java.util.*
@@ -170,8 +169,9 @@ class ListEventViewModel @Inject constructor(
                 }
                 val list = mutableListOf<MainScreenItem>()
                 val sortedMap = TreeMap(map)
+                var i = 0
+                var todayId = 0
                 sortedMap.keys.forEach { date ->
-
                     val today = Calendar.getInstance().timeInMillis
                     val tomorrow = today + DAY_IN_MILLISECONDS
                     val yesterday = today - DAY_IN_MILLISECONDS
@@ -184,6 +184,10 @@ class ListEventViewModel @Inject constructor(
                         R.string.yesterday
                     else -1
 
+                    if (title == R.string.today) {
+                        todayId = i
+                    }
+
                     list.add(
                         MainScreenItem.TitleItem(
                             title = title,
@@ -194,15 +198,30 @@ class ListEventViewModel @Inject constructor(
                     sortedMap[date]?.forEach {
                         list.add(it)
                     }
-
+                    i++
                 }
                 _uiState.update { currentState ->
                     currentState.copy(
-                        events = list.toList()
+                        events = list.toList(),
+                        todayId = todayId
                     )
                 }
             }
             .launchIn(viewModelScope)
+    }
+
+    fun visibleDelete(item: EventRepeatNotificationAttachment) {
+
+    }
+
+    fun undoDelete(item: EventRepeatNotificationAttachment) {
+
+    }
+
+    fun delete(event: Event) {
+        viewModelScope.launch(IO) {
+            eventsUseCases.deleteEventUseCase(event)
+        }
     }
 
     private companion object {

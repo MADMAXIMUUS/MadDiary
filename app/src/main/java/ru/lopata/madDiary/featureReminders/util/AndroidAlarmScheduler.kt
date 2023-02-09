@@ -25,33 +25,40 @@ class AndroidAlarmScheduler(
             item.notifications.forEach {
                 val time = item.event.startDateTime.time - it.time
                 val id = item.event.eventId?.plus(it.time.toInt()) ?: item.hashCode()
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC,
-                    time,
-                    PendingIntent.getBroadcast(
+
+                if (PendingIntent.getBroadcast(
                         context,
                         id,
                         intent,
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+                        PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
+                    ) == null
+                ) {
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC,
+                        time,
+                        PendingIntent.getBroadcast(
+                            context,
+                            id,
+                            intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+                        )
                     )
-                )
+                }
             }
         }
-
     }
 
     override fun cancel(item: EventRepeatNotificationAttachment) {
-
         if (item.notifications.isNotEmpty() && item.notifications[0].time != Notification.NEVER) {
             item.notifications.forEach {
-                alarmManager.cancel(
-                    PendingIntent.getBroadcast(
-                        context,
-                        item.event.eventId?.plus(it.time.toInt()) ?: item.hashCode(),
-                        Intent(context, AlarmReceiver::class.java),
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                    )
+                val pendingIntent = PendingIntent.getBroadcast(
+                    context,
+                    item.event.eventId?.plus(it.time.toInt()) ?: item.hashCode(),
+                    Intent(context, AlarmReceiver::class.java),
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
                 )
+                alarmManager.cancel(pendingIntent)
+                pendingIntent.cancel()
             }
         }
     }

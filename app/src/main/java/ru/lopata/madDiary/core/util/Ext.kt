@@ -14,6 +14,7 @@ import androidx.annotation.ColorInt
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import ru.lopata.madDiary.R
 import java.sql.Date
 import java.text.SimpleDateFormat
@@ -67,16 +68,14 @@ fun Activity.showPermissionDialog(message: String, toSettings: () -> Unit) {
         .show()
 }
 
-
-
-fun View.expand(){
+fun View.expand() {
     measure(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
     val targetHeight: Int = measuredHeight
 
     layoutParams.height = 1
     visibility = View.VISIBLE
 
-    val a: Animation = object : Animation(){
+    val a: Animation = object : Animation() {
         override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
             layoutParams.height = if (interpolatedTime == 1f)
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -96,12 +95,12 @@ fun View.expand(){
 }
 
 fun View.collapse() {
-    val initialHeight : Int = measuredHeight
-    val a : Animation = object : Animation(){
+    val initialHeight: Int = measuredHeight
+    val a: Animation = object : Animation() {
         override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
-            if (interpolatedTime == 1f){
+            if (interpolatedTime == 1f) {
                 visibility = View.GONE
-            }else{
+            } else {
                 layoutParams.height = initialHeight - (initialHeight * interpolatedTime).toInt()
                 requestLayout()
             }
@@ -155,7 +154,7 @@ fun Long.toDate(): String {
     return sdf.format(netDate)
 }
 
-fun Long.toFileName():String{
+fun Long.toFileName(): String {
     val sdf = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale("ru"))
     sdf.timeZone = TimeZone.getDefault()
     val netDate = Date(this)

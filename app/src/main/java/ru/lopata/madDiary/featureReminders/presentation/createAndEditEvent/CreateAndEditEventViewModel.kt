@@ -39,6 +39,8 @@ class CreateAndEditEventViewModel @Inject constructor(
     private var preEditEvent: Event = Event()
     private var preEditRepeat: Repeat = Repeat()
 
+    private var isEdit = false
+
     init {
         CoroutineScope(Dispatchers.IO).launch {
             initTime()
@@ -101,9 +103,10 @@ class CreateAndEditEventViewModel @Inject constructor(
     private fun initEvent(state: SavedStateHandle) {
         val calendarStart = Calendar.getInstance()
         val calendarEnd = Calendar.getInstance()
-        state.get<EventRepeatNotificationAttachment>("eventRepeatAttachments")
+        state.get<EventRepeatNotificationAttachment>("eventRepeatNotificationAttachments")
             ?.let { eventRepeatNotificationsAttachments ->
                 CoroutineScope(Dispatchers.IO).launch {
+                    isEdit = true
                     val event = eventRepeatNotificationsAttachments.event
                     preEditEvent = event
                     val repeat = eventRepeatNotificationsAttachments.repeat ?: Repeat()
@@ -279,7 +282,6 @@ class CreateAndEditEventViewModel @Inject constructor(
                             }
                         }
                     }
-                    _eventFlow.emit(UiEvent.UpdateUiState)
                 }
             }
     }
@@ -459,9 +461,9 @@ class CreateAndEditEventViewModel @Inject constructor(
     fun deleteEvent() {
         if (preEditEvent != Event()) {
             viewModelScope.launch {
-                eventUseCases.deleteEventUseCase(
+                /*eventUseCases.deleteEventUseCase(
                     preEditEvent
-                )
+                )*/
                 _eventFlow.emit(UiEvent.Delete)
             }
         }
@@ -577,7 +579,10 @@ class CreateAndEditEventViewModel @Inject constructor(
                         id = id.toInt()
                     )
                 }
-                _eventFlow.emit(UiEvent.Save(id))
+                if (isEdit)
+                    _eventFlow.emit(UiEvent.Update(id))
+                else
+                    _eventFlow.emit(UiEvent.Save(id))
             } else {
                 if (currentEvent.value.title.isEmpty) {
                     _currentEvent.value = currentEvent.value.copy(

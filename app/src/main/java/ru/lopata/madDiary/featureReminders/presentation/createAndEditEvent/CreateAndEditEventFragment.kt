@@ -20,6 +20,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -27,7 +28,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
@@ -38,7 +38,6 @@ import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentCreateAndEditEventBinding
 import ru.lopata.madDiary.featureReminders.domain.model.Notification
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
-import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AttachmentAdapter
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.AudioItemState
@@ -49,7 +48,7 @@ import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.*
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.AudioPreviewDialog
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.ImagePreviewDialog
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.VideoPreviewDialog
-import java.io.File
+import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
 import java.sql.Date
 
 @AndroidEntryPoint
@@ -252,13 +251,6 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.eventFlow.collectLatest { event ->
                 when (event) {
-                    is UiEvent.ShowSnackBar -> {
-                        Snackbar.make(
-                            view,
-                            event.message,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
                     is UiEvent.Save -> {
                         val intent = Intent(requireContext(), CopyAttachmentService::class.java)
                         intent.putExtra("eventId", event.id)
@@ -281,20 +273,34 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                             alarmScheduler.schedule(viewModel.currentEvent.value.toEventRepeatNotificationAttachment())
                         }
 
-                        view.findNavController().navigateUp()
+                        val action = CreateAndEditEventFragmentDirections
+                            .actionCreateReminderFragmentToBottomReminders(
+                                NavigationEvent.Create(
+                                    viewModel.currentEvent.value.title.text
+                                )
+                            )
+
+                        view.findNavController().navigate(action)
+                    }
+                    is UiEvent.Update -> {
+                        val action = CreateAndEditEventFragmentDirections
+                            .actionCreateReminderFragmentToBottomReminders(
+                                NavigationEvent.Update(
+                                    viewModel.currentEvent.value.title.text
+                                )
+                            )
+
+                        view.findNavController().navigate(action)
                     }
                     is UiEvent.Delete -> {
-                        viewModel.currentEvent.value.attachments.forEach { attachment ->
-                            Uri.parse(attachment.uri).path?.let { File(it).delete() }
-                        }
+                        val action = CreateAndEditEventFragmentDirections
+                            .actionCreateReminderFragmentToBottomReminders(
+                                NavigationEvent.Delete(
+                                    bundleOf("event" to viewModel.currentEvent.value.toEventRepeatNotificationAttachment())
+                                )
+                            )
 
-                        val alarmScheduler = AndroidAlarmScheduler(requireContext())
-                        alarmScheduler.cancel(viewModel.currentEvent.value.toEventRepeatNotificationAttachment())
-
-                        view.findNavController().navigateUp()
-                    }
-                    is UiEvent.UpdateUiState -> {
-                        binding.createAndEditEventTitleEdt.setText(viewModel.currentEvent.value.title.text)
+                        view.findNavController().navigate(action)
                     }
                     else -> {}
                 }
@@ -328,12 +334,15 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                 binding.apply {
                     attachmentAdapter.submitList(event.attachments)
 
+
+                    if (binding.createAndEditEventTitleEdt.text.isEmpty())
+                        binding.createAndEditEventTitleEdt.setText(event.title.text)
+
                     createAndEditEventTitleEdt.addTextChangedListener(
                         afterTextChanged = { text ->
                             viewModel.updateTitle(text.toString())
                         }
                     )
-
                     if (event.title.isError) {
                         createAndEditEventTitleError.visibility = View.VISIBLE
                     } else {

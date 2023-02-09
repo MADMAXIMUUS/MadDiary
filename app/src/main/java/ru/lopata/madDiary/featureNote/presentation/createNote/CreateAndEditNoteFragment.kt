@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
@@ -60,13 +59,6 @@ class CreateAndEditNoteFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.eventFlow.collectLatest { event ->
                 when (event) {
-                    is UiEvent.ShowSnackBar -> {
-                        Snackbar.make(
-                            view,
-                            event.message,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
                     is UiEvent.Save -> {
                         view.findNavController().navigateUp()
                     }

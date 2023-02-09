@@ -112,6 +112,12 @@
     <string name="attachment_description">Визуальное отображение копирования вложений</string>
     <string name="event_description">Уведомления о новых событиях</string>
 
+    <!--Snackbar message-->
+    <string name="event_created">Событие: %1$s создано!</string>
+    <string name="event_updated">Событие: %1$s обновлено!</string>
+    <string name="event_deleted">Событие: %1$s удалено!</string>
+    <string name="undo">Undo</string>
+
     <!--Arrays-->
     <string-array name="days_in_week">
         <item>Пн</item>
