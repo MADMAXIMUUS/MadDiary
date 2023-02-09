@@ -84,11 +84,10 @@ class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
                     event.passObject.getParcelable("event")
                 }
                 if (item != null) {
-                    viewModel.visibleDelete(item)
                     Snackbar
                         .make(
                             binding.root, getString(
-                                R.string.event_created,
+                                R.string.event_deleted,
                                 item.event.title
                             ), Snackbar.LENGTH_SHORT
                         )
@@ -98,15 +97,14 @@ class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
                         }
                         .addCallback(object : Snackbar.Callback() {
                             override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                super.onDismissed(transientBottomBar, event)
                                 if (event == DISMISS_EVENT_TIMEOUT) {
-                                    viewModel.delete(item.event)
-                                    val alarmScheduler = AndroidAlarmScheduler(requireContext())
-                                    alarmScheduler.cancel(item)
                                     item.attachments.forEach { attachment ->
                                         Uri.parse(attachment.uri).path?.let { File(it).delete() }
                                     }
+                                    val alarmScheduler = AndroidAlarmScheduler(requireContext())
+                                    alarmScheduler.cancel(item)
                                 }
-                                super.onDismissed(transientBottomBar, event)
                             }
                         })
                         .show()
@@ -115,10 +113,12 @@ class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
             is NavigationEvent.Create -> {
                 Snackbar
                     .make(
-                        binding.root, getString(
+                        binding.root,
+                        getString(
                             R.string.event_created,
                             event.name
-                        ), Snackbar.LENGTH_SHORT
+                        ),
+                        Snackbar.LENGTH_SHORT
                     )
                     .setAnchorView(binding.eventListBtnCreateReminder)
                     .show()
@@ -126,10 +126,12 @@ class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
             is NavigationEvent.Update -> {
                 Snackbar
                     .make(
-                        binding.root, getString(
+                        binding.root,
+                        getString(
                             R.string.event_updated,
                             event.name
-                        ), Snackbar.LENGTH_SHORT
+                        ),
+                        Snackbar.LENGTH_SHORT
                     )
                     .setAnchorView(binding.eventListBtnCreateReminder)
                     .show()

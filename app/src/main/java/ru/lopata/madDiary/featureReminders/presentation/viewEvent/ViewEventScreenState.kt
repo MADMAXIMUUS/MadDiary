@@ -42,7 +42,7 @@ data class ViewEventScreenState(
         )
     }
 
-    fun toEventRepeatAttachment(): EventRepeatNotificationAttachment {
+    fun toEventRepeatNotificationAttachment(): EventRepeatNotificationAttachment {
         val event = Event(
             eventId = eventId,
             title = title,

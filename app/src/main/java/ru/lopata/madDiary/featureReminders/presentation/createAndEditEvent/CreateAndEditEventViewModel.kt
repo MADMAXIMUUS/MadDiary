@@ -461,9 +461,7 @@ class CreateAndEditEventViewModel @Inject constructor(
     fun deleteEvent() {
         if (preEditEvent != Event()) {
             viewModelScope.launch {
-                /*eventUseCases.deleteEventUseCase(
-                    preEditEvent
-                )*/
+                eventUseCases.deleteEventUseCase(preEditEvent)
                 _eventFlow.emit(UiEvent.Delete)
             }
         }

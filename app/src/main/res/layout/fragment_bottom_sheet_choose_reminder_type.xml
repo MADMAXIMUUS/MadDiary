@@ -43,7 +43,7 @@
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 app:cardBackgroundColor="@color/metallic_seaweed"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="15dp">
 
                 <ImageView
                     style="@style/ButtonIconColor"
@@ -83,7 +83,7 @@
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 app:cardBackgroundColor="@color/metallic_seaweed"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="15dp">
 
                 <ImageView
                     style="@style/ButtonIconColor"
@@ -122,7 +122,7 @@
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 app:cardBackgroundColor="@color/metallic_seaweed"
-                app:cardCornerRadius="10dp">
+                app:cardCornerRadius="15dp">
 
                 <ImageView
                     style="@style/ButtonIconColor"

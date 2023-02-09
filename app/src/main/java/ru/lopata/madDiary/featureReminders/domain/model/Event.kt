@@ -1,5 +1,6 @@
 package ru.lopata.madDiary.featureReminders.domain.model
 
+import android.net.Uri
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -16,7 +17,7 @@ data class Event(
     val endDateTime: Date = Date(0),
     val allDay: Boolean = false,
     val color: Int = EventColors.DEFAULT,
-    val cover: String = "empty",
+    val cover: String = Uri.EMPTY.toString(),
     val location: String = "",
     val note: String = "",
     val isAttachmentAdded: Boolean = false,

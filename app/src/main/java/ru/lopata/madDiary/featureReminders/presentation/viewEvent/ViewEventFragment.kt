@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,9 +18,8 @@ import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentViewEventBinding
+import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventFragmentDirections
 import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AttachmentAdapter
-import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
-import java.io.File
 import java.sql.Date
 
 @AndroidEntryPoint
@@ -71,14 +71,14 @@ class ViewEventFragment : Fragment() {
             viewModel.eventFlow.collectLatest { event ->
                 when (event) {
                     UiEvent.Delete -> {
-                        viewModel.currentEvent.value.attachments.forEach { attachment ->
-                            Uri.parse(attachment.uri).path?.let { File(it).delete() }
-                        }
+                        val action = ViewEventFragmentDirections
+                            .actionViewEventFragmentToBottomReminders(
+                                NavigationEvent.Delete(
+                                    bundleOf("event" to viewModel.currentEvent.value.toEventRepeatNotificationAttachment())
+                                )
+                            )
 
-                        val alarmScheduler = AndroidAlarmScheduler(requireContext())
-                        alarmScheduler.cancel(viewModel.currentEvent.value.toEventRepeatAttachment())
-
-                        view.findNavController().navigateUp()
+                        view.findNavController().navigate(action)
                     }
                     is UiEvent.Edit -> {
                         view.findNavController().navigate(

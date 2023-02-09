@@ -210,17 +210,37 @@ class ListEventViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun visibleDelete(item: EventRepeatNotificationAttachment) {
-
-    }
-
     fun undoDelete(item: EventRepeatNotificationAttachment) {
-
-    }
-
-    fun delete(event: Event) {
         viewModelScope.launch(IO) {
-            eventsUseCases.deleteEventUseCase(event)
+            val event = item.event.copy(
+                eventId = null,
+                cover = Uri.EMPTY.toString()
+            )
+            val id = eventsUseCases.createEventUseCase(event)
+            if (item.repeat != null) {
+                val repeat = item.repeat.copy(
+                    eventOwnerId = id.toInt()
+                )
+                eventsUseCases.createRepeatUseCase(repeat)
+            }
+            val list = mutableListOf<Notification>()
+            item.notifications.forEach {
+                list.add(
+                    it.copy(
+                        eventOwnerId = id.toInt()
+                    )
+                )
+            }
+            eventsUseCases.createNotificationsUseCase(list)
+            val att = mutableListOf<Attachment>()
+            item.attachments.forEach {
+                att.add(
+                    it.copy(
+                        eventOwnerId = id.toInt()
+                    )
+                )
+            }
+            eventsUseCases.createAttachmentsUseCase(att)
         }
     }
 
