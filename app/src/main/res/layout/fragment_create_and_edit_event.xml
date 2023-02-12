@@ -321,7 +321,7 @@
                             android:id="@+id/create_and_edit_event_all_day_switch"
                             android:layout_width="wrap_content"
                             app:switchMinWidth="60dp"
-                            android:layout_height="40dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:checked="false"
                             tools:ignore="TouchTargetSizeCheck" />

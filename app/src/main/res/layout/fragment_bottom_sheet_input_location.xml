@@ -24,13 +24,249 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bottom_sheet_location_handle" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/bottom_sheet_location_map"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_sheet_location_input_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/bottom_sheet_location_confirm_btn"
-        app:layout_constraintTop_toBottomOf="@id/bottom_sheet_location_title" />
+        app:layout_constraintTop_toBottomOf="@id/bottom_sheet_location_title">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bottom_sheet_location_input_root"
+            style="@style/ReminderCardStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="13dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        style="@style/ReminderBlockTitleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reminder_location_title"
+                        tools:ignore="TextContrastCheck" />
+
+                    <EditText
+                        android:id="@+id/bottom_sheet_location_input"
+                        style="@style/LocationTitleEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:autofillHints="postalAddress"
+                        android:ellipsize="end"
+                        android:hint="@string/input_address"
+                        android:inputType="textPostalAddress"
+                        android:maxLines="1"
+                        android:padding="0dp"
+                        android:textSize="18sp"
+                        tools:ignore="TextContrastCheck" />
+
+                </LinearLayout>
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    style="@style/ReminderOpenMenuIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:rotation="0"
+                    android:src="@drawable/ic_maps"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bottom_sheet_location_current_root"
+            style="@style/ReminderCardStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bottom_sheet_location_input_root">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="13dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/ReminderBlockTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/current_location"
+                    tools:ignore="TextContrastCheck" />
+
+                <TextView
+                    android:id="@+id/bottom_sheet_location_current"
+                    style="@style/ReminderBlockContentTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    tools:text="2 Lenina street" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bottom_sheet_location_recent_root"
+            style="@style/ReminderCardStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bottom_sheet_location_current_root">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="13dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/ReminderBlockTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recent"
+                    tools:ignore="TextContrastCheck" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/bottom_sheet_location_recent_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bottom_sheet_location_result_root"
+            style="@style/ReminderCardStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bottom_sheet_location_input_root"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="13dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/ReminderBlockTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/results"
+                    tools:ignore="TextContrastCheck" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/bottom_sheet_location_result_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_sheet_location_map_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_sheet_location_confirm_btn"
+        app:layout_constraintTop_toBottomOf="@id/bottom_sheet_location_title"
+        tools:visibility="visible">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bottom_sheet_location_address_root"
+            style="@style/ReminderCardStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="13dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/ReminderBlockTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reminder_location_title"
+                    tools:ignore="TextContrastCheck" />
+
+                <TextView
+                    android:id="@+id/bottom_sheet_location_map_address"
+                    style="@style/ReminderBlockContentTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    tools:text="2 Lenina street" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--<androidx.fragment.app.FragmentContainerView
+            android:id="@+id/bottom_sheet_location_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bottom_sheet_location_address_root"
+            tools:layout="@android:layout/test_list_item" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bottom_sheet_location_confirm_btn"
@@ -39,6 +275,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

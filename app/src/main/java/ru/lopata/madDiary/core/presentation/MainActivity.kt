@@ -2,12 +2,14 @@ package ru.lopata.madDiary.core.presentation
 
 import android.Manifest.permission.*
 import android.animation.ObjectAnimator
+import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnticipateInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -19,16 +21,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.lopata.madDiary.R
+import ru.lopata.madDiary.core.presentation.settings.ThemeEnum
+import ru.lopata.madDiary.core.presentation.settings.ThemeEnum.Companion.toThemeEnum
+import ru.lopata.madDiary.core.util.THEME
 import ru.lopata.madDiary.core.util.isDarkTheme
 import ru.lopata.madDiary.core.util.requestPermissions
 import ru.lopata.madDiary.core.util.setNavigationColor
 import ru.lopata.madDiary.databinding.ActivityMainBinding
 import ru.lopata.madDiary.featureReminders.presentation.listEvents.ListEventFragmentDirections
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +60,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val theme = sharedPreferences.getString(THEME, ThemeEnum.SYSTEM.toString()).toString()
+        when (theme.toThemeEnum()) {
+            ThemeEnum.LIGHT -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+            ThemeEnum.DARK -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+            ThemeEnum.SYSTEM -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            }
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -88,6 +88,28 @@
     <string name="internal_storage_subtitle">Добавить файл с устройства</string>
     <string name="add_file_rv_title">Недавние файлы</string>
 
+    <string name="notification_string">"Рингтон: %1s, Вибрация: $2s, Приоритет: %3s, Светодиод: %4s"</string>
+    <string name="state_on">Включена</string>
+    <string name="state_off">Выключена</string>
+
+    <!--Bottom sheet titles-->
+    <string name="bottom_sheet_ringtones">Рингтоны</string>
+
+    <!--Block titles-->
+    <string name="current_location">Текущая позиция</string>
+    <string name="results">Результаты</string>
+    <string name="recent">Предыдущие результаты</string>
+    <string name="notification_event">Событие</string>
+    <string name="notification_task">Задача</string>
+    <string name="notification_reminder">Напоминание</string>
+
+    <!--Big block title-->
+    <string name="theme">Темы</string>
+    <string name="notification">Уведомления</string>
+
+    <!--Edit text Hint-->
+    <string name="input_address">Введите адрес</string>
+
     <!--Happy Message-->
     <string name="happy_new_year">Счастливого Нового Года и Рождества!!!</string>
     <string name="happy_halloween">Счастливого Хэллоуина!!!</string>
@@ -107,6 +129,7 @@
     <!--Notification chanel name-->
     <string name="attachment_chanel_name">Прогресс копирования вложений</string>
     <string name="event_chanel_name">События</string>
+    <string name="event_chanel_group">Напоминания</string>
 
     <!--Notification descriptions-->
     <string name="attachment_description">Визуальное отображение копирования вложений</string>
@@ -116,7 +139,7 @@
     <string name="event_created">Событие: %1$s создано!</string>
     <string name="event_updated">Событие: %1$s обновлено!</string>
     <string name="event_deleted">Событие: %1$s удалено!</string>
-    <string name="undo">Undo</string>
+    <string name="undo">Отменить</string>
 
     <!--Arrays-->
     <string-array name="days_in_week">

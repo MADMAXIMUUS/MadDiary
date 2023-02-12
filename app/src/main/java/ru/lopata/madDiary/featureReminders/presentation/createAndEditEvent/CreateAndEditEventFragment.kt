@@ -7,6 +7,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Intent
+import android.content.SharedPreferences
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
@@ -50,6 +51,7 @@ import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.ImagePrevi
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.VideoPreviewDialog
 import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
 import java.sql.Date
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
@@ -59,6 +61,9 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
 
     private val viewModel: CreateAndEditEventViewModel by viewModels()
     private var isEdit = false
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var imageDialog: ImagePreviewDialog
     private lateinit var videoDialog: VideoPreviewDialog
@@ -76,12 +81,11 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
             getPhotos()
             getVideos()
         } else {
-            requireActivity()
-                .showPermissionDialog(
-                    resources.getString(R.string.permission_dialog_text)
-                ) {
-                    showAppSettingsScreen()
-                }
+            requireActivity().showPermissionDialog(
+                resources.getString(R.string.permission_dialog_text)
+            ) {
+                showAppSettingsScreen()
+            }
         }
     }
 
@@ -120,62 +124,50 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity()
-            .supportFragmentManager
-            .setFragmentResultListener(REQUEST_KEY, this) { _, bundle ->
-                if (bundle.getLong("startDate") != 0L)
-                    viewModel.updateStartDate(bundle.getLong("startDate"))
+        requireActivity().supportFragmentManager.setFragmentResultListener(
+            REQUEST_KEY, this
+        ) { _, bundle ->
+            if (bundle.getLong("startDate") != 0L) viewModel.updateStartDate(bundle.getLong("startDate"))
 
-                if (bundle.getBoolean("startTimeSet"))
-                    viewModel.updateStartTime(bundle.getLong("startTime"))
+            if (bundle.getBoolean("startTimeSet")) viewModel.updateStartTime(bundle.getLong("startTime"))
 
-                if (bundle.getLong("endDate") != 0L)
-                    viewModel.updateEndDate(bundle.getLong("endDate"))
+            if (bundle.getLong("endDate") != 0L) viewModel.updateEndDate(bundle.getLong("endDate"))
 
-                if (bundle.getBoolean("endTimeSet"))
-                    viewModel.updateEndTime(bundle.getLong("endTime"))
+            if (bundle.getBoolean("endTimeSet")) viewModel.updateEndTime(bundle.getLong("endTime"))
 
-                if (bundle.getString("note") != null)
-                    viewModel.updateNote(bundle.getString("note")!!)
+            if (bundle.getString("note") != null) viewModel.updateNote(bundle.getString("note")!!)
 
-                if (bundle.getInt("repeatTitle") != 0) {
-                    viewModel.updateRepeat(bundle.getLong("repeat"))
-                    viewModel.updateRepeatTitle(bundle.getInt("repeatTitle"))
-                    if (bundle.getLong("repeat") != Repeat.NO_REPEAT) {
-                        if (viewModel.currentEvent.value.repeatEnd == Date(0)) {
-                            BottomSheetDatePickerFragment(
-                                viewModel.currentEvent.value.startDate,
-                                REQUEST_KEY,
-                                "repeatEnd"
-                            ).show(
-                                requireActivity().supportFragmentManager,
-                                "DatePickerDialog"
-                            )
-                        } else {
-                            BottomSheetDatePickerFragment(
-                                viewModel.currentEvent.value.repeatEnd.time,
-                                REQUEST_KEY,
-                                "repeatEnd"
-                            ).show(
-                                requireActivity().supportFragmentManager,
-                                "DatePickerDialog"
-                            )
-                        }
+            if (bundle.getInt("repeatTitle") != 0) {
+                viewModel.updateRepeat(bundle.getLong("repeat"))
+                viewModel.updateRepeatTitle(bundle.getInt("repeatTitle"))
+                if (bundle.getLong("repeat") != Repeat.NO_REPEAT) {
+                    if (viewModel.currentEvent.value.repeatEnd == Date(0)) {
+                        BottomSheetDatePickerFragment(
+                            viewModel.currentEvent.value.startDate, REQUEST_KEY, "repeatEnd"
+                        ).show(
+                            requireActivity().supportFragmentManager, "DatePickerDialog"
+                        )
+                    } else {
+                        BottomSheetDatePickerFragment(
+                            viewModel.currentEvent.value.repeatEnd.time, REQUEST_KEY, "repeatEnd"
+                        ).show(
+                            requireActivity().supportFragmentManager, "DatePickerDialog"
+                        )
                     }
                 }
-
-                if (bundle.getLong("repeatEnd") != 0L) {
-                    viewModel.updateRepeatEnd(bundle.getLong("repeatEnd"))
-                }
-
-                if (bundle.getInt("color") != 0)
-                    viewModel.updateColor(bundle.getInt("color"))
-
-                if (bundle.getIntArray("notificationsTitle") != null) {
-                    viewModel.updateNotificationTitle(bundle.getIntArray("notificationsTitle")!!)
-                    viewModel.updateNotifications(bundle.getLongArray("notifications")!!)
-                }
             }
+
+            if (bundle.getLong("repeatEnd") != 0L) {
+                viewModel.updateRepeatEnd(bundle.getLong("repeatEnd"))
+            }
+
+            if (bundle.getInt("color") != 0) viewModel.updateColor(bundle.getInt("color"))
+
+            if (bundle.getIntArray("notificationsTitle") != null) {
+                viewModel.updateNotificationTitle(bundle.getIntArray("notificationsTitle")!!)
+                viewModel.updateNotifications(bundle.getLongArray("notifications")!!)
+            }
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (requireActivity().checkPermission(READ_MEDIA_IMAGES)) {
                 getPhotos()
@@ -207,8 +199,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCreateAndEditEventBinding.inflate(inflater, container, false)
         return binding.root
@@ -258,6 +249,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                         ContextCompat.startForegroundService(requireContext(), intent)
 
                         if (viewModel.currentEvent.value.notifications[0] != Notification.NEVER) {
+
                             val channel = NotificationChannel(
                                 "eventAlarm",
                                 getString(R.string.event_chanel_name),
@@ -265,16 +257,16 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                             ).apply {
                                 description = getString(R.string.event_description)
                             }
-                            val notificationManager = requireContext()
-                                .getSystemService(NotificationManager::class.java)
+                            val notificationManager =
+                                requireContext().getSystemService(NotificationManager::class.java)
                             notificationManager.createNotificationChannel(channel)
 
                             val alarmScheduler = AndroidAlarmScheduler(requireContext())
-                            alarmScheduler.schedule(viewModel.currentEvent.value.toEventRepeatNotificationAttachment())
+                            alarmScheduler.schedule(viewModel.currentEvent.value.toEventRepeatNotificationAttachment(), "eventAlarm")
                         }
 
-                        val action = CreateAndEditEventFragmentDirections
-                            .actionCreateReminderFragmentToBottomReminders(
+                        val action =
+                            CreateAndEditEventFragmentDirections.actionCreateReminderFragmentToBottomReminders(
                                 NavigationEvent.Create(
                                     viewModel.currentEvent.value.title.text
                                 )
@@ -283,8 +275,8 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                         view.findNavController().navigate(action)
                     }
                     is UiEvent.Update -> {
-                        val action = CreateAndEditEventFragmentDirections
-                            .actionCreateReminderFragmentToBottomReminders(
+                        val action =
+                            CreateAndEditEventFragmentDirections.actionCreateReminderFragmentToBottomReminders(
                                 NavigationEvent.Update(
                                     viewModel.currentEvent.value.title.text
                                 )
@@ -293,8 +285,8 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                         view.findNavController().navigate(action)
                     }
                     is UiEvent.Delete -> {
-                        val action = CreateAndEditEventFragmentDirections
-                            .actionCreateReminderFragmentToBottomReminders(
+                        val action =
+                            CreateAndEditEventFragmentDirections.actionCreateReminderFragmentToBottomReminders(
                                 NavigationEvent.Delete(
                                     bundleOf("event" to viewModel.currentEvent.value.toEventRepeatNotificationAttachment())
                                 )
@@ -321,9 +313,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
             createAndEditEventAttachmentContentRoot.apply {
                 adapter = attachmentAdapter
                 layoutManager = LinearLayoutManager(
-                    requireContext(),
-                    LinearLayoutManager.HORIZONTAL,
-                    false
+                    requireContext(), LinearLayoutManager.HORIZONTAL, false
                 )
                 addItemDecoration(HorizontalListsItemDecoration(10, 10))
             }
@@ -335,14 +325,13 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                     attachmentAdapter.submitList(event.attachments)
 
 
-                    if (binding.createAndEditEventTitleEdt.text.isEmpty())
-                        binding.createAndEditEventTitleEdt.setText(event.title.text)
-
-                    createAndEditEventTitleEdt.addTextChangedListener(
-                        afterTextChanged = { text ->
-                            viewModel.updateTitle(text.toString())
-                        }
+                    if (binding.createAndEditEventTitleEdt.text.isEmpty()) binding.createAndEditEventTitleEdt.setText(
+                        event.title.text
                     )
+
+                    createAndEditEventTitleEdt.addTextChangedListener(afterTextChanged = { text ->
+                        viewModel.updateTitle(text.toString())
+                    })
                     if (event.title.isError) {
                         createAndEditEventTitleError.visibility = View.VISIBLE
                     } else {
@@ -383,9 +372,8 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                     createAndEditEventRepeat.text = getString(event.repeatTitle)
 
                     if (event.repeatEnd != Date(0)) {
-                        createAndEditEventRepeat.text = createAndEditEventRepeat.text.toString() +
-                                getString(R.string.until) +
-                                event.repeatEnd.time.toDate()
+                        createAndEditEventRepeat.text =
+                            createAndEditEventRepeat.text.toString() + getString(R.string.until) + event.repeatEnd.time.toDate()
                     }
 
                     if (event.color != -1) {
@@ -394,43 +382,33 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                     if (event.chosenCover != Uri.EMPTY) {
                         scrollView2.smoothScrollTo(0, 0)
                         motionBase.constraintSetIds.forEach {
-                            val constraintSet =
-                                motionBase.getConstraintSet(it) ?: null
+                            val constraintSet = motionBase.getConstraintSet(it) ?: null
                             constraintSet?.setVisibility(motionHead.id, View.VISIBLE)
                             constraintSet?.applyTo(motionBase)
                         }
-                        Glide
-                            .with(createAndEditEventCover.context)
-                            .load(event.chosenCover)
+                        Glide.with(createAndEditEventCover.context).load(event.chosenCover)
                             .into(createAndEditEventCover)
                     } else {
                         createAndEditEventCover.setImageDrawable(null)
                         motionBase.constraintSetIds.forEach {
-                            val constraintSet =
-                                motionBase.getConstraintSet(it) ?: null
+                            val constraintSet = motionBase.getConstraintSet(it) ?: null
                             constraintSet?.setVisibility(motionHead.id, View.GONE)
                             constraintSet?.applyTo(motionBase)
                         }
                     }
                     createAndEditEventStartDateTime.setOnClickListener {
                         BottomSheetTimePickerFragment(
-                            event.startTime,
-                            REQUEST_KEY,
-                            "startTime"
+                            event.startTime, REQUEST_KEY, "startTime"
                         ).show(
-                            requireActivity().supportFragmentManager,
-                            "BottomSheetChooseTime"
+                            requireActivity().supportFragmentManager, "BottomSheetChooseTime"
                         )
                         createAndEditEventStartDateAndTimeDivider.visibility = View.VISIBLE
                     }
                     createAndEditEventEndDateTime.setOnClickListener {
                         BottomSheetTimePickerFragment(
-                            event.endTime,
-                            REQUEST_KEY,
-                            "endTime"
+                            event.endTime, REQUEST_KEY, "endTime"
                         ).show(
-                            requireActivity().supportFragmentManager,
-                            "BottomSheetChooseTime"
+                            requireActivity().supportFragmentManager, "BottomSheetChooseTime"
                         )
                         createAndEditEventEndDateAndTimeDivider.visibility = View.VISIBLE
                     }
@@ -439,88 +417,73 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
 
                     var titleString = ""
                     event.notificationTitle.forEach { title ->
-                        titleString += if (event.notificationTitle.size == 1)
-                            getString(title)
-                        else
-                            getString(title) + "; "
+                        titleString += if (event.notificationTitle.size == 1) getString(title)
+                        else getString(title) + "; "
                     }
 
                     createAndEditEventNotification.text = titleString
 
                     createAndEditEventStartDateDate.setOnClickListener {
                         BottomSheetDatePickerFragment(
-                            event.startDate,
-                            REQUEST_KEY,
-                            "startDate"
+                            event.startDate, REQUEST_KEY, "startDate"
                         ).show(
-                            requireActivity().supportFragmentManager,
-                            "BottomSheetChooseDate"
+                            requireActivity().supportFragmentManager, "BottomSheetChooseDate"
                         )
                     }
 
                     createAndEditEventEndDateDate.setOnClickListener {
                         BottomSheetDatePickerFragment(
-                            event.endDate,
-                            REQUEST_KEY,
-                            "endDate"
+                            event.endDate, REQUEST_KEY, "endDate"
                         ).show(
-                            requireActivity().supportFragmentManager,
-                            "BottomSheetChooseDate"
+                            requireActivity().supportFragmentManager, "BottomSheetChooseDate"
                         )
+                    }
+
+                    createAndEditEventLocationRoot.setOnClickListener {
+                        /*BottomSheetInputLocationFragment()
+                            .show(
+                                requireActivity().supportFragmentManager,
+                                "BottomSheetLocation"
+                            )*/
                     }
 
                     createAndEditEventNoteRoot.setOnClickListener {
                         BottomSheetAddNoteFragment(event.note, REQUEST_KEY, "note").show(
-                            requireActivity().supportFragmentManager,
-                            "BottomSheetNote"
+                            requireActivity().supportFragmentManager, "BottomSheetNote"
                         )
                     }
 
                     createAndEditEventRepeatRoot.setOnClickListener {
                         BottomSheetChooseRepeatFragment(event.repeat, REQUEST_KEY, "repeat").show(
-                            requireActivity().supportFragmentManager,
-                            "BottomSheetRepeat"
+                            requireActivity().supportFragmentManager, "BottomSheetRepeat"
                         )
                     }
 
                     createAndEditEventNotificationRoot.setOnClickListener {
                         BottomSheetChooseNotificationFragment(
-                            event.notifications,
-                            REQUEST_KEY,
-                            "notifications"
+                            event.notifications, REQUEST_KEY, "notifications"
                         ).show(
-                            requireActivity().supportFragmentManager,
-                            "BottomSheetNotification"
+                            requireActivity().supportFragmentManager, "BottomSheetNotification"
                         )
                     }
 
                     createAndEditEventColor.setOnClickListener {
                         BottomSheetChooseColorFragment(
-                            event.color,
-                            REQUEST_KEY,
-                            "color"
+                            event.color, REQUEST_KEY, "color"
                         ).show(
-                            requireActivity().supportFragmentManager,
-                            "BottomSheetColor"
+                            requireActivity().supportFragmentManager, "BottomSheetColor"
                         )
                     }
 
                     createAndEditEventAttachmentRoot.setOnClickListener {
-                        BottomSheetAttachmentRootFragment
-                            .Builder()
-                            .covers(event.covers)
-                            .chosenCover(event.chosenCover)
-                            .images(event.images)
-                            .chosenImages(event.chosenImages)
-                            .videos(event.videos)
-                            .chosenVideos(event.chosenVideos)
-                            .audios(event.audios)
+                        BottomSheetAttachmentRootFragment.Builder().covers(event.covers)
+                            .chosenCover(event.chosenCover).images(event.images)
+                            .chosenImages(event.chosenImages).videos(event.videos)
+                            .chosenVideos(event.chosenVideos).audios(event.audios)
                             .files(event.files)
-                            .onAttachmentChosenListener(this@CreateAndEditEventFragment)
-                            .build()
+                            .onAttachmentChosenListener(this@CreateAndEditEventFragment).build()
                             .show(
-                                requireActivity().supportFragmentManager,
-                                "BottomSheetAttachment"
+                                requireActivity().supportFragmentManager, "BottomSheetAttachment"
                             )
                     }
                 }
@@ -539,23 +502,20 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
             val imagePathList = mutableListOf<ImageItemState>()
             val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             val projection = arrayOf(
-                MediaStore.MediaColumns._ID,
-                MediaStore.Video.VideoColumns.SIZE
+                MediaStore.MediaColumns._ID, MediaStore.Video.VideoColumns.SIZE
             )
             val sortOrder = MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC"
-            val cursor: Cursor? = requireContext()
-                .contentResolver
-                .query(uri, projection, null, null, sortOrder)
+            val cursor: Cursor? =
+                requireContext().contentResolver.query(uri, projection, null, null, sortOrder)
             if (cursor != null) {
                 while (cursor.moveToNext()) {
                     val id: Int =
                         cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
-                    val size = cursor
-                        .getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.SIZE))
+                    val size =
+                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.SIZE))
                     imagePathList.add(
                         ImageItemState(
-                            uri = ContentUris.withAppendedId(uri, id.toLong()),
-                            size = size
+                            uri = ContentUris.withAppendedId(uri, id.toLong()), size = size
                         )
                     )
                 }
@@ -569,24 +529,22 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
         launch {
             val videoPathList = mutableListOf<VideoItemState>()
             val uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-            val projection =
-                arrayOf(
-                    MediaStore.MediaColumns._ID,
-                    MediaStore.Video.VideoColumns.DURATION,
-                    MediaStore.Video.VideoColumns.SIZE
-                )
+            val projection = arrayOf(
+                MediaStore.MediaColumns._ID,
+                MediaStore.Video.VideoColumns.DURATION,
+                MediaStore.Video.VideoColumns.SIZE
+            )
             val sortOrder = MediaStore.Video.VideoColumns.DATE_TAKEN + " DESC"
-            val cursor: Cursor? = requireContext()
-                .contentResolver
-                .query(uri, projection, null, null, sortOrder)
+            val cursor: Cursor? =
+                requireContext().contentResolver.query(uri, projection, null, null, sortOrder)
             if (cursor != null) {
                 while (cursor.moveToNext()) {
-                    val id: Int = cursor
-                        .getInt(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
-                    val duration = cursor
-                        .getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DURATION))
-                    val size = cursor
-                        .getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.SIZE))
+                    val id: Int =
+                        cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
+                    val duration =
+                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.DURATION))
+                    val size =
+                        cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Video.VideoColumns.SIZE))
                     videoPathList.add(
                         VideoItemState(
                             uri = ContentUris.withAppendedId(uri, id.toLong()),
@@ -660,24 +618,21 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
     override fun onImageDialogShow(item: ImageItemState, isChosen: Boolean) {
         imageDialog = ImagePreviewDialog(item, isChosen, this)
         imageDialog.show(
-            requireActivity().supportFragmentManager,
-            "MediaPreviewDialog"
+            requireActivity().supportFragmentManager, "MediaPreviewDialog"
         )
     }
 
     override fun onVideoDialogShow(item: VideoItemState, isChosen: Boolean) {
         videoDialog = VideoPreviewDialog(item, isChosen, this)
         videoDialog.show(
-            requireActivity().supportFragmentManager,
-            "MediaPreviewDialog"
+            requireActivity().supportFragmentManager, "MediaPreviewDialog"
         )
     }
 
     override fun onAudioDialogShow(item: AudioItemState, isChosen: Boolean) {
         audioDialog = AudioPreviewDialog(item, isChosen, this)
         audioDialog.show(
-            requireActivity().supportFragmentManager,
-            "MediaPreviewDialog"
+            requireActivity().supportFragmentManager, "MediaPreviewDialog"
         )
     }
 

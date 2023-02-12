@@ -81,6 +81,17 @@
         <item name="android:textColor">@color/mercury</item>
     </style>
 
+    <style name="LocationTitleEditText">
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:inputType">textCapSentences</item>
+        <item name="maxLines">1</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:textColorHint">@color/cloud</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textColor">@color/mercury</item>
+    </style>
+
     <style name="CustomCalendarMonth" parent="Theme.MadDiary">
         <item name="android:textColorPrimary">@color/mercury</item>
         <item name="android:background">@drawable/all_corners</item>

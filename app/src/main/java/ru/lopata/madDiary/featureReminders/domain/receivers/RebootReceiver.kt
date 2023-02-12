@@ -37,6 +37,6 @@ class RebootReceiver : BroadcastReceiver() {
 
     private fun setAlarm(item: EventRepeatNotificationAttachment, context: Context) {
         val alarmScheduler = AndroidAlarmScheduler(context)
-        alarmScheduler.schedule(item)
+        alarmScheduler.schedule(item, "eventAlarm")
     }
 }

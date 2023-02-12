@@ -1,12 +1,16 @@
 package ru.lopata.madDiary.core.di
 
 import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
+import android.provider.SyncStateContract
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.lopata.madDiary.core.data.dataSource.*
+import ru.lopata.madDiary.core.util.SETTINGS
 import javax.inject.Singleton
 
 @Module
@@ -41,4 +45,12 @@ object AppModule {
             .build()
     }
 
+    @Provides
+    @Singleton
+    fun provideSharedPref(app: Application): SharedPreferences {
+        return app.getSharedPreferences(
+            SETTINGS,
+            Context.MODE_PRIVATE
+        )
+    }
 }

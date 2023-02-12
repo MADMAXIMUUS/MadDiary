@@ -7,6 +7,7 @@
     tools:context="ru.lopata.madDiary.core.presentation.settings.SettingsFragment">
 
     <TextView
+        android:id="@+id/toolbar_title"
         style="@style/DialogTitle"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -18,5 +19,248 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/settings_theme_title"
+        style="@style/ReminderBigBlockTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/theme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_title" />
+
+    <LinearLayout
+        android:id="@+id/settings_theme_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_theme_title">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="150dp"
+            android:src="@drawable/light_theme"
+            tools:ignore="ContentDescription" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight="3" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="150dp"
+            android:src="@drawable/dark_theme"
+            tools:ignore="ContentDescription" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight="3" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="150dp"
+            android:src="@drawable/system_theme"
+            tools:ignore="ContentDescription" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/settings_theme_rb_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/settings_theme_root"
+        tools:layout_editor_absoluteX="20dp">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:id="@+id/settings_rb_light"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:background="@null"
+            android:button="@null"
+            android:drawableTop="@drawable/radiobutton_selector" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="3" />
+
+        <RadioButton
+            android:id="@+id/settings_rb_dark"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:background="@null"
+            android:button="@null"
+            android:drawableTop="@drawable/radiobutton_selector" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="3" />
+
+        <RadioButton
+            android:id="@+id/settings_rb_system"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:background="@null"
+            android:button="@null"
+            android:drawableTop="@drawable/radiobutton_selector" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="1" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/settings_notification_title"
+        style="@style/ReminderBigBlockTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/notification"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_theme_rb_root" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/settings_notification_event_root"
+        style="@style/ReminderCardStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_notification_title">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="13dp">
+
+            <TextView
+                style="@style/ReminderBlockBigTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/notification_event" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                style="@style/ReminderOpenMenuIcon"
+                android:layout_marginEnd="10dp"
+                tools:ignore="ImageContrastCheck" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/settings_notification_task_root"
+        style="@style/ReminderCardStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_notification_event_root">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="13dp">
+
+            <TextView
+                style="@style/ReminderBlockBigTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/notification_task" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                style="@style/ReminderOpenMenuIcon"
+                android:layout_marginEnd="10dp"
+                tools:ignore="ImageContrastCheck" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/settings_notification_reminder_root"
+        style="@style/ReminderCardStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settings_notification_task_root">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="13dp">
+
+            <TextView
+                style="@style/ReminderBlockBigTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/notification_reminder" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                style="@style/ReminderOpenMenuIcon"
+                android:layout_marginEnd="10dp"
+                tools:ignore="ImageContrastCheck" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

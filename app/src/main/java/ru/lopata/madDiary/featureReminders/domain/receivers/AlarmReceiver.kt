@@ -26,6 +26,8 @@ class AlarmReceiver : BroadcastReceiver() {
             intent.getParcelableExtra("event") as? EventRepeatNotificationAttachment
         }
 
+        val chanelId = intent.getStringExtra("chanelId").toString()
+
         val tapResultIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra("eventId", item?.event?.eventId)
@@ -35,10 +37,12 @@ class AlarmReceiver : BroadcastReceiver() {
             getActivity(context, 0, tapResultIntent, FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE)
 
         val notificationBuilder =
-            NotificationCompat.Builder(context, "eventAlarm")
+            NotificationCompat.Builder(context, chanelId)
                 .setContentTitle(item?.event?.title)
-                .setContentText(item?.event?.note).setSmallIcon(R.drawable.ic_notification)
-                .setAutoCancel(true).setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentText(item?.event?.note)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setStyle(
                     NotificationCompat.BigTextStyle()
@@ -50,6 +54,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         try {
             notificationManager.notify(item?.event?.eventId ?: 1, notificationBuilder.build())
+
         } catch (e: SecurityException) {
             e.localizedMessage?.let { it1 -> Log.e("SecurityException", it1) }
         }
@@ -64,7 +69,8 @@ class AlarmReceiver : BroadcastReceiver() {
                             event = item.event.copy(
                                 startDateTime = Date(item.event.startDateTime.time + item.repeat.repeatInterval)
                             )
-                        )
+                        ),
+                        chanelID = chanelId
                     )
             }
         }

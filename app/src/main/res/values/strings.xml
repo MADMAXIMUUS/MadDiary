@@ -84,6 +84,28 @@
     <string name="until">" until "</string>
     <string name="permission_dialog_text">To add attachments, you must grant permission to access photos, videos, audio, and music. Tap > settings > permissions and allow access to <u>files and media</u></string>
 
+    <string name="notification_string">"Ringtone: %1s, Vibration: $2s, Priority: %3s, Light: %4s"</string>
+    <string name="state_on">On</string>
+    <string name="state_off">Off</string>
+
+    <!--Bottom sheet titles-->
+    <string name="bottom_sheet_ringtones">Ringtones</string>
+
+    <!--Block titles-->
+    <string name="current_location">Current location</string>
+    <string name="results">Results</string>
+    <string name="recent">Recent locations</string>
+    <string name="notification_event">Event</string>
+    <string name="notification_task">Task</string>
+    <string name="notification_reminder">Reminder</string>
+
+    <!--Big block title-->
+    <string name="theme">Theme</string>
+    <string name="notification">Notifications</string>
+
+    <!--Edit text Hint-->
+    <string name="input_address">Input address</string>
+
     <!--Happy Message-->
     <string name="happy_new_year">Merry Christmas and Happy Ney Year!!!</string>
     <string name="happy_halloween">Happy Halloween!!!</string>
@@ -107,6 +129,7 @@
     <!--Notification chanel name-->
     <string name="attachment_chanel_name">Attachment copy progress</string>
     <string name="event_chanel_name">Events</string>
+    <string name="event_chanel_group">Reminders</string>
 
     <!--Notification descriptions-->
     <string name="attachment_description">Visual display of copying attachments</string>
