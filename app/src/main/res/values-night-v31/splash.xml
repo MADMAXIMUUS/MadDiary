@@ -8,7 +8,8 @@
         <item name="postSplashScreenTheme">@style/Theme.MadDiary</item>
         <item name="android:statusBarColor">@color/onyx</item>
         <item name="android:navigationBarColor">@color/onyx</item>
-        <item name="android:windowSplashScreenBrandingImage">@drawable/company_logo_splash_center
+        <item name="android:windowSplashScreenBrandingImage">
+            @drawable/company_logo_splash_center
         </item>
     </style>
 </resources>
