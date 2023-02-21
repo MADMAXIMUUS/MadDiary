@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.lopata.madDiary.core.util.FileItemDecoration
 import ru.lopata.madDiary.databinding.FragmentAttachFileBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.FileAdapter
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.FileAdapter
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
+import ru.lopata.madDiary.featureReminders.domain.model.states.FileItemState
 
 class AttachFileFragment(
     private val files: List<FileItemState>,

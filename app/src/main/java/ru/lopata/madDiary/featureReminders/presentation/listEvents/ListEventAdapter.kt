@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import ru.lopata.madDiary.featureReminders.domain.model.Event
 import ru.lopata.madDiary.featureReminders.domain.model.MainScreenItem
 import ru.lopata.madDiary.featureReminders.presentation.listEvents.holders.HolderFactory
 import ru.lopata.madDiary.featureReminders.presentation.listEvents.holders.MainListHolder
@@ -55,7 +56,7 @@ class ListEventAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(id: Int, chapter: Int, chapters: Int)
+        fun onItemClick(id: Int, chapter: Int, chapters: Int, type: Event.Types)
         fun onItemCheckedClick(id: Int, state: Boolean)
     }
 }

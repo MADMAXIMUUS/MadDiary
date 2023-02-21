@@ -31,6 +31,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val tapResultIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra("eventId", item?.event?.eventId)
+            putExtra("eventType", item?.event?.type.toString())
         }
 
         val pendingIntent: PendingIntent =

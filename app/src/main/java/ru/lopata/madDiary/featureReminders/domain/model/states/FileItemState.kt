@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states
+package ru.lopata.madDiary.featureReminders.domain.model.states
 
 import android.net.Uri
 import android.os.Parcelable

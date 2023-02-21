@@ -23,7 +23,6 @@
     <string name="reminder_start_title">Начало</string>
     <string name="reminder_date_and_time_divider_description">Разделитель между временем и датой</string>
     <string name="reminder_end_title">Конец</string>
-    <string name="reminder_all_day">Весь день?</string>
     <string name="reminder_location_title">Адрес</string>
     <string name="reminder_note_title">Заметка</string>
     <string name="reminder_settings_title">Настройки</string>
@@ -92,13 +91,20 @@
     <string name="state_on">Включена</string>
     <string name="state_off">Выключена</string>
 
+    <!--Screen titles-->
+    <string name="event_title">Событие</string>
+    <string name="task_title">Задача</string>
+    <string name="reminder_title">Напоминание</string>
+
     <!--Bottom sheet titles-->
-    <string name="bottom_sheet_ringtones">Рингтоны</string>
 
     <!--Block titles-->
     <string name="current_location">Текущая позиция</string>
     <string name="results">Результаты</string>
     <string name="recent">Предыдущие результаты</string>
+    <string name="reminder_all_day">Весь день?</string>
+    <string name="reminder_task_deadline">Крайний срок</string>
+    <string name="reminder_reminder_date">Дата</string>
     <string name="notification_event">Событие</string>
     <string name="notification_task">Задача</string>
     <string name="notification_reminder">Напоминание</string>
@@ -136,9 +142,9 @@
     <string name="event_description">Уведомления о новых событиях</string>
 
     <!--Snackbar message-->
-    <string name="event_created">Событие: %1$s создано!</string>
-    <string name="event_updated">Событие: %1$s обновлено!</string>
-    <string name="event_deleted">Событие: %1$s удалено!</string>
+    <string name="event_created">%1$s создано!</string>
+    <string name="event_updated">%1$s обновлено!</string>
+    <string name="event_deleted">%1$s удалено!</string>
     <string name="undo">Отменить</string>
 
     <!--Arrays-->

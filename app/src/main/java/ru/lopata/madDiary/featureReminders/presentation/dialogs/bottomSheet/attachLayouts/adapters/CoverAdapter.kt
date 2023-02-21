@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters
+package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters
 
 import android.net.Uri
 import android.view.LayoutInflater

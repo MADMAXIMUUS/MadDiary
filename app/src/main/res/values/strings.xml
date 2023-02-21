@@ -1,12 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">OwlDiary</string>
-
-    <!--Screens title-->
     <string name="create_and_edit_title">Event edit</string>
     <string name="calendar_label">Calendar</string>
     <string name="settings_label">Settings</string>
     <string name="note_label">Notes</string>
-
     <string name="create_and_edit_note_title">Title…</string>
     <string name="bottom_menu_reminders_title">Bottom menu reminders</string>
     <string name="bottom_menu_calendar_title">Bottom menu calendar</string>
@@ -23,7 +20,6 @@
     <string name="reminder_start_title">Start</string>
     <string name="reminder_date_and_time_divider_description">Date and time divider</string>
     <string name="reminder_end_title">End</string>
-    <string name="reminder_all_day">All day?</string>
     <string name="reminder_location_title">Location</string>
     <string name="reminder_note_title">Note</string>
     <string name="reminder_settings_title">Settings</string>
@@ -84,17 +80,25 @@
     <string name="until">" until "</string>
     <string name="permission_dialog_text">To add attachments, you must grant permission to access photos, videos, audio, and music. Tap > settings > permissions and allow access to <u>files and media</u></string>
 
+    <!--Notification Subtitles-->
     <string name="notification_string">"Ringtone: %1s, Vibration: $2s, Priority: %3s, Light: %4s"</string>
     <string name="state_on">On</string>
     <string name="state_off">Off</string>
 
+    <!--Screen titles-->
+    <string name="event_title">Event</string>
+    <string name="task_title">Task</string>
+    <string name="reminder_title">Reminder</string>
+
     <!--Bottom sheet titles-->
-    <string name="bottom_sheet_ringtones">Ringtones</string>
 
     <!--Block titles-->
     <string name="current_location">Current location</string>
     <string name="results">Results</string>
     <string name="recent">Recent locations</string>
+    <string name="reminder_all_day">All day?</string>
+    <string name="reminder_task_deadline">Deadline</string>
+    <string name="reminder_reminder_date">Date</string>
     <string name="notification_event">Event</string>
     <string name="notification_task">Task</string>
     <string name="notification_reminder">Reminder</string>
@@ -136,9 +140,9 @@
     <string name="event_description">New event notifications</string>
 
     <!--Snackbar message-->
-    <string name="event_created">Event: %1$s created!</string>
-    <string name="event_updated">Event: %1$s updated!</string>
-    <string name="event_deleted">Event: %1$s deleted!</string>
+    <string name="event_created">%1$s created!</string>
+    <string name="event_updated">%1$s updated!</string>
+    <string name="event_deleted">%1$s deleted!</string>
     <string name="undo">Undo</string>
 
     <string-array name="days_in_week">

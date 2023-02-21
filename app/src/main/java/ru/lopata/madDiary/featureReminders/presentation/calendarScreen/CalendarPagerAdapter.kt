@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.lopata.madDiary.databinding.CalendarGridBinding
 import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarViewState
+import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.EventInCalendarGrid
 import ru.lopata.madDiary.featureReminders.presentation.calendarView.MadCalendarMonth
 
 class CalendarPagerAdapter(
@@ -20,8 +21,12 @@ class CalendarPagerAdapter(
     override fun onViewAttachedToWindow(holder: CalendarPagerHolder) {
         super.onViewAttachedToWindow(holder)
         holder.setSelectedListener(object : CalendarPagerHolder.OnDayClickListener {
-            override fun onDayCLick(view: MadCalendarMonth, day: Calendar) {
-                dayClickedListener?.onDayCLick(view, day)
+            override fun onDayCLick(
+                view: MadCalendarMonth,
+                day: Calendar,
+                events: List<EventInCalendarGrid>
+            ) {
+                dayClickedListener?.onDayCLick(view, day, events)
                 holder.setSelectedDay(day.get(Calendar.DAY_OF_MONTH))
             }
         })
@@ -38,7 +43,7 @@ class CalendarPagerAdapter(
     }
 
     interface OnDayClickListener {
-        fun onDayCLick(view: MadCalendarMonth, day: Calendar)
+        fun onDayCLick(view: MadCalendarMonth, day: Calendar, events: List<EventInCalendarGrid>)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<CalendarViewState>() {
@@ -75,9 +80,13 @@ class CalendarPagerAdapter(
                 )
                 setEventsOnMonth(calendarViewState.events)
                 setOnDayClickListener(object : MadCalendarMonth.OnDayClickListener {
-                    override fun onDayClick(view: MadCalendarMonth, day: Calendar) {
+                    override fun onDayClick(
+                        view: MadCalendarMonth,
+                        day: Calendar,
+                        events: List<EventInCalendarGrid>
+                    ) {
                         this@apply.setSelectedDay(day.get(Calendar.DAY_OF_MONTH))
-                        dayClickedListener?.onDayCLick(view, day)
+                        dayClickedListener?.onDayCLick(view, day, events)
                     }
                 })
             }
@@ -92,7 +101,7 @@ class CalendarPagerAdapter(
         }
 
         interface OnDayClickListener {
-            fun onDayCLick(view: MadCalendarMonth, day: Calendar)
+            fun onDayCLick(view: MadCalendarMonth, day: Calendar, events: List<EventInCalendarGrid>)
         }
     }
 }

@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters
+package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.lopata.madDiary.core.util.toTimeDuration
 import ru.lopata.madDiary.databinding.ItemVideoBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
 
 class VideoAdapter(
     private val listener: OnAttachmentDialogListener

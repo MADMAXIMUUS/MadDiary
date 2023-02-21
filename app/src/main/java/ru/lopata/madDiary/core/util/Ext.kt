@@ -14,7 +14,6 @@ import androidx.annotation.ColorInt
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import ru.lopata.madDiary.R
 import java.sql.Date
 import java.text.SimpleDateFormat
@@ -149,6 +148,13 @@ fun Int.toTimeDuration(): String {
 
 fun Long.toDate(): String {
     val sdf = SimpleDateFormat("dd.MM.yy", Locale("ru"))
+    sdf.timeZone = TimeZone.getDefault()
+    val netDate = Date(this)
+    return sdf.format(netDate)
+}
+
+fun Long.toCalendarDate(): String {
+    val sdf = SimpleDateFormat("dd MMMM yyyy", Locale("ru"))
     sdf.timeZone = TimeZone.getDefault()
     val netDate = Date(this)
     return sdf.format(netDate)

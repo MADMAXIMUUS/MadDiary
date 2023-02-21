@@ -14,8 +14,11 @@ sealed class MainScreenItem {
         val chapter: Int,
         val chapters: Int,
         val title: String,
-        val type: Int,
+        val pass: Boolean,
+        val type: Event.Types,
+        @StringRes val subtitleFrom: Int,
         val startTime: String,
+        @StringRes val subtitleTo: Int,
         val endTime: String,
         val address: String,
         val color: Int,
@@ -28,7 +31,5 @@ sealed class MainScreenItem {
     companion object {
         const val TITLE = 0
         const val EVENT = 1
-        const val TASK = 2
-        const val REMINDER = 3
     }
 }

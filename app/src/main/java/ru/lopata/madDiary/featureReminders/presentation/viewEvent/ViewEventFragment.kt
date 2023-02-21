@@ -18,8 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentViewEventBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventFragmentDirections
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AttachmentAdapter
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.AttachmentAdapter
 import java.sql.Date
 
 @AndroidEntryPoint
@@ -82,7 +81,7 @@ class ViewEventFragment : Fragment() {
                     }
                     is UiEvent.Edit -> {
                         view.findNavController().navigate(
-                            R.id.createReminderFragment, event.passObject, NavOptions.Builder()
+                            R.id.createAndEditEventFragment, event.passObject, NavOptions.Builder()
                                 .setPopUpTo(R.id.viewEventFragment, true)
                                 .build()
                         )

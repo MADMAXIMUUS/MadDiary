@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters
+package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.lopata.madDiary.core.util.toTimeDuration
 import ru.lopata.madDiary.databinding.ItemAudioBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.AudioItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.AudioItemState
 
 class AudioAdapter(val listener: OnAttachmentDialogListener) :
     ListAdapter<AudioItemState, AudioAdapter.AudioViewHolder>(DiffCallback()) {

@@ -173,11 +173,11 @@
     </style>
 
     <style name="EventItemReminderIcon">
-        <item name="android:tint">@color/dawn_pink</item>
+        <item name="android:tint">@color/event_icon_tint_color_selector</item>
     </style>
 
     <style name="EventItemReminderSubtext">
-        <item name="android:textColor">@color/mercury</item>
+        <item name="android:textColor">@color/event_title_text_color_selector</item>
         <item name="android:textSize">14sp</item>
         <item name="fontFamily">@font/blogger_sans_bold</item>
     </style>
@@ -193,6 +193,11 @@
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textColor">@color/mercury</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="DialogTheme_transparent" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="cardBackgroundColor">@color/onyx</item>
     </style>
 
     <style name="EventCover">

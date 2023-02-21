@@ -10,8 +10,8 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.databinding.FragmentPreviewImageDialogBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
+import ru.lopata.madDiary.featureReminders.domain.model.states.ImageItemState
 
 @AndroidEntryPoint
 class ImagePreviewDialog(

@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters
+package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.lopata.madDiary.databinding.ItemImageBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.ImageItemState
 
 class ImageAdapter(
     private val listener: OnAttachmentDialogListener

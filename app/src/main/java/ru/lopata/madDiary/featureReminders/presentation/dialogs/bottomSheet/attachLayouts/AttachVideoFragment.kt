@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import ru.lopata.madDiary.core.util.AttachItemDecoration
 import ru.lopata.madDiary.core.util.checkPermission
 import ru.lopata.madDiary.databinding.FragmentAttachVideoBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.VideoAdapter
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.VideoAdapter
+import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
 
 class AttachVideoFragment(
     private val videos: List<VideoItemState>,

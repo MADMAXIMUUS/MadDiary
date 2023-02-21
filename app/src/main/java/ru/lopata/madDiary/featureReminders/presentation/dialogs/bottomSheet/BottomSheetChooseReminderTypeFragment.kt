@@ -5,17 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import ru.lopata.madDiary.R
 import ru.lopata.madDiary.databinding.FragmentBottomSheetChooseReminderTypeBinding
 
-
-class BottomSheetChooseReminderTypeFragment(private val navController: NavController) :
-    BottomSheetDialogFragment() {
+class BottomSheetChooseReminderTypeFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentBottomSheetChooseReminderTypeBinding? = null
     private val binding get() = _binding!!
+
+    private var date = -1L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,8 +28,27 @@ class BottomSheetChooseReminderTypeFragment(private val navController: NavContro
         super.onViewCreated(view, savedInstanceState)
 
         binding.bottomSheetCreateReminderEventBtn.setOnClickListener {
-            navController.navigate(R.id.action_bottom_reminders_to_createReminderFragment)
-            dismiss()
+            val action = BottomSheetChooseReminderTypeFragmentDirections
+                .actionGlobalCreateAndEditEventFragment(startDate = date)
+            this.findNavController().popBackStack()
+            this.findNavController().navigate(action)
+        }
+
+        binding.bottomSheetCreateReminderTaskBtn.setOnClickListener {
+            val action =
+                BottomSheetChooseReminderTypeFragmentDirections
+                    .actionGlobalCreateAndEditTaskFragment(startDate = date)
+            this.findNavController().popBackStack()
+            this.findNavController().navigate(action)
+
+        }
+
+        binding.bottomSheetCreateReminderReminderBtn.setOnClickListener {
+            val action =
+                BottomSheetChooseReminderTypeFragmentDirections
+                    .actionGlobalCreateAndEditReminderFragment(startDate = date)
+            this.findNavController().popBackStack()
+            this.findNavController().navigate(action)
         }
 
         binding.bottomSheetCreateReminderEventRoot
@@ -39,9 +57,9 @@ class BottomSheetChooseReminderTypeFragment(private val navController: NavContro
                 override fun onGlobalLayout() {
 
                     if (binding.bottomSheetCreateReminderReminderRoot.measuredWidth > 0)
-                        binding.bottomSheetCreateReminderReminderRoot.viewTreeObserver.removeOnGlobalLayoutListener(
-                            this
-                        )
+                        binding.bottomSheetCreateReminderReminderRoot
+                            .viewTreeObserver
+                            .removeOnGlobalLayoutListener(this)
 
                     val width = binding.bottomSheetCreateReminderReminderRoot.measuredWidth
                     binding.bottomSheetCreateReminderTaskRoot.layoutParams.width = width
@@ -52,6 +70,11 @@ class BottomSheetChooseReminderTypeFragment(private val navController: NavContro
                 }
             })
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        date = BottomSheetChooseReminderTypeFragmentArgs.fromBundle(requireArguments()).date
     }
 
     override fun onDestroy() {

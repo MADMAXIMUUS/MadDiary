@@ -48,6 +48,7 @@ class ListEventViewModel @Inject constructor(
         job = eventsUseCases.getEventsUseCase()
             .onEach { events ->
                 val map = mutableMapOf<Date, MutableList<MainScreenItem>>()
+                val today = Calendar.getInstance()
                 events.forEach { eventRepeatNotificationsAttachments ->
                     val event = eventRepeatNotificationsAttachments.event
                     val repeat = eventRepeatNotificationsAttachments.repeat ?: Repeat()
@@ -86,29 +87,52 @@ class ListEventViewModel @Inject constructor(
                         val isNotificationSet = notifications.isNotEmpty() &&
                                 notifications[0].time != Notification.NEVER
 
-                        map[Date(calendar.timeInMillis)]?.add(
-                            MainScreenItem.EventItem(
-                                id = event.eventId!!,
-                                chapter = chapter,
-                                chapters = diffDay.toInt() + 1,
-                                title = event.title,
-                                isChecked = event.completed,
-                                type = MainScreenItem.EVENT,
-                                startTime = startTime,
-                                endTime = endTime,
-                                address = event.location,
-                                color = event.color,
-                                isAttachmentAdded = attachments.isNotEmpty(),
-                                cover = Uri.parse(event.cover),
-                                isNotificationSet = isNotificationSet
-                            )
+                        var subtitleFrom: Int = -1
+                        var subtitleTo: Int = -1
+
+                        when (event.type) {
+                            Event.Types.EVENT -> {
+                                subtitleFrom = R.string.from
+                                subtitleTo = R.string.to
+                            }
+                            Event.Types.TASK -> {
+                                subtitleFrom = R.string.reminder_task_deadline
+                                subtitleTo = -1
+                            }
+                            Event.Types.REMINDER -> {
+                                subtitleFrom = R.string.reminder_reminder_date
+                                subtitleTo = -1
+                            }
+                        }
+
+                        var pass = date < today.timeInMillis
+
+                        val item = MainScreenItem.EventItem(
+                            id = event.eventId!!,
+                            chapter = chapter,
+                            chapters = diffDay.toInt() + 1,
+                            title = event.title,
+                            isChecked = event.completed,
+                            type = event.type,
+                            pass = pass,
+                            startTime = startTime,
+                            subtitleFrom = subtitleFrom,
+                            subtitleTo = subtitleTo,
+                            endTime = endTime,
+                            address = event.location,
+                            color = event.color,
+                            isAttachmentAdded = attachments.isNotEmpty(),
+                            cover = Uri.parse(event.cover),
+                            isNotificationSet = isNotificationSet
                         )
+
+                        map[Date(calendar.timeInMillis)]?.add(item)
 
 
                         if (repeat.repeatInterval != Repeat.NO_REPEAT) {
                             var interval = repeat.repeatInterval
                             var i = 1
-                            while (event.startDateTime.time + diffDay + interval <= repeat.repeatEnd.time + DAY_IN_MILLISECONDS) {
+                            while (event.startDateTime.time + diffDay + interval < repeat.repeatEnd.time + DAY_IN_MILLISECONDS) {
                                 when (repeat.repeatInterval) {
                                     Repeat.EVERY_DAY, Repeat.EVERY_SECOND_DAY -> {
 
@@ -141,23 +165,10 @@ class ListEventViewModel @Inject constructor(
                                 if (map[Date(calendar.timeInMillis)] == null)
                                     map[Date(calendar.timeInMillis)] = mutableListOf()
 
-                                map[Date(calendar.timeInMillis)]?.add(
-                                    MainScreenItem.EventItem(
-                                        id = event.eventId!!,
-                                        title = event.title,
-                                        chapter = chapter,
-                                        chapters = diffDay.toInt() + 1,
-                                        isChecked = event.completed,
-                                        type = MainScreenItem.EVENT,
-                                        startTime = startTime,
-                                        endTime = endTime,
-                                        address = event.location,
-                                        color = event.color,
-                                        isAttachmentAdded = attachments.isNotEmpty(),
-                                        cover = Uri.parse(event.cover),
-                                        isNotificationSet = isNotificationSet
-                                    )
-                                )
+                                pass = calendar.timeInMillis < today.timeInMillis
+
+                                map[Date(calendar.timeInMillis)]?.add(item.copy(pass = pass))
+
                                 interval += repeat.repeatInterval
                                 i++
                             }
@@ -172,17 +183,17 @@ class ListEventViewModel @Inject constructor(
                 var i = 0
                 var todayId = 0
                 sortedMap.keys.forEach { date ->
-                    val today = Calendar.getInstance().timeInMillis
-                    val tomorrow = today + DAY_IN_MILLISECONDS
-                    val yesterday = today - DAY_IN_MILLISECONDS
+                    val tomorrow = today.timeInMillis + DAY_IN_MILLISECONDS
+                    val yesterday = today.timeInMillis - DAY_IN_MILLISECONDS
 
-                    val title = if (date.time <= today && date.time + DAY_IN_MILLISECONDS >= today)
-                        R.string.today
-                    else if (date.time <= tomorrow && date.time + DAY_IN_MILLISECONDS >= tomorrow)
-                        R.string.tomorrow
-                    else if (date.time <= yesterday && date.time + DAY_IN_MILLISECONDS >= yesterday)
-                        R.string.yesterday
-                    else -1
+                    val title =
+                        if (date.time <= today.timeInMillis && date.time + DAY_IN_MILLISECONDS >= today.timeInMillis)
+                            R.string.today
+                        else if (date.time <= tomorrow && date.time + DAY_IN_MILLISECONDS >= tomorrow)
+                            R.string.tomorrow
+                        else if (date.time <= yesterday && date.time + DAY_IN_MILLISECONDS >= yesterday)
+                            R.string.yesterday
+                        else -1
 
                     if (title == R.string.today) {
                         todayId = i
@@ -213,8 +224,7 @@ class ListEventViewModel @Inject constructor(
     fun undoDelete(item: EventRepeatNotificationAttachment) {
         viewModelScope.launch(IO) {
             val event = item.event.copy(
-                eventId = null,
-                cover = Uri.EMPTY.toString()
+                eventId = null
             )
             val id = eventsUseCases.createEventUseCase(event)
             if (item.repeat != null) {

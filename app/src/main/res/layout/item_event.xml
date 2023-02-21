@@ -48,24 +48,40 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/item_event_color"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:background="@drawable/ic_ellipse"
-                    android:backgroundTint="@color/metallic_seaweed"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:visibility="invisible"
+                    app:cardBackgroundColor="@color/metallic_seaweed"
                     app:cardCornerRadius="100dp"
                     app:cardElevation="0dp"
                     app:layout_constraintBottom_toBottomOf="@id/item_event_title"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/item_event_title"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    tools:ignore="TouchTargetSizeCheck"
+                    tools:visibility="visible" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/item_event_cb"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/task_button_selector"
+                    android:button="@null"
+                    android:padding="0dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/item_event_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/item_event_title"
+                    tools:visibility="visible" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/item_event_title"
                     android:layout_width="0dp"
-                    android:layout_height="28dp"
+                    android:layout_height="32dp"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/blogger_sans_bold"
+                    android:gravity="center_vertical"
                     android:linksClickable="false"
+                    android:textColor="@color/event_title_text_color_selector"
                     android:textSize="22sp"
                     app:layout_constraintEnd_toStartOf="@id/item_event_attachment_icon"
                     app:layout_constraintStart_toEndOf="@id/item_event_color"
@@ -73,7 +89,7 @@
                     tools:text="Тестовое название" />
 
                 <ImageView
-                    android:id="@+id/item_event_reminder_icon"
+                    android:id="@+id/item_event_notification_icon"
                     style="@style/EventItemReminderIcon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -96,7 +112,7 @@
                     android:src="@drawable/ic_attach"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/item_event_title"
-                    app:layout_constraintEnd_toStartOf="@id/item_event_reminder_icon"
+                    app:layout_constraintEnd_toStartOf="@id/item_event_notification_icon"
                     app:layout_constraintTop_toTopOf="@id/item_event_title"
                     tools:visibility="visible" />
 

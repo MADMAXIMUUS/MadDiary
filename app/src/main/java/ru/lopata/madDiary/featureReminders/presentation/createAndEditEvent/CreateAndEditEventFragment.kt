@@ -7,7 +7,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Intent
-import android.content.SharedPreferences
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
@@ -39,19 +38,18 @@ import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentCreateAndEditEventBinding
 import ru.lopata.madDiary.featureReminders.domain.model.Notification
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AttachmentAdapter
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.AudioItemState
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.AudioItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.FileItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.ImageItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.*
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.AttachmentAdapter
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.AudioPreviewDialog
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.ImagePreviewDialog
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.VideoPreviewDialog
 import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
 import java.sql.Date
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
@@ -61,9 +59,6 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
 
     private val viewModel: CreateAndEditEventViewModel by viewModels()
     private var isEdit = false
-
-    @Inject
-    lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var imageDialog: ImagePreviewDialog
     private lateinit var videoDialog: VideoPreviewDialog

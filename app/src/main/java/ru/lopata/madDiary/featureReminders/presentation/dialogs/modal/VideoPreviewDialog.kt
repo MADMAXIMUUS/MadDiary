@@ -14,8 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.toTimeDuration
 import ru.lopata.madDiary.databinding.FragmentPreviewVideoDialogBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
+import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
 
 @AndroidEntryPoint
 class VideoPreviewDialog(

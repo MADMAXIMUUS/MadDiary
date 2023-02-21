@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import ru.lopata.madDiary.core.util.AttachItemDecoration
 import ru.lopata.madDiary.core.util.checkPermission
 import ru.lopata.madDiary.databinding.FragmentAttachImageBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.ImageAdapter
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.ImageAdapter
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
+import ru.lopata.madDiary.featureReminders.domain.model.states.ImageItemState
 
 class AttachImageFragment(
     private val images: List<ImageItemState>,

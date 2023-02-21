@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import ru.lopata.madDiary.core.util.AttachItemDecoration
 import ru.lopata.madDiary.databinding.FragmentAttachCoverBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.CoverAdapter
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.CoverAdapter
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
 
 class AttachCoverFragment(
     private val covers: List<Uri>,

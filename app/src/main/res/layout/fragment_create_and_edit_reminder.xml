@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".featureReminders.presentation.createAndEditReminder.CreateAndEditReminderFragment">
+
+    <ImageView
+        android:id="@+id/create_and_edit_reminder_delete_button"
+        style="@style/ToolbarButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/create_and_edit_reminder_confirm_button"
+        style="@style/ToolbarButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="10dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_save"
+        app:layout_constraintEnd_toStartOf="@id/create_and_edit_reminder_delete_button"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        style="@style/DialogTitle"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/reminder_title"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toStartOf="@id/create_and_edit_reminder_confirm_button"
+        app:layout_constraintStart_toEndOf="@id/create_and_edit_reminder_back_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/create_and_edit_reminder_back_button"
+        style="@style/ToolbarButtonStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_base"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        app:layoutDescription="@xml/fragment_create_and_edit_reminder_xml_motion_base_scene"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/create_and_edit_reminder_delete_button">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/create_and_edit_reminder_cover"
+            style="@style/EventCover"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/cover_1" />
+
+        <ImageView
+            android:id="@+id/create_and_edit_reminder_delete_cover_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/rounded_button_ripple_black_66_effect"
+            android:contentDescription="@string/cover_delete_button"
+            android:foregroundGravity="center"
+            android:padding="10dp"
+            android:src="@drawable/ic_delete_cover"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white_b0" />
+
+        <View
+            android:id="@+id/motion_head"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView2"
+            style="@style/EventContentBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/motion_head">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/create_and_edit_reminder_title_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:fontFamily="@font/blogger_sans_bold"
+                    android:text="@string/input_empty_error"
+                    android:textColor="@android:color/holo_red_light"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@id/create_and_edit_reminder_title_edt"
+                    app:layout_constraintTop_toBottomOf="@id/create_and_edit_reminder_title_edt"
+                    tools:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/create_and_edit_reminder_title_edt"
+                    style="@style/TitleEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:autofillHints="null"
+                    android:hint="@string/create_and_edit_note_title"
+                    android:paddingHorizontal="10dp"
+                    app:layout_constraintEnd_toStartOf="@id/create_and_edit_reminder_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TextContrastCheck" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/create_and_edit_reminder_color"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginEnd="30dp"
+                    android:adjustViewBounds="true"
+                    app:cardBackgroundColor="@color/metallic_seaweed"
+                    app:cardCornerRadius="100dp"
+                    app:layout_constraintBottom_toBottomOf="@id/create_and_edit_reminder_title_edt"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/create_and_edit_reminder_title_edt" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/create_and_edit_reminder_start_date_root"
+                    style="@style/ReminderCardStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/create_and_edit_reminder_title_edt"
+                    app:strokeColor="@android:color/holo_red_light"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="13dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/ReminderBlockTitleTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/reminder_reminder_date"
+                            tools:ignore="TextContrastCheck" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:id="@+id/create_and_edit_reminder_start_date_date"
+                                style="@style/ReminderBlockContentTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="12.01" />
+
+                            <ImageView
+                                android:id="@+id/create_and_edit_reminder_start_date_and_time_divider"
+                                style="@style/CircleDateTimeDivider"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:contentDescription="@string/reminder_date_and_time_divider_description"
+                                android:src="@drawable/ic_ellipse"
+                                android:visibility="gone"
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/create_and_edit_reminder_start_date_time"
+                                style="@style/ReminderBlockContentTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:text="10.20" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/create_and_edit_reminder_all_day_root"
+                    style="@style/ReminderCardStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/create_and_edit_reminder_start_date_root">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="13dp">
+
+                        <TextView
+                            style="@style/ReminderBlockBigTitleTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/reminder_all_day" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_weight="1" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/create_and_edit_reminder_all_day_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:checked="false"
+                            app:switchMinWidth="60dp"
+                            tools:ignore="TouchTargetSizeCheck" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/create_and_edit_reminder_location_root"
+                    style="@style/ReminderCardStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/create_and_edit_reminder_all_day_root">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="13dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/ReminderBlockTitleTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/reminder_location_title"
+                            tools:ignore="TextContrastCheck" />
+
+                        <TextView
+                            android:id="@+id/create_and_edit_reminder_location"
+                            style="@style/ReminderBlockContentTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            tools:text="2 Lenina street" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/create_and_edit_reminder_settings_title"
+                    style="@style/ReminderBigBlockTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="35dp"
+                    android:text="@string/reminder_settings_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/create_and_edit_reminder_location_root" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/create_and_edit_reminder_repeat_root"
+                    style="@style/ReminderCardStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/create_and_edit_reminder_settings_title">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="13dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/ReminderBlockTitleTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/reminder_repeat_title"
+                                tools:ignore="TextContrastCheck" />
+
+                            <TextView
+                                android:id="@+id/create_and_edit_reminder_repeat"
+                                style="@style/ReminderBlockContentTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_weight="1" />
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            style="@style/ReminderOpenMenuIcon"
+                            android:layout_marginEnd="10dp"
+                            tools:ignore="ImageContrastCheck" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/create_and_edit_reminder_notification_root"
+                    style="@style/ReminderCardStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/create_and_edit_reminder_repeat_root">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="13dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/ReminderBlockTitleTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/reminder_notifications_title"
+                                tools:ignore="TextContrastCheck" />
+
+                            <TextView
+                                android:id="@+id/create_and_edit_reminder_notification"
+                                style="@style/ReminderBlockContentTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:ellipsize="end"
+                                android:maxLines="1" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="20dp"
+                            android:layout_weight="1" />
+
+                        <com.google.android.material.imageview.ShapeableImageView
+                            style="@style/ReminderOpenMenuIcon"
+                            android:layout_marginEnd="10dp"
+                            tools:ignore="ImageContrastCheck" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/create_and_edit_reminder_attachment_root"
+                    style="@style/ReminderCardStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/create_and_edit_reminder_notification_root">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="13dp"
+                            android:layout_marginTop="13dp"
+                            android:layout_marginEnd="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/ReminderBlockTitleTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="@string/reminder_attachment_title"
+                                tools:ignore="TextContrastCheck" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="20dp"
+                                android:layout_weight="1" />
+
+                            <com.google.android.material.imageview.ShapeableImageView
+                                style="@style/ReminderOpenMenuIcon"
+                                tools:ignore="ImageContrastCheck" />
+
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/create_and_edit_reminder_attachment_content_root"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="13dp"
+                            tools:listitem="@layout/item_attach" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

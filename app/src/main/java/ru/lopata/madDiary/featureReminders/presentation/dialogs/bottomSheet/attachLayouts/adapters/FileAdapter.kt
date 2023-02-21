@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters
+package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.lopata.madDiary.databinding.ItemFileBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.FileItemState
 
 class FileAdapter(val listener: OnAttachmentDialogListener) :
     ListAdapter<FileItemState, FileAdapter.ImageViewHolder>(DiffCallback()) {

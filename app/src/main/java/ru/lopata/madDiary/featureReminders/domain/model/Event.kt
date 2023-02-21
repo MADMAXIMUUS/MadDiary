@@ -16,6 +16,7 @@ data class Event(
     val startDateTime: Date = Date(0),
     val endDateTime: Date = Date(0),
     val allDay: Boolean = false,
+    val type: Types = Types.EVENT,
     val color: Int = EventColors.DEFAULT,
     val cover: String = Uri.EMPTY.toString(),
     val location: String = "",
@@ -23,4 +24,18 @@ data class Event(
     val isAttachmentAdded: Boolean = false,
 
     @PrimaryKey(autoGenerate = true) val eventId: Int? = null
-) : Parcelable
+) : Parcelable {
+    enum class Types {
+        EVENT, TASK, REMINDER;
+
+        companion object {
+            fun String.toTypesEnum(): Types {
+                return try {
+                    Types.valueOf(this)
+                } catch (e: Exception) {
+                    EVENT
+                }
+            }
+        }
+    }
+}

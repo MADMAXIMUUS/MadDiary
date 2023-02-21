@@ -19,8 +19,9 @@ import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.ListsItemDecoration
 import ru.lopata.madDiary.core.util.NavigationEvent
 import ru.lopata.madDiary.databinding.FragmentListEventBinding
+import ru.lopata.madDiary.featureReminders.domain.model.Event
+import ru.lopata.madDiary.featureReminders.domain.model.Event.Types.*
 import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatNotificationAttachment
-import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.BottomSheetChooseReminderTypeFragment
 import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
 import java.io.File
 
@@ -63,10 +64,7 @@ class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
         }
 
         binding.eventListBtnCreateReminder.setOnClickListener {
-            BottomSheetChooseReminderTypeFragment(navController).show(
-                requireActivity().supportFragmentManager,
-                "ChooseReminderType"
-            )
+            navController.navigate(R.id.bottomSheetChooseReminderTypeFragment)
         }
     }
 
@@ -147,13 +145,25 @@ class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
         _binding = null
     }
 
-    override fun onItemClick(id: Int, chapter: Int, chapters: Int) {
-        val action = ListEventFragmentDirections
-            .actionBottomRemindersToViewEventFragment(
-                eventId = id,
-                chapter = chapter,
-                chapters = chapters
-            )
+    override fun onItemClick(id: Int, chapter: Int, chapters: Int, type: Event.Types) {
+        val action = when (type) {
+            EVENT -> {
+                ListEventFragmentDirections
+                    .actionBottomRemindersToViewEventFragment(
+                        eventId = id,
+                        chapter = chapter,
+                        chapters = chapters
+                    )
+            }
+            TASK -> {
+                ListEventFragmentDirections
+                    .actionBottomRemindersToViewTaskFragment(eventId = id)
+            }
+            REMINDER -> {
+                ListEventFragmentDirections
+                    .actionBottomRemindersToViewReminderFragment(eventId = id)
+            }
+        }
         navController.navigate(action)
     }
 

@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states
+package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent
 
 import android.net.Uri
 import androidx.annotation.StringRes
@@ -6,6 +6,10 @@ import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.EditTextState
 import ru.lopata.madDiary.core.util.EventColors
 import ru.lopata.madDiary.featureReminders.domain.model.*
+import ru.lopata.madDiary.featureReminders.domain.model.states.AudioItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.FileItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.ImageItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
 import java.sql.Date
 
 data class CreateEventScreenState(

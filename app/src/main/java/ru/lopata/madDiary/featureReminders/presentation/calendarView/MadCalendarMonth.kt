@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarDayState
+import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.EventInCalendarGrid
 
 class MadCalendarMonth @JvmOverloads constructor(
     context: Context,
@@ -26,7 +27,7 @@ class MadCalendarMonth @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    private var calendarDayStateList: List<CalendarDayState> = emptyList()
+    private var calendarDayStateList: Map<Calendar, List<EventInCalendarGrid>> = emptyMap()
 
     private var onDayClickListener: OnDayClickListener? = null
 
@@ -114,7 +115,12 @@ class MadCalendarMonth @JvmOverloads constructor(
     }
 
     fun setEventsOnMonth(events: List<CalendarDayState>) {
-        calendarDayStateList = events
+        val map = mutableMapOf<Calendar, List<EventInCalendarGrid>>()
+        events.forEach { state ->
+
+            map[state.day] = state.events
+        }
+        calendarDayStateList = map
         invalidate()
     }
 
@@ -421,17 +427,17 @@ class MadCalendarMonth @JvmOverloads constructor(
         var eventBackgroundHeight: Int
         var staticLayout: StaticLayout
 
-        for (i in calendarDayStateList.indices) {
+        calendarDayStateList.keys.forEach { day ->
             var eventStartHeight = startHeight + eventsRect.top
-            val col = getColByDate(calendarDayStateList[i].day)
-            val row = getRowByDate(calendarDayStateList[i].day)
+            val col = getColByDate(day)
+            val row = getRowByDate(day)
             eventStartHeight += (cellHeight * row)
             val left = col * cellWidth + eventsRect.left
             val right = left + eventsRect.width()
-            for (j in calendarDayStateList[i].events.indices) {
-                eventBackgroundPaint.color = calendarDayStateList[i].events[j].color
+            calendarDayStateList[day]?.forEachIndexed { index, event ->
+                eventBackgroundPaint.color = event.color
                 eventTextPaint.color = getContrastRatioColor(eventBackgroundPaint.color)
-                val text = calendarDayStateList[i].events[j].title
+                val text = event.title
                 staticLayout = StaticLayout
                     .Builder
                     .obtain(
@@ -446,7 +452,7 @@ class MadCalendarMonth @JvmOverloads constructor(
                     .setMaxLines(1)
                     .build()
                 eventBackgroundHeight = staticLayout.height + 10
-                val top = eventStartHeight + j * eventBackgroundHeight
+                val top = eventStartHeight + index * eventBackgroundHeight
                 if (top + eventBackgroundHeight <= eventStartHeight + eventsRect.height()) {
                     canvas.drawRoundRect(
                         left,
@@ -490,8 +496,18 @@ class MadCalendarMonth @JvmOverloads constructor(
             set(Calendar.YEAR, yearNumber)
             set(Calendar.MONTH, monthNumber)
             set(Calendar.DAY_OF_MONTH, selectedDay)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.HOUR, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            set(Calendar.MILLISECONDS_IN_DAY, 0)
         }
-        onDayClickListener?.onDayClick(this, date)
+        onDayClickListener?.onDayClick(
+            this,
+            date,
+            calendarDayStateList[date] ?: emptyList()
+        )
         return super.performClick()
     }
 
@@ -610,7 +626,7 @@ class MadCalendarMonth @JvmOverloads constructor(
     }
 
     interface OnDayClickListener {
-        fun onDayClick(view: MadCalendarMonth, day: Calendar)
+        fun onDayClick(view: MadCalendarMonth, day: Calendar, events: List<EventInCalendarGrid>)
     }
 
     private companion object {

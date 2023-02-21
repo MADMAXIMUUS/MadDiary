@@ -19,9 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.core.util.Timer.OnTimerTickListener
 import ru.lopata.madDiary.databinding.FragmentAttachAudioBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.AudioAdapter
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.AudioItemState
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.AudioAdapter
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
+import ru.lopata.madDiary.featureReminders.domain.model.states.AudioItemState
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files

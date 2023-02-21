@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
 import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarDayState
@@ -36,6 +37,7 @@ class CalendarViewModel @Inject constructor(
         job = eventsUseCases.getEventsUseCase()
             .onEach { events ->
                 val map = mutableMapOf<Calendar, MutableList<EventInCalendarGrid>>()
+                val today = Calendar.getInstance()
                 events.forEach { eventAndRepeat ->
                     val event = eventAndRepeat.event
                     val repeat = eventAndRepeat.repeat ?: Repeat()
@@ -59,18 +61,23 @@ class CalendarViewModel @Inject constructor(
                         if (map[calendar] == null)
                             map[calendar] = mutableListOf()
 
-                        map[calendar]?.add(
-                            EventInCalendarGrid(
-                                title = event.title,
-                                id = event.eventId!!,
-                                color = event.color
-                            )
+                        var pass = date < today.timeInMillis
+
+                        val item = EventInCalendarGrid(
+                            title = event.title,
+                            id = event.eventId!!,
+                            color = event.color,
+                            isChecked = event.completed,
+                            pass = pass,
+                            type = event.type
                         )
+
+                        map[calendar]?.add(item)
 
                         if (repeat.repeatInterval != Repeat.NO_REPEAT) {
                             var interval = repeat.repeatInterval
                             var i = 1
-                            while (event.startDateTime.time + diffDay + interval <= repeat.repeatEnd.time + DAY_IN_MILLISECONDS) {
+                            while (event.startDateTime.time + diffDay + interval < repeat.repeatEnd.time + DAY_IN_MILLISECONDS) {
                                 when (repeat.repeatInterval) {
                                     Repeat.EVERY_DAY, Repeat.EVERY_SECOND_DAY -> {
                                         calendar = Calendar.getInstance()
@@ -104,13 +111,9 @@ class CalendarViewModel @Inject constructor(
                                 if (map[calendar] == null)
                                     map[calendar] = mutableListOf()
 
-                                map[calendar]?.add(
-                                    EventInCalendarGrid(
-                                        title = event.title,
-                                        id = event.eventId!!,
-                                        color = event.color
-                                    )
-                                )
+                                pass = calendar.timeInMillis < today.timeInMillis
+
+                                map[calendar]?.add(item.copy(pass = pass))
 
                                 interval += repeat.repeatInterval
                                 i++
@@ -304,6 +307,15 @@ class CalendarViewModel @Inject constructor(
             referencePoint.add(Calendar.MONTH, 1)
         }
         return calendarViewStateList
+    }
+
+    fun updateCheckState(eventId: Int, state: Boolean) {
+        viewModelScope.launch {
+            eventsUseCases.getEventByIdUseCase(eventId)?.let {
+                val event = it.event.copy(completed = state)
+                eventsUseCases.createEventUseCase(event)
+            }
+        }
     }
 
     private companion object {

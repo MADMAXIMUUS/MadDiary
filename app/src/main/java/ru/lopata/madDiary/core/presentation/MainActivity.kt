@@ -28,6 +28,8 @@ import ru.lopata.madDiary.core.util.isDarkTheme
 import ru.lopata.madDiary.core.util.requestPermissions
 import ru.lopata.madDiary.core.util.setNavigationColor
 import ru.lopata.madDiary.databinding.ActivityMainBinding
+import ru.lopata.madDiary.featureReminders.domain.model.Event
+import ru.lopata.madDiary.featureReminders.domain.model.Event.Types.Companion.toTypesEnum
 import ru.lopata.madDiary.featureReminders.presentation.listEvents.ListEventFragmentDirections
 import javax.inject.Inject
 
@@ -85,7 +87,8 @@ class MainActivity : AppCompatActivity() {
                     R.id.bottom_notes,
                     R.id.bottom_calendar,
                     R.id.bottom_reminders,
-                    R.id.bottom_settings
+                    R.id.bottom_settings,
+                    R.id.bottomSheetChooseReminderTypeFragment
                 )
             ) {
                 binding.bottomNavigationView.visibility = View.VISIBLE
@@ -101,15 +104,32 @@ class MainActivity : AppCompatActivity() {
         }
 
         val eventId = intent.getIntExtra("eventId", -1)
+        val eventType = intent.getStringExtra("eventType")?.toTypesEnum()
 
         if (eventId != -1) {
-            val action = ListEventFragmentDirections
-                .actionBottomRemindersToViewEventFragment(
-                    eventId = eventId,
-                    chapter = -1,
-                    chapters = -1
-                )
-            navController.navigate(action)
+            val action = when (eventType) {
+                Event.Types.EVENT -> {
+                    ListEventFragmentDirections
+                        .actionBottomRemindersToViewEventFragment(
+                            eventId = eventId,
+                            chapter = -1,
+                            chapters = -1
+                        )
+                }
+                Event.Types.TASK -> {
+                    ListEventFragmentDirections
+                        .actionBottomRemindersToViewTaskFragment(eventId = eventId)
+                }
+                Event.Types.REMINDER -> {
+                    ListEventFragmentDirections
+                        .actionBottomRemindersToViewReminderFragment(eventId = eventId)
+                }
+                null -> {
+                    null
+                }
+            }
+            if (action != null)
+                navController.navigate(action)
         }
 
         binding.bottomNavigationView.setupWithNavController(navController)

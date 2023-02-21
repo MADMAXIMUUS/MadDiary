@@ -37,11 +37,17 @@
         android:label="@string/calendar_label"
         tools:layout="@layout/fragment_calendar">
         <action
-            android:id="@+id/action_bottom_calendar_to_createReminderFragment"
-            app:destination="@id/createReminderFragment" />
-        <action
             android:id="@+id/action_bottom_calendar_to_viewEventFragment"
             app:destination="@id/viewEventFragment" />
+        <action
+            android:id="@+id/action_bottom_calendar_to_viewTaskFragment"
+            app:destination="@id/viewTaskFragment" />
+        <action
+            android:id="@+id/action_bottom_calendar_to_viewReminderFragment"
+            app:destination="@id/viewReminderFragment" />
+        <action
+            android:id="@+id/action_bottom_calendar_to_bottomSheetChooseReminderTypeFragment"
+            app:destination="@id/bottomSheetChooseReminderTypeFragment" />
     </fragment>
     <fragment
         android:id="@+id/bottom_reminders"
@@ -54,17 +60,23 @@
             app:argType="ru.lopata.madDiary.core.util.NavigationEvent"
             app:nullable="true" />
         <action
-            android:id="@+id/action_bottom_reminders_to_createReminderFragment"
-            app:destination="@id/createReminderFragment" />
-        <action
             android:id="@+id/action_bottom_reminders_to_searchFragment"
             app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_bottom_reminders_to_viewEventFragment"
             app:destination="@id/viewEventFragment" />
+        <action
+            android:id="@+id/action_bottom_reminders_to_viewTaskFragment"
+            app:destination="@id/viewTaskFragment" />
+        <action
+            android:id="@+id/action_bottom_reminders_to_viewReminderFragment"
+            app:destination="@id/viewReminderFragment" />
+        <action
+            android:id="@+id/action_bottom_reminders_to_bottomSheetChooseReminderTypeFragment"
+            app:destination="@id/bottomSheetChooseReminderTypeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/createReminderFragment"
+        android:id="@+id/createAndEditEventFragment"
         android:name="ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventFragment"
         android:label="@string/create_and_edit_title"
         tools:layout="@layout/fragment_create_and_edit_event">
@@ -82,6 +94,10 @@
                 app:argType="ru.lopata.madDiary.core.util.NavigationEvent"
                 app:nullable="true" />
         </action>
+        <argument
+            android:name="startDate"
+            android:defaultValue="-1L"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/bottom_settings"
@@ -99,8 +115,8 @@
         android:label="@string/create_reminder_event_title"
         tools:layout="@layout/fragment_view_event">
         <action
-            android:id="@+id/action_viewEventFragment_to_createReminderFragment"
-            app:destination="@id/createReminderFragment" />
+            android:id="@+id/action_viewEventFragment_to_createAndEditEventFragment"
+            app:destination="@id/createAndEditEventFragment" />
         <argument
             android:name="eventId"
             android:defaultValue="-1"
@@ -139,4 +155,103 @@
             android:defaultValue="1"
             app:argType="integer" />
     </action>
+    <fragment
+        android:id="@+id/createAndEditTaskFragment"
+        android:name="ru.lopata.madDiary.featureReminders.presentation.createAndEditTask.CreateAndEditTaskFragment"
+        android:label="fragment_create_and_edit_task"
+        tools:layout="@layout/fragment_create_and_edit_task">
+        <action
+            android:id="@+id/action_createAndEditTaskFragment_to_bottom_reminders"
+            app:destination="@id/bottom_reminders" />
+        <argument
+            android:name="eventRepeatNotificationAttachment"
+            android:defaultValue="@null"
+            app:argType="ru.lopata.madDiary.featureReminders.domain.model.EventRepeatNotificationAttachment"
+            app:nullable="true" />
+        <argument
+            android:name="startDate"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewTaskFragment"
+        android:name="ru.lopata.madDiary.featureReminders.presentation.viewTask.ViewTaskFragment"
+        android:label="fragment_view_task"
+        tools:layout="@layout/fragment_view_task">
+        <action
+            android:id="@+id/action_viewTaskFragment_to_createAndEditTaskFragment"
+            app:destination="@id/createAndEditTaskFragment" />
+        <argument
+            android:name="eventId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_viewTaskFragment_to_bottom_reminders"
+            app:destination="@id/bottom_reminders" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_viewTaskFragment"
+        app:destination="@id/viewTaskFragment">
+        <argument
+            android:name="eventId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </action>
+    <fragment
+        android:id="@+id/viewReminderFragment"
+        android:name="ru.lopata.madDiary.featureReminders.presentation.viewReminder.ViewReminderFragment"
+        android:label="fragment_view_reminder"
+        tools:layout="@layout/fragment_view_reminder">
+        <action
+            android:id="@+id/action_viewReminderFragment_to_bottomRemindersFragment"
+            app:destination="@id/bottom_reminders" />
+        <action
+            android:id="@+id/action_viewReminderFragment_to_viewEventFragment"
+            app:destination="@id/viewEventFragment" />
+        <argument
+            android:name="eventId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAndEditReminderFragment"
+        android:name="ru.lopata.madDiary.featureReminders.presentation.createAndEditReminder.CreateAndEditReminderFragment"
+        android:label="fragment_create_and_edit_reminder"
+        tools:layout="@layout/fragment_create_and_edit_reminder">
+        <action
+            android:id="@+id/action_createAndEditReminderFragment_to_bottom_reminders"
+            app:destination="@id/bottom_reminders" />
+        <argument
+            android:name="eventRepeatNotificationAttachment"
+            android:defaultValue="@null"
+            app:argType="ru.lopata.madDiary.featureReminders.domain.model.EventRepeatNotificationAttachment"
+            app:nullable="true" />
+        <argument
+            android:name="startDate"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_viewReminderFragment"
+        app:destination="@id/viewReminderFragment" />
+    <action
+        android:id="@+id/action_global_createAndEditTaskFragment"
+        app:destination="@id/createAndEditTaskFragment" />
+    <action
+        android:id="@+id/action_global_createAndEditEventFragment"
+        app:destination="@id/createAndEditEventFragment" />
+    <action
+        android:id="@+id/action_global_createAndEditReminderFragment"
+        app:destination="@id/createAndEditReminderFragment" />
+    <dialog
+        android:id="@+id/bottomSheetChooseReminderTypeFragment"
+        android:name="ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.BottomSheetChooseReminderTypeFragment"
+        android:label="fragment_bottom_sheet_choose_reminder_type"
+        tools:layout="@layout/fragment_bottom_sheet_choose_reminder_type">
+        <argument
+            android:name="date"
+            android:defaultValue="-1L"
+            app:argType="long" />
+
+    </dialog>
 </navigation>

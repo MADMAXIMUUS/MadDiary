@@ -16,6 +16,7 @@ interface EventDao {
     @Query("SELECT * FROM EVENTS WHERE startDateTime >= :startDate")
     fun getEventsFromDate(startDate: Date): Flow<List<EventRepeatNotificationAttachment>>
 
+    @Transaction
     @Query("SELECT * FROM EVENTS WHERE eventId = :id")
     suspend fun getEventById(id: Int): EventRepeatNotificationAttachment?
 

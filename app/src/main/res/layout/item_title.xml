@@ -11,6 +11,7 @@
         android:id="@+id/item_title_day_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/event_title_text_color_selector"
         android:fontFamily="@font/blogger_sans_bold"
         android:gravity="center_vertical"
         android:textSize="22sp"

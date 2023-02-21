@@ -19,11 +19,11 @@ import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.isDarkTheme
 import ru.lopata.madDiary.core.util.setStatusBarColor
 import ru.lopata.madDiary.databinding.FragmentBottomSheetAttachmentRootBinding
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.adapters.OnAttachmentDialogListener
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.AudioItemState
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.FileItemState
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.ImageItemState
-import ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.states.VideoItemState
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
+import ru.lopata.madDiary.featureReminders.domain.model.states.AudioItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.FileItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.ImageItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.*
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.AudioPreviewDialog
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.ImagePreviewDialog
