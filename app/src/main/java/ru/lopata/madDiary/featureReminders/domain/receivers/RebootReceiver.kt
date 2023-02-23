@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import ru.lopata.madDiary.featureReminders.domain.model.Event
 import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatNotificationAttachment
 import ru.lopata.madDiary.featureReminders.domain.model.Notification
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
@@ -24,11 +25,15 @@ class RebootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val calendar = Calendar.getInstance()
         val date = Date(calendar.timeInMillis)
-        CoroutineScope(IO).launch {
-            eventUseCases.getEventsFromDateUseCase(date).collectLatest { items ->
-                items.forEach { item ->
-                    if (item.notifications.isNotEmpty() && item.notifications[0].time != Notification.NEVER) {
-                        setAlarm(item, context)
+        if (Intent.ACTION_BOOT_COMPLETED == intent.action ||
+            intent.action == Intent.ACTION_REBOOT
+        ) {
+            CoroutineScope(IO).launch {
+                eventUseCases.getEventsFromDateUseCase(date).collectLatest { items ->
+                    items.forEach { item ->
+                        if (item.notifications.isNotEmpty() && item.notifications[0].time != Notification.NEVER) {
+                            setAlarm(item, context)
+                        }
                     }
                 }
             }
@@ -37,6 +42,11 @@ class RebootReceiver : BroadcastReceiver() {
 
     private fun setAlarm(item: EventRepeatNotificationAttachment, context: Context) {
         val alarmScheduler = AndroidAlarmScheduler(context)
-        alarmScheduler.schedule(item, "eventAlarm")
+        val chanelId = when (item.event.type) {
+            Event.Types.EVENT -> "eventAlarm"
+            Event.Types.TASK -> "taskAlarm"
+            Event.Types.REMINDER -> "reminderAlarm"
+        }
+        alarmScheduler.schedule(item, chanelId)
     }
 }

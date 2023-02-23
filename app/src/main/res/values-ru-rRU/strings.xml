@@ -135,11 +135,15 @@
     <!--Notification chanel name-->
     <string name="attachment_chanel_name">Прогресс копирования вложений</string>
     <string name="event_chanel_name">События</string>
+    <string name="task_chanel_name">Задачи</string>
+    <string name="reminder_chanel_name">Напоминания</string>
     <string name="event_chanel_group">Напоминания</string>
 
     <!--Notification descriptions-->
     <string name="attachment_description">Визуальное отображение копирования вложений</string>
     <string name="event_description">Уведомления о новых событиях</string>
+    <string name="task_description">Уведомления о текущих задачах</string>
+    <string name="reminder_description">Уведомления напоминания</string>
 
     <!--Snackbar message-->
     <string name="event_created">%1$s создано!</string>

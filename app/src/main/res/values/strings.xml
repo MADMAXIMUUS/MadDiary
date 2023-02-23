@@ -133,11 +133,15 @@
     <!--Notification chanel name-->
     <string name="attachment_chanel_name">Attachment copy progress</string>
     <string name="event_chanel_name">Events</string>
+    <string name="task_chanel_name">Task</string>
+    <string name="reminder_chanel_name">Reminder</string>
     <string name="event_chanel_group">Reminders</string>
 
     <!--Notification descriptions-->
     <string name="attachment_description">Visual display of copying attachments</string>
     <string name="event_description">New event notifications</string>
+    <string name="task_description">Current task notifications</string>
+    <string name="reminder_description">Reminder notifications</string>
 
     <!--Snackbar message-->
     <string name="event_created">%1$s created!</string>

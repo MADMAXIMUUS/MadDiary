@@ -4,6 +4,7 @@ import android.Manifest.permission.*
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.NotificationChannel
+import android.app.NotificationChannelGroup
 import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Intent
@@ -251,13 +252,24 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                                 NotificationManager.IMPORTANCE_HIGH
                             ).apply {
                                 description = getString(R.string.event_description)
+                                group = "eventTaskReminderGroup"
                             }
+
+                            val group = NotificationChannelGroup(
+                                "eventTaskReminderGroup",
+                                getString(R.string.event_chanel_group)
+                            )
+
                             val notificationManager =
                                 requireContext().getSystemService(NotificationManager::class.java)
+                            notificationManager.createNotificationChannelGroup(group)
                             notificationManager.createNotificationChannel(channel)
 
                             val alarmScheduler = AndroidAlarmScheduler(requireContext())
-                            alarmScheduler.schedule(viewModel.currentEvent.value.toEventRepeatNotificationAttachment(), "eventAlarm")
+                            alarmScheduler.schedule(
+                                viewModel.currentEvent.value.toEventRepeatNotificationAttachment(),
+                                "eventAlarm"
+                            )
                         }
 
                         val action =

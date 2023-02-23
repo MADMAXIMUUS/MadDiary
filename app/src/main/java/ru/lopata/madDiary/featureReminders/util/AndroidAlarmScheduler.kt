@@ -16,10 +16,10 @@ class AndroidAlarmScheduler(
     private val alarmManager = context.getSystemService(AlarmManager::class.java)
 
     @SuppressLint("ShortAlarm")
-    override fun schedule(item: EventRepeatNotificationAttachment, chanelID: String) {
+    override fun schedule(item: EventRepeatNotificationAttachment, chanelId: String) {
         val intent = Intent(context, AlarmReceiver::class.java).apply {
-            putExtra("event", item)
-            putExtra("chanelId", chanelID)
+            putExtra("eventId", item.event.eventId)
+            putExtra("chanelId", chanelId)
         }
 
         if (item.notifications.isNotEmpty() && item.notifications[0].time != Notification.NEVER) {
