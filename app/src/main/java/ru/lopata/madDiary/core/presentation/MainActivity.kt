@@ -2,6 +2,9 @@ package ru.lopata.madDiary.core.presentation
 
 import android.Manifest.permission.*
 import android.animation.ObjectAnimator
+import android.app.NotificationChannel
+import android.app.NotificationChannelGroup
+import android.app.NotificationManager
 import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Build
@@ -142,6 +145,64 @@ class MainActivity : AppCompatActivity() {
                 requestPermissions(READ_EXTERNAL_STORAGE)
             }
         }
+        createNotificationChannels()
+    }
 
+    private fun createNotificationChannels() {
+        val notificationManager =
+            this.getSystemService(NotificationManager::class.java)
+
+        val group = NotificationChannelGroup(
+            "eventTaskReminderGroup",
+            getString(R.string.event_chanel_group)
+        )
+        notificationManager.createNotificationChannelGroup(group)
+
+        if (notificationManager.getNotificationChannel("eventAlarm") == null) {
+            val eventChannel = NotificationChannel(
+                "eventAlarm",
+                getString(R.string.event_chanel_name),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = getString(R.string.event_description)
+                this.group = "eventTaskReminderGroup"
+            }
+            notificationManager.createNotificationChannel(eventChannel)
+        }
+
+        if (notificationManager.getNotificationChannel("reminderAlarm") == null) {
+            val reminderChannel = NotificationChannel(
+                "reminderAlarm",
+                getString(R.string.reminder_chanel_name),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = getString(R.string.reminder_description)
+                this.group = "eventTaskReminderGroup"
+            }
+            notificationManager.createNotificationChannel(reminderChannel)
+        }
+
+        if (notificationManager.getNotificationChannel("taskAlarm") == null) {
+            val taskChannel = NotificationChannel(
+                "taskAlarm",
+                getString(R.string.task_chanel_name),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = getString(R.string.task_description)
+                this.group = "eventTaskReminderGroup"
+            }
+            notificationManager.createNotificationChannel(taskChannel)
+        }
+
+        if (notificationManager.getNotificationChannel("progress_channel") == null) {
+            val notificationChannel = NotificationChannel(
+                "progress_channel",
+                getString(R.string.attachment_chanel_name),
+                NotificationManager.IMPORTANCE_LOW
+            ).apply {
+                description = getString(R.string.attachment_description)
+            }
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
     }
 }

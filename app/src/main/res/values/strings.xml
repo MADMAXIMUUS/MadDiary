@@ -80,6 +80,9 @@
     <string name="until">" until "</string>
     <string name="permission_dialog_text">To add attachments, you must grant permission to access photos, videos, audio, and music. Tap > settings > permissions and allow access to <u>files and media</u></string>
 
+    <!--Notification titles-->
+    <string name="attachment_message">Copy attachments %1d out of %2d</string>
+
     <!--Notification Subtitles-->
     <string name="notification_string">"Ringtone: %1s, Vibration: $2s, Priority: %3s, Light: %4s"</string>
     <string name="state_on">On</string>
@@ -90,7 +93,7 @@
     <string name="task_title">Task</string>
     <string name="reminder_title">Reminder</string>
 
-    <!--Bottom sheet titles-->
+    <!--Dialog titles-->
 
     <!--Block titles-->
     <string name="current_location">Current location</string>
@@ -109,10 +112,6 @@
 
     <!--Edit text Hint-->
     <string name="input_address">Input address</string>
-
-    <!--Happy Message-->
-    <string name="happy_new_year">Merry Christmas and Happy Ney Year!!!</string>
-    <string name="happy_halloween">Happy Halloween!!!</string>
 
     <string name="internal_storage">Internal storage</string>
     <string name="internal_storage_subtitle">Add file from your device</string>

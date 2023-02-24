@@ -1,6 +1,5 @@
 package ru.lopata.madDiary.core.domain.service
 
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
@@ -46,12 +45,13 @@ class CopyAttachmentService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        createNotificationChannel()
         startForeground(notificationId, notification)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val eventId = intent?.getLongExtra("eventId", 0) ?: 0
+        notificationManager =
+            getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         CoroutineScope(Dispatchers.IO).launch {
             val flow = useCases.getAttachmentByEventIdUseCase(eventId)
             flow.collectLatest { attachments ->
@@ -62,12 +62,10 @@ class CopyAttachmentService : Service() {
                         val notification =
                             NotificationCompat.Builder(baseContext, "progress_channel")
                                 .setSmallIcon(R.drawable.ic_notification)
-                                .setContentTitle("Copy attachments $index out of $totalImages")
+                                .setContentTitle(getString(R.string.attachment_message, index, totalImages))
                                 .setProgress(totalImages, index, false)
                                 .setOngoing(true)
                                 .build()
-                        notificationManager =
-                            getSystemService(NOTIFICATION_SERVICE) as NotificationManager
                         notificationManager?.notify(notificationId, notification)
 
                         copiedAttachments.add(
@@ -94,21 +92,8 @@ class CopyAttachmentService : Service() {
         return START_NOT_STICKY
     }
 
-    private fun createNotificationChannel() {
-        val notificationChannel = NotificationChannel(
-            "progress_channel",
-            getString(R.string.attachment_chanel_name),
-            NotificationManager.IMPORTANCE_LOW
-        ).apply {
-            description = getString(R.string.attachment_description)
-        }
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(notificationChannel)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
-        notificationManager?.deleteNotificationChannel("progress_channel")
         CoroutineScope(Dispatchers.IO).launch {
             useCases.createAttachmentsUseCase(copiedAttachments)
         }

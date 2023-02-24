@@ -246,25 +246,6 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
 
                         if (viewModel.currentEvent.value.notifications[0] != Notification.NEVER) {
 
-                            val channel = NotificationChannel(
-                                "eventAlarm",
-                                getString(R.string.event_chanel_name),
-                                NotificationManager.IMPORTANCE_HIGH
-                            ).apply {
-                                description = getString(R.string.event_description)
-                                group = "eventTaskReminderGroup"
-                            }
-
-                            val group = NotificationChannelGroup(
-                                "eventTaskReminderGroup",
-                                getString(R.string.event_chanel_group)
-                            )
-
-                            val notificationManager =
-                                requireContext().getSystemService(NotificationManager::class.java)
-                            notificationManager.createNotificationChannelGroup(group)
-                            notificationManager.createNotificationChannel(channel)
-
                             val alarmScheduler = AndroidAlarmScheduler(requireContext())
                             alarmScheduler.schedule(
                                 viewModel.currentEvent.value.toEventRepeatNotificationAttachment(),

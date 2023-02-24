@@ -3,9 +3,6 @@ package ru.lopata.madDiary.featureReminders.presentation.createAndEditTask
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.NotificationChannel
-import android.app.NotificationChannelGroup
-import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Intent
 import android.database.Cursor
@@ -247,25 +244,6 @@ class CreateAndEditTaskFragment : Fragment(), OnAttachmentDialogListener {
                         ContextCompat.startForegroundService(requireContext(), intent)
 
                         if (viewModel.currentEvent.value.notifications[0] != Notification.NEVER) {
-
-                            val channel = NotificationChannel(
-                                "taskAlarm",
-                                getString(R.string.task_chanel_name),
-                                NotificationManager.IMPORTANCE_HIGH
-                            ).apply {
-                                description = getString(R.string.task_description)
-                                group = "eventTaskReminderGroup"
-                            }
-
-                            val group = NotificationChannelGroup(
-                                "eventTaskReminderGroup",
-                                getString(R.string.event_chanel_group)
-                            )
-
-                            val notificationManager =
-                                requireContext().getSystemService(NotificationManager::class.java)
-                            notificationManager.createNotificationChannelGroup(group)
-                            notificationManager.createNotificationChannel(channel)
 
                             val alarmScheduler = AndroidAlarmScheduler(requireContext())
                             alarmScheduler.schedule(viewModel.currentEvent.value.toEventRepeatNotificationAttachment(), "taskAlarm")

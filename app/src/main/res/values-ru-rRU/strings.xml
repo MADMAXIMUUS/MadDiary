@@ -87,6 +87,10 @@
     <string name="internal_storage_subtitle">Добавить файл с устройства</string>
     <string name="add_file_rv_title">Недавние файлы</string>
 
+    <!--Notification titles-->
+    <string name="attachment_message">Копирование вложений %1d из %2d</string>
+
+    <!--Notification subtitles-->
     <string name="notification_string">"Рингтон: %1s, Вибрация: $2s, Приоритет: %3s, Светодиод: %4s"</string>
     <string name="state_on">Включена</string>
     <string name="state_off">Выключена</string>
@@ -115,10 +119,6 @@
 
     <!--Edit text Hint-->
     <string name="input_address">Введите адрес</string>
-
-    <!--Happy Message-->
-    <string name="happy_new_year">Счастливого Нового Года и Рождества!!!</string>
-    <string name="happy_halloween">Счастливого Хэллоуина!!!</string>
 
     <!--Note tools-->
     <string name="note_tools_font_bol">Font Bold</string>
