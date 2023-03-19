@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -44,15 +43,6 @@ class ViewReminderFragment : Fragment(), OnAttachmentDialogListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        if (requireActivity().isDarkTheme()) {
-            requireActivity().setNavigationColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.onyx
-                )
-            )
-        }
 
         _binding = FragmentViewReminderBinding.inflate(inflater, container, false)
         return binding.root

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -42,15 +41,6 @@ class ViewEventFragment : Fragment(), OnAttachmentDialogListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        if (requireActivity().isDarkTheme()) {
-            requireActivity().setNavigationColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.onyx
-                )
-            )
-        }
 
         _binding = FragmentViewEventBinding.inflate(inflater, container, false)
         return binding.root

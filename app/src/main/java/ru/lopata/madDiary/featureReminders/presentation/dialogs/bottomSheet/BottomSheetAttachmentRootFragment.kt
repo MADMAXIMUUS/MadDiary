@@ -1,23 +1,24 @@
 package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.FrameLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import com.google.android.material.R.id.design_bottom_sheet
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.lopata.madDiary.R
-import ru.lopata.madDiary.core.util.isDarkTheme
-import ru.lopata.madDiary.core.util.setStatusBarColor
+import ru.lopata.madDiary.core.util.showAlertDialog
 import ru.lopata.madDiary.databinding.FragmentBottomSheetAttachmentRootBinding
 import ru.lopata.madDiary.featureReminders.domain.model.states.AudioItemState
 import ru.lopata.madDiary.featureReminders.domain.model.states.FileItemState
@@ -75,6 +76,33 @@ class BottomSheetAttachmentRootFragment private constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        (dialog as BottomSheetDialog)
+            .onBackPressedDispatcher
+            .addCallback(
+                viewLifecycleOwner,
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        if (binding.bottomSheetAttachmentStickyConfirm.visibility == View.VISIBLE) {
+                            isEnabled = true
+                            requireActivity()
+                                .showAlertDialog(
+                                    resources.getString(R.string.warning_dialog_title),
+                                    resources.getString(R.string.warning_dialog_message),
+                                    resources.getString(R.string.discard_button),
+                                    resources.getString(R.string.cancel_button),
+                                    positive = {
+                                        dismiss()
+                                    }
+                                )
+                        } else {
+                            isEnabled = false
+                            dismiss()
+                        }
+                    }
+                }
+            )
+
         val fragmentManager = childFragmentManager
         coverFragment = AttachCoverFragment(covers, chosenCover, this)
         imageFragment = AttachImageFragment(images, chosenImages, this)
@@ -91,6 +119,16 @@ class BottomSheetAttachmentRootFragment private constructor(
         binding.bottomSheetCloseButton.setOnClickListener {
             if (binding.bottomSheetAttachmentStickyConfirm.visibility != View.VISIBLE) {
                 dismiss()
+            } else {
+                requireActivity().showAlertDialog(
+                    resources.getString(R.string.warning_dialog_title),
+                    resources.getString(R.string.warning_dialog_message),
+                    resources.getString(R.string.discard_button),
+                    resources.getString(R.string.cancel_button),
+                    positive = {
+                        dismiss()
+                    }
+                )
             }
         }
 
@@ -127,7 +165,6 @@ class BottomSheetAttachmentRootFragment private constructor(
                 }
                 binding.bottomSheetConfirmButton.setOnClickListener {
                     listener?.onImagesChosen(chosenImages)
-
                     dismiss()
                 }
                 transaction.commit()
@@ -199,24 +236,10 @@ class BottomSheetAttachmentRootFragment private constructor(
                         confirmButtonLayoutParams.topMargin =
                             (((dialog.behavior.maxHeight - buttonConfirmHeight) - collapsedConfirmMargin) + collapsedConfirmMargin)
                         binding.bottomSheetCloseButton.visibility = View.VISIBLE
-                        if (requireActivity().isDarkTheme())
-                            requireActivity().setStatusBarColor(
-                                ContextCompat.getColor(
-                                    requireContext(),
-                                    R.color.dark_gray
-                                )
-                            )
                     } else {
                         dialog.window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
                         dialog.behavior.maxHeight = (expandedHeight * 0.915).toInt()
                         binding.bottomSheetCloseButton.visibility = View.GONE
-                        if (requireActivity().isDarkTheme())
-                            requireActivity().setStatusBarColor(
-                                ContextCompat.getColor(
-                                    requireContext(),
-                                    R.color.onyx
-                                )
-                            )
                     }
                 },
                 onSlideSheet = { _, slideOffset, _ ->
@@ -283,14 +306,12 @@ class BottomSheetAttachmentRootFragment private constructor(
     private fun getWindowHeight(): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             val windowMetrics = requireActivity().windowManager.currentWindowMetrics
-            val insets = windowMetrics.windowInsets
-                .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
-            windowMetrics.bounds.height() - insets.bottom
+            windowMetrics.bounds.height()
         } else {
             val window = requireActivity().window
             val rect = Rect()
             window.decorView.getWindowVisibleDisplayFrame(rect)
-            rect.height() - rect.top
+            rect.height()
         }
     }
 
@@ -390,18 +411,6 @@ class BottomSheetAttachmentRootFragment private constructor(
             requireActivity().supportFragmentManager,
             "ImagePreviewDialog"
         )
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        if (requireActivity().isDarkTheme()) {
-            requireActivity().setStatusBarColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.onyx
-                )
-            )
-        }
     }
 
     data class Builder(

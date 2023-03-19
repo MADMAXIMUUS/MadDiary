@@ -67,6 +67,28 @@ fun Activity.showPermissionDialog(message: String, toSettings: () -> Unit) {
         .show()
 }
 
+fun Activity.showAlertDialog(
+    title: String,
+    message: String,
+    positiveTitle: String = "",
+    negativeTitle: String = "",
+    positive: () -> Unit = {},
+    negative: () -> Unit = {}
+) {
+    MaterialAlertDialogBuilder(this)
+        .setTitle(title)
+        .setMessage(message)
+        .setNegativeButton(negativeTitle) { dialog, _ ->
+            negative()
+            dialog.dismiss()
+        }
+        .setPositiveButton(positiveTitle) { dialog, _ ->
+            positive()
+            dialog.dismiss()
+        }
+        .show()
+}
+
 fun View.expand() {
     measure(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
     val targetHeight: Int = measuredHeight

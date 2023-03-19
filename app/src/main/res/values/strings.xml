@@ -91,6 +91,14 @@
     <string name="reminder_title">Reminder</string>
 
     <!--Dialog titles-->
+    <string name="warning_dialog_title">Discard selection?</string>
+
+    <!--Dialog message-->
+    <string name="warning_dialog_message">Do you want to discard the selection?</string>
+
+    <!--Dialog button titles-->
+    <string name="discard_button">Discard</string>
+    <string name="cancel_button">Cancel</string>
 
     <!--Block titles-->
     <string name="current_location">Current location</string>

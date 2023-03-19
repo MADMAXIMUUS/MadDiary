@@ -117,50 +117,53 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().supportFragmentManager.setFragmentResultListener(
-    REQUEST_KEY, this
-        ) { _, bundle ->
-            if (bundle.getLong("startDate") != 0L) viewModel.updateStartDate(bundle.getLong("startDate"))
+        requireActivity().supportFragmentManager
+            .setFragmentResultListener(
+                REQUEST_KEY, this
+            ) { _, bundle ->
+                if (bundle.getLong("startDate") != 0L) viewModel.updateStartDate(bundle.getLong("startDate"))
 
-            if (bundle.getBoolean("startTimeSet")) viewModel.updateStartTime(bundle.getLong("startTime"))
+                if (bundle.getBoolean("startTimeSet")) viewModel.updateStartTime(bundle.getLong("startTime"))
 
-            if (bundle.getLong("endDate") != 0L) viewModel.updateEndDate(bundle.getLong("endDate"))
+                if (bundle.getLong("endDate") != 0L) viewModel.updateEndDate(bundle.getLong("endDate"))
 
-            if (bundle.getBoolean("endTimeSet")) viewModel.updateEndTime(bundle.getLong("endTime"))
+                if (bundle.getBoolean("endTimeSet")) viewModel.updateEndTime(bundle.getLong("endTime"))
 
-            if (bundle.getString("note") != null) viewModel.updateNote(bundle.getString("note")!!)
+                if (bundle.getString("note") != null) viewModel.updateNote(bundle.getString("note")!!)
 
-            if (bundle.getInt("repeatTitle") != 0) {
-                viewModel.updateRepeat(bundle.getLong("repeat"))
-                viewModel.updateRepeatTitle(bundle.getInt("repeatTitle"))
-                if (bundle.getLong("repeat") != Repeat.NO_REPEAT) {
-                    if (viewModel.currentEvent.value.repeatEnd == Date(0)) {
-                        BottomSheetDatePickerFragment(
-                            viewModel.currentEvent.value.startDate, REQUEST_KEY, "repeatEnd"
-                        ).show(
-                            requireActivity().supportFragmentManager, "DatePickerDialog"
-                        )
-                    } else {
-                        BottomSheetDatePickerFragment(
-                            viewModel.currentEvent.value.repeatEnd.time, REQUEST_KEY, "repeatEnd"
-                        ).show(
-                            requireActivity().supportFragmentManager, "DatePickerDialog"
-                        )
+                if (bundle.getInt("repeatTitle") != 0) {
+                    viewModel.updateRepeat(bundle.getLong("repeat"))
+                    viewModel.updateRepeatTitle(bundle.getInt("repeatTitle"))
+                    if (bundle.getLong("repeat") != Repeat.NO_REPEAT) {
+                        if (viewModel.currentEvent.value.repeatEnd == Date(0)) {
+                            BottomSheetDatePickerFragment(
+                                viewModel.currentEvent.value.startDate, REQUEST_KEY, "repeatEnd"
+                            ).show(
+                                requireActivity().supportFragmentManager, "DatePickerDialog"
+                            )
+                        } else {
+                            BottomSheetDatePickerFragment(
+                                viewModel.currentEvent.value.repeatEnd.time,
+                                REQUEST_KEY,
+                                "repeatEnd"
+                            ).show(
+                                requireActivity().supportFragmentManager, "DatePickerDialog"
+                            )
+                        }
                     }
                 }
-            }
 
-            if (bundle.getLong("repeatEnd") != 0L) {
-                viewModel.updateRepeatEnd(bundle.getLong("repeatEnd"))
-            }
+                if (bundle.getLong("repeatEnd") != 0L) {
+                    viewModel.updateRepeatEnd(bundle.getLong("repeatEnd"))
+                }
 
-            if (bundle.getInt("color") != 0) viewModel.updateColor(bundle.getInt("color"))
+                if (bundle.getInt("color") != 0) viewModel.updateColor(bundle.getInt("color"))
 
-            if (bundle.getIntArray("notificationsTitle") != null) {
-                viewModel.updateNotificationTitle(bundle.getIntArray("notificationsTitle")!!)
-                viewModel.updateNotifications(bundle.getLongArray("notifications")!!)
+                if (bundle.getIntArray("notificationsTitle") != null) {
+                    viewModel.updateNotificationTitle(bundle.getIntArray("notificationsTitle")!!)
+                    viewModel.updateNotifications(bundle.getLongArray("notifications")!!)
+                }
             }
-        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (requireActivity().checkPermission(READ_MEDIA_IMAGES)) {
                 getPhotos()
@@ -204,19 +207,22 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
 
         val attachmentAdapter = AttachmentAdapter(this)
 
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    if (isEdit) {
-                        isEnabled = true
-                    } else {
-                        isEnabled = false
-                        view.findNavController().navigateUp()
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(
+                viewLifecycleOwner,
+                object : OnBackPressedCallback(true) {
+                    override fun handleOnBackPressed() {
+                        if (isEdit) {
+                            isEnabled = true
+                        } else {
+                            isEnabled = false
+                            view.findNavController().navigateUp()
+                        }
                     }
-                }
 
-            })
+                }
+            )
 
         binding.apply {
             createAndEditEventBackButton.setOnClickListener {

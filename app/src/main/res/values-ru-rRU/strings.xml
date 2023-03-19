@@ -97,7 +97,15 @@
     <string name="task_title">Задача</string>
     <string name="reminder_title">Напоминание</string>
 
-    <!--Bottom sheet titles-->
+    <!--Dialog titles-->
+    <string name="warning_dialog_title">Отменить выделение?</string>
+
+    <!--Dialog message-->
+    <string name="warning_dialog_message">Вы хотите отменить выделение?</string>
+
+    <!--Dialog button titles-->
+    <string name="discard_button">Сбросить</string>
+    <string name="cancel_button">Отмена</string>
 
     <!--Block titles-->
     <string name="current_location">Текущая позиция</string>
