@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.toDate
+import ru.lopata.madDiary.core.util.toMonth
 import ru.lopata.madDiary.core.util.toTimeZone
 import ru.lopata.madDiary.featureReminders.domain.model.*
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
@@ -182,6 +183,18 @@ class ListEventViewModel @Inject constructor(
                 val sortedMap = TreeMap(map)
                 var i = 0
                 var todayId = 0
+                val calendar = Calendar.getInstance()
+                var prevMonth =""
+                if (sortedMap.keys.isNotEmpty()) {
+                    calendar.timeInMillis = sortedMap.keys.first().time
+                    prevMonth = calendar.timeInMillis.toMonth()
+                    list.add(
+                        MainScreenItem.MonthYearTitleItem(
+                            month = prevMonth,
+                            yearNumber = calendar.get(Calendar.YEAR)
+                        )
+                    )
+                }
                 sortedMap.keys.forEach { date ->
                     val tomorrow = today.timeInMillis + DAY_IN_MILLISECONDS
                     val yesterday = today.timeInMillis - DAY_IN_MILLISECONDS
@@ -198,9 +211,19 @@ class ListEventViewModel @Inject constructor(
                     if (title == R.string.today) {
                         todayId = i
                     }
+                    calendar.timeInMillis = date.time
+                    if (date.time.toMonth() != prevMonth) {
+                        prevMonth = date.time.toMonth()
+                        list.add(
+                            MainScreenItem.MonthYearTitleItem(
+                                month = prevMonth,
+                                yearNumber = calendar.get(Calendar.YEAR)
+                            )
+                        )
+                    }
 
                     list.add(
-                        MainScreenItem.TitleItem(
+                        MainScreenItem.DateItem(
                             title = title,
                             date = date.time.toDate()
                         )

@@ -4,7 +4,12 @@ import android.net.Uri
 import androidx.annotation.StringRes
 
 sealed class MainScreenItem {
-    data class TitleItem(
+    data class MonthYearTitleItem(
+        val month: String,
+        val yearNumber: Int
+    ) : MainScreenItem()
+
+    data class DateItem(
         @StringRes val title: Int,
         val date: String
     ) : MainScreenItem()
@@ -29,7 +34,8 @@ sealed class MainScreenItem {
     ) : MainScreenItem()
 
     companion object {
-        const val TITLE = 0
-        const val EVENT = 1
+        const val BIG_TITLE = 0
+        const val TITLE = 1
+        const val EVENT = 2
     }
 }

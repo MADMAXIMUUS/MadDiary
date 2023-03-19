@@ -1,18 +1,19 @@
 package ru.lopata.madDiary.featureNote.presentation.createNote
 
 import android.os.Bundle
-import android.view.*
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import ru.lopata.madDiary.R
+import kotlinx.coroutines.launch
 import ru.lopata.madDiary.core.util.UiEvent
 import ru.lopata.madDiary.databinding.FragmentCreateAndEditNoteBinding
 
@@ -36,50 +37,33 @@ class CreateAndEditNoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val menuHost: MenuHost = requireActivity()
-
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.create_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.create_menu_save -> {
-                        viewModel.saveNote()
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.eventFlow.collectLatest { event ->
+                    when (event) {
+                        is UiEvent.Save -> {
+                            view.findNavController().navigateUp()
+                        }
+                        is UiEvent.Delete -> {
+                        }
+                        else -> {}
                     }
-                    R.id.create_menu_delete -> {
-
-                    }
-                }
-                return true
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-            viewModel.eventFlow.collectLatest { event ->
-                when (event) {
-                    is UiEvent.Save -> {
-                        view.findNavController().navigateUp()
-                    }
-                    is UiEvent.Delete -> {
-                    }
-                    else -> {}
                 }
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-            viewModel.currentNote.collectLatest { note ->
-                binding.apply {
-                    createAndEditNoteTitleEdt.setText(note.title)
-                    createAndEditNoteTitleEdt.setSelection(note.title.length)
-                    createAndEditNoteDataEdt.setText(note.text)
-                    createAndEditNoteDataEdt.setSelection(note.text.length)
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.currentNote.collectLatest { note ->
+                    binding.apply {
+                        createAndEditNoteTitleEdt.setText(note.title)
+                        createAndEditNoteTitleEdt.setSelection(note.title.length)
+                        createAndEditNoteDataEdt.setText(note.text)
+                        createAndEditNoteDataEdt.setSelection(note.text.length)
+                    }
                 }
             }
         }
-
 
         binding.apply {
             createAndEditNoteTitleEdt.addTextChangedListener(afterTextChanged = { text ->

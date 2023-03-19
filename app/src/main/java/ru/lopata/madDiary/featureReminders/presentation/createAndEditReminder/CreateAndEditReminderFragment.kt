@@ -3,9 +3,6 @@ package ru.lopata.madDiary.featureReminders.presentation.createAndEditReminder
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.NotificationChannel
-import android.app.NotificationChannelGroup
-import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Intent
 import android.database.Cursor
@@ -246,7 +243,10 @@ class CreateAndEditReminderFragment : Fragment(), OnAttachmentDialogListener {
                         if (viewModel.currentEvent.value.notifications[0] != Notification.NEVER) {
 
                             val alarmScheduler = AndroidAlarmScheduler(requireContext())
-                            alarmScheduler.schedule(viewModel.currentEvent.value.toEventRepeatNotificationAttachment(), "reminderAlarm")
+                            alarmScheduler.schedule(
+                                viewModel.currentEvent.value.toEventRepeatNotificationAttachment(),
+                                "reminderAlarm"
+                            )
                         }
 
                         val action =
@@ -568,23 +568,23 @@ class CreateAndEditReminderFragment : Fragment(), OnAttachmentDialogListener {
     }
 
     override fun onImageDialogShow(item: ImageItemState, isChosen: Boolean) {
-        imageDialog = ImagePreviewDialog(item, isChosen, this)
+        imageDialog = ImagePreviewDialog(item, true, isChosen, this)
         imageDialog.show(
-            requireActivity().supportFragmentManager, "MediaPreviewDialog"
+            requireActivity().supportFragmentManager, "ImagePreviewDialog"
         )
     }
 
     override fun onVideoDialogShow(item: VideoItemState, isChosen: Boolean) {
-        videoDialog = VideoPreviewDialog(item, isChosen, this)
+        videoDialog = VideoPreviewDialog(item, true, isChosen, this)
         videoDialog.show(
-            requireActivity().supportFragmentManager, "MediaPreviewDialog"
+            requireActivity().supportFragmentManager, "VideoPreviewDialog"
         )
     }
 
     override fun onAudioDialogShow(item: AudioItemState, isChosen: Boolean) {
-        audioDialog = AudioPreviewDialog(item, isChosen, this)
+        audioDialog = AudioPreviewDialog(item, true, isChosen, this)
         audioDialog.show(
-            requireActivity().supportFragmentManager, "MediaPreviewDialog"
+            requireActivity().supportFragmentManager, "AudioPreviewDialog"
         )
     }
 

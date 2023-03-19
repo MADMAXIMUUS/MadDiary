@@ -20,6 +20,7 @@ import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
 @AndroidEntryPoint
 class VideoPreviewDialog(
     private val item: VideoItemState,
+    private val isNeedAttachButton: Boolean,
     private var isChosen: Boolean,
     private val listener: OnAttachmentDialogListener
 ) : DialogFragment() {
@@ -55,6 +56,10 @@ class VideoPreviewDialog(
         layoutParams.width = width
         layoutParams.height = height
         binding.root.layoutParams = layoutParams
+
+        if (!isNeedAttachButton) {
+            binding.imagePreviewChooseButton.visibility = View.GONE
+        }
 
         binding.imagePreviewBackButton.setOnClickListener {
             dismiss()

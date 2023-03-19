@@ -5,8 +5,8 @@
         <item name="colorOnPrimary">@color/onyx</item>
         <item name="colorSecondary">@color/metallic_seaweed</item>
         <item name="colorOnSecondary">@color/onyx</item>
-        <item name="android:statusBarColor">@color/onyx</item>
-        <item name="android:navigationBarColor">@color/dark_gray</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
         <item name="android:textColor">@color/mercury</item>
         <item name="android:scrollbars">none</item>
         <item name="fontFamily">@font/blogger_sans_bold</item>

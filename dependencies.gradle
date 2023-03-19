@@ -1,0 +1,62 @@
+ext.versions = [
+        navigation: "2.5.3",
+        room      : "2.5.0",
+        coroutines: "1.6.4",
+        glide     : "4.14.2",
+        datastore : "1.0.0"
+]
+
+ext.libs = [
+        appcompat            : "androidx.appcompat:appcompat:1.6.1",
+        material             : "com.google.android.material:material:1.8.0",
+        constraint           : "androidx.constraintlayout:constraintlayout:2.1.4",
+        coreKtx              : "androidx.core:core-ktx:1.9.0",
+        fragment             : "androidx.fragment:fragment-ktx:1.5.5",
+
+        //RecycleView
+        recyclerView         : "androidx.recyclerview:recyclerview:1.3.0",
+
+        //Jetpack Navigation
+        navigationFragmentKtx: "androidx.navigation:navigation-fragment-ktx:${versions.navigation}",
+        navigationUiKtx      : "androidx.navigation:navigation-ui-ktx:${versions.navigation}",
+
+        //Room
+        roomRuntime          : "androidx.room:room-runtime:${versions.room}",
+        roomPagging          : "androidx.room:room-paging:${versions.room}",
+        roomCompiler         : "androidx.room:room-compiler:${versions.room}",
+
+        //Kotlin Extensions and Coroutines support for Room
+        roomKtx              : "androidx.room:room-ktx:${versions.room}",
+
+        // Coroutines
+        coroutinesCore       : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}",
+        coroutinesAndroid    : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}",
+
+        // Coroutine Lifecycle Scopes
+        lifecycleExtensions  : "androidx.lifecycle:lifecycle-extensions:2.2.0",
+        lifecycleViewmodelKtx: "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1",
+        lifecycleRuntimeKtx  : "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1",
+
+        //Dagger - Hilt
+        hilt                 : "com.google.dagger:hilt-android:2.44",
+        hiltAndroidCompiler  : "com.google.dagger:hilt-android-compiler:2.44",
+        hiltCompiler         : "androidx.hilt:hilt-compiler:1.0.0",
+        hiltNavigation       : "androidx.hilt:hilt-navigation-compose:1.0.0",
+
+        //Glide
+        glide                : "com.github.bumptech.glide:glide:${versions.glide}",
+        glideCompiler        : "com.github.bumptech.glide:compiler:${versions.glide}",
+
+        //Splash
+        splash               : "androidx.core:core-splashscreen:1.0.0",
+
+        //Datastore
+        datastorePref        : "androidx.datastore:datastore-preferences:${versions.datastore}",
+        datastore            : "androidx.datastore:datastore:${versions.datastore}",
+
+        //Lottie
+        lottie               : "com.airbnb.android:lottie:5.2.0",
+
+        //Compressor
+        compressor           : "id.zelory:compressor:3.0.1"
+]

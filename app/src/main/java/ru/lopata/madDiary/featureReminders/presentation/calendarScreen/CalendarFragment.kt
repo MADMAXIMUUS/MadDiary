@@ -78,13 +78,11 @@ class CalendarFragment : Fragment(), SelectedDateEventsDialogFragment.OnEventCli
                                 }
                             }
                         }
-                        if (events.isNotEmpty()) {
-                            SelectedDateEventsDialogFragment(
-                                this@CalendarFragment, day, events
-                            ).show(
-                                requireActivity().supportFragmentManager, "CalendarEventsDialog"
-                            )
-                        }
+                        SelectedDateEventsDialogFragment(
+                            this@CalendarFragment, day, events
+                        ).show(
+                            requireActivity().supportFragmentManager, "CalendarEventsDialog"
+                        )
                         viewModel.changeSelectedDate(day)
                     }
                 })

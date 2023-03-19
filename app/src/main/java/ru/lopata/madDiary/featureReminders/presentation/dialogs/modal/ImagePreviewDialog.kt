@@ -16,6 +16,7 @@ import ru.lopata.madDiary.featureReminders.domain.model.states.ImageItemState
 @AndroidEntryPoint
 class ImagePreviewDialog(
     private val item: ImageItemState,
+    private val isNeedAttachButton: Boolean,
     private var isChosen: Boolean,
     private val listener: OnAttachmentDialogListener
 ) : DialogFragment() {
@@ -44,6 +45,10 @@ class ImagePreviewDialog(
         layoutParams.width = width
         layoutParams.height = height
         binding.root.layoutParams = layoutParams
+
+        if (!isNeedAttachButton) {
+            binding.imagePreviewChooseButton.visibility = View.GONE
+        }
 
         binding.imagePreviewBackButton.setOnClickListener {
             dismiss()

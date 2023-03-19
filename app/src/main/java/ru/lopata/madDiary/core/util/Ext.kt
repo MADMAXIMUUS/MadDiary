@@ -153,6 +153,13 @@ fun Long.toDate(): String {
     return sdf.format(netDate)
 }
 
+fun Long.toMonth(): String {
+    val sdf = SimpleDateFormat("LLLL", Locale("ru"))
+    sdf.timeZone = TimeZone.getDefault()
+    val netDate = Date(this)
+    return sdf.format(netDate)
+}
+
 fun Long.toCalendarDate(): String {
     val sdf = SimpleDateFormat("dd MMMM yyyy", Locale("ru"))
     sdf.timeZone = TimeZone.getDefault()

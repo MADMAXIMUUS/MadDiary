@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MonthYearItemStyle"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:baselineAligned="true"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/item_big_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/blogger_sans_bold"
+        android:gravity="center_vertical"
+        android:textColor="@color/event_title_text_color_selector"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="February 2023" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

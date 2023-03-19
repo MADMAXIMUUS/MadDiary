@@ -10,17 +10,17 @@ class TitleViewHolder(val binding: ItemTitleBinding) : RecyclerView.ViewHolder(b
     MainListHolder {
 
     override fun bind(item: MainScreenItem) {
-        val titleItem = item as MainScreenItem.TitleItem
+        val dateItem = item as MainScreenItem.DateItem
         binding.apply {
-            if (titleItem.title != -1) {
-                itemTitleDayTitle.text = itemView.context.getString(titleItem.title)
-                itemTitleDate.text = titleItem.date
+            if (dateItem.title != -1) {
+                itemTitleDayTitle.text = itemView.context.getString(dateItem.title)
+                itemTitleDate.text = dateItem.date
                 itemTitleDate.visibility = View.VISIBLE
                 itemTitleDivider.visibility = View.VISIBLE
                 itemTitleDayTitle.visibility = View.VISIBLE
             }
-            if (titleItem.title == -1) {
-                itemTitleDayTitle.text = titleItem.date
+            if (dateItem.title == -1) {
+                itemTitleDayTitle.text = dateItem.date
                 itemTitleDivider.visibility = View.GONE
                 itemTitleDate.visibility = View.GONE
             }

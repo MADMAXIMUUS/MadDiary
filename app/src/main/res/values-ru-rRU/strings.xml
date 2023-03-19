@@ -58,9 +58,6 @@
     <string name="prev_month_button">Предыдущий месяц</string>
     <string name="complete_event_cd">Complete event</string>
     <string name="reminder_icon">Reminder icon</string>
-    <string name="create_reminder_event_title">Событие</string>
-    <string name="create_reminder_task_title">Задачу</string>
-    <string name="create_reminder_reminder_title">Напоминание</string>
     <string name="from">С</string>
     <string name="to">до</string>
     <string name="today">Сегодня</string>
@@ -150,6 +147,9 @@
     <string name="event_updated">%1$s обновлено!</string>
     <string name="event_deleted">%1$s удалено!</string>
     <string name="undo">Отменить</string>
+    <string name="add_event_icon">Add event icon</string>
+    <string name="add_reminder_icon">Add reminder icon</string>
+    <string name="add_task_icon">Add task icon</string>
 
     <!--Arrays-->
     <string-array name="days_in_week">

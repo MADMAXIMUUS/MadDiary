@@ -7,23 +7,13 @@
     android:paddingBottom="40dp"
     tools:context="ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.BottomSheetChooseReminderTypeFragment">
 
-    <TextView
-        android:id="@+id/bottom_sheet_create_reminder_title"
-        style="@style/DialogTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:text="@string/bottom_sheet_create_reminder_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bottom_sheet_create_reminder_title">
+        app:layout_constraintTop_toTopOf="parent">
 
         <View
             android:layout_width="wrap_content"
@@ -49,7 +39,7 @@
                     style="@style/ButtonIconColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="Add reminder"
+                    android:contentDescription="@string/add_event_icon"
                     android:src="@drawable/ic_add_event" />
 
             </androidx.cardview.widget.CardView>
@@ -60,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:text="@string/create_reminder_event_title" />
+                android:text="@string/event_title" />
 
         </LinearLayout>
 
@@ -89,7 +79,7 @@
                     style="@style/ButtonIconColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="Add reminder"
+                    android:contentDescription="@string/add_reminder_icon"
                     android:src="@drawable/ic_add_reminder" />
 
             </androidx.cardview.widget.CardView>
@@ -100,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:text="@string/create_reminder_reminder_title" />
+                android:text="@string/reminder_title" />
 
         </LinearLayout>
 
@@ -128,7 +118,7 @@
                     style="@style/ButtonIconColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="Add reminder"
+                    android:contentDescription="@string/add_task_icon"
                     android:src="@drawable/ic_add_task" />
 
             </androidx.cardview.widget.CardView>
@@ -139,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:text="@string/create_reminder_task_title" />
+                android:text="@string/task_title" />
 
         </LinearLayout>
 

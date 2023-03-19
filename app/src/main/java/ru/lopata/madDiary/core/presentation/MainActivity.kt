@@ -1,7 +1,6 @@
 package ru.lopata.madDiary.core.presentation
 
 import android.Manifest.permission.*
-import android.animation.ObjectAnimator
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
 import android.app.NotificationManager
@@ -10,12 +9,13 @@ import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AnticipateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.animation.doOnEnd
-import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,9 +27,7 @@ import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.presentation.settings.ThemeEnum
 import ru.lopata.madDiary.core.presentation.settings.ThemeEnum.Companion.toThemeEnum
 import ru.lopata.madDiary.core.util.THEME
-import ru.lopata.madDiary.core.util.isDarkTheme
 import ru.lopata.madDiary.core.util.requestPermissions
-import ru.lopata.madDiary.core.util.setNavigationColor
 import ru.lopata.madDiary.databinding.ActivityMainBinding
 import ru.lopata.madDiary.featureReminders.domain.model.Event
 import ru.lopata.madDiary.featureReminders.domain.model.Event.Types.Companion.toTypesEnum
@@ -48,22 +46,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            splashScreen.setOnExitAnimationListener { splashScreenView ->
-                val slideUp = ObjectAnimator.ofFloat(
-                    splashScreenView,
-                    View.TRANSLATION_Y,
-                    0f,
-                    -splashScreenView.height.toFloat()
-                )
-                slideUp.interpolator = AnticipateInterpolator()
-                slideUp.duration = 200L
-                slideUp.doOnEnd {
-                    splashScreenView.remove()
-                }
-                slideUp.start()
-            }
-        }
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val theme = sharedPreferences.getString(THEME, ThemeEnum.SYSTEM.toString()).toString()
         when (theme.toThemeEnum()) {
@@ -81,6 +65,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavigationRoot) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.rootView.updatePadding(top = insets.top)
+            view.updatePadding(bottom = insets.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         val navController = navHostFragment.navController
@@ -94,15 +85,9 @@ class MainActivity : AppCompatActivity() {
                     R.id.bottomSheetChooseReminderTypeFragment
                 )
             ) {
-                binding.bottomNavigationView.visibility = View.VISIBLE
-                if (isDarkTheme()) {
-                    setNavigationColor(ContextCompat.getColor(this, R.color.dark_gray))
-                }
+                binding.bottomNavigationRoot.visibility = View.VISIBLE
             } else {
-                binding.bottomNavigationView.visibility = View.GONE
-                if (isDarkTheme()) {
-                    setNavigationColor(ContextCompat.getColor(this, R.color.onyx))
-                }
+                binding.bottomNavigationRoot.visibility = View.GONE
             }
         }
 
@@ -112,27 +97,21 @@ class MainActivity : AppCompatActivity() {
         if (eventId != -1) {
             val action = when (eventType) {
                 Event.Types.EVENT -> {
-                    ListEventFragmentDirections
-                        .actionBottomRemindersToViewEventFragment(
-                            eventId = eventId,
-                            chapter = -1,
-                            chapters = -1
-                        )
+                    ListEventFragmentDirections.actionBottomRemindersToViewEventFragment(
+                        eventId = eventId, chapter = -1, chapters = -1
+                    )
                 }
                 Event.Types.TASK -> {
-                    ListEventFragmentDirections
-                        .actionBottomRemindersToViewTaskFragment(eventId = eventId)
+                    ListEventFragmentDirections.actionBottomRemindersToViewTaskFragment(eventId = eventId)
                 }
                 Event.Types.REMINDER -> {
-                    ListEventFragmentDirections
-                        .actionBottomRemindersToViewReminderFragment(eventId = eventId)
+                    ListEventFragmentDirections.actionBottomRemindersToViewReminderFragment(eventId = eventId)
                 }
                 null -> {
                     null
                 }
             }
-            if (action != null)
-                navController.navigate(action)
+            if (action != null) navController.navigate(action)
         }
 
         binding.bottomNavigationView.setupWithNavController(navController)
@@ -149,12 +128,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createNotificationChannels() {
-        val notificationManager =
-            this.getSystemService(NotificationManager::class.java)
+        val notificationManager = this.getSystemService(NotificationManager::class.java)
 
         val group = NotificationChannelGroup(
-            "eventTaskReminderGroup",
-            getString(R.string.event_chanel_group)
+            "eventTaskReminderGroup", getString(R.string.event_chanel_group)
         )
         notificationManager.createNotificationChannelGroup(group)
 

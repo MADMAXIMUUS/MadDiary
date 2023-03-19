@@ -19,12 +19,12 @@ import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.isDarkTheme
 import ru.lopata.madDiary.core.util.setStatusBarColor
 import ru.lopata.madDiary.databinding.FragmentBottomSheetAttachmentRootBinding
-import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
 import ru.lopata.madDiary.featureReminders.domain.model.states.AudioItemState
 import ru.lopata.madDiary.featureReminders.domain.model.states.FileItemState
 import ru.lopata.madDiary.featureReminders.domain.model.states.ImageItemState
 import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.*
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.AudioPreviewDialog
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.ImagePreviewDialog
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.VideoPreviewDialog
@@ -285,12 +285,12 @@ class BottomSheetAttachmentRootFragment private constructor(
             val windowMetrics = requireActivity().windowManager.currentWindowMetrics
             val insets = windowMetrics.windowInsets
                 .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
-            windowMetrics.bounds.height() - insets.top - insets.bottom
+            windowMetrics.bounds.height() - insets.bottom
         } else {
             val window = requireActivity().window
             val rect = Rect()
             window.decorView.getWindowVisibleDisplayFrame(rect)
-            rect.height()
+            rect.height() - rect.top
         }
     }
 
@@ -372,21 +372,21 @@ class BottomSheetAttachmentRootFragment private constructor(
     }
 
     override fun onImageDialogShow(item: ImageItemState, isChosen: Boolean) {
-        ImagePreviewDialog(item, isChosen, this).show(
+        ImagePreviewDialog(item, true, isChosen, this).show(
             requireActivity().supportFragmentManager,
             "ImagePreviewDialog"
         )
     }
 
     override fun onVideoDialogShow(item: VideoItemState, isChosen: Boolean) {
-        VideoPreviewDialog(item, isChosen, this).show(
+        VideoPreviewDialog(item, true, isChosen, this).show(
             requireActivity().supportFragmentManager,
             "VideoPreviewDialog"
         )
     }
 
     override fun onAudioDialogShow(item: AudioItemState, isChosen: Boolean) {
-        AudioPreviewDialog(item, isChosen, this).show(
+        AudioPreviewDialog(item, true, isChosen, this).show(
             requireActivity().supportFragmentManager,
             "ImagePreviewDialog"
         )

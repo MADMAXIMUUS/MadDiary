@@ -3,9 +3,6 @@ package ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent
 import android.Manifest.permission.*
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.NotificationChannel
-import android.app.NotificationChannelGroup
-import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Intent
 import android.database.Cursor
@@ -121,7 +118,7 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().supportFragmentManager.setFragmentResultListener(
-            REQUEST_KEY, this
+    REQUEST_KEY, this
         ) { _, bundle ->
             if (bundle.getLong("startDate") != 0L) viewModel.updateStartDate(bundle.getLong("startDate"))
 
@@ -604,23 +601,23 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
     }
 
     override fun onImageDialogShow(item: ImageItemState, isChosen: Boolean) {
-        imageDialog = ImagePreviewDialog(item, isChosen, this)
+        imageDialog = ImagePreviewDialog(item, true, isChosen, this)
         imageDialog.show(
-            requireActivity().supportFragmentManager, "MediaPreviewDialog"
+            requireActivity().supportFragmentManager, "ImagePreviewDialog"
         )
     }
 
     override fun onVideoDialogShow(item: VideoItemState, isChosen: Boolean) {
-        videoDialog = VideoPreviewDialog(item, isChosen, this)
+        videoDialog = VideoPreviewDialog(item, true, isChosen, this)
         videoDialog.show(
-            requireActivity().supportFragmentManager, "MediaPreviewDialog"
+            requireActivity().supportFragmentManager, "VideoPreviewDialog"
         )
     }
 
     override fun onAudioDialogShow(item: AudioItemState, isChosen: Boolean) {
-        audioDialog = AudioPreviewDialog(item, isChosen, this)
+        audioDialog = AudioPreviewDialog(item, true, isChosen, this)
         audioDialog.show(
-            requireActivity().supportFragmentManager, "MediaPreviewDialog"
+            requireActivity().supportFragmentManager, "AudioPreviewDialog"
         )
     }
 

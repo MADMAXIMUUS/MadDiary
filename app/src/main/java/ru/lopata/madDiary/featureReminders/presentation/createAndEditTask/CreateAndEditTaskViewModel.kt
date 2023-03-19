@@ -405,7 +405,7 @@ class CreateAndEditTaskViewModel @Inject constructor(
             _currentEvent.value = currentEvent.value.copy(
                 title = currentEvent.value.title.copy(
                     text = title,
-                    isEmpty = title.isEmpty()
+                    isEmpty = title.isEmpty() || title.matches(Regex("^\\s*$"))
                 )
             )
             if (title.isNotEmpty()) {

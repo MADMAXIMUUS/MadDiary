@@ -55,9 +55,6 @@
     <string name="prev_month_button">Prev month</string>
     <string name="complete_event_cd">Complete event</string>
     <string name="reminder_icon">Reminder icon</string>
-    <string name="create_reminder_event_title">Event</string>
-    <string name="create_reminder_task_title">Task</string>
-    <string name="create_reminder_reminder_title">Reminder</string>
     <string name="from">From</string>
     <string name="to">to</string>
     <string name="today">Today</string>
@@ -147,6 +144,9 @@
     <string name="event_updated">%1$s updated!</string>
     <string name="event_deleted">%1$s deleted!</string>
     <string name="undo">Undo</string>
+    <string name="add_event_icon">Add event icon</string>
+    <string name="add_reminder_icon">Add reminder icon</string>
+    <string name="add_task_icon">Add task icon</string>
 
     <string-array name="days_in_week">
         <item>M</item>

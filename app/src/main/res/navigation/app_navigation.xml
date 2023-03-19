@@ -112,7 +112,7 @@
     <fragment
         android:id="@+id/viewEventFragment"
         android:name="ru.lopata.madDiary.featureReminders.presentation.viewEvent.ViewEventFragment"
-        android:label="@string/create_reminder_event_title"
+        android:label="@string/event_title"
         tools:layout="@layout/fragment_view_event">
         <action
             android:id="@+id/action_viewEventFragment_to_createAndEditEventFragment"
@@ -176,7 +176,7 @@
     <fragment
         android:id="@+id/viewTaskFragment"
         android:name="ru.lopata.madDiary.featureReminders.presentation.viewTask.ViewTaskFragment"
-        android:label="fragment_view_task"
+        android:label="@string/task_title"
         tools:layout="@layout/fragment_view_task">
         <action
             android:id="@+id/action_viewTaskFragment_to_createAndEditTaskFragment"
@@ -200,7 +200,7 @@
     <fragment
         android:id="@+id/viewReminderFragment"
         android:name="ru.lopata.madDiary.featureReminders.presentation.viewReminder.ViewReminderFragment"
-        android:label="fragment_view_reminder"
+        android:label="@string/reminder_title"
         tools:layout="@layout/fragment_view_reminder">
         <action
             android:id="@+id/action_viewReminderFragment_to_bottomRemindersFragment"

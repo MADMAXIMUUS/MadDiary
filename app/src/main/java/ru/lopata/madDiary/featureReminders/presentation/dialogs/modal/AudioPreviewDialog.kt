@@ -24,6 +24,7 @@ import java.io.IOException
 @AndroidEntryPoint
 class AudioPreviewDialog(
     private val item: AudioItemState,
+    private val isNeedAttachButton: Boolean,
     private var isChosen: Boolean,
     private val listener: OnAttachmentDialogListener
 ) : DialogFragment() {
@@ -64,6 +65,10 @@ class AudioPreviewDialog(
 
         binding.imagePreviewBackButton.setOnClickListener {
             dismiss()
+        }
+
+        if (!isNeedAttachButton) {
+            binding.imagePreviewChooseButton.visibility = View.GONE
         }
 
         if (isChosen) {

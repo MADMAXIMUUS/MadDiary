@@ -300,4 +300,12 @@
         <item name="android:backgroundTint">@color/dark_liver</item>
     </style>
 
+    <style name="MonthYearItemStyle">
+        <item name="android:background">@color/dark_liver</item>
+    </style>
+
+    <style name="BottomNavigationRootStyle">
+        <item name="android:background">@color/dark_gray</item>
+    </style>
+
 </resources>

@@ -35,7 +35,8 @@ class ListEventAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is MainScreenItem.TitleItem -> MainScreenItem.TITLE
+            is MainScreenItem.MonthYearTitleItem -> MainScreenItem.BIG_TITLE
+            is MainScreenItem.DateItem -> MainScreenItem.TITLE
             is MainScreenItem.EventItem -> MainScreenItem.EVENT
         }
     }
@@ -44,8 +45,10 @@ class ListEventAdapter(
         override fun areItemsTheSame(oldItem: MainScreenItem, newItem: MainScreenItem): Boolean {
             return if (oldItem is MainScreenItem.EventItem && newItem is MainScreenItem.EventItem) {
                 (oldItem.id == newItem.id)
-            } else if (oldItem is MainScreenItem.TitleItem && newItem is MainScreenItem.TitleItem) {
+            } else if (oldItem is MainScreenItem.DateItem && newItem is MainScreenItem.DateItem) {
                 (oldItem.date == newItem.date) && (oldItem.title == newItem.title)
+            } else if (oldItem is MainScreenItem.MonthYearTitleItem && newItem is MainScreenItem.MonthYearTitleItem) {
+                (oldItem.month == newItem.month) && (oldItem.yearNumber == newItem.yearNumber)
             } else {
                 oldItem.hashCode() == newItem.hashCode()
             }

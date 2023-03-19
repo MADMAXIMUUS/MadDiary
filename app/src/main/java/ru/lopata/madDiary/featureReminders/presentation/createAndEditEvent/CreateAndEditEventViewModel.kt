@@ -437,7 +437,8 @@ class CreateAndEditEventViewModel @Inject constructor(
         if (title != currentText) {
             _currentEvent.value = currentEvent.value.copy(
                 title = currentEvent.value.title.copy(
-                    text = title, isEmpty = title.isEmpty()
+                    text = title,
+                    isEmpty = title.isEmpty() || title.matches(Regex("^\\s*$"))
                 )
             )
             if (title.isNotEmpty()) {

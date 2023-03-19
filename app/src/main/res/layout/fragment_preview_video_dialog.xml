@@ -48,7 +48,7 @@
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="30dp"
-                android:progressBackgroundTint="@color/white"
+                android:progressBackgroundTint="@color/not_white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/media_preview_video_duration_max"
                 app:layout_constraintStart_toEndOf="@id/media_preview_video_duration"

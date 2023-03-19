@@ -5,9 +5,9 @@
         <item name="colorOnPrimary">@color/dawn_pink</item>
         <item name="colorSecondary">@color/metallic_seaweed</item>
         <item name="colorOnSecondary">@color/dawn_pink</item>
-        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:statusBarColor">@color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
         <item name="android:textColor">@color/onyx</item>
         <item name="android:scrollbars">none</item>
         <item name="fontFamily">@font/blogger_sans_bold</item>
@@ -22,7 +22,7 @@
     <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorPrimary">@color/metallic_seaweed</item>
         <item name="colorSecondary">@color/onyx</item>
-        <item name="colorSurface">@color/white</item>
+        <item name="colorSurface">@color/not_white</item>
         <item name="colorOnSurface">@color/onyx</item>
         <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
         <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text
@@ -70,7 +70,7 @@
 
     <style name="ModalBottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet.Modal">
         <item name="shapeAppearance">@style/ShapeAppearance.App.LargeComponent</item>
-        <item name="backgroundTint">@color/white</item>
+        <item name="backgroundTint">@color/not_white</item>
     </style>
 
     <style name="ShapeAppearance.App.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
@@ -82,7 +82,7 @@
         <item name="fontFamily">@font/blogger_sans_bold</item>
         <item name="titleTextAppearance">@style/Toolbar.TitleText</item>
         <item name="android:textSize">20sp</item>
-        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimary">@color/not_white</item>
         <item name="elevation">@dimen/toolbar_elevation</item>
         <item name="colorOnPrimary">@color/metallic_seaweed</item>
         <item name="iconTint">@color/metallic_seaweed</item>
@@ -95,7 +95,7 @@
     </style>
 
     <style name="CustomBottomNavigationView">
-        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimary">@color/not_white</item>
         <item name="elevation">10dp</item>
         <item name="itemIconSize">30dp</item>
         <item name="itemIconTint">@color/bottom_menu_color_selector</item>

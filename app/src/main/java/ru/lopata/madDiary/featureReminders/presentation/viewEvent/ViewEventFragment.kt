@@ -18,11 +18,19 @@ import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.*
 import ru.lopata.madDiary.databinding.FragmentViewEventBinding
+import ru.lopata.madDiary.featureReminders.domain.model.states.AudioItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.FileItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.ImageItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.AttachmentAdapter
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.AudioPreviewDialog
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.ImagePreviewDialog
+import ru.lopata.madDiary.featureReminders.presentation.dialogs.modal.VideoPreviewDialog
 import java.sql.Date
 
 @AndroidEntryPoint
-class ViewEventFragment : Fragment() {
+class ViewEventFragment : Fragment(), OnAttachmentDialogListener {
 
     private var _binding: FragmentViewEventBinding? = null
     private val binding get() = _binding!!
@@ -171,5 +179,62 @@ class ViewEventFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onPermissionButtonClick() {
+
+    }
+
+    override fun onInternalButtonClick() {
+
+    }
+
+    override fun onCoverChosen(uri: Uri) {
+
+    }
+
+    override fun onImagesChosen(items: List<ImageItemState>) {
+
+    }
+
+    override fun onImageChosen(item: ImageItemState, state: Boolean) {
+
+    }
+
+    override fun onVideosChosen(items: List<VideoItemState>) {
+
+    }
+
+    override fun onVideoChosen(item: VideoItemState, state: Boolean) {
+
+    }
+
+    override fun onAudioChosen(item: AudioItemState) {
+
+    }
+
+    override fun onFileChosen(item: FileItemState) {
+
+    }
+
+    override fun onImageDialogShow(item: ImageItemState, isChosen: Boolean) {
+        val imageDialog = ImagePreviewDialog(item, false, isChosen, this)
+        imageDialog.show(
+            requireActivity().supportFragmentManager, "ImagePreviewDialog"
+        )
+    }
+
+    override fun onVideoDialogShow(item: VideoItemState, isChosen: Boolean) {
+        val videoDialog = VideoPreviewDialog(item, false, isChosen, this)
+        videoDialog.show(
+            requireActivity().supportFragmentManager, "VideoPreviewDialog"
+        )
+    }
+
+    override fun onAudioDialogShow(item: AudioItemState, isChosen: Boolean) {
+        val audioDialog = AudioPreviewDialog(item, false, isChosen, this)
+        audioDialog.show(
+            requireActivity().supportFragmentManager, "AudioPreviewDialog"
+        )
     }
 }

@@ -1,5 +1,6 @@
 package ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,9 @@ import com.bumptech.glide.Glide
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.databinding.ItemAttachBinding
 import ru.lopata.madDiary.featureReminders.domain.model.Attachment
+import ru.lopata.madDiary.featureReminders.domain.model.states.AudioItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.ImageItemState
+import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
 
 class AttachmentAdapter(
     private val listener: OnAttachmentDialogListener? = null
@@ -23,33 +27,37 @@ class AttachmentAdapter(
                 when (item.type) {
 
                     Attachment.IMAGE -> {
-                        Glide
-                            .with(attachIcon.context)
-                            .load(item.uri)
-                            .into(attachIcon)
+                        Glide.with(attachIcon.context).load(item.uri).into(attachIcon)
                         attachIcon.scaleType = ImageView.ScaleType.CENTER_CROP
                         attachPlay.visibility = View.GONE
                         attachTitle.visibility = View.GONE
 
                         if (listener != null) {
                             root.setOnClickListener {
-                                //listener.onImageDialogShow(item, true)
+                                listener.onImageDialogShow(
+                                    item = ImageItemState(
+                                        uri = Uri.parse(item.uri), size = item.size
+                                    ), isChosen = true
+                                )
                             }
                         }
                     }
 
                     Attachment.VIDEO -> {
-                        Glide
-                            .with(attachIcon.context)
-                            .load(item.uri)
-                            .into(attachIcon)
+                        Glide.with(attachIcon.context).load(item.uri).into(attachIcon)
                         attachIcon.scaleType = ImageView.ScaleType.CENTER_CROP
                         attachPlay.visibility = View.VISIBLE
                         attachTitle.visibility = View.GONE
 
                         if (listener != null) {
                             root.setOnClickListener {
-                                //listener.onDialogShow(Uri.parse(item.uri), true, item.type)
+                                listener.onVideoDialogShow(
+                                    item = VideoItemState(
+                                        uri = Uri.parse(item.uri),
+                                        duration = item.duration,
+                                        size = item.size
+                                    ), isChosen = true
+                                )
                             }
                         }
                     }
@@ -63,7 +71,14 @@ class AttachmentAdapter(
 
                         if (listener != null) {
                             root.setOnClickListener {
-                                //listener.onDialogShow(Uri.parse(item.uri), true, item.type)
+                                listener.onAudioDialogShow(
+                                    item = AudioItemState(
+                                        uri = Uri.parse(item.uri),
+                                        duration = item.duration,
+                                        name = item.name,
+                                        size = item.size
+                                    ), isChosen = true
+                                )
                             }
                         }
                     }

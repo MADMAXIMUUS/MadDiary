@@ -228,7 +228,9 @@ class CreateAndEditReminderViewModel @Inject constructor(
                             attachments = attachments,
                             chosenCover = Uri.parse(event.cover),
                             chosenImages = images,
-                            chosenVideos = videos
+                            chosenVideos = videos,
+                            chosenAudios = audios,
+                            chosenFiles = files
                         )
                     }
                     when (repeat.repeatInterval) {
@@ -402,7 +404,7 @@ class CreateAndEditReminderViewModel @Inject constructor(
             _currentEvent.value = currentEvent.value.copy(
                 title = currentEvent.value.title.copy(
                     text = title,
-                    isEmpty = title.isEmpty()
+                    isEmpty = title.isEmpty() || title.matches(Regex("^\\s*$"))
                 )
             )
             if (title.isNotEmpty()) {

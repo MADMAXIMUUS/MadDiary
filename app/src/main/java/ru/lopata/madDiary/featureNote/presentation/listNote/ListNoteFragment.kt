@@ -1,9 +1,9 @@
 package ru.lopata.madDiary.featureNote.presentation.listNote
 
 import android.os.Bundle
-import android.view.*
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -45,23 +45,6 @@ class ListNoteFragment : Fragment() {
                 ListNoteFragmentDirections.actionBottomNotesToCreateNoteFragment(noteId = note.id!!)
             view.findNavController().navigate(action)
         }
-
-        val menuHost: MenuHost = requireActivity()
-
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.list_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.list_menu_search -> {
-                        navController.navigate(R.id.action_bottom_notes_to_searchFragment)
-                    }
-                }
-                return true
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         binding.noteListRecycler.apply {
             adapter = listNoteAdapter
