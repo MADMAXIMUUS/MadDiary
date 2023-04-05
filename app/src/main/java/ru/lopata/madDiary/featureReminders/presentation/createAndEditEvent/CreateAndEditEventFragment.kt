@@ -315,7 +315,6 @@ class CreateAndEditEventFragment : Fragment(), OnAttachmentDialogListener {
                 binding.apply {
                     attachmentAdapter.submitList(event.attachments)
 
-
                     if (binding.createAndEditEventTitleEdt.text.isEmpty()) binding.createAndEditEventTitleEdt.setText(
                         event.title.text
                     )

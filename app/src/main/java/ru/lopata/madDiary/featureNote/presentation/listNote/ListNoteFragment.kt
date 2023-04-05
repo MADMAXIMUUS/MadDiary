@@ -42,7 +42,7 @@ class ListNoteFragment : Fragment() {
 
         val listNoteAdapter = ListNoteAdapter { note ->
             val action =
-                ListNoteFragmentDirections.actionBottomNotesToCreateNoteFragment(noteId = note.id!!)
+                ListNoteFragmentDirections.actionBottomNotesToCreateNoteFragment(noteId = note.noteId!!)
             view.findNavController().navigate(action)
         }
 

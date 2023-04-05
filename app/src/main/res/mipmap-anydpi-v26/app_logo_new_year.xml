@@ -2,5 +2,5 @@
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
     <background android:drawable="@drawable/app_logo_new_year_background" />
     <foreground android:drawable="@drawable/app_logo_new_year_foreground" />
-    <monochrome android:drawable="@drawable/app_logo_new_year_mono_foreground" />
+    <monochrome android:drawable="@drawable/app_logo_new_year_round_mono_foreground" />
 </adaptive-icon>

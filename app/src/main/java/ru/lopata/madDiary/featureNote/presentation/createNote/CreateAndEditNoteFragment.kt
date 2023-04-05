@@ -45,6 +45,7 @@ class CreateAndEditNoteFragment : Fragment() {
                             view.findNavController().navigateUp()
                         }
                         is UiEvent.Delete -> {
+                            view.findNavController().navigateUp()
                         }
                         else -> {}
                     }
@@ -56,10 +57,12 @@ class CreateAndEditNoteFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.currentNote.collectLatest { note ->
                     binding.apply {
-                        createAndEditNoteTitleEdt.setText(note.title)
-                        createAndEditNoteTitleEdt.setSelection(note.title.length)
-                        createAndEditNoteDataEdt.setText(note.text)
-                        createAndEditNoteDataEdt.setSelection(note.text.length)
+                        if (createAndEditNoteDataEdt.text.isEmpty()) {
+                            createAndEditNoteDataEdt.setText(note.text)
+                        }
+                        if (createAndEditNoteTitleEdt.text.isEmpty()) {
+                            createAndEditNoteTitleEdt.setText(note.title)
+                        }
                     }
                 }
             }
@@ -84,7 +87,7 @@ class CreateAndEditNoteFragment : Fragment() {
                 }
 
                 createAndEditNoteDeleteButton.setOnClickListener {
-
+                    viewModel.deleteNote()
                 }
             }
         }

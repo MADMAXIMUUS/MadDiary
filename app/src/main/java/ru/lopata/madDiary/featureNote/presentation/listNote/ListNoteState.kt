@@ -1,10 +1,7 @@
 package ru.lopata.madDiary.featureNote.presentation.listNote
 
-import ru.lopata.madDiary.featureNote.domain.model.entity.NoteModel
-import ru.lopata.madDiary.featureNote.domain.util.OrderType
-
+import ru.lopata.madDiary.featureNote.domain.model.entity.Note
 
 data class ListNoteState(
-    val notes: List<NoteModel> = emptyList(),
-    val orderType: OrderType = OrderType.Descending
+    val notes: List<Note> = emptyList()
 )

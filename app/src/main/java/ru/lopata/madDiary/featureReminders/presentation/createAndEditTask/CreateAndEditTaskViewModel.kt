@@ -421,7 +421,7 @@ class CreateAndEditTaskViewModel @Inject constructor(
     fun deleteEvent() {
         if (preEditTask != Event()) {
             viewModelScope.launch {
-                eventUseCases.deleteEventUseCase(preEditTask)
+                eventUseCases.deleteEventUseCase(currentEvent.value.id ?: -1)
                 _eventFlow.emit(UiEvent.Delete)
             }
         }

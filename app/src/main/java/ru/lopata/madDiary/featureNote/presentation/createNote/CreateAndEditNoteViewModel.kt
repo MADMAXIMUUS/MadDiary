@@ -50,7 +50,7 @@ class CreateAndEditNoteViewModel @Inject constructor(
                         noteId = _currentNote.value.noteId
                     )
                 )
-                _eventFlow.emit(UiEvent.Save(_currentNote.value.noteId!!.toLong()))
+                _eventFlow.emit(UiEvent.Save(_currentNote.value.noteId?.toLong() ?: 0L))
             }
         }
     }
@@ -67,9 +67,10 @@ class CreateAndEditNoteViewModel @Inject constructor(
         )
     }
 
-    fun noteColorChange(newValue: Int) {
-        _currentNote.value = currentNote.value.copy(
-            color = newValue
-        )
+    fun deleteNote() {
+        viewModelScope.launch {
+            noteUseCases.deleteNotesUseCase(_currentNote.value.noteId ?: -1)
+            _eventFlow.emit(UiEvent.Delete)
+        }
     }
 }

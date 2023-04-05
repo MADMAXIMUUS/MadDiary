@@ -46,7 +46,7 @@ class EventRepositoryImpl(
         return eventDao.getAttachmentsByEventId(eventId)
     }
 
-    override suspend fun deleteEvent(event: Event) {
-        return eventDao.deleteEvent(event)
+    override suspend fun deleteEvent(eventId: Int) {
+        return eventDao.deleteEvent(eventId)
     }
 }

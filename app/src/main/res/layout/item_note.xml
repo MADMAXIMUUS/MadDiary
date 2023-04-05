@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_note_root"
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:background="@color/white_smoke"
-    app:cardElevation="6dp"
     android:maxHeight="200dp"
-    app:cardCornerRadius="15dp">
+    app:cardCornerRadius="15dp"
+    app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,15 +16,13 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="9dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/item_note_title"
             android:layout_width="0dp"
             android:layout_height="21dp"
             android:layout_marginEnd="5dp"
             android:ellipsize="end"
-            android:fontFamily="@font/blogger_sans_medium"
             android:maxLines="1"
-            android:textColor="@color/onyx"
             android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@id/item_note_pin_img"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,21 +31,20 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/item_note_pin_img"
+            style="@style/EventItemReminderIcon"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_pin"
-            android:tint="@color/charcoal_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/item_note_content"
+            style="@style/ItemTitleDateStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/blogger_sans_medium"
             android:maxLines="7"
-            android:textColor="@color/charcoal_grey"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,10 +53,9 @@
 
         <TextView
             android:id="@+id/item_note_date"
+            style="@style/ItemTitleDateStyle"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:fontFamily="@font/blogger_sans_medium"
-            android:textColor="@color/charcoal_grey"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,4 +66,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

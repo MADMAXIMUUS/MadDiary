@@ -9,9 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.lopata.madDiary.featureNote.domain.model.entity.Note
-import ru.lopata.madDiary.featureNote.domain.model.entity.NoteModel
 import ru.lopata.madDiary.featureNote.domain.useCase.NoteUseCases
-import ru.lopata.madDiary.featureNote.domain.util.OrderType
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,34 +20,25 @@ class ListNoteViewModel @Inject constructor(
     private val _listNoteState = MutableStateFlow(ListNoteState())
     val listNoteState: StateFlow<ListNoteState> = _listNoteState
 
-    private var recentlyDeletedNote: Note? = null
-
     private var getNotesJob: Job? = null
 
     init {
         getNotes()
     }
 
-    private fun getNotes(orderType: OrderType = OrderType.Descending) {
+    private fun getNotes() {
         getNotesJob?.cancel()
         getNotesJob = noteUseCases.getAllNotesUseCase()
             .onEach { notesWithCategories ->
-                val notes = mutableListOf<NoteModel>()
+                val notes = mutableListOf<Note>()
                 notesWithCategories.forEach { noteWithCategories ->
-                    notes.add(noteWithCategories.note.toNoteModel(noteWithCategories.categories))
+                    notes.add(noteWithCategories.note)
                 }
                 _listNoteState.value = listNoteState.value.copy(
-                    notes = notes.toList(),
-                    orderType = orderType
+                    notes = notes.toList()
                 )
             }
             .launchIn(viewModelScope)
-    }
-
-    fun changeOrderType(orderType: OrderType) {
-        _listNoteState.value = listNoteState.value.copy(
-            orderType = orderType
-        )
     }
 
 }

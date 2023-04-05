@@ -61,6 +61,7 @@
 
     <EditText
         android:id="@+id/create_and_edit_note_title_edt"
+        style="@style/TitleEditText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginHorizontal="20dp"
@@ -81,6 +82,7 @@
 
     <EditText
         android:id="@+id/create_and_edit_note_data_edt"
+        style="@style/LocationTitleEditText"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="20dp"
@@ -99,111 +101,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/create_and_edit_note_title_edt"
         tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/top_shadow"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:clickable="true"
-                android:contentDescription="@string/note_tools_font_bol"
-                android:focusable="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_font_bold" />
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:clickable="true"
-                android:contentDescription="@string/note_tools_font_italic"
-                android:focusable="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_font_italic" />
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:clickable="true"
-                android:contentDescription="@string/note_tools_font_underline"
-                android:focusable="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_font_underline" />
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:clickable="true"
-                android:contentDescription="@string/note_tools_add_dot_list"
-                android:focusable="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_dot_list" />
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:clickable="true"
-                android:contentDescription="@string/note_tools_add_numeric_list"
-                android:focusable="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_number_list" />
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:clickable="true"
-                android:contentDescription="@string/note_tools_add_todo"
-                android:focusable="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_todo" />
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:clickable="true"
-                android:contentDescription="@string/note_tools_attach_image"
-                android:focusable="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_attach_image" />
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:clickable="true"
-                android:contentDescription="@string/note_tools_attach_draw"
-                android:focusable="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_attach_draw" />
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:clickable="true"
-                android:contentDescription="@string/note_tools_attach_voice"
-                android:focusable="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_attach_voice" />
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:clickable="true"
-                android:contentDescription="@string/note_tools_choose_color"
-                android:focusable="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_choose_color" />
-
-        </LinearLayout>
-
-    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

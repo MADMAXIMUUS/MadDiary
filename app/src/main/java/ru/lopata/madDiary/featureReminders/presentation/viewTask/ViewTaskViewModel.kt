@@ -154,7 +154,7 @@ class ViewTaskViewModel @Inject constructor(
 
     fun deleteEvent() {
         viewModelScope.launch {
-            eventUseCases.deleteEventUseCase(currentEvent.value.toEvent())
+            eventUseCases.deleteEventUseCase(currentEvent.value.eventId)
             _eventFlow.emit(UiEvent.Delete)
         }
     }

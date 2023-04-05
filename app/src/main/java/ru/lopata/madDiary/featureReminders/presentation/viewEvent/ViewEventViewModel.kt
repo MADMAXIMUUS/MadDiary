@@ -157,21 +157,7 @@ class ViewEventViewModel @Inject constructor(
 
     fun deleteEvent() {
         viewModelScope.launch {
-            eventUseCases.deleteEventUseCase(
-                Event(
-                    title = currentEvent.value.title,
-                    completed = currentEvent.value.completed,
-                    startDateTime = currentEvent.value.startDateTime,
-                    endDateTime = currentEvent.value.endDateTime,
-                    allDay = currentEvent.value.allDay,
-                    color = currentEvent.value.color,
-                    cover = currentEvent.value.cover.toString(),
-                    location = currentEvent.value.location,
-                    note = currentEvent.value.note,
-                    isAttachmentAdded = false,
-                    eventId = currentEvent.value.eventId
-                )
-            )
+            eventUseCases.deleteEventUseCase(currentEvent.value.eventId)
             _eventFlow.emit(UiEvent.Delete)
         }
     }

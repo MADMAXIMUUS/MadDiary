@@ -420,7 +420,7 @@ class CreateAndEditReminderViewModel @Inject constructor(
     fun deleteEvent() {
         if (preEditEvent != Event()) {
             viewModelScope.launch {
-                eventUseCases.deleteEventUseCase(preEditEvent)
+                eventUseCases.deleteEventUseCase(currentEvent.value.id ?: -1)
                 _eventFlow.emit(UiEvent.Delete)
             }
         }

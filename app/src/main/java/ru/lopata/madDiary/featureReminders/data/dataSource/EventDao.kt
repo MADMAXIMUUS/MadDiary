@@ -38,6 +38,6 @@ interface EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAttachments(attachments: List<Attachment>)
 
-    @Delete
-    suspend fun deleteEvent(event: Event)
+    @Query("DELETE FROM EVENTS WHERE eventId = :eventId")
+    suspend fun deleteEvent(eventId: Int)
 }

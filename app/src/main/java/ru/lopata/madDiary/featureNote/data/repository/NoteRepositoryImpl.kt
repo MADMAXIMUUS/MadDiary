@@ -5,14 +5,13 @@ import ru.lopata.madDiary.featureNote.data.dataSource.NoteDao
 import ru.lopata.madDiary.featureNote.domain.model.entity.Note
 import ru.lopata.madDiary.featureNote.domain.model.relationship.NoteWithCategories
 import ru.lopata.madDiary.featureNote.domain.repository.NoteRepository
-import ru.lopata.madDiary.featureNote.domain.util.OrderType
 
 class NoteRepositoryImpl(
     private val dao: NoteDao
 ) : NoteRepository {
 
-    override fun getAllNotes(searchQuery: String, orderType: OrderType): Flow<List<NoteWithCategories>> {
-        return dao.getNotesSorted(searchQuery, orderType)
+    override fun getAllNotes(searchQuery: String): Flow<List<NoteWithCategories>> {
+        return dao.getAllNotes(searchQuery)
     }
 
     override suspend fun getNoteById(id: Int): Note? {
@@ -23,7 +22,7 @@ class NoteRepositoryImpl(
         dao.insertNote(note)
     }
 
-    override suspend fun deleteNote(note: Note) {
-        dao.deleteNote(note)
+    override suspend fun deleteNote(noteId: Int) {
+        dao.deleteNote(noteId)
     }
 }
