@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.MadDiary" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/metallic_seaweed</item>
-        <item name="colorOnPrimary">@color/dawn_pink</item>
-        <item name="colorSecondary">@color/metallic_seaweed</item>
-        <item name="colorOnSecondary">@color/dawn_pink</item>
-        <item name="android:statusBarColor">@color/transparent</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:navigationBarColor">@color/transparent</item>
+    <style name="Base.v27.Theme.MadDiary" parent="Base.v26.Theme.MadDiary">
         <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:textColor">@color/onyx</item>
-        <item name="android:scrollbars">none</item>
-        <item name="fontFamily">@font/blogger_sans_bold</item>
-        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
-        <item name="radioButtonStyle">@style/RadioButtonStyle</item>
-        <item name="checkboxStyle">@style/CheckBoxStyle</item>
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
     </style>
+
+    <style name="Base.Theme.MadDiary" parent="@style/Base.v27.Theme.MadDiary" />
 
 </resources>

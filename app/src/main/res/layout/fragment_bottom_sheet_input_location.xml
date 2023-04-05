@@ -256,21 +256,13 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!--<androidx.fragment.app.FragmentContainerView
-            android:id="@+id/bottom_sheet_location_map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bottom_sheet_location_address_root"
-            tools:layout="@android:layout/test_list_item" />-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/bottom_sheet_location_confirm_btn"
-        style="@style/ConfirmButtonStyle"
+        style="@style/Widget.MadDiary.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

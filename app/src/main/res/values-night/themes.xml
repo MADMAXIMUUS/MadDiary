@@ -1,6 +1,7 @@
 <resources>
 
-    <style name="Theme.MadDiary" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Base.v26.Night.Theme.MadDiary" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/onyx</item>
         <item name="colorPrimary">@color/metallic_seaweed</item>
         <item name="colorOnPrimary">@color/onyx</item>
         <item name="colorSecondary">@color/metallic_seaweed</item>
@@ -13,10 +14,13 @@
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
         <item name="colorControlActivated">@color/mercury</item>
         <item name="colorSwitchThumbNormal">@color/spanish_gray</item>
-        <item name="radioButtonStyle">@style/RadioButtonStyle</item>
-        <item name="checkboxStyle">@style/CheckBoxStyle</item>
+        <item name="radioButtonStyle">@style/Widget.MadDiary.RadioButton</item>
+        <item name="checkboxStyle">@style/Widget.MadDiary.CheckBox</item>
+        <item name="buttonStyle">@style/Widget.MadDiary.Button</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
     </style>
+
+    <style name="Base.Theme.MadDiary" parent="Base.v26.Night.Theme.MadDiary" />
 
     <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorPrimary">@color/mercury</item>

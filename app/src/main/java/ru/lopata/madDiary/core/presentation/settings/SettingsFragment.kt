@@ -1,6 +1,8 @@
 package ru.lopata.madDiary.core.presentation.settings
 
+import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.Settings.*
 import android.view.LayoutInflater
@@ -10,10 +12,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.card.MaterialCardView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
+import ru.lopata.madDiary.core.util.showToast
 import ru.lopata.madDiary.databinding.FragmentSettingsBinding
+
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -34,6 +39,8 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var checkedCardView: MaterialCardView = binding.iconDefault
+
         binding.apply {
             settingsThemeRbRoot.setOnCheckedChangeListener { _, checkedId ->
                 when (checkedId) {
@@ -48,6 +55,101 @@ class SettingsFragment : Fragment() {
                     }
                 }
             }
+
+            iconDefault.setOnClickListener {
+                val manager: PackageManager = requireActivity().packageManager
+
+                manager.setComponentEnabledSetting(
+                    ComponentName(
+                        requireActivity(),
+                        "ru.lopata.madDiary.Halloween"
+                    ),
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+                manager.setComponentEnabledSetting(
+                    ComponentName(
+                        requireActivity(),
+                        "ru.lopata.madDiary.NewYear"
+                    ),
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+                manager.setComponentEnabledSetting(
+                    ComponentName(
+                        requireActivity(),
+                        "ru.lopata.madDiary.core.presentation.MainActivity"
+                    ),
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+                requireActivity().showToast("Default icon")
+                viewModel.updateIcon(IconEnum.DEFAULT)
+            }
+
+            iconNewYear.setOnClickListener {
+                val manager: PackageManager = requireActivity().packageManager
+                manager.setComponentEnabledSetting(
+                    ComponentName(
+                        requireActivity(),
+                        "ru.lopata.madDiary.Halloween"
+                    ),
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+                manager.setComponentEnabledSetting(
+                    ComponentName(
+                        requireActivity(),
+                        "ru.lopata.madDiary.core.presentation.MainActivity"
+                    ),
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+                manager.setComponentEnabledSetting(
+                    ComponentName(
+                        requireActivity(),
+                        "ru.lopata.madDiary.NewYear"
+                    ),
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+                requireActivity().showToast("New Year icon")
+
+                viewModel.updateIcon(IconEnum.NEW_YEAR)
+            }
+
+            iconHalloween.setOnClickListener {
+
+                val manager: PackageManager = requireActivity().packageManager
+                manager.setComponentEnabledSetting(
+                    ComponentName(
+                        requireActivity(),
+                        "ru.lopata.madDiary.NewYear"
+                    ),
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+                manager.setComponentEnabledSetting(
+                    ComponentName(
+                        requireActivity(),
+                        "ru.lopata.madDiary.core.presentation.MainActivity"
+                    ),
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+                manager.setComponentEnabledSetting(
+                    ComponentName(
+                        requireActivity(),
+                        "ru.lopata.madDiary.Halloween"
+                    ),
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+                requireActivity().showToast("Halloween icon")
+
+                viewModel.updateIcon(IconEnum.HALLOWEEN)
+            }
+
             settingsNotificationEventRoot.setOnClickListener {
                 val intent = Intent(ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
                     putExtra(EXTRA_APP_PACKAGE, requireContext().packageName)
@@ -87,7 +189,23 @@ class SettingsFragment : Fragment() {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                     }
                 }
-
+                when (settings.icon) {
+                    IconEnum.DEFAULT -> {
+                        checkedCardView.strokeWidth = 0
+                        binding.iconDefault.strokeWidth = 5
+                        checkedCardView = binding.iconDefault
+                    }
+                    IconEnum.NEW_YEAR -> {
+                        checkedCardView.strokeWidth = 0
+                        binding.iconNewYear.strokeWidth = 5
+                        checkedCardView = binding.iconNewYear
+                    }
+                    IconEnum.HALLOWEEN -> {
+                        checkedCardView.strokeWidth = 0
+                        binding.iconHalloween.strokeWidth = 5
+                        checkedCardView = binding.iconHalloween
+                    }
+                }
             }
         }
     }

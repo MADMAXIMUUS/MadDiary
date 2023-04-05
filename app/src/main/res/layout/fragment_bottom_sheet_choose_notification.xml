@@ -41,9 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@null"
-            android:button="@null"
             android:checked="true"
-            android:drawableStart="@drawable/checkbox_selector"
             android:drawablePadding="10dp"
             android:paddingHorizontal="10dp"
             android:text="@string/never" />
@@ -53,8 +51,6 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@null"
-            android:button="@null"
-            android:drawableStart="@drawable/checkbox_selector"
             android:drawablePadding="10dp"
             android:paddingHorizontal="10dp"
             android:text="@string/at_time_of_event" />
@@ -64,8 +60,6 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@null"
-            android:button="@null"
-            android:drawableStart="@drawable/checkbox_selector"
             android:drawablePadding="10dp"
             android:paddingHorizontal="10dp"
             android:text="@string/ten_minute_before" />
@@ -75,8 +69,6 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@null"
-            android:button="@null"
-            android:drawableStart="@drawable/checkbox_selector"
             android:drawablePadding="10dp"
             android:paddingHorizontal="10dp"
             android:text="@string/thirty_minute_before" />
@@ -86,8 +78,6 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@null"
-            android:button="@null"
-            android:drawableStart="@drawable/checkbox_selector"
             android:drawablePadding="10dp"
             android:paddingHorizontal="10dp"
             android:text="@string/one_hour_before" />
@@ -97,8 +87,6 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@null"
-            android:button="@null"
-            android:drawableStart="@drawable/checkbox_selector"
             android:drawablePadding="10dp"
             android:paddingHorizontal="10dp"
             android:text="@string/one_day_before" />
@@ -108,8 +96,6 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@null"
-            android:button="@null"
-            android:drawableStart="@drawable/checkbox_selector"
             android:drawablePadding="10dp"
             android:paddingHorizontal="10dp"
             android:text="@string/one_week_before" />
@@ -119,17 +105,17 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@null"
-            android:button="@null"
-            android:drawableStart="@drawable/checkbox_selector"
             android:drawablePadding="10dp"
             android:paddingHorizontal="10dp"
             android:text="@string/one_month_before" />
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/bottom_sheet_notification_choose_btn"
-        style="@style/ConfirmButtonStyle"
+        style="@style/Widget.MadDiary.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

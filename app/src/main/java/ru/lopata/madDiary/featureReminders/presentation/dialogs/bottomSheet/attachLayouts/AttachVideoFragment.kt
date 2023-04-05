@@ -9,12 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import ru.lopata.madDiary.core.util.AttachItemDecoration
+import ru.lopata.madDiary.core.util.GridItemDecoration
 import ru.lopata.madDiary.core.util.checkPermission
 import ru.lopata.madDiary.databinding.FragmentAttachVideoBinding
+import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.VideoAdapter
-import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
 
 class AttachVideoFragment(
     private val videos: List<VideoItemState>,
@@ -78,7 +78,7 @@ class AttachVideoFragment(
             bottomSheetRv.apply {
                 this.adapter = videoAdapter
                 layoutManager = GridLayoutManager(requireContext(), 3)
-                addItemDecoration(AttachItemDecoration(10, 3))
+                addItemDecoration(GridItemDecoration(10,80, 3))
             }
         }
     }

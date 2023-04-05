@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="11">
+      <module name="MadDiary.core.data" target="11" />
+      <module name="MadDiary.core.database" target="11" />
+      <module name="MadDiary.core.datastore" target="11" />
+      <module name="MadDiary.core.ui" target="11" />
+      <module name="MadDiary.core.util" target="11" />
+      <module name="MadDiary.feature.background" target="11" />
+      <module name="MadDiary.feature.events" target="11" />
+      <module name="MadDiary.feature.notes" target="11" />
+      <module name="MadDiary.feature.settings" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

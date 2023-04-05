@@ -13,10 +13,6 @@
     <string name="bottom_menu_settings_title">Пункт \"настройки\" нижнего меню</string>
     <string name="bottom_menu_add_title">Пункт \"создать\" нижнего меню</string>
     <string name="bottom_menu_notes_title">Пункт \"заметки\" нижнего меню</string>
-    <string name="menu_search_view">Поиск</string>
-    <string name="menu_save">Сохранить</string>
-    <string name="menu_edit">Изменить</string>
-    <string name="menu_delete">Удалить</string>
     <string name="note_list_fab">Создать новую заметку</string>
     <string name="reminder_list_fab">Создать новое напоминание</string>
     <string name="type_something">Напишите что-нибудь…</string>
@@ -39,6 +35,7 @@
     <string name="bottom_sheet_choose_location_title">Выберите адресс</string>
     <string name="bottom_sheet_cover_title">Выберите обложку</string>
     <string name="confirm">Подтвердить</string>
+    <string name="update">Обновить</string>
     <string name="bottom_sheet_colon">:</string>
     <string name="never">Никогда</string>
     <string name="every_day">Каждый день</string>

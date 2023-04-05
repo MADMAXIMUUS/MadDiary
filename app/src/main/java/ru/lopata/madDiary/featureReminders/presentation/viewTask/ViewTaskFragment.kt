@@ -166,7 +166,7 @@ class ViewTaskFragment : Fragment(), OnAttachmentDialogListener {
                     LinearLayoutManager.HORIZONTAL,
                     false
                 )
-                addItemDecoration(HorizontalListsItemDecoration(10, 10))
+                addItemDecoration(HorizontalItemDecoration(10, 10))
             }
         }
     }

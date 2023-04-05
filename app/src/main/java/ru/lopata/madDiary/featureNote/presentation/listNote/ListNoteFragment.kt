@@ -49,7 +49,7 @@ class ListNoteFragment : Fragment() {
         binding.noteListRecycler.apply {
             adapter = listNoteAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)
-            addItemDecoration(GridItemDecoration(30, 2))
+            addItemDecoration(GridItemDecoration(30, 30,2))
             setHasFixedSize(true)
         }
         viewLifecycleOwner.lifecycleScope.launch {

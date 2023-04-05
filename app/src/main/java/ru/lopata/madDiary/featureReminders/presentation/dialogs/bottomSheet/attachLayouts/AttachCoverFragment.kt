@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import ru.lopata.madDiary.core.util.AttachItemDecoration
+import ru.lopata.madDiary.core.util.GridItemDecoration
 import ru.lopata.madDiary.databinding.FragmentAttachCoverBinding
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.CoverAdapter
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.OnAttachmentDialogListener
@@ -42,7 +42,7 @@ class AttachCoverFragment(
             bottomSheetRv.apply {
                 this.adapter = adapter
                 layoutManager = GridLayoutManager(requireContext(), 2)
-                addItemDecoration(AttachItemDecoration(20, 2))
+                addItemDecoration(GridItemDecoration(20, 80, 2))
             }
         }
     }

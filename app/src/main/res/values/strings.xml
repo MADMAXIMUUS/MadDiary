@@ -10,10 +10,6 @@
     <string name="bottom_menu_settings_title">Bottom menu settings</string>
     <string name="bottom_menu_add_title">Bottom menu add</string>
     <string name="bottom_menu_notes_title">Bottom menu notes</string>
-    <string name="menu_search_view">Search</string>
-    <string name="menu_save">Save</string>
-    <string name="menu_edit">Edit</string>
-    <string name="menu_delete">Delete</string>
     <string name="note_list_fab">Create new note</string>
     <string name="reminder_list_fab">Create new reminder</string>
     <string name="type_something">Type something…</string>
@@ -36,6 +32,7 @@
     <string name="bottom_sheet_choose_location_title">Choose location</string>
     <string name="bottom_sheet_cover_title">Choose cover</string>
     <string name="confirm">Confirm</string>
+    <string name="update">Update</string>
     <string name="bottom_sheet_colon">:</string>
     <string name="never">Never</string>
     <string name="every_day">Every day</string>

@@ -85,7 +85,7 @@ class AttachAudioFragment(
             bottomSheetRv.apply {
                 this.adapter = adapter
                 layoutManager = LinearLayoutManager(requireContext())
-                addItemDecoration(FileItemDecoration(80, 20))
+                addItemDecoration(VerticalItemDecoration(80, 20))
             }
             bottomSheetConfirmButton.setOnClickListener {
                 confirm()

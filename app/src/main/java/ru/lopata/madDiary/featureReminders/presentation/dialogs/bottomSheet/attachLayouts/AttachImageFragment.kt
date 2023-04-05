@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import ru.lopata.madDiary.core.util.AttachItemDecoration
+import ru.lopata.madDiary.core.util.GridItemDecoration
 import ru.lopata.madDiary.core.util.checkPermission
 import ru.lopata.madDiary.databinding.FragmentAttachImageBinding
 import ru.lopata.madDiary.featureReminders.presentation.dialogs.bottomSheet.attachLayouts.adapters.ImageAdapter
@@ -66,7 +66,7 @@ class AttachImageFragment(
             bottomSheetRv.apply {
                 adapter = imageAdapter
                 layoutManager = GridLayoutManager(requireContext(), 3)
-                addItemDecoration(AttachItemDecoration(10, 3))
+                addItemDecoration(GridItemDecoration(10, 80, 3))
             }
         }
     }

@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+    <style name="Base.Splash.v26.Theme.MadDiary" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/not_white</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/diary_logo_anim</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/diary_logo</item>
         <item name="windowSplashScreenAnimationDuration">2000</item>
-        <item name="postSplashScreenTheme">@style/Theme.MadDiary</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.MadDiary</item>
         <item name="android:statusBarColor">@color/not_white</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/not_white</item>
     </style>
+
+    <style name="Base.Theme.Splash" parent="Base.Splash.v26.Theme.MadDiary" />
+
+    <style name="Theme.Splash.MadDiary" parent="Base.Theme.Splash" />
 
 </resources>

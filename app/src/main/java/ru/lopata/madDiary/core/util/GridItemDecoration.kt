@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class GridItemDecoration(
     private val spacing: Int,
+    private val spacingStartTop: Int,
     private val spanCount: Int
 ) : RecyclerView.ItemDecoration() {
 
@@ -21,7 +22,7 @@ class GridItemDecoration(
         outRect.right = (column + 1) * spacing / spanCount
 
         if (position < spanCount) {
-            outRect.top = spacing
+            outRect.top = spacingStartTop
         }
         outRect.bottom = spacing
     }

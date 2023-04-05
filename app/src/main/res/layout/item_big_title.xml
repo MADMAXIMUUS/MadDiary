@@ -4,9 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/MonthYearItemStyle"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="140dp"
     android:baselineAligned="true"
     android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/item_big_title_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foreground="#50000000"
+        android:scaleType="centerCrop"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/month_august" />
 
     <TextView
         android:id="@+id/item_big_title_tv"
@@ -15,7 +24,7 @@
         android:layout_marginStart="20dp"
         android:fontFamily="@font/blogger_sans_bold"
         android:gravity="center_vertical"
-        android:textColor="@color/event_title_text_color_selector"
+        android:textColor="@color/mercury"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

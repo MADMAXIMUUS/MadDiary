@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ru.lopata.madDiary.R
-import ru.lopata.madDiary.core.util.FileItemDecoration
+import ru.lopata.madDiary.core.util.VerticalItemDecoration
 import ru.lopata.madDiary.core.util.toCalendarDate
 import ru.lopata.madDiary.databinding.FragmentSelectedDateEventsDialogBinding
 import ru.lopata.madDiary.featureReminders.domain.model.Event
@@ -50,7 +50,7 @@ class SelectedDateEventsDialogFragment(
         binding.selectedDateEventsDialogEvents.apply {
             adapter = eventAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(FileItemDecoration(20, 20))
+            addItemDecoration(VerticalItemDecoration(20, 20))
         }
 
         binding.selectedDateEventsDialogNewButton.setOnClickListener {

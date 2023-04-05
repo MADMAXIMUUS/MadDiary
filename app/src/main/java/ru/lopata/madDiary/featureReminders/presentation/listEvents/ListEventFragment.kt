@@ -16,17 +16,21 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import ru.lopata.madDiary.R
-import ru.lopata.madDiary.core.util.ListsItemDecoration
 import ru.lopata.madDiary.core.util.NavigationEvent
+import ru.lopata.madDiary.core.util.VerticalItemDecoration
 import ru.lopata.madDiary.databinding.FragmentListEventBinding
 import ru.lopata.madDiary.featureReminders.domain.model.Event
 import ru.lopata.madDiary.featureReminders.domain.model.Event.Types.*
 import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatNotificationAttachment
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.adapters.CompositeAdapter
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.adapters.DateTitleAdapter
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.adapters.EventsAdapter
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.adapters.MonthYearAdapter
 import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
 import java.io.File
 
 @AndroidEntryPoint
-class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
+class ListEventFragment : Fragment(), EventsAdapter.OnItemClickListener {
 
     private var _binding: FragmentListEventBinding? = null
     private val binding get() = _binding!!
@@ -34,6 +38,14 @@ class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
     private lateinit var navController: NavController
 
     private val viewModel: ListEventViewModel by viewModels()
+
+    private val compositeAdapter by lazy {
+        CompositeAdapter.Builder()
+            .add(MonthYearAdapter())
+            .add(DateTitleAdapter())
+            .add(EventsAdapter(this))
+            .build()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,18 +59,16 @@ class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
 
-        val eventAdapter = ListEventAdapter(this)
-
         binding.eventListRv.apply {
-            adapter = eventAdapter
+            adapter = compositeAdapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(ListsItemDecoration(10, 10))
+            addItemDecoration(VerticalItemDecoration(20, 20))
             setHasFixedSize(true)
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.uiState.collectLatest { state ->
-                eventAdapter.submitList(state.events)
+                compositeAdapter.submitList(state.events)
                 binding.eventListRv.smoothScrollToPosition(state.todayId)
             }
         }
@@ -96,7 +106,7 @@ class ListEventFragment : Fragment(), ListEventAdapter.OnItemClickListener {
                         .addCallback(object : Snackbar.Callback() {
                             override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                                 super.onDismissed(transientBottomBar, event)
-                                if (event == DISMISS_EVENT_TIMEOUT) {
+                                if (event == DISMISS_EVENT_TIMEOUT || event == DISMISS_EVENT_SWIPE) {
                                     item.attachments.forEach { attachment ->
                                         Uri.parse(attachment.uri).path?.let { File(it).delete() }
                                     }

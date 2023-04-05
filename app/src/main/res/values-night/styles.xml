@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ReminderBlockTitleTextView">
+    <style name="Widget.MadDiary.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_marginHorizontal">30dp</item>
+        <item name="android:layout_marginVertical">10dp</item>
+        <item name="android:background">@drawable/rounded_button_ripple_effect</item>
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
-        <item name="android:textColor">@color/spanish_gray</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingVertical">16dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">@color/onyx</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="Widget.MadDiary.RadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:textColor">@color/mercury</item>
+        <item name="android:button">@drawable/radiobutton_selector</item>
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Widget.MadDiary.CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_selector</item>
+        <item name="android:textColor">@color/mercury</item>
+        <item name="android:fontFamily">@font/blogger_sans_bold</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="ReminderCardStyle">
-        <item name="cardCornerRadius">10dp</item>
+        <item name="cardCornerRadius">15dp</item>
         <item name="cardBackgroundColor">@color/dark_liver</item>
     </style>
 
@@ -130,30 +155,6 @@
         <item name="fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textSize">40sp</item>
         <item name="android:gravity">center</item>
-    </style>
-
-    <style name="RadioButtonStyle" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
-    </style>
-
-    <style name="ThemeOverlay.App.RadioButton" parent="">
-        <item name="colorOnSurface">@color/spanish_gray</item>
-        <item name="colorSecondary">@color/mercury</item>
-        <item name="android:textColor">@color/mercury</item>
-        <item name="android:fontFamily">@font/blogger_sans_bold</item>
-        <item name="android:textSize">18sp</item>
-    </style>
-
-    <style name="CheckBoxStyle" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CheckBox</item>
-    </style>
-
-    <style name="ThemeOverlay.App.CheckBox" parent="">
-        <item name="colorOnSurface">@color/spanish_gray</item>
-        <item name="colorSecondary">@color/mercury</item>
-        <item name="android:textColor">@color/mercury</item>
-        <item name="android:fontFamily">@font/blogger_sans_bold</item>
-        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="CalendarCellDayNumber">

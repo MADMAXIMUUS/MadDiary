@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none"
-    tools:context="ru.lopata.madDiary.featureReminders.presentation.createAndEditEvent.CreateAndEditEventFragment">
+    tools:context=".featureReminders.presentation.createAndEditEvent.CreateAndEditEventFragment">
 
     <ImageView
         android:id="@+id/create_and_edit_event_delete_button"

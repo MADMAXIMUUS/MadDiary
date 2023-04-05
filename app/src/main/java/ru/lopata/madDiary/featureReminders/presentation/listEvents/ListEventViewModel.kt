@@ -1,5 +1,6 @@
 package ru.lopata.madDiary.featureReminders.presentation.listEvents
 
+import android.content.ContentResolver
 import android.icu.util.Calendar
 import android.net.Uri
 import androidx.lifecycle.ViewModel
@@ -9,12 +10,17 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.lopata.madDiary.BuildConfig
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.toDate
 import ru.lopata.madDiary.core.util.toMonth
 import ru.lopata.madDiary.core.util.toTimeZone
 import ru.lopata.madDiary.featureReminders.domain.model.*
 import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.itemStates.DateItem
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.itemStates.DelegateAdapterItem
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.itemStates.EventItem
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.itemStates.MonthYearTitleItem
 import java.sql.Date
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -48,7 +54,7 @@ class ListEventViewModel @Inject constructor(
         job?.cancel()
         job = eventsUseCases.getEventsUseCase()
             .onEach { events ->
-                val map = mutableMapOf<Date, MutableList<MainScreenItem>>()
+                val map = mutableMapOf<Date, MutableList<DelegateAdapterItem>>()
                 val today = Calendar.getInstance()
                 events.forEach { eventRepeatNotificationsAttachments ->
                     val event = eventRepeatNotificationsAttachments.event
@@ -108,7 +114,7 @@ class ListEventViewModel @Inject constructor(
 
                         var pass = date < today.timeInMillis
 
-                        val item = MainScreenItem.EventItem(
+                        val item = EventItem(
                             id = event.eventId!!,
                             chapter = chapter,
                             chapters = diffDay.toInt() + 1,
@@ -179,19 +185,20 @@ class ListEventViewModel @Inject constructor(
 
                     }
                 }
-                val list = mutableListOf<MainScreenItem>()
+                val list = mutableListOf<DelegateAdapterItem>()
                 val sortedMap = TreeMap(map)
                 var i = 0
                 var todayId = 0
                 val calendar = Calendar.getInstance()
-                var prevMonth =""
+                var prevMonth = ""
                 if (sortedMap.keys.isNotEmpty()) {
                     calendar.timeInMillis = sortedMap.keys.first().time
                     prevMonth = calendar.timeInMillis.toMonth()
                     list.add(
-                        MainScreenItem.MonthYearTitleItem(
+                        MonthYearTitleItem(
                             month = prevMonth,
-                            yearNumber = calendar.get(Calendar.YEAR)
+                            yearNumber = calendar.get(Calendar.YEAR),
+                            getURLForResource(calendar.get(Calendar.MONTH))
                         )
                     )
                 }
@@ -215,15 +222,16 @@ class ListEventViewModel @Inject constructor(
                     if (date.time.toMonth() != prevMonth) {
                         prevMonth = date.time.toMonth()
                         list.add(
-                            MainScreenItem.MonthYearTitleItem(
+                            MonthYearTitleItem(
                                 month = prevMonth,
-                                yearNumber = calendar.get(Calendar.YEAR)
+                                yearNumber = calendar.get(Calendar.YEAR),
+                                getURLForResource(calendar.get(Calendar.MONTH))
                             )
                         )
                     }
 
                     list.add(
-                        MainScreenItem.DateItem(
+                        DateItem(
                             title = title,
                             date = date.time.toDate()
                         )
@@ -279,6 +287,27 @@ class ListEventViewModel @Inject constructor(
 
     private companion object {
         const val DAY_IN_MILLISECONDS = 86400000
+    }
+
+    private fun getURLForResource(month: Int): Uri {
+        val resourceId = when (month) {
+            Calendar.JANUARY -> R.drawable.month_january
+            Calendar.FEBRUARY -> R.drawable.month_february
+            Calendar.MARCH -> R.drawable.month_march
+            Calendar.APRIL -> R.drawable.month_april
+            Calendar.MAY -> R.drawable.month_may
+            Calendar.JUNE -> R.drawable.month_june
+            Calendar.JULY -> R.drawable.month_july
+            Calendar.AUGUST -> R.drawable.month_august
+            Calendar.SEPTEMBER -> R.drawable.month_september
+            Calendar.OCTOBER -> R.drawable.month_october
+            Calendar.NOVEMBER -> R.drawable.month_november
+            Calendar.DECEMBER -> R.drawable.month_december
+            else -> R.drawable.month_january
+        }
+        return Uri.parse(
+            ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + BuildConfig.APPLICATION_ID + "/drawable/" + resourceId
+        )
     }
 
 }

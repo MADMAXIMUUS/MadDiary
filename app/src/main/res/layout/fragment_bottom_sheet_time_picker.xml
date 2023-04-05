@@ -69,9 +69,11 @@
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/bottom_sheet_time_choose_btn"
-        style="@style/ConfirmButtonStyle"
+        style="@style/Widget.MadDiary.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

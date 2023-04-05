@@ -3,13 +3,13 @@
     <color name="black">#FF000000</color>
     <color name="black_66">#66000000</color>
     <color name="black_e0">#e0000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FFFAFAFA</color>
     <color name="white_b0">#B0FFFFFF</color>
     <color name="white_e0">#E0FFFFFF</color>
-    <color name="metallic_seaweed">#FF057389</color>
+    <color name="metallic_seaweed">#FF078080</color>
     <color name="metallic_seaweed_light">#FF049CBA</color>
     <color name="charcoal_grey">#FF424242</color>
-    <color name="mercury">#FFE3E9E5</color>
+    <color name="mercury">#FFF8F5F2</color>
     <color name="not_white">#FFFAFAFA</color>
     <color name="gray_chateau">#FFA7A7A7</color>
     <color name="white_smoke">#FFF5F5F5</color>

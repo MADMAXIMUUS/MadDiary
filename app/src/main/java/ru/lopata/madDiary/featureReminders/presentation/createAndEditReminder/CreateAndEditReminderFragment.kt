@@ -299,7 +299,7 @@ class CreateAndEditReminderFragment : Fragment(), OnAttachmentDialogListener {
                 layoutManager = LinearLayoutManager(
                     requireContext(), LinearLayoutManager.HORIZONTAL, false
                 )
-                addItemDecoration(HorizontalListsItemDecoration(10, 10))
+                addItemDecoration(HorizontalItemDecoration(10, 10))
             }
         }
 
