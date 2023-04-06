@@ -10,16 +10,16 @@
 ---
 
 ### Main screen
-![Main screen](/img/MainScreen.png "Main Screen")
+<img src="/img/MainScreen.png" alt="Main screen" width="30%" height="60%">
 ---
 
 ### Notification
-![Notification](/img/Notification.png "Notification screen")
+<img src="/img/Notification.png" alt="Notification screen" width="30%" height="60%">
 ---
 
 ### Calendar
-![Calendar screen](/img/CalendarScreen.png "Calendar Screen")
+<img src="/img/CalendarScreen.png" alt="Calendar Screen" width="30%" height="60%">
 ---
 
 ### Notes
-![Notes screen](/img/NotesScreen.png "Notes Screen")
+<img src="/img/NotesScreen.png" alt="Notes Screen" width="30%" height="60%">
