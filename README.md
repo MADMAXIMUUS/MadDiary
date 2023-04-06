@@ -11,14 +11,17 @@
 
 ### Main screen
 <img src="/img/MainScreen.png" alt="Main screen" width="30%" height="60%">
+
 ---
 
 ### Notification
 <img src="/img/Notification.png" alt="Notification screen" width="30%" height="60%">
+
 ---
 
 ### Calendar
 <img src="/img/CalendarScreen.png" alt="Calendar Screen" width="30%" height="60%">
+
 ---
 
 ### Notes
