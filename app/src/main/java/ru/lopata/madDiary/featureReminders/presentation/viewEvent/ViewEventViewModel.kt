@@ -14,7 +14,7 @@ import ru.lopata.madDiary.featureReminders.domain.model.Event
 import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatNotificationAttachment
 import ru.lopata.madDiary.featureReminders.domain.model.Notification
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
-import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import ru.lopata.madDiary.featureReminders.domain.useCase.EventUseCases
 import javax.inject.Inject
 
 @HiltViewModel

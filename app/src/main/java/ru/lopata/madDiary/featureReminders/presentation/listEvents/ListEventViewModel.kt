@@ -16,7 +16,7 @@ import ru.lopata.madDiary.core.util.toDate
 import ru.lopata.madDiary.core.util.toMonth
 import ru.lopata.madDiary.core.util.toTimeZone
 import ru.lopata.madDiary.featureReminders.domain.model.*
-import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import ru.lopata.madDiary.featureReminders.domain.useCase.EventUseCases
 import ru.lopata.madDiary.featureReminders.presentation.listEvents.itemStates.DateItem
 import ru.lopata.madDiary.featureReminders.presentation.listEvents.itemStates.DelegateAdapterItem
 import ru.lopata.madDiary.featureReminders.presentation.listEvents.itemStates.EventItem

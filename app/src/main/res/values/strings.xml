@@ -74,6 +74,8 @@
     <string name="until">" until "</string>
     <string name="permission_dialog_text">To add attachments, you must grant permission to access photos, videos, audio, and music. Tap > settings > permissions and allow access to <u>files and media</u></string>
 
+    <string name="search_hint">Party</string>
+
     <!--Notification titles-->
     <string name="attachment_message">Copy attachments %1d out of %2d</string>
 

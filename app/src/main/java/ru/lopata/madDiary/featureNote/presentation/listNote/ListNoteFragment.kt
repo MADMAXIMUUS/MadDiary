@@ -20,16 +20,24 @@ import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.util.GridItemDecoration
 import ru.lopata.madDiary.core.util.NavigationEvent
 import ru.lopata.madDiary.databinding.FragmentListNoteBinding
+import ru.lopata.madDiary.featureNote.domain.model.NoteItem
 import ru.lopata.madDiary.featureNote.domain.model.entity.Note
+import ru.lopata.madDiary.featureReminders.presentation.listEvents.adapters.CompositeAdapter
 
 @AndroidEntryPoint
-class ListNoteFragment : Fragment() {
+class ListNoteFragment : Fragment(), ListNoteAdapter.OnItemClick {
 
     private var _binding: FragmentListNoteBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: ListNoteViewModel by viewModels()
     private lateinit var navController: NavController
+
+    private val compositeAdapter by lazy {
+        CompositeAdapter.Builder()
+            .add(ListNoteAdapter(this))
+            .build()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,22 +52,20 @@ class ListNoteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = view.findNavController()
 
-        val listNoteAdapter = ListNoteAdapter { note ->
-            val action =
-                ListNoteFragmentDirections.actionBottomNotesToCreateNoteFragment(noteId = note.noteId!!)
-            view.findNavController().navigate(action)
+        binding.noteListSearchButton.setOnClickListener {
+            navController.navigate(R.id.searchFragment)
         }
 
         binding.noteListRecycler.apply {
-            adapter = listNoteAdapter
+            adapter = compositeAdapter
             layoutManager = GridLayoutManager(requireContext(), 2)
-            addItemDecoration(GridItemDecoration(30, 30,2))
+            addItemDecoration(GridItemDecoration(30, 30, 2))
             setHasFixedSize(true)
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.listNoteState.collect { state ->
-                    listNoteAdapter.submitList(state.notes)
+                    compositeAdapter.submitList(state.notes)
                 }
             }
         }
@@ -119,5 +125,11 @@ class ListNoteFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onItemClick(note: NoteItem) {
+        val action =
+            ListNoteFragmentDirections.actionBottomNotesToCreateNoteFragment(noteId = note.noteId)
+        navController.navigate(action)
     }
 }

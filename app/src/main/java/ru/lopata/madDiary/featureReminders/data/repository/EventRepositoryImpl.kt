@@ -10,8 +10,8 @@ class EventRepositoryImpl(
     private val eventDao: EventDao
 ) : EventRepository {
 
-    override fun getEvents(): Flow<List<EventRepeatNotificationAttachment>> {
-        return eventDao.getEvents()
+    override fun getEvents(searchQuery: String): Flow<List<EventRepeatNotificationAttachment>> {
+        return eventDao.getEvents(searchQuery)
     }
 
     override suspend fun getEventById(id: Int): EventRepeatNotificationAttachment? {

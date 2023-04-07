@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.featureReminders.domain.model.Attachment
-import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import ru.lopata.madDiary.featureReminders.domain.useCase.EventUseCases
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream

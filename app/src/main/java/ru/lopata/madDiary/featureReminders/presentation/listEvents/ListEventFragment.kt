@@ -66,6 +66,10 @@ class ListEventFragment : Fragment(), EventsAdapter.OnItemClickListener {
             setHasFixedSize(true)
         }
 
+        binding.eventListSearchButton.setOnClickListener {
+            navController.navigate(R.id.searchFragment)
+        }
+
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             viewModel.uiState.collectLatest { state ->
                 compositeAdapter.submitList(state.events)

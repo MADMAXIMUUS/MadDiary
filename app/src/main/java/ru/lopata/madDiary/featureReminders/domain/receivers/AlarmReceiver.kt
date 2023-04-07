@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.lopata.madDiary.R
 import ru.lopata.madDiary.core.presentation.MainActivity
-import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import ru.lopata.madDiary.featureReminders.domain.useCase.EventUseCases
 import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
 import java.sql.Date
 import javax.inject.Inject

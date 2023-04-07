@@ -5,6 +5,7 @@
     android:id="@+id/item_note_root"
     android:layout_width="match_parent"
     android:layout_height="200dp"
+    android:layout_marginHorizontal="10dp"
     android:background="@color/white_smoke"
     android:maxHeight="200dp"
     app:cardCornerRadius="15dp"

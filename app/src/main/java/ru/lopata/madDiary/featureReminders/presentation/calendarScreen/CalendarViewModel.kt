@@ -8,7 +8,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.lopata.madDiary.featureReminders.domain.model.Repeat
-import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import ru.lopata.madDiary.featureReminders.domain.useCase.EventUseCases
 import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarDayState
 import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarScreenState
 import ru.lopata.madDiary.featureReminders.presentation.calendarScreen.states.CalendarViewState

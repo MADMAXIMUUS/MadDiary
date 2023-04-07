@@ -23,7 +23,7 @@ import ru.lopata.madDiary.featureReminders.domain.model.states.AudioItemState
 import ru.lopata.madDiary.featureReminders.domain.model.states.FileItemState
 import ru.lopata.madDiary.featureReminders.domain.model.states.ImageItemState
 import ru.lopata.madDiary.featureReminders.domain.model.states.VideoItemState
-import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import ru.lopata.madDiary.featureReminders.domain.useCase.EventUseCases
 import java.sql.Date
 import javax.inject.Inject
 

@@ -11,9 +11,6 @@
         android:label="@string/note_label"
         tools:layout="@layout/fragment_list_note">
         <action
-            android:id="@+id/action_bottom_notes_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
             android:id="@+id/action_bottom_notes_to_createNoteFragment"
             app:destination="@id/createNoteFragment">
             <argument
@@ -68,9 +65,6 @@
             app:argType="ru.lopata.madDiary.core.util.NavigationEvent"
             app:nullable="true" />
         <action
-            android:id="@+id/action_bottom_reminders_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
             android:id="@+id/action_bottom_reminders_to_viewEventFragment"
             app:destination="@id/viewEventFragment" />
         <action
@@ -116,7 +110,11 @@
         android:id="@+id/searchFragment"
         android:name="ru.lopata.madDiary.core.presentation.search.SearchFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_createNoteFragment"
+            app:destination="@id/createNoteFragment" />
+    </fragment>
     <fragment
         android:id="@+id/viewEventFragment"
         android:name="ru.lopata.madDiary.featureReminders.presentation.viewEvent.ViewEventFragment"

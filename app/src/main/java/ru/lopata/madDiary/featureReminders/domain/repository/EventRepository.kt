@@ -6,7 +6,7 @@ import java.sql.Date
 
 interface EventRepository {
 
-    fun getEvents(): Flow<List<EventRepeatNotificationAttachment>>
+    fun getEvents(searchQuery: String): Flow<List<EventRepeatNotificationAttachment>>
 
     suspend fun getEventById(id: Int): EventRepeatNotificationAttachment?
 

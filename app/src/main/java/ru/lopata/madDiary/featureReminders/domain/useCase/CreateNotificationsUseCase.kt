@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.domain.useCase.event
+package ru.lopata.madDiary.featureReminders.domain.useCase
 
 import ru.lopata.madDiary.featureReminders.domain.model.Notification
 import ru.lopata.madDiary.featureReminders.domain.repository.EventRepository

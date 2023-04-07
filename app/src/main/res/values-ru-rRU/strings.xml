@@ -77,6 +77,8 @@
     <string name="until">" до "</string>
     <string name="permission_dialog_text">Для добавления вложений необходимо выдать разрешение на доступ к фото, видео, аудио и музыке. Нажмите > настройки > разрешения и разрешите доступ к <u>Файлам и медиа</u></string>
 
+    <string name="search_hint">Вечеринка</string>
+
     <string name="internal_storage">Внутреннее хранилище</string>
     <string name="internal_storage_subtitle">Добавить файл с устройства</string>
     <string name="add_file_rv_title">Недавние файлы</string>

@@ -290,6 +290,18 @@
         <item name="android:tint">@color/mercury</item>
     </style>
 
+    <style name="SearchBarStyle">
+        <item name="android:backgroundTint">@color/dark_gray</item>
+        <item name="android:background">@drawable/all_corners</item>
+        <item name="android:textColor">@color/mercury</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingHorizontal">10dp</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:drawableEnd">@drawable/search_icon_wrap</item>
+        <item name="android:drawableTint">@color/mercury</item>
+    </style>
+
     <style name="ToolbarButtonStyleDialog">
         <item name="android:backgroundTint">@color/dark_liver</item>
         <item name="android:background">@drawable/all_corners</item>

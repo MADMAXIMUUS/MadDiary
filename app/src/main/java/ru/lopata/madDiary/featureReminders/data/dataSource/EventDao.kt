@@ -9,8 +9,8 @@ import java.sql.Date
 interface EventDao {
 
     @Transaction
-    @Query("SELECT * FROM EVENTS ORDER BY startDateTime ASC")
-    fun getEvents(): Flow<List<EventRepeatNotificationAttachment>>
+    @Query("SELECT * FROM EVENTS WHERE title LIKE '%' || :searchQuery || '%' ORDER BY startDateTime ASC")
+    fun getEvents(searchQuery: String): Flow<List<EventRepeatNotificationAttachment>>
 
     @Transaction
     @Query("SELECT * FROM EVENTS WHERE startDateTime >= :startDate")

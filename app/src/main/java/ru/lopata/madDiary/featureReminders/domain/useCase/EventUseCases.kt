@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.domain.useCase.event
+package ru.lopata.madDiary.featureReminders.domain.useCase
 
 data class EventUseCases(
     val getEventsUseCase: GetEventsUseCase,

@@ -7,9 +7,7 @@ import ru.lopata.madDiary.featureNote.domain.repository.NoteRepository
 class GetAllNotesUseCase(
     private val repository: NoteRepository
 ) {
-    operator fun invoke(
-        searchQuery: String = ""
-    ): Flow<List<NoteWithCategories>> {
+    operator fun invoke(searchQuery: String=""): Flow<List<NoteWithCategories>> {
         return repository.getAllNotes(searchQuery)
     }
 }

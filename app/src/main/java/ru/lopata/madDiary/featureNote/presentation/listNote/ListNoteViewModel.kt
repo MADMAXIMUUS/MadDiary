@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import ru.lopata.madDiary.core.util.toDate
+import ru.lopata.madDiary.featureNote.domain.model.NoteItem
 import ru.lopata.madDiary.featureNote.domain.model.entity.Note
 import ru.lopata.madDiary.featureNote.domain.useCase.NoteUseCases
 import javax.inject.Inject
@@ -31,9 +33,18 @@ class ListNoteViewModel @Inject constructor(
         getNotesJob?.cancel()
         getNotesJob = noteUseCases.getAllNotesUseCase()
             .onEach { notesWithCategories ->
-                val notes = mutableListOf<Note>()
+                val notes = mutableListOf<NoteItem>()
                 notesWithCategories.forEach { noteWithCategories ->
-                    notes.add(noteWithCategories.note)
+                    notes.add(
+                        NoteItem(
+                            noteId = noteWithCategories.note.noteId ?: -1,
+                            text = noteWithCategories.note.text,
+                            title = noteWithCategories.note.title,
+                            pinned = noteWithCategories.note.pinned,
+                            timestamp = noteWithCategories.note.timestamp.toDate(),
+                            categories = noteWithCategories.categories
+                        )
+                    )
                 }
                 _listNoteState.value = listNoteState.value.copy(
                     notes = notes.toList()

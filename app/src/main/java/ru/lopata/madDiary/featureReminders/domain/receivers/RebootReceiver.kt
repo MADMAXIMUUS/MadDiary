@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import ru.lopata.madDiary.featureReminders.domain.model.Event
 import ru.lopata.madDiary.featureReminders.domain.model.EventRepeatNotificationAttachment
 import ru.lopata.madDiary.featureReminders.domain.model.Notification
-import ru.lopata.madDiary.featureReminders.domain.useCase.event.EventUseCases
+import ru.lopata.madDiary.featureReminders.domain.useCase.EventUseCases
 import ru.lopata.madDiary.featureReminders.util.AndroidAlarmScheduler
 import java.sql.Date
 import javax.inject.Inject

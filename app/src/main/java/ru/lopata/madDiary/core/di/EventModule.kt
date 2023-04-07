@@ -7,7 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import ru.lopata.madDiary.core.data.dataSource.MadNoteDatabase
 import ru.lopata.madDiary.featureReminders.data.repository.EventRepositoryImpl
 import ru.lopata.madDiary.featureReminders.domain.repository.EventRepository
-import ru.lopata.madDiary.featureReminders.domain.useCase.event.*
+import ru.lopata.madDiary.featureReminders.domain.useCase.*
 import javax.inject.Singleton
 
 

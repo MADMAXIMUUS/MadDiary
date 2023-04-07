@@ -1,7 +1,6 @@
-package ru.lopata.madDiary.featureReminders.domain.useCase.event
+package ru.lopata.madDiary.featureReminders.domain.useCase
 
 import ru.lopata.madDiary.featureReminders.domain.model.Event
-import ru.lopata.madDiary.featureReminders.domain.model.Repeat
 import ru.lopata.madDiary.featureReminders.domain.repository.EventRepository
 
 class CreateEventUseCase(

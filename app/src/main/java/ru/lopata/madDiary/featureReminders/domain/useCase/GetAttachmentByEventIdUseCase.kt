@@ -1,4 +1,4 @@
-package ru.lopata.madDiary.featureReminders.domain.useCase.event
+package ru.lopata.madDiary.featureReminders.domain.useCase
 
 import kotlinx.coroutines.flow.Flow
 import ru.lopata.madDiary.featureReminders.domain.model.Attachment
