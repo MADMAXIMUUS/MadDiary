@@ -25,7 +25,7 @@ object NoteModule {
     @Singleton
     fun provideNoteUseCases(repository: NoteRepository): NoteUseCases {
         return NoteUseCases(
-            getAllNotesUseCase = GetAllNotesUseCase(repository),
+            getNotesUseCase = GetNotesUseCase(repository),
             getNoteByIdUseCase = GetNoteByIdUseCase(repository),
             createNoteUseCase = CreateNoteUseCase(repository),
             deleteNotesUseCase = DeleteNotesUseCase(repository)

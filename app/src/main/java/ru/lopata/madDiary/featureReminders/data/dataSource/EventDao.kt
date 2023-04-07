@@ -29,6 +29,9 @@ interface EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEvent(event: Event): Long
 
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateEvent(event: Event)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRepeat(repeat: Repeat)
 

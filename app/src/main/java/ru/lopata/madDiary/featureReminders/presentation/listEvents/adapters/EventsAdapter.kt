@@ -26,11 +26,31 @@ class EventsAdapter(private val clickListener: OnItemClickListener) :
         viewHolder: EventViewHolder,
         payloads: List<DelegateAdapterItem.Payloadable>
     ) {
-        viewHolder.bind(model)
+        when (val payload = payloads.firstOrNull() as? EventItem.ChangePayload) {
+            is EventItem.ChangePayload.CompletedChange -> viewHolder.bindChecked(
+                payload.isCompleted,
+                payload.pass
+            )
+            else ->
+                viewHolder.bind(model)
+        }
     }
 
     inner class EventViewHolder(private val binding: ItemEventBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        fun bindChecked(isChecked: Boolean, pass: Boolean) {
+            binding.apply {
+                if (isChecked) {
+                    itemEventTitle.paintFlags = itemEventTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    itemEventTitle.isEnabled = false
+                } else {
+                    itemEventTitle.paintFlags = itemEventTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                    if (!pass)
+                        itemEventTitle.isEnabled = true
+                }
+            }
+        }
 
         fun bind(item: EventItem) {
             binding.apply {
@@ -92,7 +112,7 @@ class EventsAdapter(private val clickListener: OnItemClickListener) :
                         itemEventTitle.isEnabled = false
                     } else {
                         itemEventTitle.paintFlags =
-                            itemEventTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                            itemEventTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG.inv()
                         if (!item.pass)
                             itemEventTitle.isEnabled = true
                     }

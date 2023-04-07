@@ -45,7 +45,7 @@ class ListEventViewModel @Inject constructor(
         viewModelScope.launch {
             eventsUseCases.getEventByIdUseCase(id)?.let {
                 val event = it.event.copy(completed = state)
-                eventsUseCases.createEventUseCase(event)
+                eventsUseCases.updateEventUseCase(event)
             }
         }
     }

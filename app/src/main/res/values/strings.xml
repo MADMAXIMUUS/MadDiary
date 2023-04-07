@@ -76,6 +76,11 @@
 
     <string name="search_hint">Party</string>
 
+
+    <string name="add_event_icon">Add event icon</string>
+    <string name="add_reminder_icon">Add reminder icon</string>
+    <string name="add_task_icon">Add task icon</string>
+
     <!--Notification titles-->
     <string name="attachment_message">Copy attachments %1d out of %2d</string>
 
@@ -151,9 +156,7 @@
     <string name="event_updated">%1$s updated!</string>
     <string name="event_deleted">%1$s deleted!</string>
     <string name="undo">Undo</string>
-    <string name="add_event_icon">Add event icon</string>
-    <string name="add_reminder_icon">Add reminder icon</string>
-    <string name="add_task_icon">Add task icon</string>
+    <string name="empty_search">Nothing found</string>
 
     <string-array name="days_in_week">
         <item>M</item>

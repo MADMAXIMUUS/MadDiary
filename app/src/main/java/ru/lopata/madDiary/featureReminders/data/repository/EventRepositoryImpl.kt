@@ -49,4 +49,8 @@ class EventRepositoryImpl(
     override suspend fun deleteEvent(eventId: Int) {
         return eventDao.deleteEvent(eventId)
     }
+
+    override suspend fun updateEvent(event: Event) {
+        return eventDao.updateEvent(event)
+    }
 }

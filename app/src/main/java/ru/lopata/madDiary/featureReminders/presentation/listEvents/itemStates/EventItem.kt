@@ -22,11 +22,43 @@ data class EventItem(
     val cover: Uri,
     val isChecked: Boolean
 ) : DelegateAdapterItem {
+
     override fun id(): Any {
         return id
     }
 
     override fun content(): Any {
-        return title
+        return EventItemContent(isChecked, pass)
     }
+
+    override fun payload(other: Any): DelegateAdapterItem.Payloadable {
+        if (other is EventItem) {
+            if (isChecked != other.isChecked)
+                return ChangePayload.CompletedChange(other.isChecked, other.pass)
+        }
+        return DelegateAdapterItem.Payloadable.None
+    }
+
+    inner class EventItemContent(
+        val isCompleted: Boolean,
+        val pass: Boolean
+    ) {
+        override fun equals(other: Any?): Boolean {
+            if (other is EventItemContent) {
+                return pass == other.pass && isCompleted == other.isCompleted
+            }
+            return false
+        }
+
+        override fun hashCode(): Int {
+            var result = pass.hashCode()
+            result = 31 * result + isCompleted.hashCode()
+            return result
+        }
+    }
+
+    sealed class ChangePayload : DelegateAdapterItem.Payloadable {
+        data class CompletedChange(val isCompleted: Boolean, val pass: Boolean) : ChangePayload()
+    }
+
 }

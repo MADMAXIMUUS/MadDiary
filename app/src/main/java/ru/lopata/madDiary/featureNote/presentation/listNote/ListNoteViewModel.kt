@@ -31,7 +31,7 @@ class ListNoteViewModel @Inject constructor(
 
     private fun getNotes() {
         getNotesJob?.cancel()
-        getNotesJob = noteUseCases.getAllNotesUseCase()
+        getNotesJob = noteUseCases.getNotesUseCase()
             .onEach { notesWithCategories ->
                 val notes = mutableListOf<NoteItem>()
                 notesWithCategories.forEach { noteWithCategories ->

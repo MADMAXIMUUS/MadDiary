@@ -5,6 +5,7 @@ data class EventUseCases(
     val getEventByIdUseCase: GetEventByIdUseCase,
     val getEventsFromDateUseCase: GetEventsFromDateUseCase,
     val createEventUseCase: CreateEventUseCase,
+    val updateEventUseCase: UpdateEventUseCase,
     val createRepeatUseCase: CreateRepeatUseCase,
     val createAttachmentsUseCase: CreateAttachmentsUseCase,
     val createNotificationsUseCase: CreateNotificationsUseCase,

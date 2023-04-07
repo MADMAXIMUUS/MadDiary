@@ -27,4 +27,6 @@ interface EventRepository {
     suspend fun getAttachmentsByEventId(eventId: Long): Flow<List<Attachment>>
 
     suspend fun deleteEvent(eventId: Int)
+
+    suspend fun updateEvent(event: Event)
 }

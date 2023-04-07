@@ -79,6 +79,10 @@
 
     <string name="search_hint">Вечеринка</string>
 
+    <string name="add_event_icon">Add event icon</string>
+    <string name="add_reminder_icon">Add reminder icon</string>
+    <string name="add_task_icon">Add task icon</string>
+
     <string name="internal_storage">Внутреннее хранилище</string>
     <string name="internal_storage_subtitle">Добавить файл с устройства</string>
     <string name="add_file_rv_title">Недавние файлы</string>
@@ -154,9 +158,7 @@
     <string name="event_updated">%1$s обновлено!</string>
     <string name="event_deleted">%1$s удалено!</string>
     <string name="undo">Отменить</string>
-    <string name="add_event_icon">Add event icon</string>
-    <string name="add_reminder_icon">Add reminder icon</string>
-    <string name="add_task_icon">Add task icon</string>
+    <string name="empty_search">Ничего не найдено</string>
 
     <!--Arrays-->
     <string-array name="days_in_week">
