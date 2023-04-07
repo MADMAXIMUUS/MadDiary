@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import ru.lopata.madDiary.featureNote.domain.model.entity.Note
 import ru.lopata.madDiary.featureNote.domain.useCase.NoteUseCases
 import javax.inject.Inject
@@ -39,6 +40,12 @@ class ListNoteViewModel @Inject constructor(
                 )
             }
             .launchIn(viewModelScope)
+    }
+
+    fun undoDelete(note: Note) {
+        viewModelScope.launch {
+            noteUseCases.createNoteUseCase(note.copy(noteId = null))
+        }
     }
 
 }

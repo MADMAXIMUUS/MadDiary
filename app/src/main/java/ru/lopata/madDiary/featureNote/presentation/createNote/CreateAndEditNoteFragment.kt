@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +15,7 @@ import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import ru.lopata.madDiary.core.util.NavigationEvent
 import ru.lopata.madDiary.core.util.UiEvent
 import ru.lopata.madDiary.databinding.FragmentCreateAndEditNoteBinding
 
@@ -42,10 +44,22 @@ class CreateAndEditNoteFragment : Fragment() {
                 viewModel.eventFlow.collectLatest { event ->
                     when (event) {
                         is UiEvent.Save -> {
-                            view.findNavController().navigateUp()
+                            val action =
+                                CreateAndEditNoteFragmentDirections.actionCreateNoteFragmentToBottomNotes(
+                                    navigationEvents = NavigationEvent.Create(viewModel.currentNote.value.title)
+                                )
+                            view.findNavController().navigate(action)
                         }
                         is UiEvent.Delete -> {
-                            view.findNavController().navigateUp()
+                            val action =
+                                CreateAndEditNoteFragmentDirections.actionCreateNoteFragmentToBottomNotes(
+                                    navigationEvents = NavigationEvent.Delete(
+                                        passObject = bundleOf(
+                                            "note" to viewModel.currentNote.value
+                                        )
+                                    )
+                                )
+                            view.findNavController().navigate(action)
                         }
                         else -> {}
                     }
