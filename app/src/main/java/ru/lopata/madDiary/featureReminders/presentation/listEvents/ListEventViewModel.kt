@@ -203,6 +203,7 @@ class ListEventViewModel @Inject constructor(
                     )
                 }
                 sortedMap.keys.forEach { date ->
+                    val pass = date.time < today.timeInMillis
                     val tomorrow = today.timeInMillis + DAY_IN_MILLISECONDS
                     val yesterday = today.timeInMillis - DAY_IN_MILLISECONDS
 
@@ -233,6 +234,7 @@ class ListEventViewModel @Inject constructor(
                     list.add(
                         DateItem(
                             title = title,
+                            pass = pass,
                             date = date.time.toDate()
                         )
                     )

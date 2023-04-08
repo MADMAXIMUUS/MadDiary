@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 
 data class DateItem(
     @StringRes val title: Int,
+    val pass: Boolean = false,
     val date: String
 ) : DelegateAdapterItem {
     override fun id(): Any {

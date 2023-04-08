@@ -42,6 +42,9 @@ class DateTitleAdapter :
                     itemTitleDivider.visibility = View.GONE
                     itemTitleDate.visibility = View.GONE
                 }
+                itemTitleDayTitle.isEnabled = !item.pass
+                itemTitleDate.isEnabled = !item.pass
+                itemTitleDivider.isEnabled = !item.pass
             }
         }
     }

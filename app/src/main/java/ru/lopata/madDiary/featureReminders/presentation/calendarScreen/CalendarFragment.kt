@@ -39,7 +39,7 @@ class CalendarFragment : Fragment(), SelectedDateEventsDialogFragment.OnEventCli
         return binding.root
     }
 
-    @SuppressLint("SimpleDateFormat", "SetTextI18n")
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,11 +53,11 @@ class CalendarFragment : Fragment(), SelectedDateEventsDialogFragment.OnEventCli
                     override fun onDayCLick(
                         view: MadCalendarMonth, day: Calendar, events: List<EventInCalendarGrid>
                     ) {
-                        if (day.get(Calendar.MONTH) > viewModel.uiState.value.selectedDay.get(
-                                Calendar.MONTH
-                            ) || day.get(Calendar.YEAR) > viewModel.uiState.value.selectedDay.get(
-                                Calendar.YEAR
-                            )
+                        if (
+                            day.get(Calendar.MONTH) > viewModel
+                                .uiState.value.selectedDay.get(Calendar.MONTH) ||
+                            day.get(Calendar.YEAR) > viewModel
+                                .uiState.value.selectedDay.get(Calendar.YEAR)
                         ) {
                             when (val drawable = binding.calendarNextMonthBtn.drawable) {
                                 is AnimatedVectorDrawable -> {
@@ -65,11 +65,11 @@ class CalendarFragment : Fragment(), SelectedDateEventsDialogFragment.OnEventCli
                                     drawable.start()
                                 }
                             }
-                        } else if (day.get(Calendar.MONTH) < viewModel.uiState.value.selectedDay.get(
-                                Calendar.MONTH
-                            ) || day.get(Calendar.YEAR) < viewModel.uiState.value.selectedDay.get(
-                                Calendar.YEAR
-                            )
+                        } else if (
+                            day.get(Calendar.MONTH) < viewModel
+                                .uiState.value.selectedDay.get(Calendar.MONTH) ||
+                            day.get(Calendar.YEAR) < viewModel
+                                .uiState.value.selectedDay.get(Calendar.YEAR)
                         ) {
                             when (val drawable = binding.calendarPrevMonthBtn.drawable) {
                                 is AnimatedVectorDrawable -> {
@@ -77,12 +77,13 @@ class CalendarFragment : Fragment(), SelectedDateEventsDialogFragment.OnEventCli
                                     drawable.start()
                                 }
                             }
+                        } else {
+                            SelectedDateEventsDialogFragment(
+                                this@CalendarFragment, day, events
+                            ).show(
+                                requireActivity().supportFragmentManager, "CalendarEventsDialog"
+                            )
                         }
-                        SelectedDateEventsDialogFragment(
-                            this@CalendarFragment, day, events
-                        ).show(
-                            requireActivity().supportFragmentManager, "CalendarEventsDialog"
-                        )
                         viewModel.changeSelectedDate(day)
                     }
                 })

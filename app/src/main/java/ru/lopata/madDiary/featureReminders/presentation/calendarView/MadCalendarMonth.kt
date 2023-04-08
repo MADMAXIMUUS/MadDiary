@@ -598,8 +598,9 @@ class MadCalendarMonth @JvmOverloads constructor(
             localeDate.get(Calendar.WEEK_OF_MONTH) - 1 + localeDate.apply {
                 add(Calendar.MONTH, -1)
             }.get(WEEKS_IN_MONTH)
-        else
+        else if (locale == ULocale.US)
             localeDate.get(Calendar.WEEK_OF_MONTH) - 1
+        else localeDate.get(Calendar.WEEK_OF_MONTH)
     }
 
     private fun findDayOffset(): Int {

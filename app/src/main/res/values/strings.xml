@@ -76,7 +76,6 @@
 
     <string name="search_hint">Party</string>
 
-
     <string name="add_event_icon">Add event icon</string>
     <string name="add_reminder_icon">Add reminder icon</string>
     <string name="add_task_icon">Add task icon</string>
@@ -117,6 +116,7 @@
 
     <!--Big block title-->
     <string name="theme">Theme</string>
+    <string name="icons">Icons</string>
     <string name="notification">Notifications</string>
 
     <!--Edit text Hint-->

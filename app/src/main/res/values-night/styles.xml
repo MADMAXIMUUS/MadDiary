@@ -85,7 +85,7 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:padding">4dp</item>
-        <item name="android:tint">@color/gray</item>
+        <item name="android:tint">@color/date_title_color_selector</item>
     </style>
 
     <style name="CircleDateTimeDivider">
@@ -186,7 +186,7 @@
     <style name="ItemTitleDateStyle">
         <item name="android:fontFamily">@font/blogger_sans_bold</item>
         <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/date_title_color_selector</item>
         <item name="android:layout_gravity">center</item>
     </style>
 

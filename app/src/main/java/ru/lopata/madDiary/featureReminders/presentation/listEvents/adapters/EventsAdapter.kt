@@ -107,12 +107,10 @@ class EventsAdapter(private val clickListener: OnItemClickListener) :
                 if (item.type == Event.Types.TASK) {
                     itemEventCb.isChecked = item.isChecked
                     if (item.isChecked) {
-                        itemEventTitle.paintFlags =
-                            itemEventTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                        itemEventTitle.paintFlags = itemEventTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                         itemEventTitle.isEnabled = false
                     } else {
-                        itemEventTitle.paintFlags =
-                            itemEventTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                        itemEventTitle.paintFlags = itemEventTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                         if (!item.pass)
                             itemEventTitle.isEnabled = true
                     }

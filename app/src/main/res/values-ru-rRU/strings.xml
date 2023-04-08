@@ -123,6 +123,7 @@
 
     <!--Big block title-->
     <string name="theme">Темы</string>
+    <string name="icons">Иконки</string>
     <string name="notification">Уведомления</string>
 
     <!--Edit text Hint-->
